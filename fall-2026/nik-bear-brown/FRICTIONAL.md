@@ -4,7 +4,7 @@
 
 **What this is.** The honest process log for the work in this folder, written the way the course asks students to write theirs: what was tried, what went wrong, what changed, and who did what, the human or the AI.
 
-**What it records so far.** Everything I said on 2026-09-25 about CSYE 7270 outside my own assignment work: writing Assignment 2, putting the course on GitHub, and setting up a folder for everyone in the class. My Assignment 2 example has its own log: [Assignment 2](assignment-2/FRICTIONAL.md).
+**What it records so far.** Everything I said on 2026-09-25 about CSYE 7270 outside my own assignment work: writing Assignment 2, putting the course on GitHub, and setting up a folder for everyone in the class. On 2026-09-27 I asked for the companion-book chapters to be adapted to Godot. My Assignment 2 example has its own log: [Assignment 2](assignment-2/FRICTIONAL.md).
 
 Everything I say in a session is recorded here or in the matching assignment's log. Pushes are listed at the bottom of each log.
 
@@ -55,6 +55,20 @@ Everything I say in a session is recorded here or in the matching assignment's l
 - **What I understand now / still do not understand:** Nothing new about the material; this was setup.
 - **Evidence and next step:** Commits on `main` from today (the push tables below and in the Assignment 2 log). Next: my own Assignment 2 work (ants, a parasite, a termite).
 
+### 2026-09-27 — Adapting the course chapters to Godot
+
+- **Date and what I was working on:** 2026-09-27. Turning the old Unity/Unreal course (the Spring 2026 Canvas export) into hands-on Godot chapters for CSYE 7270.
+- **I tried / expected:** My request, in my words (dictation errors fixed): "This course needs to be adapted for Godot. It is hands on, and needs a chapter and example for doing this with a CLI like Claude Code or Codex, the Walker tool and Godot. Look at the .imscc for what to build. The end of each chapter should have a section of similarities/differences doing the same thing with Unity Engine, and similarities/differences doing the same thing with Unreal Engine. Use the existing Walker Godot builds, or adapt them if useful." I pasted the list of `walker-*` projects with it.
+- **What happened:**
+  - Claude Code read the Canvas export's modules and assignments. It followed the fifteen-module sequence already in my revised Fall 2026 Word syllabus, which was built from that export, and added a Chapter 0 for the command-line toolchain. It drafted all sixteen chapters in the course repository's `chapters/`, with a worked-example record for each in `examples/`. Every chapter ends with "Doing the same thing in Unity" and "Doing the same thing in Unreal Engine."
+  - Every hands-on example was really run with Claude Code and/or Codex on copies of the Walker projects, and then checked with a separate headless Godot command. The agents' mistakes are kept in the record. Examples: in Chapter 0, both agents ran the Pong regression test without `--fixed-fps 60`, saw it fail, and explained the failure wrongly. In Chapter 4, an agent's test still passed after its shield was shortened from 3 s to 0.5 s. In Chapter 15, an agent said no test touched the player's real save file, when two did.
+  - Claude Code's usage limit was reached during the day, so Codex finished several examples. The chapters say which tool did which step.
+  - A separate session published the `walker-*` repositories on GitHub the same day. The chapters now link them. The Walker `/gdd` skill that Chapter 5 uses is not in the public Walker repository yet.
+- **What I did:** Made the request above. I have not yet reviewed the chapters.
+- **What Claude or another person contributed:** Claude Code (Opus 5.5) planned the chapters, wrote the writing contract and course map, wrote Chapter 0, and coordinated seven Claude Code sub-agents that wrote Chapters 1–15. Nested Claude Code (Sonnet 4.6) and Codex sessions did the hands-on examples. Judgment calls for me to check: following the syllabus's module order plus a Chapter 0, rather than one chapter per old Canvas module; chapter lengths (about 6,000–15,000 words); and showing the agents' mistakes so prominently.
+- **What I understand now / still do not understand:** Not yet recorded; waiting on my review.
+- **Evidence and next step:** The chapters, examples and `pantry/chapter-spec.md` are in the course repository but not committed or pushed. They wait for my word. Next: review the chapters, do the human checks each one lists, and decide whether to publish the `/gdd` skill.
+
 ---
 
 ## GitHub pushes
@@ -68,3 +82,4 @@ Everything I say in a session is recorded here or in the matching assignment's l
 | 2026-09-25 | Log my request to post Assignment 2 to Canvas |
 | 2026-09-25 | Log my request for the on-model/off-model riff film |
 | 2026-09-25 | Log my request for the riff film's YouTube text |
+| 2026-09-27 | Log my request to adapt the course chapters to Godot |
