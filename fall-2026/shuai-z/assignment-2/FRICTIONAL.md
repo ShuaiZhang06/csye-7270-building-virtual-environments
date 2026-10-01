@@ -227,3 +227,64 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - this log.
 - **Human / Claude / model:** no image, sound or music model was used before this tag.
 - **Next:** generate CHAR-REF first, and judge it against the character sheet at 160 px.
+
+## 2026-10-01 — Rudy's reference, round 1 (Gemini)
+
+*Written on 2026-10-01 by Claude, from my exported Gemini chat and its four images; my words are translated from Chinese.*
+
+- **Wanted:** a turnaround reference of Rudy that meets the character sheet, made from prompts v1.
+- **Asked:** Gemini (model TO FILL), in four turns of one chat. The log is `generated/logs/2026-10-01-gemini-CHAR-REF.md`.
+  1. The CHAR-REF prompt from prompts v1, unchanged.
+  2. "Add some white, pale-gold and black patterns to the clothes."
+  3. "Too many patterns, too flashy."
+  4. "Now there are no patterns at all; add just a few white, pale-gold and black patterns."
+- **Got:**
+  - **CHAR-REF-01:** four views at one height on a flat steel-blue background. The hair, cowlick, green eyes, grey hooded robe, belt and boots are as asked.
+  - **CHAR-REF-02** covered the robe in ornate patterns. **CHAR-REF-03** removed all of them, leaving only stitching. **CHAR-REF-04** has thin light trim along the hood, the front opening, the cuffs and the hem, plus a few small motifs.
+  - **Proportions:** all four share the same body, about 3.4 heads tall. The sheet says 2.5, and my original wish was "2–3 heads". At game size the head is clearly smaller than the sheet's (`generated/checks/CHAR-REF-04-check.png`).
+  - **At 160 px:** the small motifs disappear, and only the trim on the front opening still shows. With the in-engine outline he stays readable on the wheat.
+- **Decided:** I rejected 02 as too flashy (turn 3) and 03 as too plain (turn 4). 04 is not decided yet.
+- **Human / Claude / model:**
+  - **Prompts:** mine. Turn 1 is the committed prompts v1, which Claude drafted.
+  - **Images:** Gemini's.
+  - **Claude:** organized the files, made the game-size check and the contact sheet, and measured the proportions.
+- **Still unresolved:**
+  - whether to accept about 3.4 heads and revise the sheet, or regenerate at 2.5;
+  - whether robe patterns become part of the design (the sheet says plain robe, no emblem);
+  - the model name and version, the account, and the time of each turn;
+  - why I wanted the patterns (not recorded).
+
+## 2026-10-01 — Rudy's reference, round 2: accepted
+
+*Written on 2026-10-01 by Claude, from my second Gemini export, the full-size image I sent, and my answers in our chat (translated from Chinese).*
+
+- **Wanted:** only the edge trim on the robe, matched in every view, and answers to round 1's open questions.
+- **Decided (in our chat):**
+  - **Proportions:** I keep them as they are for now, about 3.4 heads instead of 2.5.
+  - **Patterns:** I followed Claude's suggestion and kept only the edge trim. I wanted patterns at all because a plain robe felt too dull.
+  - **The resemblance Claude raised:** I agreed to stop naming Rudy in prompts and to note the resemblance in SOURCES.md. I am not changing his signature features for now.
+  - **Model and account:** my personal Google account, with Gemini 3.8 Flash as the chat model. The image model is shown only as Nano Banana, with no exact version.
+- **Asked:** Gemini, in three more turns of the same chat (log: `generated/logs/2026-10-01-gemini-CHAR-REF-round2.md`):
+  5. Claude's suggested edit with the proportions sentence removed: keep everything, keep only the thin light trim, remove the small motifs.
+  6. "Keep the front view's patterns as they are, and make the patterns in the other views match the front view."
+  7. "Keep the patterns as they are; in the middle two views, the robe's hem should not be split."
+- **Got:**
+  - **05:** the motifs were gone, but the trim differed between the views.
+  - **06:** the trim matched, but the hem was now split in the middle two views.
+  - **07:** the trim matches in all four views and the hem is closed. I sent Claude its full-size original (2000×1116).
+- **Decided:** I rejected 05 and 06 for the reasons in my next turns, and accepted 07 as the reference, CHAR-REF-07.
+- **Then Claude:**
+  - filed the outputs;
+  - made the game-size check of 07 (`generated/checks/CHAR-REF-07-check.png`). It shows him readable on the wheat with the in-engine outline, and in grayscale;
+  - measured his proportions and sampled his colors;
+  - wrote CHARACTER-SHEET.md revision 2: the proportions, the trim, a slimmer 40 × 136 px capsule and the sampled palette;
+  - wrote prompts v2: no name in any prompt, and every pose attaches CHAR-REF-07;
+  - started SOURCES.md.
+- **Human / Claude / model:**
+  - **Mine:** the decisions, and the wording of turns 6–7.
+  - **Claude's:** the wording of turn 5 (edited by me); the measurements, the revisions and the files.
+  - **Gemini's:** the images.
+- **Still unresolved:**
+  - the time of each Gemini turn (Gemini Apps Activity);
+  - the new capsule, which has to be checked on the real sprites.
+- **Next:** the poses, starting with CHAR-IDLE, CHAR-RUN-A and CHAR-RUN-B.

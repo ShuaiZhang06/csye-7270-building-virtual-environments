@@ -54,3 +54,8 @@ A forgiving level of about 30 seconds on a clear autumn afternoon, in the wheat 
 ## Open questions
 
 None at the moment. The ranged monster (draft v2's open question) is the mushroom monster.
+
+## Revisions after design-v1
+
+- **2026-10-01, Rudy's look, after his reference was generated:** he is about 3.4 heads tall rather than 2–3. His robe has a thin pale trim along the hood edge, the front opening, the cuffs and the hem. See CHARACTER-SHEET.md, revision 2.
+

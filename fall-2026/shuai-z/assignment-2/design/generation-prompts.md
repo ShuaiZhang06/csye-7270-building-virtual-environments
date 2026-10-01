@@ -1,12 +1,17 @@
-# Generation prompts — v1 (starting prompts)
+# Generation prompts — v2
 
-> 2026-09-30, updated 2026-10-01. Starting prompts, drafted by Claude Code from CHARACTER-SHEET.md, STORYBOARD.md and CHANGE-BRIEF.md. **None of these has been used yet.** Use them only after the `design-v1` commit. The asset log records the exact prompt actually used for each output, including any change made on the way.
+> Claude Code drafted these from CHARACTER-SHEET.md, STORYBOARD.md and CHANGE-BRIEF.md.
+>
+> - **v1** (2026-09-30) is preserved at the `design-v1` tag.
+> - **v2** (2026-10-01) follows the accepted reference CHAR-REF-07: no prompt names the character any more (see SOURCES.md), every pose attaches CHAR-REF-07, and the proportions and robe trim follow that image.
+>
+> The asset log records the exact prompt actually used for each output.
 
 ## How to use them
 
-1. **Rudy's reference comes first.** Generate CHAR-REF (two or three candidates), then judge each against the character sheet at game size (160 px tall): height in heads, the cowlick, hair color, the robe with the hood down, the outline. Keep one and log the rest as rejected.
-2. **Every pose is an edit of the reference.** Attach CHAR-REF and describe only the change of pose. Consistency comes from the reference image, not from repeating the text.
-3. **Enemies and props match Rudy's style.** Attach CHAR-REF as a style reference, and say that it shows a different character.
+1. **The reference is done.** CHAR-REF-07 (`generated/accepted/CHAR-REF-07.jpg`) is accepted; see ASSET-LOG.md. Judge every new image with `python3 design/tools/check_against_sheet.py IMAGE --views POSE -o generated/checks/ID-check.png`.
+2. **Every pose is an edit of the reference.** Attach CHAR-REF-07 (the full-size file) and describe only the change of pose. Consistency comes from the reference image, not from repeating the text.
+3. **Enemies and props match the reference's style.** Attach CHAR-REF-07 as a style reference, and say that it shows a different character.
 4. **Save every output under its ID and a number**, such as `CHAR-REF-01.png`, in `_raw/`. That is a local working folder of full-size downloads, kept out of git. Then:
    - an accepted output is copied unchanged to `generated/accepted/`;
    - a rejected output goes in `generated/rejected/` as a small thumbnail or on a contact sheet, as the assignment asks;
@@ -17,6 +22,7 @@
 6. If an image comes back with a visible watermark, note it in the asset log, and check the tool's terms before cropping it out.
 7. Never add the name of an artist, a studio, a game or a franchise to any prompt.
 8. The bold outer outline is added in-engine at game size, so the generated outline only has to be fine and even.
+9. Do not name the character in a prompt; say "the boy".
 
 ## Shared style blocks
 
@@ -36,7 +42,9 @@ Style: a painterly, hand-painted 2D game background, like a high-quality TV anim
 
 ## Rudy
 
-### CHAR-REF — turnaround reference (new image)
+### CHAR-REF — done: CHAR-REF-07 accepted
+
+The v1 prompt below was turn 1 of the Gemini chat. It is kept here as the record; it still names the character, which v2 prompts no longer do.
 
 ```text
 A character turnaround sheet of one boy, Rudy, shown four times side by side at exactly the same height and scale, standing in a relaxed neutral pose with his arms at his sides: front view, three-quarter view, side view facing right, and back view.
@@ -45,12 +53,12 @@ Style: a 2D game sprite in anime style. Clean cel shading with exactly two tones
 Wide image, 16:9.
 ```
 
-### Pose edits (attach CHAR-REF)
+### Pose edits (attach CHAR-REF-07)
 
 Paste this template and replace `[POSE]` with one line from the table:
 
 ```text
-Use the attached image as the exact character reference: the same boy, Rudy, with the same proportions (2.5 heads tall), face, center-parted light-brown-blond hair with its strands and cowlick, green eyes, grey robe with the large hood down, brown belt and boots, colors and dark-brown outline. Draw only one figure: Rudy in side view facing right, [POSE]. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the pose. Square image.
+Use the attached image as the exact character reference: draw the same boy, with the same proportions, face, center-parted light-brown hair with its strands and cowlick, green eyes, slate-grey robe with the large hood down and the thin pale trim along the hood edge, the front opening, the cuffs and the hem, brown belt and boots, colors and outline. Draw only one figure: the boy in side view facing right, [POSE]. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the pose. Square image.
 ```
 
 | ID | `[POSE]` |
@@ -67,16 +75,16 @@ Use the attached image as the exact character reference: the same boy, Rudy, wit
 
 ### Sword form
 
-**CHAR-SWORD-IDLE** (attach CHAR-REF). This image becomes the reference for the sword form.
+**CHAR-SWORD-IDLE** (attach CHAR-REF-07). This image becomes the reference for the sword form.
 
 ```text
-Use the attached image as the exact character reference: the same boy, Rudy, with the same proportions, face, hair and cowlick, eyes, grey robe with the large hood down, belt, boots, colors and outline. Draw only one figure: Rudy in side view facing right, in a ready stance, holding a short, plain, straight steel sword in one hand with the blade pointing forward and down, and a small round wooden shield with a plain iron rim and no emblem on the other arm. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Square image.
+Use the attached image as the exact character reference: the same boy, with the same proportions, face, hair and cowlick, eyes, grey robe with the large hood down and its pale trim, belt, boots, colors and outline. Draw only one figure: the boy in side view facing right, in a ready stance, holding a short, plain, straight steel sword in one hand with the blade pointing forward and down, and a small round wooden shield with a plain iron rim and no emblem on the other arm. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Square image.
 ```
 
 **Slash and block** (attach CHAR-SWORD-IDLE). Paste this template and replace `[POSE]`:
 
 ```text
-Use the attached image as the exact reference for the character, the sword and the shield. Draw only one figure: Rudy in side view facing right, [POSE]. Keep the same style, colors, outline, lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the pose. Square image.
+Use the attached image as the exact reference for the character, the sword and the shield. Draw only one figure: the boy in side view facing right, [POSE]. Keep the same style, colors, outline, lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the pose. Square image.
 ```
 
 | ID | `[POSE]` |
@@ -163,7 +171,7 @@ Style: a painterly, hand-painted 2D game background, like a high-quality TV anim
 Draw only the sword and shield from the attached image, unchanged in shape and color, as a floating game pickup: the short straight sword crossed over the small round wooden shield, with a faint warm glow around them. No character. Same cel-shaded style and dark-brown outline, on the same plain, solid steel-blue background (#4F7CAA). Square image.
 ```
 
-### ENEMY-GOBLIN (attach CHAR-REF as a style reference)
+### ENEMY-GOBLIN (attach CHAR-REF-07 as a style reference)
 
 ```text
 Match the art style of the attached image exactly (the same cel shading, outline weight, flat lighting and plain steel-blue background), but draw a different character: a small goblin enemy in the same chibi proportions, 2 heads tall and a little shorter than the boy in the reference. Grey-green skin, long pointed ears, a big nose, a mischievous grin, a ragged brown cloth tunic, bare feet, no weapon. One figure, side view facing right, mid-walk. Square image.
@@ -181,7 +189,7 @@ Squashed (attach the chosen goblin):
 The same goblin, exactly as attached, squashed flat by a stomp from above, dizzy. Change nothing else.
 ```
 
-### ENEMY-MUSHROOM (attach CHAR-REF as a style reference)
+### ENEMY-MUSHROOM (attach CHAR-REF-07 as a style reference)
 
 The mushroom must not resemble any existing game's mushroom: it has no feet, and its cap is not red with white spots.
 

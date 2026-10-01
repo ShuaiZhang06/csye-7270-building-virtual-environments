@@ -90,3 +90,45 @@ These are the blockouts for the first committed version. They were drawn by code
 | `design/character/silhouette.png` | the silhouette test at game size |
 | `design/character/collision.png` | the capsule, sword hitbox and block zone over every pose |
 | `design/character/palette.png` | the palette, and Rudy on each planned Level 1 color |
+
+## Revision 2 — 2026-10-01, after the reference was generated
+
+The sections above are design v1 (tag `design-v1`) and stay as written. Where they differ, this revision wins. The changes come from the accepted reference, `generated/accepted/CHAR-REF-07.jpg`, which Gemini (Nano Banana) generated and I accepted on 2026-10-01 (see ASSET-LOG.md).
+
+- **Reference:** CHAR-REF-07 replaces the blockout turnaround as the reference for every pose. The v1 blockouts still define the poses themselves.
+- **Proportions:** about 3.4 heads, measured on CHAR-REF-07's front view: 279 px from the top of the hair to the chin, out of 958 px from the top of the hair to the soles. I chose to keep them for now instead of 2.5 heads.
+  - At game size (160 px to the cowlick tip), the chin is at 107 px and the top of the head at 151 px, so the head is about 44 px tall.
+  - `design/tools/check_against_sheet.py` draws these two lines.
+- **Robe trim:** a thin pale trim, white with a pale-gold line, runs along the hood edge, the front opening, the cuffs and the hem. It is the same in every view, there are no other motifs, and the hem is not split. I added it because a plain robe felt too dull. At 160 px only the trim on the front opening still shows.
+- **Body and collision:** the generated body is slimmer than the blockout's. At game size the side view is about 30–34 px wide, and the head about 45 px.
+  - A 64 px capsule would make Rudy easier to hit than he looks, so the planned capsule becomes 40 × 136 px.
+  - It still has to be re-fitted on the real sprites in the greybox.
+- **Palette, sampled from CHAR-REF-07:**
+
+| Use | Hex |
+|---|---|
+| Hair, light brown | `#C9905A` |
+| Eyes, olive green (iris mid-tone) | `#475827` |
+| Robe, slate grey | `#6F717D` |
+| Skin | `#FCC5A6` |
+| Leather: belt and boots | `#754634` |
+| Trim, pale gold (with thin white) | `#D4BEA6` |
+
+The drawn lines are a very dark brown, `#290F0D`; the in-engine outer outline uses the same color. Contrast against the planned Level 1 colors:
+
+| Rudy | wheat | meadow | sky | castle | path |
+|---|---|---|---|---|---|
+| hair | 1.43 | 1.04 | 2.03 | 1.19 | 1.29 |
+| eyes | 4.05 | 2.94 | 5.74 | 3.36 | 2.19 |
+| robe | 2.52 | 1.83 | 3.57 | 2.09 | 1.36 |
+| skin | 1.25 | 1.72 | 1.13 | 1.51 | 2.32 |
+| leather | 4.07 | 2.96 | 5.76 | 3.37 | 2.20 |
+| trim | 1.07 | 1.48 | 1.32 | 1.29 | 1.99 |
+| outline `#290F0D` | 9.34 | 6.79 | 13.23 | 7.75 | 5.04 |
+
+The robe came out lighter than planned: its contrast against the wheat is 2.52, not 3.29. With the outer outline, Rudy stays readable on the wheat and in grayscale; see `generated/checks/CHAR-REF-07-check.png`, whose last row is the silhouette test at game size.
+
+- **Consistency rules:**
+  - **Changed:** height and head size follow CHAR-REF-07, and the robe has the trim described above.
+  - **Unchanged:** every other v1 rule still holds: one cowlick, the center part, green eyes, the large hood down, brown belt and boots, no jewelry and no emblem.
+

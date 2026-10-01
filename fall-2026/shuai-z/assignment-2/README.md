@@ -6,7 +6,7 @@ You play Rudy, a cheerful chibi boy who crosses a medieval countryside to reach 
 
 | | |
 | --- | --- |
-| Status | Design phase: design documents and code-drawn blockouts; no Godot project and no generated assets yet |
+| Status | Generating art: Rudy's reference is accepted (CHAR-REF-07), poses next; see [ASSET-LOG.md](ASSET-LOG.md). No Godot project yet. The design before generation is tagged `design-v1` |
 | Started from | An empty repository (not walker-jumpman and not my Assignment 1 project) |
 | Engine | Godot 4.7.2.stable.official.ed1daf0bf, installed; the project is not created yet |
 | Assistance | Claude Code. The human/AI split is recorded in [FRICTIONAL.md](FRICTIONAL.md) and, later, `SOURCES.md` |
@@ -19,4 +19,6 @@ You play Rudy, a cheerful chibi boy who crosses a medieval countryside to reach 
 - [CHANGE-BRIEF.md](CHANGE-BRIEF.md): the asset list, event-to-sound map, music behavior and predicted failures (draft)
 - [design/generation-prompts.md](design/generation-prompts.md): starting prompts, not used yet
 - [design/tools/make_blockouts.py](design/tools/make_blockouts.py): draws the blockouts (code written by Claude; not a generative model)
+- [ASSET-LOG.md](ASSET-LOG.md): every generation kept or seriously considered, with its prompt, outcome and reason
+- [SOURCES.md](SOURCES.md): starting point, tools, generative models and their terms, and who did what
 - [FRICTIONAL.md](FRICTIONAL.md): a dated log of the design decisions
