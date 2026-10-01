@@ -99,3 +99,72 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - Rudy's on-screen size and the game's resolution;
   - his exact palette;
   - who draws the storyboard and character-sheet pictures.
+
+## 2026-09-30 — Storyboard, character sheet and slice decisions
+
+*Written on 2026-09-30.*
+
+- **Wanted:** to settle what the storyboard and character sheet need, so the last three design documents could be drafted, and a plan that fits the deadline.
+- **Decided:**
+  - **GitHub:** the public repository is created only when everything is finished. The local repository was created today (commit `6095d0f`).
+  - **Checkpoint:** a waystone, as Claude suggested.
+  - **Respawn:** hearts refill to 3.
+  - **Health packs:** none in Level 1.
+  - **Ranged monster:** the mushroom monster, chosen from Claude's three options (a scarecrow, a mushroom, a gargoyle).
+  - **Deadline:** the evening of 2026-10-04.
+  - **Everything else as Claude suggested:**
+    - the six-panel storyboard plan;
+    - 1920×1080, with Rudy 160 px tall;
+    - the 13 poses;
+    - a short straight sword and a round wooden shield with an iron rim;
+    - a dark outline.
+  - **Pictures:** I said I would make the storyboard and character-sheet pictures with an image model, and asked Claude for starting prompts.
+- **Got:**
+  - Claude pointed out that the assignment wants these documents committed before the first generation, so generated pictures inside them would break that order. I have not decided yet how the first pictures will be made.
+  - Draft v1 of STORYBOARD.md, CHARACTER-SHEET.md and CHANGE-BRIEF.md.
+  - `design/generation-prompts.md` (prompts v1, not used yet).
+  - CONCEPT.md draft v3, which names the mushroom monster.
+  - Claude's additions in these drafts:
+    - an asset-ID scheme;
+    - a 64 × 136 px collision capsule;
+    - a six-color palette with a planned contrast check: hair against wheat 1.21, outline against wheat 7.10;
+    - a brown belt and brown boots;
+    - the rule that the background changes before Rudy does if the contrast check fails;
+    - the assumption that Rudy respawns without gear;
+    - must/should/could priorities with a cut order, where the mushroom is "should";
+    - the event-to-sound map;
+    - music dB values and the mute keys (M and N);
+    - the build order.
+- **Human / Claude / model:** the decisions above are mine; the drafts and prompts are Claude's. No generative model was used.
+- **Still unresolved:**
+  - how the first pictures are made;
+  - my review of the three drafts and the prompts.
+
+## 2026-09-30 — Pictures drawn by code; the robe stays grey
+
+*Written on 2026-09-30.*
+
+- **Wanted:** pictures for the storyboard and character sheet that keep the design-before-generation order without my drawing them by hand, and a Rudy who stays clearly visible against the wheat.
+- **Decided:**
+  - **Route B:** Claude draws simple blockouts with code, not with an image model. Generation starts only after the `design-v1` tag.
+  - **The robe stays grey.** An outline is fine; it just has to stand out.
+  - **Everything else** in the three drafts and the prompts: no changes.
+- **Asked:** Claude to draw the blockouts.
+- **Got:**
+  - `design/tools/make_blockouts.py`, which draws 11 images:
+    - the six storyboard panels;
+    - the turnaround and the 13 poses;
+    - the silhouette test, the collision overlay and the palette check.
+  - Claude's own calls in this step:
+    - the robe went one step darker, to slate grey `#5A606B` (contrast against the wheat 2.38 → 3.29);
+    - the outline became a 4 px outer outline added in-engine, the same on every frame, instead of relying on the line the image model draws;
+    - the shields are drawn larger so they read in the silhouette;
+    - in the collision overlay, airborne poses share the idle frame.
+  - Claude looked at its own first render and fixed:
+    - arms covering the face in the rising and celebrating poses;
+    - the robe going through the ground in the sitting pose;
+    - a shield too small to read;
+    - overlapping labels;
+    - airborne poses placed wrongly against the capsule.
+- **Human / Claude / model:** the decisions above are mine. The code, the images and the darker grey are Claude's and still need my look. No generative model was used.
+- **Still unresolved:** my look at the 11 pictures before the `design-v1` tag.

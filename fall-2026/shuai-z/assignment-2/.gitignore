@@ -13,6 +13,9 @@
 exports/
 builds/
 
+# Full-size raw generations stay out of git; thumbnails and contact sheets are committed.
+_raw/
+
 # Game audio (OGG/WAV) is committed: the slice's sound effects and music live in git.
 # Only the film's narration and scratch audio is ignored (see the reel rules below).
 
