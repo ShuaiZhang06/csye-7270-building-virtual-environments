@@ -6,7 +6,7 @@ You play Rudy, a cheerful chibi boy who crosses a medieval countryside to reach 
 
 | | |
 | --- | --- |
-| Status | Generating art: Rudy's reference is accepted (CHAR-REF-07), poses next; see [ASSET-LOG.md](ASSET-LOG.md). No Godot project yet. The design before generation is tagged `design-v1` |
+| Status | Generating art: Rudy's reference is accepted (CHAR-REF-07); all nine default-form poses are accepted (HURT and RUN-B after one edit each); the sword form is next; see [ASSET-LOG.md](ASSET-LOG.md). No Godot project yet. The design before generation is tagged `design-v1` |
 | Started from | An empty repository (not walker-jumpman and not my Assignment 1 project) |
 | Engine | Godot 4.7.2.stable.official.ed1daf0bf, installed; the project is not created yet |
 | Assistance | Claude Code. The human/AI split is recorded in [FRICTIONAL.md](FRICTIONAL.md) and, later, `SOURCES.md` |

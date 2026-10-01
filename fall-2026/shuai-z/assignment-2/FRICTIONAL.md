@@ -288,3 +288,55 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - the time of each Gemini turn (Gemini Apps Activity);
   - the new capsule, which has to be checked on the real sprites.
 - **Next:** the poses, starting with CHAR-IDLE, CHAR-RUN-A and CHAR-RUN-B.
+
+## 2026-10-01 — Rudy's default-form poses, round 1 (Gemini)
+
+*Written on 2026-10-01 by Claude, from my Gemini export, the nine full-size downloads and my answers in our chat (translated from Chinese).*
+
+- **Wanted:** the nine default-form poses, each as an edit of CHAR-REF-07.
+- **Asked:** Gemini, in a new chat (`87c157d4397cf98b`), nine turns, each with CHAR-REF-07 attached and the prompts v2 pose template filled in unchanged. Log: `generated/logs/2026-10-01-gemini-CHAR-POSES.md`.
+- **Got:** nine 2048×2048 images. Rudy's identity holds in all of them. Claude's check at game size found:
+  - IDLE, RUN-A, DEFEAT and RESPAWN match their prompts; DEFEAT has a soft cast shadow;
+  - RUN-B is not a passing pose;
+  - RISE raises only one arm;
+  - FALL's robe splits open below the belt;
+  - HURT leans toward the hit instead of recoiling;
+  - CELEBRATE is drawn in three-quarter view;
+  - Gemini drew each figure at a different scale; the seated and kneeling ones are zoomed in.
+- **Decided:**
+  - **Accepted as they are:** IDLE, RUN-A, RISE, FALL, DEFEAT, RESPAWN and CELEBRATE. I gave no further reason; I think they are fine.
+  - **To redo:** HURT and RUN-B.
+- **Asked Claude:** if every frame is scaled so that the head is the same size, does Rudy's overall height jump between poses, and does that matter?
+- **Got:** yes, the height changes, and it should: a seated or kneeling boy is shorter. What has to stay constant is the size of his head and body, and his feet on the ground line. Gameplay does not change, because the collision capsule is fixed and does not follow the sprite. What can show is a frame whose scale is off within a fast cycle (run, jump), so those pairs are checked side by side and then tested in motion in Godot.
+- **Human / Claude / model:**
+  - **Mine:** the decisions.
+  - **Claude's:** the check, the measurements and the files; the prompts are prompts v2, which Claude drafted.
+  - **Gemini's:** the images.
+- **Still unresolved:**
+  - the time of each Gemini turn (the chat model is Gemini 3.8 Flash, as I confirmed later);
+  - each frame's scale factor, set when the sprites are prepared and confirmed in the engine.
+
+## 2026-10-01 — HURT and RUN-B redone; all nine poses accepted
+
+*Written on 2026-10-01 by Claude, from my second export of the poses chat, the two full-size downloads and my answers in our chat (translated from Chinese).*
+
+- **Wanted:** a hurt pose that recoils away from the hit, and a real passing pose for the run.
+- **Asked:** Gemini, in two more turns of the poses chat (log: `generated/logs/2026-10-01-gemini-CHAR-POSES-round2.md`):
+  10. On CHAR-HURT-01, in my words: "He should lean back, not lunge forward as he does now."
+  11. On CHAR-RUN-B-01, Claude's suggested passing-pose edit, unchanged.
+- **Got:**
+  - **CHAR-HURT-02:** he leans back, away from the hit, but much further than the sheet's pose: he is thrown almost flat, with both feet off the ground. The trim on the hood and chest became gold scroll motifs. My download was named `fall.jpeg`; Claude matched it to turn 10.
+  - **CHAR-RUN-B-02:** a passing pose, a little more upright than RUN-A.
+  - Claude offered two choices for HURT-02: accept it, or one more edit to fix the lean and the trim.
+- **Decided:**
+  - **HURT-02:** accepted as it is, because at 160 px the motifs show only as a lighter trim line.
+  - **RUN-B-02:** accepted, as Claude recommended.
+- **Human / Claude / model:**
+  - **Mine:** the decisions, and the wording of turn 10.
+  - **Claude's:** the wording of turn 11, the checks and the files.
+  - **Gemini's:** the images.
+- **Still unresolved:**
+  - RUN-A and RUN-B-02 have to be tested together in motion;
+  - the scale factor of each frame;
+  - the time of each Gemini turn.
+- **Next:** the sword form, starting with CHAR-SWORD-IDLE.
