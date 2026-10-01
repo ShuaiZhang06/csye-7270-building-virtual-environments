@@ -1,17 +1,19 @@
 # CHANGE-BRIEF — walker-rudy
 
-> Draft v1, 2026-09-30. This is the plan and the predictions for the Assignment 2 asset slice: Level 1 as one Godot 4.7.2 scene at 1920×1080. The deadline is the evening of 2026-10-04, so every asset has a priority, and a cut order follows the list.
+> Draft v3, 2026-10-01. This is the plan and the predictions for the Assignment 2 asset slice: Level 1 as one Godot 4.7.2 scene at 1920×1080. The deadline is the evening of 2026-10-04, so every asset has a priority, and a cut order follows the list.
 
 ## Rules this plan assumes
 
-These rules come from CONCEPT.md, plus one assumption marked below:
+These rules come from CONCEPT.md and the decisions logged in FRICTIONAL.md:
 
 - Rudy starts in the default form with 3 hearts.
 - Any hit (an enemy, a spore, spikes) knocks the gear away if he carries it; otherwise it costs one heart.
 - There is short invulnerability after every hit.
+- On a hit, the camera shakes briefly (panel 4).
+- On the "Level complete" card, Enter plays Level 1 again from the opening.
 - Falling below a cliff is instant death.
 - Zero hearts or a fall sends Rudy back to the last waystone with 3 hearts.
-- **Assumption:** after a death Rudy respawns without gear, and the sword-and-shield pickup reappears where it was.
+- After a death Rudy respawns without gear, and the sword-and-shield pickup reappears where it was.
 - Level 1 has one waystone near the middle, one sword-and-shield pickup, no health pack, and ends at the teleport circle.
 
 ## Asset list
@@ -41,7 +43,8 @@ Priorities: **must** means it is in the slice; **should** means it is planned fo
 | ENEMY-MUSHROOM | mushroom monster: idle, attack, squashed | 4 | generated | should |
 | FX-SPORE | spore projectile | 4 | generated | should |
 | UI-HEART | full and empty heart | 4, 5 | generated | must |
-| UI-TITLE | title screen | 1 | text over ENV art | could |
+| UI-TITLE | the title over the opening of play, and the "Level complete" text | 1, 7 | text | could |
+| ENV-ENDCARD | end card: a high view of the road to the castle | 7 | generated | could |
 | SFX-JUMP | jump (the **action** event) | 2 | generated | must |
 | SFX-STOMP | stomp defeats an enemy (**success**) | 2 | generated | must |
 | SFX-PICKUP | gear picked up (**success**) | 3 | generated | must |
@@ -53,7 +56,7 @@ Priorities: **must** means it is in the slice; **should** means it is planned fo
 | MUS-LOOP | the Level 1 theme, looping | 1–6 | generated | must |
 
 **Cut order** if the schedule slips:
-1. UI-TITLE.
+1. UI-TITLE and ENV-ENDCARD; the slice then opens straight into play and ends on a plain "Level complete" text.
 2. The respawn, defeat and celebrate poses.
 3. SFX-FALL and SFX-CHECKPOINT.
 4. The mushroom (ENEMY-MUSHROOM, FX-SPORE, SFX-SPORE, SFX-BLOCK, CHAR-SWORD-BLOCK). Panel 4's failure would then come from touching a goblin.
@@ -81,6 +84,7 @@ All sounds go through one entry point, `Sfx.play(id)`, called right after the co
 
 | Moment | What the music does |
 |---|---|
+| Title | MUS-LOOP starts under the title and keeps playing when Enter starts play; it does not restart |
 | Normal play | MUS-LOOP plays continuously on the Music bus |
 | Pause | the Music bus drops 12 dB until play resumes; the loop keeps its place |
 | Hurt (failure) | dips 6 dB for about 0.6 s under SFX-HURT, then returns |

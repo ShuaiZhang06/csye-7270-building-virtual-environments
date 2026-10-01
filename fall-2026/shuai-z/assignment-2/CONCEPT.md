@@ -1,10 +1,10 @@
 # CONCEPT — walker-rudy
 
-> Draft v3, 2026-09-30. Written in English with Claude Code from my answers to a design intake. The design decisions are mine. Changes between drafts are logged in FRICTIONAL.md.
+> Draft v4, 2026-10-01. Written in English with Claude Code from my answers to a design intake. The design decisions are mine. Changes between drafts are logged in FRICTIONAL.md.
 
 ## The game in two sentences
 
-You play Rudy, a cheerful chibi boy with medium-length yellow-blond hair, green eyes and a grey robe with the hood down, who crosses a medieval countryside to reach the teleport circle at the end of each level. He runs, jumps and stomps goblins; with a sword and shield or a magic staff he can also fight and block, until a hit knocks the gear away.
+You play Rudy, a cheerful chibi boy with medium-length, center-parted blond hair that leans toward light brown, green eyes and a grey robe with a large hood worn down, who crosses a medieval countryside to reach the teleport circle at the end of each level. He runs, jumps and stomps goblins; with a sword and shield or a magic staff he can also fight and block, until a hit knocks the gear away.
 
 ## Core loop
 
@@ -33,7 +33,7 @@ Characters are chibi (2–3 heads tall) in clean anime cel shading, with fine, e
 - **Light:** a clear autumn afternoon with low, warm sun, long soft shadows and a little haze in the distance.
 - **Era and mood:** the late-medieval European countryside at harvest time, where golden wheat meets green meadow; quiet, warm and unhurried.
 
-**Known risk:** Rudy's yellow-blond hair and grey robe could disappear against yellow wheat and grey stone. The robe stays grey; the outer outline keeps him visible. The silhouette and palette checks in the character sheet must test him against the actual Level 1 background.
+**Known risk:** Rudy's blond hair and grey robe could disappear against yellow wheat and grey stone. The robe stays grey; the outer outline keeps him visible. The silhouette and palette checks in the character sheet must test him against the actual Level 1 background.
 
 ## Audio direction
 
@@ -49,7 +49,7 @@ The music should feel like a light, unhurried country adventure with a faraway f
 
 ## Level 1 — Harvest Fields
 
-A forgiving level of about 30 seconds on a clear autumn afternoon, in the wheat fields outside a village, with a castle far away. On the way are cliffs, spikes, patrolling goblins, and a stationary mushroom monster, rooted in the ground, that aims at Rudy and puffs balls of spores at him. Both enemies can be stomped. The only gear in this level is the sword and shield: the shield blocks the spores from the front, but they cannot be cut down. A waystone in the middle of the level is the checkpoint, and there is no health pack. The level ends at the teleport circle. Later levels (not designed yet) add the staff, golden health packs, and enemies that cannot be stomped.
+A forgiving level of about 30 seconds on a clear autumn afternoon, in the wheat fields outside a village, with a castle far away. On the way are cliffs, spikes, patrolling goblins, and a stationary mushroom monster, rooted in the ground, that aims at Rudy and puffs balls of spores at him. Both enemies can be stomped. The only gear in this level is the sword and shield: the shield blocks the spores from the front, but they cannot be cut down. A waystone in the middle of the level is the checkpoint, and there is no health pack. The level ends at the teleport circle, and a "Level complete" card looks down on the road ahead to the castle. Later levels (not designed yet) add the staff, golden health packs, and enemies that cannot be stomped.
 
 ## Open questions
 

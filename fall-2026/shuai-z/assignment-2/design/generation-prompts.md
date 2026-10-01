@@ -1,13 +1,18 @@
 # Generation prompts — v1 (starting prompts)
 
-> 2026-09-30. Starting prompts, drafted by Claude Code from CHARACTER-SHEET.md, STORYBOARD.md and CHANGE-BRIEF.md. **None of these has been used yet.** Use them only after the `design-v1` commit. The asset log records the exact prompt actually used for each output, including any change made on the way.
+> 2026-09-30, updated 2026-10-01. Starting prompts, drafted by Claude Code from CHARACTER-SHEET.md, STORYBOARD.md and CHANGE-BRIEF.md. **None of these has been used yet.** Use them only after the `design-v1` commit. The asset log records the exact prompt actually used for each output, including any change made on the way.
 
 ## How to use them
 
 1. **Rudy's reference comes first.** Generate CHAR-REF (two or three candidates), then judge each against the character sheet at game size (160 px tall): height in heads, the cowlick, hair color, the robe with the hood down, the outline. Keep one and log the rest as rejected.
 2. **Every pose is an edit of the reference.** Attach CHAR-REF and describe only the change of pose. Consistency comes from the reference image, not from repeating the text.
 3. **Enemies and props match Rudy's style.** Attach CHAR-REF as a style reference, and say that it shows a different character.
-4. **Save every output under its ID and a number**, such as `CHAR-REF-01.png`, in `_raw/`. That folder stays out of git; thumbnails and contact sheets are committed instead.
+4. **Save every output under its ID and a number**, such as `CHAR-REF-01.png`, in `_raw/`. That is a local working folder of full-size downloads, kept out of git. Then:
+   - an accepted output is copied unchanged to `generated/accepted/`;
+   - a rejected output goes in `generated/rejected/` as a small thumbnail or on a contact sheet, as the assignment asks;
+   - the edited, game-ready version goes into the Godot project.
+
+   All three are committed.
 5. **Record for each output:** the model name and version exactly as the tool shows them, the date, the exact prompt, the attached images, and the size or aspect ratio. Hosted chat tools do not expose a seed, so write "seed: not available".
 6. If an image comes back with a visible watermark, note it in the asset log, and check the tool's terms before cropping it out.
 7. Never add the name of an artist, a studio, a game or a franchise to any prompt.
@@ -35,7 +40,7 @@ Style: a painterly, hand-painted 2D game background, like a high-quality TV anim
 
 ```text
 A character turnaround sheet of one boy, Rudy, shown four times side by side at exactly the same height and scale, standing in a relaxed neutral pose with his arms at his sides: front view, three-quarter view, side view facing right, and back view.
-Rudy is a cheerful boy drawn in chibi proportions, exactly 2.5 heads tall (his head is 40% of his height). Medium-length yellow-blond hair, more yellow than gold, covering his ears and ending at the nape, with one cowlick curling up from the crown. Large green eyes and a small, friendly smile. A plain knee-length slate-grey mage robe with long sleeves; the hood is down, resting on his back. A brown leather belt and brown leather boots. No hat, no jewelry, no emblem, no weapon.
+Rudy is a cheerful boy drawn in chibi proportions, exactly 2.5 heads tall (his head is 40% of his height). Medium-length blond hair with a light-brown tint (browner than golden blond), parted in the middle with curtain bangs framing his face, covering his ears and ending at the nape, drawn with visible strands and texture rather than a flat fill; one cowlick curling up from the crown. Large green eyes and a small, friendly smile. A plain knee-length slate-grey mage robe with long sleeves and a large hood; the hood is down, lying across his shoulders and upper back. A brown leather belt and brown leather boots. No hat, no jewelry, no emblem, no weapon.
 Style: a 2D game sprite in anime style. Clean cel shading with exactly two tones per color (a flat base and one flat shadow), a fine dark-brown outline of even weight, and flat, neutral front lighting: no rim light, no glow, no cast shadow, no gradients. Background: one plain, flat, solid steel-blue color (#4F7CAA) filling the whole image, with no floor, no shadow, no other objects and no text.
 Wide image, 16:9.
 ```
@@ -45,7 +50,7 @@ Wide image, 16:9.
 Paste this template and replace `[POSE]` with one line from the table:
 
 ```text
-Use the attached image as the exact character reference: the same boy, Rudy, with the same proportions (2.5 heads tall), face, yellow-blond hair and cowlick, green eyes, grey robe with the hood down, brown belt and boots, colors and dark-brown outline. Draw only one figure: Rudy in side view facing right, [POSE]. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the pose. Square image.
+Use the attached image as the exact character reference: the same boy, Rudy, with the same proportions (2.5 heads tall), face, center-parted light-brown-blond hair with its strands and cowlick, green eyes, grey robe with the large hood down, brown belt and boots, colors and dark-brown outline. Draw only one figure: Rudy in side view facing right, [POSE]. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the pose. Square image.
 ```
 
 | ID | `[POSE]` |
@@ -65,7 +70,7 @@ Use the attached image as the exact character reference: the same boy, Rudy, wit
 **CHAR-SWORD-IDLE** (attach CHAR-REF). This image becomes the reference for the sword form.
 
 ```text
-Use the attached image as the exact character reference: the same boy, Rudy, with the same proportions, face, hair and cowlick, eyes, grey robe with the hood down, belt, boots, colors and outline. Draw only one figure: Rudy in side view facing right, in a ready stance, holding a short, plain, straight steel sword in one hand with the blade pointing forward and down, and a small round wooden shield with a plain iron rim and no emblem on the other arm. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Square image.
+Use the attached image as the exact character reference: the same boy, Rudy, with the same proportions, face, hair and cowlick, eyes, grey robe with the large hood down, belt, boots, colors and outline. Draw only one figure: Rudy in side view facing right, in a ready stance, holding a short, plain, straight steel sword in one hand with the blade pointing forward and down, and a small round wooden shield with a plain iron rim and no emblem on the other arm. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Square image.
 ```
 
 **Slash and block** (attach CHAR-SWORD-IDLE). Paste this template and replace `[POSE]`:
@@ -142,6 +147,14 @@ A magic teleport circle drawn on the ground, seen from a low side angle so that 
 Style: a 2D game sprite in anime style, with clean cel shading and a fine dark-brown outline where there are solid edges; the circle itself may glow. Centered, with empty margin. Background: one plain, flat, solid steel-blue color (#4F7CAA), with nothing else in the image and no text. Wide image, 16:9.
 ```
 
+### ENV-ENDCARD — the "Level complete" card (new image)
+
+```text
+A high, elevated view looking down over a late-medieval European countryside in autumn: a dirt road winds from the bottom left of the image, between golden wheat fields and green meadows, all the way to a grey stone castle small on the far horizon. Near the start of the road, a faint, softly glowing magic circle lies on the ground. No characters, no animals, no text. Leave calm sky at the top for a title to sit on.
+Style: a painterly, hand-painted 2D game background, like a high-quality TV anime background: detailed watercolor and gouache textures, soft natural light, a muted natural palette with low saturation and warm earthy tones, atmospheric depth, subtle film grain. A clear autumn afternoon.
+16:9, at the largest size.
+```
+
 ## Props, enemies and UI
 
 ### PROP-SWORDSHIELD (attach CHAR-SWORD-IDLE)
@@ -173,7 +186,7 @@ The same goblin, exactly as attached, squashed flat by a stomp from above, dizzy
 The mushroom must not resemble any existing game's mushroom: it has no feet, and its cap is not red with white spots.
 
 ```text
-Match the art style of the attached image exactly (the same cel shading, outline weight, flat lighting and plain steel-blue background), but draw a different character: a stationary mushroom monster rooted in the ground, with no legs and no feet. A squat, lumpy, pale stem with two small dark eyes and a round mouth, under a wide, drooping, rust-orange autumn cap with a few darker ochre speckles. Grumpy rather than cute, about as tall as the boy in the reference. One figure, side view facing right. Square image.
+Match the art style of the attached image exactly (the same cel shading, outline weight, flat lighting and plain steel-blue background), but draw a different character: a stationary mushroom monster rooted in the ground, with no legs and no feet. A squat, lumpy, pale stem with two small dark eyes and a round mouth, under a wide, drooping, rust-orange autumn cap with a few darker ochre speckles. Grumpy rather than cute, about two-thirds as tall as the boy in the reference. One figure, side view facing right. Square image.
 ```
 
 Attack (attach the chosen mushroom):

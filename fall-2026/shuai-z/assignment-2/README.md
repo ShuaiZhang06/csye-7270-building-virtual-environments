@@ -14,7 +14,7 @@ You play Rudy, a cheerful chibi boy who crosses a medieval countryside to reach 
 ## Design documents
 
 - [CONCEPT.md](CONCEPT.md): the game on one page (draft)
-- [STORYBOARD.md](STORYBOARD.md): six panels of the play experience (draft; blockout pictures in `design/storyboard/`)
+- [STORYBOARD.md](STORYBOARD.md): seven panels of the play experience (draft; blockout pictures in `design/storyboard/`)
 - [CHARACTER-SHEET.md](CHARACTER-SHEET.md): the contract for Rudy's generated frames (draft; blockout images in `design/character/`)
 - [CHANGE-BRIEF.md](CHANGE-BRIEF.md): the asset list, event-to-sound map, music behavior and predicted failures (draft)
 - [design/generation-prompts.md](design/generation-prompts.md): starting prompts, not used yet

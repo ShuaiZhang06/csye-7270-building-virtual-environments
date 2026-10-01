@@ -168,3 +168,62 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
     - airborne poses placed wrongly against the capsule.
 - **Human / Claude / model:** the decisions above are mine. The code, the images and the darker grey are Claude's and still need my look. No generative model was used.
 - **Still unresolved:** my look at the 11 pictures before the `design-v1` tag.
+
+## 2026-10-01 — What the blockouts are for; Rudy's hair and hood; the first sight
+
+*Written on 2026-10-01.*
+
+- **Asked:** whether the code-drawn pictures exist only to satisfy "design before generation", and why `_raw/` stays out of git when the assignment wants generated images in git.
+- **Got:**
+  - The blockouts are also the storyboard and character-sheet pictures themselves, and the contract that generated frames are judged against. They are compared again in the test report and the film.
+  - Claude's earlier `_raw/` instruction was incomplete. Corrected: only full-size working downloads stay local. Accepted originals (`generated/accepted/`), rejected thumbnails (`generated/rejected/`) and the game's edited assets are committed.
+- **Wanted:** Rudy closer to how I picture him, a first sight that is the game itself, and a smaller mushroom.
+- **Decided:**
+  - **Hood:** bigger.
+  - **Hair:** a bit browner, parted in the middle, drawn with strands and texture rather than a flat fill.
+  - **First sight:** the opening of the 2D game itself, not a 45° overview. Pressing Enter starts play seamlessly on the same screen.
+  - **Mushroom monster:** smaller.
+- **Got (Claude's calls in this step):**
+  - Hair `#C2954E`: contrast against the wheat 1.21 → 1.42, and 1.03 against the meadow.
+  - The hood is drawn draped over the shoulders and upper back.
+  - The mushroom is about two-thirds of Rudy's height.
+  - Panel 1 had been the only high angle. To keep three angles, panel 4 now uses a Dutch angle: on impact the camera shakes and rolls about 6°, then levels, and the HUD stays level. This needs my approval.
+  - The theme starts under the title and keeps playing into play without restarting.
+- **Human / Claude / model:** the decisions above are mine. The colors, the shapes, the Dutch angle and the text are Claude's. No generative model was used.
+- **Still unresolved:**
+  - whether I accept the Dutch angle on panel 4;
+  - my look at the redrawn pictures;
+  - the `design-v1` tag.
+
+## 2026-10-01 — No Dutch angle; a seventh panel instead
+
+*Written on 2026-10-01.*
+
+- **Decided:**
+  - No tilted camera on panel 4.
+  - Instead, a seventh panel: the "Level complete" end card as a high, wide view of the road to the castle. I chose this from Claude's two options (a Dutch angle on panel 4, or a high-angle end card).
+- **Got:**
+  - Panel 4 is back to eye level, with the camera shake only.
+  - Panel 7 is drawn and added to STORYBOARD.md, CHANGE-BRIEF.md (ENV-ENDCARD, "could"), CONCEPT.md and the prompts.
+  - The storyboard's three angles are now eye level (1, 2, 4, 5, 6), low (3) and high (7).
+  - Claude's calls:
+    - the end card is silent and has no motion;
+    - Enter on the card plays Level 1 again (an assumption, still to confirm);
+    - ENV-ENDCARD is "could", and is cut together with UI-TITLE.
+- **Human / Claude / model:** the choice is mine; the drawing and the text are Claude's. No generative model was used.
+- **Still unresolved:**
+  - my look at panels 4 and 7;
+  - the `design-v1` tag.
+
+## 2026-10-01 — design-v1: the design before the first generation
+
+*Written on 2026-10-01.*
+
+- **Decided:** I confirmed panels 4 and 7, and Claude's two open calls: Enter on the end card plays Level 1 again, and ENV-ENDCARD is "could". The drafts are now design v1.
+- **Got:** this commit, tagged `design-v1`. It contains:
+  - CONCEPT.md, STORYBOARD.md (seven panels), CHARACTER-SHEET.md and CHANGE-BRIEF.md;
+  - the 12 blockout images;
+  - `design/generation-prompts.md` (prompts v1);
+  - this log.
+- **Human / Claude / model:** no image, sound or music model was used before this tag.
+- **Next:** generate CHAR-REF first, and judge it against the character sheet at 160 px.

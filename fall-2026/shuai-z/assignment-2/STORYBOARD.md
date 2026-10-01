@@ -1,31 +1,32 @@
 # STORYBOARD — walker-rudy
 
-> Draft v1, 2026-09-30. Panels follow the assignment's template. Frame shape: 16:9 throughout. Gameplay panels show what the game camera shows, a 1920×1080 view that follows Rudy; design views are moments outside normal play, or shots that set how a moment should feel. Pictures are blockout thumbnails in `design/storyboard/`, drawn by code that Claude wrote (`design/tools/make_blockouts.py`). They are not generative-model outputs; I chose this route instead of hand sketches.
+> Draft v3, 2026-10-01. Panels follow the assignment's template. Frame shape: 16:9 throughout. Gameplay panels show what the game camera shows, a 1920×1080 view that follows Rudy; design views are moments outside normal play, or shots that set how a moment should feel. Pictures are blockout thumbnails in `design/storyboard/`, drawn by code that Claude wrote (`design/tools/make_blockouts.py`). They are not generative-model outputs; I chose this route instead of hand sketches.
 
 | Panel | Moment | View | Angle | Motion | Type |
 |---|---|---|---|---|---|
-| 1 | First sight: the title screen | wide | high | camera pans right | design view |
+| 1 | First sight: the title over the opening of play | medium | eye level | — (the title fades; play starts on the same screen) | gameplay |
 | 2 | Core action: over the spikes, onto a goblin | medium | eye level | jump arc, stomp bounce, camera follows | gameplay |
 | 3 | Success: the sword and shield | close-up | low | — | design view |
 | 4 | Failure: a spore from behind | medium | eye level | spore path, knockback, gear flying off, camera shake | gameplay |
 | 5 | Recovery: back at the waystone | medium | eye level | fall arrow, fade, respawn | gameplay |
 | 6 | The end: the teleport circle | wide | eye level | run-in arrow, rising light, camera zooms out | gameplay, then transition |
+| 7 | Level complete: the road to the castle | wide | high | — | design view (end card) |
 
 Requirements check:
-- **Three views:** wide (1, 6), medium (2, 4, 5), close-up (3).
-- **Three angles:** high (1), eye level (2, 4, 5, 6), low (3).
-- **Motion:** shown on panels 1, 2, 4, 5 and 6.
+- **Three views:** wide (6, 7), medium (1, 2, 4, 5), close-up (3).
+- **Three angles:** eye level (1, 2, 4, 5, 6), low (3), high (7).
+- **Motion:** shown on panels 2, 4, 5 and 6.
 
-## Panel 1 — First sight: the title screen
+## Panel 1 — First sight: the title over the opening of play
 
 ![sketch](design/storyboard/01-first-sight.png)
 
-- **Shot:** wide · high angle · design view (title screen) · motion: the camera pans slowly right along the path toward the castle
-- **Player action:** presses Enter on the title screen; the camera settles on the start of the path and play begins
-- **See:** the whole valley from above: golden wheat meeting green meadow, the path running right, the castle small on the far horizon; Rudy tiny at the start of the path; the game title
-- **Hear:** the theme starts softly (music: playing)
-- **Assets:** ENV-SKY-CASTLE, ENV-FIELDS, CHAR-IDLE, UI-TITLE, MUS-LOOP
-- **Design reason (P4 — A journey into another world):** the first thing the player feels is a warm, wide world with somewhere far to go
+- **Shot:** medium · eye level · gameplay view (the opening of Level 1, with the title on top) · motion: none; the title fades out
+- **Player action:** presses Enter; the title fades and play starts on the same screen, with no loading and no scene change
+- **See:** the start of Level 1: Rudy idle on the path, golden wheat meeting green meadow, the castle small on the far horizon; the game title and "press Enter to start"; the hearts appear when play starts
+- **Hear:** the theme starts softly under the title and keeps playing into play without restarting (music: playing)
+- **Assets:** ENV-SKY-CASTLE, ENV-FIELDS, ENV-GROUND, CHAR-IDLE, UI-TITLE, UI-HEART, MUS-LOOP
+- **Design reason (P4 — A journey into another world):** the very first frame is the world itself, and one key press puts the player in it
 
 ## Panel 2 — Core action: over the spikes, onto a goblin
 
@@ -76,8 +77,19 @@ Requirements check:
 ![sketch](design/storyboard/06-teleport-circle.png)
 
 - **Shot:** wide · eye level · gameplay view, ending in a transition · motion: Rudy runs into the circle (arrow); light rises from the circle; the camera zooms out slowly
-- **Player action:** steps onto the teleport circle; input stops, Rudy celebrates, and the screen fades to "Level complete"
+- **Player action:** steps onto the teleport circle; input stops, Rudy celebrates, and the screen fades to the end card (panel 7)
 - **See:** the celebrate pose, the glowing circle with rising light, the castle still on the horizon
 - **Hear:** the arrival shimmer (SFX-PORTAL); music: fades out under it, then quiet on the end card
 - **Assets:** CHAR-CELEBRATE, ENV-PORTAL, ENV-SKY-CASTLE, ENV-FIELDS, SFX-PORTAL, MUS-LOOP
 - **Design reason (P4 — A journey into another world):** reaching the circle feels like arriving and setting off again, with the castle still ahead
+
+## Panel 7 — Level complete: the road to the castle
+
+![sketch](design/storyboard/07-level-complete.png)
+
+- **Shot:** wide · high angle · design view (the end card) · motion: none
+- **Player action:** none; the run is over and the card holds. Enter plays Level 1 again from the opening.
+- **See:** "Level complete" over a high view of the countryside: the teleport circle Rudy just used, and the road winding from it across golden wheat and green meadow to the castle on the horizon
+- **Hear:** nothing; the music has faded out, and the card is silent
+- **Assets:** ENV-ENDCARD, UI-TITLE (the "Level complete" text)
+- **Design reason (P4 — A journey into another world):** the session ends by showing how far the road still goes, so finishing a level feels like the start of the next stretch

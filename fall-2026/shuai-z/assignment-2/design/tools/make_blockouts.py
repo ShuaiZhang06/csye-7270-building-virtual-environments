@@ -19,7 +19,8 @@ CH_DIR = ROOT / "design" / "character"
 SS = 3  # supersampling factor
 
 # Rudy's palette (CHARACTER-SHEET.md)
-HAIR, EYES, ROBE, SKIN, BOOTS, LINE = "#E6CC5C", "#3E8E5E", "#5A606B", "#F2D6BD", "#6A4A33", "#3A2A24"
+HAIR, EYES, ROBE, SKIN, BOOTS, LINE = "#C2954E", "#3E8E5E", "#5A606B", "#F2D6BD", "#6A4A33", "#3A2A24"
+HAIR_DARK, HAIR_LIGHT = "#8A6633", "#DDBF8C"  # strand lines and the highlight band
 # Planned Level 1 colors
 WHEAT, MEADOW, SKY, CASTLE, PATH = "#D8B858", "#8FA85E", "#CFE0E6", "#A3ABB5", "#9C8463"
 GRASS = "#7E9A4E"
@@ -278,11 +279,17 @@ def draw_head(pen, sk, pose):
     c, hr = sk["head_c"], sk["head_rot"]
     H = lambda p: add(c, rot(p, hr))
     pen.ellipse(c, R, R, SKIN)
-    hair = arc((0, 0), R + 2, 32, 205, 30)
-    hair += [(-0.86 * R, -0.62 * R), (-0.62 * R, -1.0 * R), (-0.38 * R, -0.78 * R), (0.12 * R, -0.52 * R),
-             (0.2 * R, -0.12 * R), (0.26 * R, 0.24 * R), (0.42 * R, 0.44 * R), (0.5 * R, 0.26 * R),
-             (0.64 * R, 0.52 * R), (0.8 * R, 0.36 * R), (0.92 * R, 0.5 * R)]
+    hair = arc((0, 0), R + 2, 25, 205, 30)
+    hair += [(-0.86 * R, -0.62 * R), (-0.62 * R, -1.0 * R), (-0.38 * R, -0.78 * R), (0.10 * R, -0.55 * R),
+             (0.20 * R, -0.15 * R), (0.30 * R, 0.24 * R), (0.46 * R, 0.40 * R), (0.60 * R, 0.27 * R),
+             (0.76 * R, 0.36 * R), (0.90 * R, 0.30 * R)]
     pen.poly([H(p) for p in hair], HAIR)
+    band = arc((0, 0), 0.84 * R, 70, 140, 12) + arc((0, 0), 0.70 * R, 140, 70, 12)
+    pen.poly([H(p) for p in band], HAIR_LIGHT, lw=0)
+    for r0, a0, a1 in ((0.92, 95, 200), (0.62, 105, 195), (0.36, 120, 185)):
+        pen.line([H(p) for p in arc((0, 0), r0 * R, a0, a1, 14)], HAIR_DARK, 1.0)
+    for strand in (((0.40, 0.84), (0.48, 0.60), (0.52, 0.40)), ((0.60, 0.74), (0.70, 0.54), (0.76, 0.40))):
+        pen.line([H((x * R, y * R)) for x, y in strand], HAIR_DARK, 1.0)
     ca = pose.get("cowlick", 0)
     cow = [(-3, 29), (-4.5, 33.5), (-2.5, 38), (2, 40), (0.5, 37), (-1, 34), (1.2, 29.4)]
     base = (-1, 29)
@@ -329,7 +336,9 @@ def draw_rudy(pen, pose_name, air=True):
             (-20 - fl[2], -16 + fl[3]), (-16, 30)]
     pen.poly([body(p) for p in robe], ROBE)
     pen.poly([body(p) for p in [(-17.5, 20), (16, 20), (16.6, 14.5), (-18.2, 14.5)]], BOOTS)
-    pen.ellipse(body((-12, 45)), 7.5, 6.5, shade(ROBE, 0.9))
+    pen.poly([body(p) for p in [(-4, 51), (-14, 54), (-24, 48), (-28, 37), (-23, 26), (-12, 23), (-6, 33)]],
+             shade(ROBE, 0.9))
+    pen.line([body(p) for p in [(-8, 47), (-15, 40), (-20, 31)]], LINE, 1.0)
     draw_head(pen, sk, pose)
     near = sk["arms"][0]
     if "sword" in pose:
@@ -377,25 +386,36 @@ def draw_rudy_view(pen, view):
     pen.poly([X(p) for p in robe], ROBE)
     pen.poly([X(p) for p in [(-17.5, 57), (17.5, 57), (18.2, 51.5), (-18.2, 51.5)]], BOOTS)
     if view == "back":
-        pen.ellipse(X((0, 78)), 15, 10, shade(ROBE, 0.9))
-        pen.line([X((-9, 76)), X((0, 72)), X((9, 76))], LINE, 1.2)
+        pen.poly([X(p) for p in [(-22, 92), (22, 92), (27, 72), (14, 58), (0, 54), (-14, 58), (-27, 72)]],
+                 shade(ROBE, 0.9))
+        pen.line([X((-12, 82)), X((0, 64)), X((12, 82))], LINE, 1.2)
     else:
-        pen.ellipse(X((0, 87)), 17, 5.5, shade(ROBE, 0.9))
+        pen.ellipse(X((0, 86)), 26, 10, shade(ROBE, 0.9))
     c = (0, 120)
     if view == "back":
         pen.ellipse(c, R + 2, R + 2, HAIR)
         nape = [(-26, 106), (-14, 93), (0, 97), (14, 93), (26, 106)]
         pen.poly(nape + [(20, 112), (-20, 112)], HAIR, lw=0)
         pen.line(nape, LINE, INNER_GP)
+        pen.poly(arc(c, 0.84 * R, 50, 130, 12) + arc(c, 0.70 * R, 130, 50, 12), HAIR_LIGHT, lw=0)
+        for ex in (-0.7, -0.3, 0.3, 0.7):
+            pen.line([(0, 120 + 0.95 * R), (ex * 0.6 * R, 120 + 0.3 * R), (ex * R, 120 - 0.62 * R)], HAIR_DARK, 1.0)
     else:
         pen.ellipse(X(c), R, R, SKIN)
-        off = 6 if view == "3q" else 0
+        off = 5 if view == "3q" else 0
         hair = arc(c, R + 2, -28, 208, 34)
-        hair += [(-0.92 * R, 120 - 0.62 * R), (-0.7 * R, 120 - 0.15 * R), (-0.62 * R + off, 120 + 0.36 * R),
-                 (-0.36 * R + off, 120 + 0.18 * R), (-0.14 * R + off, 120 + 0.42 * R),
-                 (0.1 * R + off, 120 + 0.2 * R), (0.32 * R + off, 120 + 0.42 * R),
-                 (0.56 * R + off, 120 + 0.22 * R), (0.72 * R, 120 - 0.15 * R), (0.92 * R, 120 - 0.62 * R)]
+        hair += [(-0.92 * R, 120 - 0.62 * R), (-0.72 * R, 120 - 0.10 * R), (-0.60 * R + off, 120 + 0.30 * R),
+                 (-0.40 * R + off, 120 + 0.44 * R), (-0.18 * R + off, 120 + 0.62 * R), (off, 120 + 0.72 * R),
+                 (0.18 * R + off, 120 + 0.62 * R), (0.40 * R + off, 120 + 0.44 * R), (0.60 * R + off, 120 + 0.30 * R),
+                 (0.72 * R, 120 - 0.10 * R), (0.92 * R, 120 - 0.62 * R)]
         pen.poly([X(p) for p in hair], HAIR)
+        for a0, a1 in ((100, 150), (30, 80)):
+            pen.poly([X(p) for p in arc(c, 0.86 * R, a0, a1, 10) + arc(c, 0.72 * R, a1, a0, 10)], HAIR_LIGHT, lw=0)
+        pen.line([X((off, 120 + 0.72 * R)), X((off * 0.5, 120 + 1.0 * R))], HAIR_DARK, 1.1)
+        for sgn in (-1, 1):
+            for pts in (((0.06, 0.98), (0.45, 0.82), (0.78, 0.45), (0.88, -0.10)),
+                        ((0.10, 0.84), (0.38, 0.70), (0.60, 0.44))):
+                pen.line([X((sgn * x * R + off * (1 - x), 120 + y * R)) for x, y in pts], HAIR_DARK, 1.0)
         eyes = [(-11, 118, 4.3), (11, 118, 4.3)] if view == "front" else [(3, 118, 3.4), (18, 118, 4.3)]
         for ex, ey, rx in eyes:
             pen.ellipse(X((ex, ey)), rx, 6.2, EYES)
@@ -673,38 +693,19 @@ K = 720 / 1080  # gameplay: frame px per game px (1920×1080 view drawn at 1280�
 
 def panel_1():
     f = Frame()
-    f.gradient(0, 230, "#BCD6E6", "#EEF3F0")
-    horizon = 196
-    hills = [(x, horizon - 8 * math.sin(x / 120) - 5 * math.sin(x / 47 + 1)) for x in range(0, f.w + 21, 20)]
-    f.poly(hills + [(f.w, f.h), (0, f.h)], "#A9BFB2")
-    castle(f, 1010, horizon - 8 * math.sin(1010 / 120) - 5 * math.sin(1010 / 47 + 1) + 3, 0.42)
-    f.poly([(0, 226), (1280, 214), (1280, 720), (0, 720)], MEADOW)
-    for poly in ([(0, 300), (430, 262), (560, 720), (0, 720)], [(640, 232), (1280, 244), (1280, 720), (860, 720)],
-                 [(330, 236), (600, 228), (640, 330), (420, 360)]):
-        f.poly(poly, WHEAT)
-    vp = (1000, 190)
-    for x in range(-600, 1900, 60):
-        f.line([(x, 720), (vp[0] + (x - vp[0]) * 0.18, 260)], "#C29E45", 2)
-    centre = [(250, 730), (330, 610), (520, 480), (700, 380), (850, 292), (960, 222), (1000, 200)]
-    widths = [120, 100, 70, 46, 26, 12, 4]
-    left, right = [], []
-    for i, (x, y) in enumerate(centre):
-        x2, y2 = centre[min(i + 1, len(centre) - 1)]
-        x1, y1 = centre[max(i - 1, 0)]
-        a = math.atan2(y2 - y1, x2 - x1) + math.pi / 2
-        left.append((x + math.cos(a) * widths[i] / 2, y + math.sin(a) * widths[i] / 2))
-        right.append((x - math.cos(a) * widths[i] / 2, y - math.sin(a) * widths[i] / 2))
-    f.poly(left + right[::-1], "#B9A27E", LINE, 2)
-    f.sprite(rudy("idle", 0.3), 352, 592)
-    f.tpoly([(440, 68), (840, 68), (840, 140), (440, 140)], (255, 255, 255, 190))
-    f.line([(440, 68), (840, 68), (840, 140), (440, 140), (440, 68)], LINE, 3)
-    f.arrow([(160, 676), (1120, 676)], LINE, 5, dash=(22, 12))
-    f.label((560, 89), "GAME TITLE", 30, "#3A2A24", (255, 255, 255, 0), 0)
-    f.label((590, 158), "press Enter", 18, "#3A2A24", (255, 255, 255, 170), 6)
-    f.label((390, 556), "Rudy, tiny, at the start of the path", 17, "#FFFFFF", (40, 30, 26, 190), 6)
-    f.label((820, 154), "castle far away", 17, "#FFFFFF", (40, 30, 26, 190), 6)
-    f.label((420, 640), "CAMERA PANS RIGHT ALONG THE PATH", 18, "#FFFFFF", (40, 30, 26, 200), 6)
-    f.save(SB_DIR / "01-first-sight.png", "1  FIRST SIGHT · WIDE · HIGH ANGLE · DESIGN VIEW (title screen)")
+    gy = 560
+    gameplay_bg(f, gy)
+    f.sprite(rudy("idle", K), 250, gy)
+    f.tpoly([(390, 118), (890, 118), (890, 232), (390, 232)], (255, 255, 255, 205))
+    f.line([(390, 118), (890, 118), (890, 232), (390, 232), (390, 118)], LINE, 3)
+    f.label((516, 150), "GAME TITLE", 40, "#3A2A24", (255, 255, 255, 0), 0)
+    f.label((536, 262), "press Enter to start", 20, "#3A2A24", (255, 255, 255, 200), 8)
+    f.label((120, 600), "Rudy at the start of Level 1, idle", 17, "#FFFFFF", (40, 30, 26, 190), 6)
+    f.label((842, 300), "castle far away", 17, "#FFFFFF", (40, 30, 26, 190), 6)
+    f.label((560, 610), "Enter: the title fades and play starts on this same screen.", 17, "#FFFFFF",
+            (40, 30, 26, 200), 6)
+    f.label((560, 642), "No loading, no scene change; the hearts appear.", 17, "#FFFFFF", (40, 30, 26, 200), 6)
+    f.save(SB_DIR / "01-first-sight.png", "1  FIRST SIGHT · MEDIUM · EYE LEVEL · GAMEPLAY VIEW, TITLE ON TOP")
 
 
 def panel_2():
@@ -753,15 +754,15 @@ def panel_4():
     f = Frame()
     gy = 560
     gameplay_bg(f, gy)
-    f.sprite(mushroom(K * 1.35, "attack"), 200, gy)
-    spore(f, 248, gy - 34, 13, 230)
-    f.line([(262, gy - 40), (400, gy - 70), (520, gy - 92), (604, gy - 100)], SPORE, 4, dash=(14, 10))
-    for x, y, a in ((340, gy - 58, 90), (440, gy - 78, 140), (530, gy - 93, 190)):
+    f.sprite(mushroom(K, "attack"), 200, gy)
+    spore(f, 236, gy - 22, 11, 230)
+    f.line([(246, gy - 26), (380, gy - 44), (500, gy - 54), (600, gy - 56)], SPORE, 4, dash=(14, 10))
+    for x, y, a in ((330, gy - 38, 90), (430, gy - 50, 140), (520, gy - 55, 190)):
         spore(f, x, y, 9, a)
     f.sprite(rudy("block", K, ghost=0.35), 650, gy)
     f.sprite(rudy("hurt", K), 690, gy, flip=True)
-    spore(f, 612, gy - 100, 11)
-    burst(f, 618, gy - 100, 30)
+    spore(f, 610, gy - 58, 11)
+    burst(f, 616, gy - 58, 30)
     f.arrow([(722, gy - 150), (822, gy - 150)], LINE, 5)
     f.sprite(gear(K * 1.4, ghost=0.85), 790, gy - 196)
     f.line([(728, gy - 196), (756, gy - 210)], LINE, 3)
@@ -770,7 +771,7 @@ def panel_4():
     for (x, y) in ((24, 160), (1256, 160), (24, 690), (1256, 690)):
         f.line([(x - 10, y - 18), (x + 8, y - 6), (x - 8, y + 6), (x + 10, y + 18)], LINE, 3)
     hearts(f)
-    f.label((60, 450), "mushroom attacks: cap squeezes, spore puffs out", 17, "#FFFFFF", (40, 30, 26, 190), 6)
+    f.label((40, 440), "mushroom attacks: cap squeezes, spore puffs out", 17, "#FFFFFF", (40, 30, 26, 190), 6)
     f.label((836, 398), "knockback", 17, "#FFFFFF", (40, 30, 26, 190), 6)
     f.label((836, 330), "sword and shield knocked away", 17, "#FFFFFF", (40, 30, 26, 190), 6)
     f.label((470, 586), "spore hits his back: the shield covers only the front", 17, "#FFFFFF", (40, 30, 26, 190), 6)
@@ -824,9 +825,47 @@ def panel_6():
     hearts(f)
     f.label((350, 210), "start of the shot: normal gameplay framing", 16, "#FFFFFF", (40, 30, 26, 190), 6)
     f.label((440, 650), "CAMERA ZOOMS OUT", 18, "#FFFFFF", (40, 30, 26, 200), 6)
-    f.label((960, 60), "then fades to: LEVEL COMPLETE", 18, "#FFFFFF", (40, 30, 26, 200), 6)
+    f.label((900, 60), "then fades to the end card (panel 7)", 18, "#FFFFFF", (40, 30, 26, 200), 6)
     f.label((700, 640), "teleport circle: light rises", 16, "#FFFFFF", (40, 30, 26, 190), 6)
     f.save(SB_DIR / "06-teleport-circle.png", "6  THE END · WIDE · EYE LEVEL · GAMEPLAY → TRANSITION")
+
+
+def panel_7():
+    f = Frame()
+    f.gradient(0, 230, "#BCD6E6", "#EEF3F0")
+    horizon = 196
+    hills = [(x, horizon - 8 * math.sin(x / 120) - 5 * math.sin(x / 47 + 1)) for x in range(0, f.w + 21, 20)]
+    f.poly(hills + [(f.w, f.h), (0, f.h)], "#A9BFB2")
+    castle(f, 1010, horizon - 8 * math.sin(1010 / 120) - 5 * math.sin(1010 / 47 + 1) + 3, 0.42)
+    f.poly([(0, 226), (1280, 214), (1280, 720), (0, 720)], MEADOW)
+    for poly in ([(0, 300), (430, 262), (560, 720), (0, 720)], [(640, 232), (1280, 244), (1280, 720), (860, 720)],
+                 [(330, 236), (600, 228), (640, 330), (420, 360)]):
+        f.poly(poly, WHEAT)
+    vp = (1000, 190)
+    for x in range(-600, 1900, 60):
+        f.line([(x, 720), (vp[0] + (x - vp[0]) * 0.18, 260)], "#C29E45", 2)
+    centre = [(250, 730), (330, 610), (520, 480), (700, 380), (850, 292), (960, 222), (1000, 200)]
+    widths = [120, 100, 70, 46, 26, 12, 4]
+    left, right = [], []
+    for i, (x, y) in enumerate(centre):
+        x2, y2 = centre[min(i + 1, len(centre) - 1)]
+        x1, y1 = centre[max(i - 1, 0)]
+        a = math.atan2(y2 - y1, x2 - x1) + math.pi / 2
+        left.append((x + math.cos(a) * widths[i] / 2, y + math.sin(a) * widths[i] / 2))
+        right.append((x - math.cos(a) * widths[i] / 2, y - math.sin(a) * widths[i] / 2))
+    f.poly(left + right[::-1], "#B9A27E", LINE, 2)
+    f.tellipse(318, 628, 64, 18, (243, 226, 160, 235), LINE, 3)
+    f.tellipse(318, 628, 40, 11, (255, 246, 210, 235), "#C9A94E", 2)
+    for (x, y, r) in ((300, 600, 4), (336, 580, 3), (318, 556, 4), (346, 536, 2)):
+        f.tellipse(x, y, r, r, (255, 250, 220, 230))
+    f.tpoly([(440, 68), (840, 68), (840, 140), (440, 140)], (255, 255, 255, 190))
+    f.line([(440, 68), (840, 68), (840, 140), (440, 140), (440, 68)], LINE, 3)
+    f.label((497, 89), "LEVEL COMPLETE", 30, "#3A2A24", (255, 255, 255, 0), 0)
+    f.label((560, 420), "the road ahead, to the castle", 17, "#FFFFFF", (40, 30, 26, 190), 6)
+    f.label((390, 650), "the teleport circle Rudy just used", 17, "#FFFFFF", (40, 30, 26, 190), 6)
+    f.label((860, 600), "silent card: the music has faded out", 17, "#FFFFFF", (40, 30, 26, 200), 6)
+    f.label((860, 632), "Enter: play Level 1 again", 17, "#FFFFFF", (40, 30, 26, 200), 6)
+    f.save(SB_DIR / "07-level-complete.png", "7  LEVEL COMPLETE · WIDE · HIGH ANGLE · DESIGN VIEW (end card)")
 
 
 # ── Character-sheet images ─────────────────────────────────────────────────────
@@ -944,7 +983,8 @@ def silhouette_sheet():
     texts = [((60, 50), "Silhouette test at game size: a 1920×1080 frame, Rudy 160 px tall (+4 px outer outline)", 30,
               LINE, True),
              ((60, 96), "Idle · run (contact) · sword idle · block. At this size it must still read: big round head, "
-                        "cowlick, robe flaring at the knees, round shield, line of the blade.", 20, LINE, False),
+                        "cowlick, the large hood on his back, robe flaring at the knees, round shield, line of the blade.", 20,
+              LINE, False),
              ((560, base - 92), "160 px", 18, LINE, True)]
     finish(img, W, H, texts, CH_DIR / "silhouette.png")
 
@@ -1010,15 +1050,16 @@ def palette_sheet():
                 tile = ImageOps.grayscale(tile.convert("RGB")).convert("RGBA")
             composite(img, tile, x * SS, y * SS)
             texts.append(((x, y - 28), f"{name}{' (grayscale)' if gray else ''}", 18, LINE, True))
-    texts.append(((40, H - 50), "The fills alone barely separate from the wheat (contrast 1.21 for the hair); the "
-                                "4 px dark outer outline is what keeps Rudy readable.", 18, LINE, False))
+    texts.append(((40, H - 50), "The fills alone barely separate from the background (hair against wheat 1.42, "
+                                "against meadow 1.03); the 4 px dark outer outline is what keeps Rudy readable.", 18,
+                  LINE, False))
     finish(img, W, H, texts, CH_DIR / "palette.png")
 
 
 def main():
     SB_DIR.mkdir(parents=True, exist_ok=True)
     CH_DIR.mkdir(parents=True, exist_ok=True)
-    for fn in (panel_1, panel_2, panel_3, panel_4, panel_5, panel_6, turnaround, poses_sheet, silhouette_sheet,
+    for fn in (panel_1, panel_2, panel_3, panel_4, panel_5, panel_6, panel_7, turnaround, poses_sheet, silhouette_sheet,
                collision_sheet, palette_sheet):
         fn()
         print("drew", fn.__name__)

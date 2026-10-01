@@ -13,7 +13,8 @@
 exports/
 builds/
 
-# Full-size raw generations stay out of git; thumbnails and contact sheets are committed.
+# Local working folder of full-size downloads, including rejected outputs. Accepted originals
+# (generated/accepted/), rejected thumbnails (generated/rejected/) and the game's edited assets are committed.
 _raw/
 
 # Game audio (OGG/WAV) is committed: the slice's sound effects and music live in git.
