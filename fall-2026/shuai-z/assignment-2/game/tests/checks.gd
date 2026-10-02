@@ -1,23 +1,32 @@
 extends Node
-## Headless checks for the greybox. Step 1a: the scenes have their nodes,
-## Rudy's capsule matches the character sheet, his movement states, turning in
-## place, the camera, and the jump sound's guard (one Sfx "jump" per takeoff,
-## CHANGE-BRIEF.md).
-## Run from the repository root:
+## Headless checks for the greybox. Run from the repository root:
 ##   Godot --headless --path game --fixed-fps 60 res://tests/checks.tscn
 ## Prints one line per check and exits with code 1 if any check fails.
+## Step 1a: the scenes have their nodes, Rudy's capsule matches the character
+## sheet, his movement states, turning on the spot, the camera, and the jump
+## sound's guard (one Sfx "jump" per takeoff, CHANGE-BRIEF.md).
+## Step 1b: the layout, a fall below a cliff, the respawn at the last
+## checkpoint, the waystone, the teleport circle and the end card, and a timed
+## route from the opening to the circle. Sounds counted: "fall", "checkpoint",
+## "portal", each once per event.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
-	"res://app/main.tscn": ["Level1", "Rudy", "Camera", "Hud"],
+	"res://app/main.tscn": ["Level1", "Rudy", "Camera", "Hud", "Level1/Waystone", "Level1/Portal"],
 	"res://content/rudy/rudy.tscn": ["Body", "Look"],
-	"res://content/level_1/level_1.tscn": ["Ground/Segment1", "Bounds/Left", "Bounds/Right", "StartPoint"],
-	"res://ui/hud.tscn": ["Debug"],
+	"res://content/level_1/level_1.tscn": [
+		"Backdrop/Far/Art", "Backdrop/Mid/Art", "PitShade", "Ground/Segment1", "Ground/Segment2",
+		"Ground/Segment3", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
+	],
+	"res://ui/hud.tscn": ["Debug", "Fade", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
 }
+const JUMP_LEAD := 60.0 ## the route presses jump this far before a cliff's edge
 
 var _failures := 0
+var _main: Main
 var _rudy: Rudy
 var _camera: Camera2D
+var _restart_requests := 0
 # What the checks see Rudy do, measured from his motion rather than from Sfx.
 var _takeoffs := 0
 var _was_on_floor := true
@@ -26,17 +35,15 @@ var _trail: Array[StringName] = [] # each pose, once per change
 
 func _ready() -> void:
 	_check_scenes()
-	var main := MAIN.instantiate()
-	add_child(main)
-	_rudy = main.get_node("Rudy")
-	_camera = main.get_node("Camera")
-	await _run()
+	_start_level()
+	await _run_1a()
+	await _run_1b()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
 
 func _physics_process(_delta: float) -> void:
-	if _rudy == null:
+	if not is_instance_valid(_rudy):
 		return
 	var on_floor := _rudy.is_on_floor()
 	if _was_on_floor and not on_floor and _rudy.velocity.y < 0.0:
@@ -46,7 +53,20 @@ func _physics_process(_delta: float) -> void:
 		_trail.append(_rudy.pose)
 
 
-func _run() -> void:
+func _start_level() -> void:
+	_main = MAIN.instantiate()
+	add_child(_main)
+	_main.restart_requested.connect(_on_restart_requested)
+	_rudy = _main.get_node("Rudy")
+	_camera = _main.get_node("Camera")
+	_was_on_floor = true
+
+
+func _on_restart_requested() -> void:
+	_restart_requests += 1
+
+
+func _run_1a() -> void:
 	var body: CollisionShape2D = _rudy.get_node("Body")
 	var capsule := body.shape as CapsuleShape2D
 	_check("the capsule is 40 x 136 px with its bottom on the soles",
@@ -208,6 +228,157 @@ func _run() -> void:
 		"view centre x %.1f" % _camera.get_screen_center_position().x)
 
 
+func _run_1b() -> void:
+	var level: Node2D = _main.get_node("Level1")
+	var waystone: Waystone = level.get_node("Waystone")
+	var portal: Portal = level.get_node("Portal")
+	var start := (level.get_node("StartPoint") as Marker2D).global_position
+	var spawn := waystone.spawn_point.global_position
+	var gaps := _gaps(level)
+	_check("Level 1 has two cliffs, after the waystone and before the teleport circle",
+		gaps.size() == 2 and gaps[0].x > spawn.x and gaps[-1].y < portal.global_position.x, str(gaps))
+	var jump := _expected_jump()
+	var reach := _rudy.run_speed * (jump.y + jump.z) / Engine.physics_ticks_per_second
+	var spare := INF
+	for gap in gaps:
+		spare = minf(spare, (reach - (gap.y - gap.x)) / _rudy.run_speed)
+	_check("every cliff is narrower than a full-speed jump by at least 0.2 s of running",
+		spare >= 0.2, "%.2f s to spare at the widest; a full-speed jump covers %.0f px" % [spare, reach])
+
+	# A fall before the waystone: instant death, one fall sound, back at the start.
+	_reset_counts()
+	_teleport(Vector2(gaps[0].x - 120.0, start.y)) # past the waystone, without touching it
+	Input.action_press(&"move_right")
+	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 240)
+	Input.action_release(&"move_right")
+	_check("falling below a cliff is instant death, with one fall sound",
+		_main.state == Main.State.DYING and _rudy.mode == Rudy.Mode.FALLEN and Sfx.count(&"fall") == 1,
+		"state %s, fall sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"fall")])
+	var back_after: int = await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("after a fade he is back at the start, the last checkpoint, in control",
+		_main.state == Main.State.PLAYING and _rudy.mode == Rudy.Mode.PLAY
+		and _rudy.global_position.distance_to(start) < 1.0 and _rudy.is_on_floor(),
+		"after %.2f s, at x %.0f" % [back_after / 60.0, _rudy.global_position.x])
+	_check("the kill line counted the fall once, though he stayed below it",
+		Sfx.count(&"fall") == 1, "fall sounds %d" % Sfx.count(&"fall"))
+	_check("he gets back up in CHAR-RESPAWN, then stands in CHAR-IDLE",
+		_trail.has(&"CHAR-RESPAWN") and _rudy.pose == &"CHAR-IDLE", _trail_text())
+	_check("the camera comes back with him", absf(_camera.get_screen_center_position().x - 960.0) < 1.0,
+		"view centre x %.0f" % _camera.get_screen_center_position().x)
+	_check("the waystone is still dark", not waystone.lit)
+
+	# The waystone lights once and becomes the checkpoint.
+	_reset_counts()
+	_teleport(Vector2(waystone.global_position.x - 300.0, start.y))
+	await _hold_until(&"move_right", func() -> bool: return _rudy.global_position.x > spawn.x, 120)
+	_check("the waystone lights the first time he touches it, and becomes the checkpoint",
+		waystone.lit and Sfx.count(&"checkpoint") == 1 and _main.checkpoint_name == "waystone",
+		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
+	await _hold(&"move_left", 30)
+	await _hold(&"move_right", 24)
+	_check("crossing it again does not light it again", Sfx.count(&"checkpoint") == 1,
+		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
+
+	# A fall after the waystone brings him back at the waystone.
+	_reset_counts()
+	Input.action_press(&"move_right")
+	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 240)
+	Input.action_release(&"move_right")
+	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("after a fall past the waystone he gets back up at the waystone",
+		_rudy.global_position.distance_to(spawn) < 1.0 and Sfx.count(&"fall") == 1,
+		"at x %.0f; spawn x %.0f" % [_rudy.global_position.x, spawn.x])
+
+	# From the waystone, over both cliffs, onto the teleport circle.
+	_reset_counts()
+	var route_ticks: int = await _run_route(gaps, 900)
+	_check("from the waystone he clears both cliffs and reaches the teleport circle",
+		route_ticks > 0 and _main.state == Main.State.COMPLETE,
+		"state %s, fall sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"fall")])
+	await _frames(2) # his pose follows on his next tick
+	_check("the circle completes the level once: one portal sound; he celebrates",
+		Sfx.count(&"portal") == 1 and _rudy.mode == Rudy.Mode.CELEBRATING and _rudy.pose == &"CHAR-CELEBRATE",
+		"portal sounds %d, pose %s" % [Sfx.count(&"portal"), _rudy.pose])
+	await _frames(20) # let him come to a stop
+	var x_done := _rudy.global_position.x
+	await _hold(&"move_left", 30)
+	await _tap(&"jump")
+	await _frames(20)
+	_check("input stops on the circle", absf(_rudy.global_position.x - x_done) < 0.01 and _rudy.is_on_floor(),
+		"moved %.2f px" % (_rudy.global_position.x - x_done))
+	var hud: Hud = _main.get_node("Hud")
+	var card_after: int = await _wait_until(func() -> bool: return hud.is_showing_end_card(), 300)
+	_check("the camera pulls back and the screen fades to the end card",
+		hud.is_showing_end_card() and _camera.zoom.is_equal_approx(Main.END_ZOOM),
+		"after %.2f s more; zoom %.2f" % [card_after / 60.0, _camera.zoom.x])
+	portal.reached.emit() # as if he stepped onto the circle again
+	await _frames(2)
+	_check("stepping onto the circle again does not complete the level again", Sfx.count(&"portal") == 1,
+		"portal sounds %d" % Sfx.count(&"portal"))
+	await _tap(&"restart")
+	await _frames(5)
+	_check("Enter on the end card plays the level again", _restart_requests == 1,
+		"restart requests %d" % _restart_requests)
+
+	# A fresh level from the opening, the way Enter starts it: the whole route, timed.
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	_reset_counts()
+	await _frames(5)
+	var fresh_waystone: Waystone = _main.get_node("Level1/Waystone")
+	_check("the level starts again at the opening, with the waystone dark",
+		_main.state == Main.State.PLAYING and not fresh_waystone.lit
+		and _rudy.global_position.distance_to(start) < 1.0)
+	route_ticks = await _run_route(gaps, 1800)
+	_check("the route from the opening reaches the circle: the waystone lights once, no falls",
+		route_ticks > 0 and Sfx.count(&"checkpoint") == 1 and Sfx.count(&"portal") == 1 and Sfx.count(&"fall") == 0,
+		"%.1f s from the opening at full speed" % (route_ticks / 60.0))
+
+
+## The cliffs: the gaps between ground segments, as (from x, to x).
+func _gaps(level: Node2D) -> Array[Vector2]:
+	var segments: Array[GroundSegment] = []
+	for child in level.get_node("Ground").get_children():
+		if child is GroundSegment:
+			segments.append(child)
+	segments.sort_custom(func(a: GroundSegment, b: GroundSegment) -> bool: return a.position.x < b.position.x)
+	var gaps: Array[Vector2] = []
+	for i in range(1, segments.size()):
+		var end := segments[i - 1].global_position.x + segments[i - 1].size.x
+		var begin := segments[i].global_position.x
+		if begin > end:
+			gaps.append(Vector2(end, begin))
+	return gaps
+
+
+## Holds right and jumps once before each cliff, until the level is complete.
+## Returns the ticks it took, or -1 if he fell or ran out of time.
+func _run_route(gaps: Array[Vector2], max_ticks: int) -> int:
+	var next_gap := 0
+	var release_jump_at := -1
+	Input.action_press(&"move_right")
+	for t in max_ticks:
+		await _frames(1)
+		if t == release_jump_at:
+			Input.action_release(&"jump")
+		if _main.state == Main.State.COMPLETE:
+			Input.action_release(&"move_right")
+			Input.action_release(&"jump")
+			return t + 1
+		if _main.state == Main.State.DYING:
+			break
+		while next_gap < gaps.size() and _rudy.global_position.x > gaps[next_gap].x:
+			next_gap += 1
+		if next_gap < gaps.size() and release_jump_at < t and _rudy.is_on_floor() \
+				and _rudy.global_position.x >= gaps[next_gap].x - JUMP_LEAD:
+			Input.action_press(&"jump")
+			release_jump_at = t + 3
+	Input.action_release(&"move_right")
+	Input.action_release(&"jump")
+	return -1
+
+
 func _check_scenes() -> void:
 	for path: String in REQUIRED_NODES:
 		var root := (load(path) as PackedScene).instantiate()
@@ -253,10 +424,36 @@ func _frames(n: int) -> void:
 		await get_tree().physics_frame
 
 
+## Waits until `condition` is true, for at most `max_ticks`; returns the ticks waited.
+func _wait_until(condition: Callable, max_ticks: int) -> int:
+	for t in max_ticks:
+		if condition.call():
+			return t
+		await get_tree().physics_frame
+	return max_ticks
+
+
+func _hold(action: StringName, ticks: int) -> void:
+	Input.action_press(action)
+	await _frames(ticks)
+	Input.action_release(action)
+
+
+func _hold_until(action: StringName, condition: Callable, max_ticks: int) -> void:
+	Input.action_press(action)
+	await _wait_until(condition, max_ticks)
+	Input.action_release(action)
+
+
 func _tap(action: StringName) -> void:
 	Input.action_press(action)
 	await _frames(2)
 	Input.action_release(action)
+
+
+func _teleport(spot: Vector2) -> void:
+	_rudy.global_position = spot
+	_rudy.velocity = Vector2.ZERO
 
 
 func _reset_counts() -> void:

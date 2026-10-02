@@ -19,13 +19,16 @@ const HIP := Vector2(0, -30)
 const SHOULDER := Vector2(2, -97)
 
 ## Per pose: the near and far sole (x, y), the near and far arm angle in degrees
-## (0 hangs straight down, 90 points forward, 180 points up), and the forward lean.
+## (0 hangs straight down, 90 points forward, 180 points up), the forward lean,
+## and how far the body drops toward the ground (kneeling).
 const POSES := {
-	&"CHAR-IDLE": [Vector2(6, 0), Vector2(-6, 0), 10.0, -10.0, 0.0],
-	&"CHAR-RUN-A": [Vector2(20, 0), Vector2(-22, -8), -45.0, 50.0, 10.0],
-	&"CHAR-RUN-B": [Vector2(12, -16), Vector2(0, 0), 15.0, -15.0, 6.0],
-	&"CHAR-RISE": [Vector2(8, -20), Vector2(-6, -16), 120.0, -150.0, 0.0],
-	&"CHAR-FALL": [Vector2(10, 0), Vector2(-10, -4), 100.0, -70.0, -4.0],
+	&"CHAR-IDLE": [Vector2(6, 0), Vector2(-6, 0), 10.0, -10.0, 0.0, 0.0],
+	&"CHAR-RUN-A": [Vector2(20, 0), Vector2(-22, -8), -45.0, 50.0, 10.0, 0.0],
+	&"CHAR-RUN-B": [Vector2(12, -16), Vector2(0, 0), 15.0, -15.0, 6.0, 0.0],
+	&"CHAR-RISE": [Vector2(8, -20), Vector2(-6, -16), 120.0, -150.0, 0.0, 0.0],
+	&"CHAR-FALL": [Vector2(10, 0), Vector2(-10, -4), 100.0, -70.0, -4.0, 0.0],
+	&"CHAR-RESPAWN": [Vector2(18, 0), Vector2(-26, -2), 70.0, -10.0, 14.0, 24.0],
+	&"CHAR-CELEBRATE": [Vector2(10, 0), Vector2(-10, 0), 125.0, -120.0, -6.0, 0.0],
 }
 
 var _pose: StringName = &"CHAR-IDLE"
@@ -42,14 +45,15 @@ func _draw() -> void:
 	var near_sole: Vector2 = p[0]
 	var far_sole: Vector2 = p[1]
 	var lean := deg_to_rad(float(p[4]))
-	var upper := Transform2D(lean, HIP) * Transform2D(0.0, -HIP)
+	var drop := Vector2(0, float(p[5]))
+	var upper := Transform2D(0.0, drop) * Transform2D(lean, HIP) * Transform2D(0.0, -HIP)
 
 	# The far side first, so the body covers it.
-	_leg(Vector2(-4, HIP.y), far_sole, SHADE.darkened(0.2), LEATHER.darkened(0.2))
+	_leg(Vector2(-4, HIP.y) + drop, far_sole, SHADE.darkened(0.2), LEATHER.darkened(0.2))
 	draw_set_transform_matrix(upper)
 	_arm(float(p[3]), SHADE)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
-	_leg(Vector2(4, HIP.y), near_sole, SHADE, LEATHER)
+	_leg(Vector2(4, HIP.y) + drop, near_sole, SHADE, LEATHER)
 	draw_set_transform_matrix(upper)
 	_robe()
 	_head()

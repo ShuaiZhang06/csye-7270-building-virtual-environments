@@ -8,7 +8,19 @@ extends CharacterBody2D
 ## no slide; he moves that way only if the key is still held after
 ## turn_hold_time, so a tap turns him without moving him or the camera.
 ##
+## The level takes control away when he falls out of the level, while he gets
+## back up after a respawn, and while he celebrates on the teleport circle.
+##
 ## The feel numbers are tuned by playtesting.
+
+signal respawned ## he has got back up after a respawn, and control returns
+
+enum Mode {
+	PLAY, ## under the player's control
+	FALLEN, ## fell below a cliff; no control
+	RESPAWNING, ## getting back up at a checkpoint (CHAR-RESPAWN); no control
+	CELEBRATING, ## on the teleport circle (CHAR-CELEBRATE); no control
+}
 
 @export_group("Feel")
 @export var run_speed := 560.0 ## px/s
@@ -18,18 +30,41 @@ extends CharacterBody2D
 @export var fall_gravity := 6400.0 ## px/s² on the way down, so the fall is quicker than the rise
 @export var jump_velocity := 1300.0 ## px/s; at 60 physics ticks/s the apex is 222 px, the rise takes 0.33 s and the fall 0.27 s
 @export var run_frame_time := 0.125 ## seconds per run frame (RUN-A, then RUN-B)
+@export var respawn_time := 0.7 ## s in CHAR-RESPAWN before control returns
 
 var facing := 1 ## 1 faces right, -1 faces left
 var pose: StringName = &"CHAR-IDLE"
+var mode := Mode.PLAY
 
 var _run_clock := 0.0
 var _turn_time_left := 0.0
+var _respawn_time_left := 0.0
 
 @onready var _look: RudyPlaceholder = $Look
 
 
+## He fell below a cliff: he keeps falling, out of the player's control.
+func fall_out() -> void:
+	mode = Mode.FALLEN
+
+
+## Puts him back on his feet at a checkpoint, facing right, getting back up.
+func respawn_at(spot: Vector2) -> void:
+	global_position = spot
+	velocity = Vector2.ZERO
+	facing = 1
+	_turn_time_left = 0.0
+	mode = Mode.RESPAWNING
+	_respawn_time_left = respawn_time
+
+
+func celebrate() -> void:
+	mode = Mode.CELEBRATING
+
+
 func _physics_process(delta: float) -> void:
-	var dir := _input_direction()
+	var in_control := mode == Mode.PLAY
+	var dir := _input_direction() if in_control else 0
 	if dir != 0 and dir != facing:
 		facing = dir
 		if is_on_floor():
@@ -43,11 +78,17 @@ func _physics_process(delta: float) -> void:
 
 	if not is_on_floor():
 		velocity.y += (fall_gravity if velocity.y >= 0.0 else gravity) * delta
-	elif Input.is_action_just_pressed(&"jump"):
+	elif in_control and Input.is_action_just_pressed(&"jump"):
 		# A fresh press with ground underfoot: holding the key cannot jump again.
 		velocity.y = -jump_velocity
 		Sfx.play(&"jump")
 	move_and_slide()
+
+	if mode == Mode.RESPAWNING:
+		_respawn_time_left -= delta
+		if _respawn_time_left <= 0.0:
+			mode = Mode.PLAY
+			respawned.emit()
 
 	_look.scale.x = facing
 	pose = _pick_pose(delta)
@@ -64,6 +105,10 @@ func _input_direction() -> int:
 
 
 func _pick_pose(delta: float) -> StringName:
+	if mode == Mode.CELEBRATING:
+		return &"CHAR-CELEBRATE"
+	if mode == Mode.RESPAWNING:
+		return &"CHAR-RESPAWN"
 	if not is_on_floor():
 		_run_clock = 0.0
 		return &"CHAR-RISE" if velocity.y < 0.0 else &"CHAR-FALL"

@@ -450,3 +450,28 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Still unresolved:**
   - the frames are not wired into the scene yet; the scene has to draw them at scale 0.5 with the origin from `frames.json`, and with the texture filter set to linear with mipmaps (their imports now generate mipmaps), so that the hair's fine lines do not shimmer when the view is shrunk;
   - the run and jump pairs have to be watched in motion, to see whether a frame pops;
+
+## 2026-10-01 — Step 1b: the layout, falls, the waystone and the teleport circle
+
+*Written on 2026-10-01 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** whether 1b, 1c and the later steps should be built in a git worktree, so that this work and my image generation in another Claude session do not conflict.
+- **Got:** Claude's answer: not needed.
+  - The two sessions write different files: `game/` code and `evidence/` here; `generated/`, ASSET-LOG and the game frames there. The shared documents are edited by exact replacement after re-reading, and each commit stages named paths only and checks the list first.
+  - A worktree would make every merge of FRICTIONAL.md conflict, since both sides append to it, and the game I play would sit in another folder.
+  - Two cautions: do not save open scenes in the Godot editor while Claude edits them, and the other session adds only image files under `game/` until step 2 wires them in.
+  - Claude went ahead in the same working tree; a branch is still possible if I ask.
+- **Got (step 1b):**
+  - the Level 1 layout from the draft: three ground segments with a dark pit under the two cliffs, the waystone at x 4000, the teleport circle at x 7200, the end of the level at 7700;
+  - code-drawn parallax layers in the planned palette: hazy hills with a small castle on the far layer, a meadow meeting wheat on the middle layer;
+  - a fall below a cliff is instant death, with one fall count. After a fade Rudy gets back up (CHAR-RESPAWN) at the last checkpoint: the lit waystone, or else the start. Control returns 1.28 s after he crosses the kill line;
+  - the waystone lights once, with one checkpoint count;
+  - the teleport circle completes the level once, with one portal count: input stops, Rudy celebrates, the light rises, the camera pulls back to 0.8 over 1.5 s, and after 2 s the screen fades to a plain "Level complete" card. Enter plays the level again from the opening;
+  - 19 new checks, 45 in all, all passing; screenshots in `evidence/1b/`;
+  - Claude's calls:
+    - the cliffs are 210 and 200 px wide instead of the draft's 260 and 240. With the faster jump, the reach at full speed fell from about 350 to 336 px; the narrower cliffs keep at least 0.2 s of running to spare, about the draft's margin;
+    - the respawn point is 120 px past the waystone, 180 px before the first cliff;
+    - the route from the opening to the circle takes 12.2 s at full speed, before the spikes, goblins and pickup of steps 1c and 1d; the concept asks for about 30 s;
+    - Enter is a new `restart` action (Enter and the keypad Enter).
+- **Human / Claude / model:** the question is mine; the answer, the layout changes and the code are Claude's. No generative model was used.
+- **Still unresolved:** how step 1b plays: whether the layout reads ahead (P2), the cliff widths, the pace from a fall to the respawn (P3), and the level's length.

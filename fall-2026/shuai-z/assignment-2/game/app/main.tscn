@@ -15,7 +15,7 @@ script = ExtResource("1_main")
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(960, 540)
 limit_left = 0
-limit_top = 0
+limit_top = -400
 limit_bottom = 1080
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0

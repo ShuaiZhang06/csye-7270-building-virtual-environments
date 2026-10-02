@@ -1,6 +1,9 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://content/level_1/ground_segment.gd" id="1_ground"]
+[ext_resource type="Script" path="res://content/level_1/backdrop.gd" id="2_backdrop"]
+[ext_resource type="PackedScene" path="res://content/level_1/waystone.tscn" id="3_waystone"]
+[ext_resource type="PackedScene" path="res://content/level_1/portal.tscn" id="4_portal"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
 normal = Vector2(1, 0)
@@ -10,12 +13,50 @@ normal = Vector2(-1, 0)
 
 [node name="Level1" type="Node2D"]
 
+[node name="Backdrop" type="Node2D" parent="."]
+
+[node name="Far" type="Parallax2D" parent="Backdrop"]
+scroll_scale = Vector2(0.1, 1)
+
+[node name="Art" type="Node2D" parent="Backdrop/Far"]
+script = ExtResource("2_backdrop")
+
+[node name="Mid" type="Parallax2D" parent="Backdrop"]
+scroll_scale = Vector2(0.4, 1)
+
+[node name="Art" type="Node2D" parent="Backdrop/Mid"]
+script = ExtResource("2_backdrop")
+layer = "mid"
+
+[node name="PitShade" type="ColorRect" parent="."]
+offset_top = 840.0
+offset_right = 7700.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.3529412, 0.30588236, 0.26666668, 1)
+
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="Segment1" type="StaticBody2D" parent="Ground"]
 position = Vector2(0, 840)
 script = ExtResource("1_ground")
-size = Vector2(3840, 240)
+size = Vector2(4300, 240)
+
+[node name="Segment2" type="StaticBody2D" parent="Ground"]
+position = Vector2(4510, 840)
+script = ExtResource("1_ground")
+size = Vector2(1890, 240)
+
+[node name="Segment3" type="StaticBody2D" parent="Ground"]
+position = Vector2(6600, 840)
+script = ExtResource("1_ground")
+size = Vector2(1100, 240)
+
+[node name="Waystone" parent="." instance=ExtResource("3_waystone")]
+position = Vector2(4000, 840)
+
+[node name="Portal" parent="." instance=ExtResource("4_portal")]
+position = Vector2(7200, 840)
 
 [node name="Bounds" type="StaticBody2D" parent="."]
 
@@ -23,7 +64,7 @@ size = Vector2(3840, 240)
 shape = SubResource("WorldBoundaryShape2D_left")
 
 [node name="Right" type="CollisionShape2D" parent="Bounds"]
-position = Vector2(3840, 0)
+position = Vector2(7700, 0)
 shape = SubResource("WorldBoundaryShape2D_right")
 
 [node name="StartPoint" type="Marker2D" parent="."]
