@@ -47,3 +47,4 @@
 | Date | Commit note |
 |---|---|
 | 2026-10-01 | Add concept, character sheet, change brief, and sources before generation |
+| 2026-10-02 | Add storyboard text: six panels, shots, angles, and motion |
