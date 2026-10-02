@@ -5,7 +5,8 @@
         --title "CHAR-REF, round 1: not chosen" \
         "_raw/CHAR-REF-01.jpg::CHAR-REF-01 · base, plain robe" "_raw/CHAR-REF-02.jpg::CHAR-REF-02 · too ornate"
 
-Each argument is "path::label". Code written by Claude Code.
+Each argument is "path::label". --footer replaces the note at the bottom, for sheets whose
+full-size files are kept, such as the greybox screenshots in evidence/. Code written by Claude Code.
 """
 from __future__ import annotations
 
@@ -29,6 +30,7 @@ def main():
     ap.add_argument("-o", "--output", required=True)
     ap.add_argument("--title", default="")
     ap.add_argument("--cols", type=int, default=3)
+    ap.add_argument("--footer", default="full-size files are not kept in git")
     args = ap.parse_args()
     items = []
     for it in args.items:
@@ -51,7 +53,7 @@ def main():
         d.rectangle([x - 1, y - 1, x + im.width, y + im.height], outline=bo.rgb("#B9AEA0"))
         for j, line in enumerate(label.split("\n")):
             d.text((x, y + im.height + 8 + 20 * j), line, font=bo.font(15, bold=(j == 0)), fill=bo.rgb(bo.LINE))
-    d.text((20, H - 24), f"thumbnails {THUMB_W} px wide; full-size files are not kept in git",
+    d.text((20, H - 24), f"thumbnails {THUMB_W} px wide; {args.footer}",
            font=bo.font(12, bold=False), fill=bo.rgb(bo.LINE))
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     out.save(args.output)
