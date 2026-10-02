@@ -129,7 +129,10 @@ func _run_1a() -> void:
 	_check("the fall is quicker than the rise, as fall_gravity sets",
 		fall_ticks < rise_ticks and absi(rise_ticks - int(expected.y)) <= 1 and absi(fall_ticks - int(expected.z)) <= 1,
 		"rise %d ticks, fall %d; expected %d and %d" % [rise_ticks, fall_ticks, int(expected.y), int(expected.z)])
-	_check("he lands on the ground again", _rudy.is_on_floor() and is_equal_approx(_rudy.global_position.y, floor_y))
+	# The body rests within the physics safe margin (0.08 px) of the ground, so
+	# compare to within half a pixel.
+	_check("he lands on the ground again", _rudy.is_on_floor() and absf(_rudy.global_position.y - floor_y) < 0.5,
+		"on the floor %s, y %.3f, before the jump %.3f" % [_rudy.is_on_floor(), _rudy.global_position.y, floor_y])
 
 	# Holding the key: one jump, and no new jump on landing.
 	_reset_counts()
@@ -237,13 +240,6 @@ func _run_1b() -> void:
 	var gaps := _gaps(level)
 	_check("Level 1 has two cliffs, after the waystone and before the teleport circle",
 		gaps.size() == 2 and gaps[0].x > spawn.x and gaps[-1].y < portal.global_position.x, str(gaps))
-	var jump := _expected_jump()
-	var reach := _rudy.run_speed * (jump.y + jump.z) / Engine.physics_ticks_per_second
-	var spare := INF
-	for gap in gaps:
-		spare = minf(spare, (reach - (gap.y - gap.x)) / _rudy.run_speed)
-	_check("every cliff is narrower than a full-speed jump by at least 0.2 s of running",
-		spare >= 0.2, "%.2f s to spare at the widest; a full-speed jump covers %.0f px" % [spare, reach])
 
 	# A fall before the waystone: instant death, one fall sound, back at the start.
 	_reset_counts()
@@ -335,6 +331,23 @@ func _run_1b() -> void:
 		route_ticks > 0 and Sfx.count(&"checkpoint") == 1 and Sfx.count(&"portal") == 1 and Sfx.count(&"fall") == 0,
 		"%.1f s from the opening at full speed" % (route_ticks / 60.0))
 
+	# How forgiving the widest cliff is, measured: full-speed takeoffs every 5 px
+	# from 300 px before its edge to 40 px past it, on a fresh level.
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	await _frames(5)
+	var widest := gaps[0]
+	for gap in gaps:
+		if gap.y - gap.x > widest.y - widest.x:
+			widest = gap
+	var window := await _takeoff_window(widest)
+	var window_s := (window.y - window.x) / _rudy.run_speed
+	_check("the widest cliff can be cleared by full-speed takeoffs spread over at least 0.3 s",
+		window_s >= 0.3,
+		"takeoffs from %s to %s clear it: %.0f px, %.2f s of running" % [
+			_from_edge(window.x), _from_edge(window.y), window.y - window.x, window_s])
+
 
 ## The cliffs: the gaps between ground segments, as (from x, to x).
 func _gaps(level: Node2D) -> Array[Vector2]:
@@ -350,6 +363,50 @@ func _gaps(level: Node2D) -> Array[Vector2]:
 		if begin > end:
 			gaps.append(Vector2(end, begin))
 	return gaps
+
+
+## Runs at the cliff at full speed and jumps, once for each aim point every
+## 5 px from 300 px before its edge to 40 px past it. Returns the earliest and
+## the latest takeoff that cleared it, as x from the edge (before it is negative).
+func _takeoff_window(gap: Vector2) -> Vector2:
+	var earliest := INF
+	var latest := -INF
+	var aim := -300.0
+	while aim <= 40.0:
+		_teleport(Vector2(gap.x - 500.0, 840.0))
+		await _frames(2) # let him settle: is_on_floor() is stale until his next move
+		Input.action_press(&"move_right")
+		# Past the edge he keeps moving right while he falls, so every aim is reached.
+		await _wait_until(func() -> bool: return _rudy.global_position.x >= gap.x + aim, 240)
+		Input.action_press(&"jump")
+		var takeoff_x := NAN
+		var floor_x := _rudy.global_position.x
+		for t in 120:
+			await _frames(1)
+			if t == 2:
+				Input.action_release(&"jump")
+			if _rudy.is_on_floor():
+				if is_nan(takeoff_x):
+					floor_x = _rudy.global_position.x
+				elif _rudy.global_position.x > gap.y:
+					break # landed beyond the cliff
+			elif is_nan(takeoff_x) and _rudy.velocity.y < 0.0:
+				takeoff_x = floor_x # where he stood on the takeoff tick
+			if _rudy.global_position.y > 880.0:
+				break # in the pit
+		Input.action_release(&"move_right")
+		Input.action_release(&"jump")
+		if not is_nan(takeoff_x) and _rudy.is_on_floor() and _rudy.global_position.x > gap.y:
+			earliest = minf(earliest, takeoff_x - gap.x)
+			latest = maxf(latest, takeoff_x - gap.x)
+		aim += 5.0
+	return Vector2(earliest, latest)
+
+
+func _from_edge(x: float) -> String:
+	if x < 0.0:
+		return "%.0f px before the edge" % -x
+	return "%.0f px past the edge" % x
 
 
 ## Holds right and jumps once before each cliff, until the level is complete.

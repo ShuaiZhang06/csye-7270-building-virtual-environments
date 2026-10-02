@@ -475,3 +475,17 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
     - Enter is a new `restart` action (Enter and the keypad Enter).
 - **Human / Claude / model:** the question is mine; the answer, the layout changes and the code are Claude's. No generative model was used.
 - **Still unresolved:** how step 1b plays: whether the layout reads ahead (P2), the cliff widths, the pace from a fall to the respawn (P3), and the level's length.
+
+## 2026-10-01 — Step 1b playtest: a higher jump for the cliffs
+
+*Written on 2026-10-01 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** step 1b, on my Mac. I asked for it to be committed first as it was (commit `d5a768e`).
+- **Found (my words):** "Jumping the cliffs is still a bit tight: I have to jump just before the edge or I die. Maybe try a higher jump."
+- **Got (Claude's changes and calls):**
+  - the jump goes from 1300 to 1500 px/s. The apex rises from 222 to 294 px (about 1.8 times Rudy's height; panel 2's jump arc is about 2 times). What clears a cliff is the time in the air, so the jump is also longer: the rise takes 0.38 s instead of 0.33 s, the fall 0.32 s instead of 0.27 s;
+  - measured on the 210 px cliff at full speed, takeoffs clear it from 187 px before the edge up to the edge, 0.33 s of running; before, only from 131 px before it, 0.23 s;
+  - the check on the cliffs now measures this window, with takeoffs every 5 px, and asks for at least 0.3 s; with the old jump it fails;
+  - the cliffs and the gravities stay as they were.
+- **Human / Claude / model:** the finding and the idea of a higher jump are mine; the numbers and the code are Claude's. No generative model was used.
+- **Still unresolved:** whether the higher, slightly longer jump still feels quick enough. If not, the cliffs can narrow instead, or a short grace time after leaving the edge can be added (a change to the jump rule in CHANGE-BRIEF).

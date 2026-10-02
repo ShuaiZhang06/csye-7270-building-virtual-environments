@@ -28,7 +28,7 @@ enum Mode {
 @export var turn_hold_time := 0.12 ## s the key is held after a turn on the ground before he moves
 @export var gravity := 4000.0 ## px/s² on the way up
 @export var fall_gravity := 6400.0 ## px/s² on the way down, so the fall is quicker than the rise
-@export var jump_velocity := 1300.0 ## px/s; at 60 physics ticks/s the apex is 222 px, the rise takes 0.33 s and the fall 0.27 s
+@export var jump_velocity := 1500.0 ## px/s; at 60 physics ticks/s the apex is 294 px, the rise takes 0.38 s and the fall 0.32 s
 @export var run_frame_time := 0.125 ## seconds per run frame (RUN-A, then RUN-B)
 @export var respawn_time := 0.7 ## s in CHAR-RESPAWN before control returns
 
