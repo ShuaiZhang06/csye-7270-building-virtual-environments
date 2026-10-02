@@ -428,3 +428,25 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Still unresolved:**
   - the matting and scaling tool itself, and where in `game/` its output goes;
   - the time of each Gemini turn.
+
+## 2026-10-01 — Rudy's game frames: matting, scale and placement
+
+*Written on 2026-10-01 by Claude, from our chat.*
+
+- **Wanted:** game-ready frames of Rudy without the blue background, with the shadow under CHAR-DEFEAT removed, the same head size in every pose, and the feet where the collision capsule stands.
+- **Decided:**
+  - export at 2×;
+  - the frames go in `game/content/rudy/frames/` (I chose this over handing the tool to the session building the Godot project, which only wires them in).
+- **Got:** `design/tools/matte_sprites.py`, written by Claude, and its output: 16 frames (the 9 default-form and 7 sword-form poses) and `frames.json`.
+  - **Background:** keyed out by color, with soft edges from which the background color is unmixed; under 1% of edge pixels stay bluish. The cast shadow under DEFEAT is removed with it. The slash's trail stays semi-transparent white.
+  - **Scale:** each frame is scaled so the head (hair and face) has the same area as in CHAR-IDLE, which is 160 px tall. Overall heights then range from 114 px (sitting) to about 177 px (running stride).
+  - **Claude's corrections and calls:**
+    - The first head measure missed the hair's dark strands, so the running frames came out too large; Claude widened it.
+    - Laying CHAR-IDLE's face outline over each face showed that CHAR-RISE and CHAR-SWORD-RISE were still about 12% too large, because the raised arm hides part of the head. Claude set them to ×0.88 by hand; the correction is in the tool and in ASSET-LOG.md.
+    - The first slash frame floated 9 px above the ground: the trail detection had taken the background's faint shading for trail. Fixed.
+    - The first export was at game size (1×). I asked whether 2× would stay sharp when the window is enlarged; it does, up to twice 1920×1080, so the frames are now stored at 2 texture px per game px (CHAR-IDLE is 320 px tall) and drawn at half scale. They take 1.6 MB.
+  - **Placement:** every frame shares one 410×386 px canvas (205×193 game px). The soles (or his seat) are on the bottom line, and the middle of the torso is on the center line, which is the body origin in `rudy.tscn`. `generated/checks/rudy-frames-lineup.png` shows every frame against the 40×136 px capsule.
+- **Human / Claude / model:** the decisions are mine; the tool, the corrections and the frames are Claude's. No generative model was used in this step.
+- **Still unresolved:**
+  - the frames are not wired into the scene yet; the scene has to draw them at scale 0.5 with the origin from `frames.json`, and with the texture filter set to linear with mipmaps (their imports now generate mipmaps), so that the hair's fine lines do not shimmer when the view is shrunk;
+  - the run and jump pairs have to be watched in motion, to see whether a frame pops;

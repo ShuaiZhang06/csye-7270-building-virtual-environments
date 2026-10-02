@@ -16,7 +16,7 @@ An empty repository, created on 2026-09-30. There is no starter code and no star
 | Tool | Version | Used for |
 |---|---|---|
 | Claude Code (desktop app), model Claude Opus 5.5 | — | Design questions and drafts; the documents; the blockout, check and contact-sheet scripts; the Godot code in `game/` |
-| Python 3 with Pillow | Pillow 10.4.0 | `design/tools/make_blockouts.py`, `check_against_sheet.py`, `contact_sheet.py` |
+| Python 3 with Pillow, NumPy and SciPy | Pillow 10.4.0, NumPy 2.1.3, SciPy 1.15.3 | `design/tools/make_blockouts.py`, `check_against_sheet.py`, `contact_sheet.py`, and `matte_sprites.py`, which makes Rudy's game frames from the accepted originals (background removal, scaling, placement) |
 | Voyager browser extension | — | Exporting the Gemini chats into `generated/logs/` |
 | Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The game, in `game/`, written in GDScript; started on 2026-10-01 as a greybox with code-drawn placeholders |
 

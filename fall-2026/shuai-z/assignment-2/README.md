@@ -6,7 +6,7 @@ You play Rudy, a cheerful chibi boy who crosses a medieval countryside to reach 
 
 | | |
 | --- | --- |
-| Status | Generating art: Rudy's reference is accepted (CHAR-REF-07); all nine default-form poses are accepted (HURT and RUN-B after one edit each); the sword form is next; see [ASSET-LOG.md](ASSET-LOG.md). Building the greybox in `game/` with code-drawn placeholders: step 1a (Rudy on a flat ground strip) is built and was revised after my first playtest; 1b–1d are next. The design before generation is tagged `design-v1` |
+| Status | Generating art: Rudy's reference is accepted (CHAR-REF-07); the nine default-form and seven sword-form poses are accepted, and their game frames are made (`game/content/rudy/frames/`, not wired into the scene yet); see [ASSET-LOG.md](ASSET-LOG.md). Building the greybox in `game/` with code-drawn placeholders: step 1a (Rudy on a flat ground strip) is built and was revised after my first playtest; 1b–1d are next. The design before generation is tagged `design-v1` |
 | Started from | An empty repository (not walker-jumpman and not my Assignment 1 project) |
 | Engine | Godot 4.7.2.stable.official.ed1daf0bf, the standard build, with GDScript; the project is `game/` |
 | Assistance | Claude Code. The human/AI split is recorded in [FRICTIONAL.md](FRICTIONAL.md) and, later, `SOURCES.md` |
