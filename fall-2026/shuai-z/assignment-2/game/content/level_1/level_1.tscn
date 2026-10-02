@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://content/level_1/portal.tscn" id="4_portal"]
 [ext_resource type="PackedScene" path="res://content/level_1/spikes.tscn" id="5_spikes"]
 [ext_resource type="PackedScene" path="res://content/goblin/goblin.tscn" id="6_goblin"]
+[ext_resource type="PackedScene" path="res://content/sword_pickup/sword_pickup.tscn" id="7_pickup"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
 normal = Vector2(1, 0)
@@ -73,6 +74,9 @@ patrol_distance = 500.0
 
 [node name="GoblinC" parent="Enemies" instance=ExtResource("6_goblin")]
 position = Vector2(5600, 840)
+
+[node name="SwordPickup" parent="." instance=ExtResource("7_pickup")]
+position = Vector2(2500, 840)
 
 [node name="Waystone" parent="." instance=ExtResource("3_waystone")]
 position = Vector2(4000, 840)

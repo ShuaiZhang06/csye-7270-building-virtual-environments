@@ -610,3 +610,23 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Still unresolved:**
   - the spikes are about as tall as the wheat tufts, and a tuft can stand right behind them; whether they still read as dangerous in play;
   - the time of each Gemini turn.
+
+## 2026-10-02 — Step 1d: the sword and shield
+
+*Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** to start the level over from the opening whenever the hearts reach zero, to commit step 1c (commit `157c040`), then to build step 1d.
+- **Got (step 1d):**
+  - the sword-and-shield pickup at x 2500, as in the draft layout, code-drawn and floating. The first touch gives Rudy the sword form, with one pickup sound; the pickup hides, and after any death it is back where it was;
+  - the sword form's poses (CHAR-SWORD-IDLE, -RUN-A, -RUN-B, -RISE and -FALL) on the code-drawn Rudy, with the shield in front of his chest;
+  - J or X slashes: one swing per fresh press (CHAR-SWORD-SLASH), 0.3 s long, with one slash sound, and no new swing during one. The hitbox in front of him, 56 × 70 px as on the character sheet's collision overlay, is live from 0.03 to 0.18 s; one cut defeats a goblin, with no stomp sound;
+  - a hit while he carries the gear knocks it away instead of costing a heart: the sword and shield fly off and fade, and the next hit costs a heart. He always gets back up without gear;
+  - 19 new checks, 91 in all, all passing; screenshots in `evidence/1d/`.
+- **Claude's calls in this step:**
+  - he can slash while running and in the air;
+  - after a fall that leaves him hearts he gets back up without the gear too, since CHANGE-BRIEF says he respawns without gear after a death. The pickup is then back at x 2500, behind the waystone;
+  - on the teleport circle he celebrates in CHAR-CELEBRATE, the default form's pose, even with the sword; the character sheet has no sword-form celebration;
+  - the checks turn him around to cut a goblin that was behind him, so the hitbox is known to follow his facing;
+  - CHANGE-BRIEF.md gets the revision promised in the greybox plan: the pickup hides instead of freeing itself.
+- **Human / Claude / model:** the step and the rules are mine; the numbers above and the code are Claude's. No generative model was used.
+- **Still unresolved:** how step 1d plays: the reach and timing of the cut, whether the sword form reads at once (P1), and whether losing the gear is clear. Also, whether a fall with the gear should cost the gear instead of a heart.

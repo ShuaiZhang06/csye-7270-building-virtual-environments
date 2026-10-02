@@ -12,18 +12,22 @@ extends Node
 ## Step 1c: hearts, spikes, goblins, the stomp, invulnerability, knockback, the
 ## camera shake, defeat at zero hearts, and every monster back after a death.
 ## Sounds counted: "hurt" once per heart lost, "stomp" once per goblin stomped.
+## Step 1d: the sword-and-shield pickup, the sword form, the slash and its
+## reach, the gear knocked away by a hit, and the pickup back after a death.
+## Sounds counted: "pickup" once per pickup, "slash" once per swing.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
 	"res://app/main.tscn": ["Level1", "Rudy", "Camera", "Hud", "Level1/Waystone", "Level1/Portal"],
-	"res://content/rudy/rudy.tscn": ["Body", "Look"],
+	"res://content/rudy/rudy.tscn": ["Body", "Look", "SwordHitbox/Shape"],
 	"res://content/level_1/level_1.tscn": [
 		"Backdrop/Far/Art", "Backdrop/Mid/Art", "PitShade", "Ground/Segment1", "Ground/Segment2",
 		"Ground/Segment3", "Hazards/SpikesA", "Hazards/SpikesB", "Enemies/GoblinA", "Enemies/GoblinB",
-		"Enemies/GoblinC", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
+		"Enemies/GoblinC", "SwordPickup", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
 	],
 	"res://content/goblin/goblin.tscn": ["Shape"],
 	"res://content/level_1/spikes.tscn": ["Shape"],
+	"res://content/sword_pickup/sword_pickup.tscn": ["Shape"],
 	"res://ui/hud.tscn": ["Hearts", "Debug", "Fade", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
 }
 const CLIFF_LEAD := 100.0 ## the route jumps this far before a cliff's edge
@@ -47,6 +51,7 @@ func _ready() -> void:
 	await _run_1a()
 	await _run_1b()
 	await _run_1c()
+	await _run_1d()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -488,10 +493,10 @@ func _run_1c() -> void:
 		return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable(), 120)
 	for goblin: Goblin in [goblin_b, goblin_c]:
 		goblin.speed = 0.0
-	goblin_b.position.x = 2500.0
-	goblin_c.position.x = 2540.0
+	goblin_b.position.x = 2200.0 # clear of the spikes, the first patrol and the pickup
+	goblin_c.position.x = 2240.0
 	_reset_counts()
-	_teleport(Vector2(2520.0, ground_y - Goblin.HEIGHT - 60.0))
+	_teleport(Vector2(2220.0, ground_y - Goblin.HEIGHT - 60.0))
 	_rudy.velocity = Vector2(0, 200)
 	await _frames(1) # is_on_floor() is stale until his next move
 	await _wait_until(func() -> bool: return goblin_b.dead or goblin_c.dead or _rudy.is_on_floor(), 60)
@@ -594,6 +599,166 @@ func _run_1c() -> void:
 		defeated and _rudy.global_position.distance_to(start) < 1.0 and _rudy.hearts == 3
 		and not waystone.lit and _main.checkpoint_name == "start",
 		"defeated %s; at x %.0f; hearts %d; waystone lit %s" % [defeated, _rudy.global_position.x, _rudy.hearts, waystone.lit])
+
+
+func _run_1d() -> void:
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	await _frames(5)
+	var level: Node2D = _main.get_node("Level1")
+	var pickup: SwordPickup = level.get_node("SwordPickup")
+	var spikes: Spikes = level.get_node("Hazards/SpikesA")
+	var goblin_b: Goblin = level.get_node("Enemies/GoblinB")
+	var goblin_c: Goblin = level.get_node("Enemies/GoblinC")
+	var start := (level.get_node("StartPoint") as Marker2D).global_position
+	var ground_y := start.y
+	_check("Rudy starts without gear, in the default form",
+		_rudy.gear == Rudy.Gear.NONE and _rudy.pose == &"CHAR-IDLE", _rudy.pose)
+
+	# Without the sword, slash does nothing.
+	_reset_counts()
+	await _tap(&"slash")
+	await _frames(20)
+	_check("without the sword, slash does nothing", Sfx.count(&"slash") == 0 and not _rudy.is_slashing())
+
+	# The pickup: the sword form, one pickup sound, and it is gone.
+	_reset_counts()
+	_teleport(Vector2(pickup.global_position.x - 200.0, ground_y))
+	await _frames(2)
+	await _hold_until(&"move_right", func() -> bool: return _rudy.gear == Rudy.Gear.SWORD, 120)
+	await _frames(2)
+	_check("touching the pickup gives him the sword and shield, with one pickup sound; it disappears",
+		_rudy.gear == Rudy.Gear.SWORD and Sfx.count(&"pickup") == 1 and pickup.taken and not pickup.visible,
+		"pickup sounds %d" % Sfx.count(&"pickup"))
+	_check("with the sword he shows the sword form's poses", String(_rudy.pose).begins_with("CHAR-SWORD-"), _rudy.pose)
+	await _hold(&"move_left", 40)
+	await _hold(&"move_right", 40)
+	_check("crossing the pickup's place again gives nothing more", Sfx.count(&"pickup") == 1)
+
+	# One tap: one swing and one slash sound; the swing ends after slash_time.
+	await _wait_until(func() -> bool: return _rudy.is_on_floor() and _rudy.velocity.x == 0.0, 60)
+	_reset_counts()
+	await _tap(&"slash")
+	_check("a tap swings the sword once (CHAR-SWORD-SLASH), with one slash sound",
+		Sfx.count(&"slash") == 1 and _rudy.pose == &"CHAR-SWORD-SLASH", "pose %s" % _rudy.pose)
+	var swing_ticks: int = await _wait_until(func() -> bool: return not _rudy.is_slashing(), 60)
+	await _frames(1)
+	_check("the swing ends after about slash_time, back in CHAR-SWORD-IDLE",
+		_rudy.pose == &"CHAR-SWORD-IDLE" and absf((swing_ticks + 2) / 60.0 - _rudy.slash_time) <= 2.0 / 60.0,
+		"%.2f s; pose %s" % [(swing_ticks + 2) / 60.0, _rudy.pose])
+
+	# Holding the key: one swing. Mashing it: one sound per swing.
+	_reset_counts()
+	await _hold(&"slash", 60)
+	await _frames(30)
+	_check("holding slash swings once", Sfx.count(&"slash") == 1, "slash sounds %d" % Sfx.count(&"slash"))
+	_reset_counts()
+	var swings := 0
+	var was_slashing := false
+	for i in 120:
+		if i % 2 == 0:
+			Input.action_press(&"slash")
+		else:
+			Input.action_release(&"slash")
+		await _frames(1)
+		if _rudy.is_slashing() and not was_slashing:
+			swings += 1
+		was_slashing = _rudy.is_slashing()
+	Input.action_release(&"slash")
+	await _frames(30)
+	_check("mashing slash: one slash sound per swing, and no swing starts during another",
+		swings >= 3 and Sfx.count(&"slash") == swings and swings <= ceili(2.0 / _rudy.slash_time),
+		"%d swings in 2 s, slash sounds %d" % [swings, Sfx.count(&"slash")])
+
+	# A cut in reach defeats a goblin in one hit: no stomp sound, no hit.
+	goblin_b.speed = 0.0
+	goblin_c.speed = 0.0
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and not _rudy.is_slashing(), 60)
+	_reset_counts()
+	_teleport(Vector2(goblin_b.global_position.x - 70.0, ground_y))
+	await _frames(2)
+	await _tap(&"slash")
+	await _wait_until(func() -> bool: return not _rudy.is_slashing(), 60)
+	_check("a cut in reach defeats a goblin in one hit, with no stomp sound and no hit",
+		goblin_b.dead and Sfx.count(&"stomp") == 0 and Sfx.count(&"hurt") == 0 and Sfx.count(&"slash") == 1,
+		"dead %s; stomp %d, hurt %d" % [goblin_b.dead, Sfx.count(&"stomp"), Sfx.count(&"hurt")])
+
+	# The cut reaches only in front of him, and only so far.
+	_teleport(Vector2(goblin_c.global_position.x + 70.0, ground_y)) # the goblin behind him
+	await _frames(2)
+	await _tap(&"slash")
+	await _wait_until(func() -> bool: return not _rudy.is_slashing(), 60)
+	var behind_alive := not goblin_c.dead
+	_teleport(Vector2(goblin_c.global_position.x - 150.0, ground_y)) # in front, out of reach
+	await _frames(2)
+	await _tap(&"slash")
+	await _wait_until(func() -> bool: return not _rudy.is_slashing(), 60)
+	_check("a cut misses a goblin behind him, and one 150 px ahead", behind_alive and not goblin_c.dead)
+	_teleport(Vector2(goblin_c.global_position.x + 70.0, ground_y))
+	await _frames(2)
+	await _tap(&"move_left") # a tap turns him on the spot
+	await _frames(2)
+	await _tap(&"slash")
+	await _wait_until(func() -> bool: return not _rudy.is_slashing(), 60)
+	_check("turned around, the cut reaches the goblin that was behind him", _rudy.facing == -1 and goblin_c.dead,
+		"facing %d, dead %s" % [_rudy.facing, goblin_c.dead])
+	goblin_b.speed = 100.0
+	goblin_c.speed = 100.0
+
+	# A hit while he carries the gear: it flies off instead of a heart.
+	await _wait_until(func() -> bool:
+		return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable(), 120)
+	var hearts_before := _rudy.hearts
+	_reset_counts()
+	_teleport(Vector2(spikes.global_position.x - 220.0, ground_y))
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _wait_until(func() -> bool: return _rudy.gear == Rudy.Gear.NONE, 120)
+	Input.action_release(&"move_right")
+	var flying := 0
+	for child in _main.get_children():
+		if child is FlyingGear:
+			flying += 1
+	_check("a hit while he carries the gear knocks it away instead of a heart, with one hurt sound",
+		_rudy.gear == Rudy.Gear.NONE and _rudy.hearts == hearts_before and Sfx.count(&"hurt") == 1
+		and _rudy.mode == Rudy.Mode.HURT,
+		"hearts %d -> %d, hurt sounds %d" % [hearts_before, _rudy.hearts, Sfx.count(&"hurt")])
+	_check("the sword and shield fly off", flying == 1, "%d flying" % flying)
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY, 60)
+	await _frames(40)
+	flying = 0
+	for child in _main.get_children():
+		if child is FlyingGear:
+			flying += 1
+	_check("they fade and are gone; he is back in the default form; the pickup stays away",
+		flying == 0 and not String(_rudy.pose).begins_with("CHAR-SWORD-") and not pickup.visible,
+		"%d flying, pose %s" % [flying, _rudy.pose])
+
+	# Without the gear, the next hit costs a heart.
+	await _wait_until(func() -> bool: return not _rudy.is_invulnerable(), 120)
+	_teleport(Vector2(spikes.global_position.x, ground_y))
+	await _wait_until(func() -> bool: return _rudy.hearts < hearts_before, 30)
+	_check("without the gear, the next hit costs a heart", _rudy.hearts == hearts_before - 1 and Sfx.count(&"hurt") == 2)
+
+	# A death brings the pickup back, and he gets back up without gear.
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(), 120)
+	_teleport(Vector2(4400.0, 700.0)) # a fall over the first cliff, past the waystone
+	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 120)
+	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("after a death the pickup is back where it was", pickup.visible and not pickup.taken)
+	_reset_counts()
+	_teleport(Vector2(pickup.global_position.x - 200.0, ground_y))
+	await _frames(2)
+	await _hold_until(&"move_right", func() -> bool: return _rudy.gear == Rudy.Gear.SWORD, 120)
+	var had_sword := _rudy.gear == Rudy.Gear.SWORD and Sfx.count(&"pickup") == 1
+	await _wait_until(func() -> bool: return _rudy.is_on_floor(), 60)
+	_teleport(Vector2(4400.0, 700.0)) # his last heart: the level starts over
+	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 120)
+	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("he gets back up without gear, even when he fell with it, and the pickup is back",
+		had_sword and _rudy.gear == Rudy.Gear.NONE and pickup.visible and _rudy.pose == &"CHAR-IDLE",
+		"had the sword %s; gear %s; pose %s" % [had_sword, Rudy.Gear.keys()[_rudy.gear], _rudy.pose])
 
 
 ## The cliffs: the gaps between ground segments, as (from x, to x).

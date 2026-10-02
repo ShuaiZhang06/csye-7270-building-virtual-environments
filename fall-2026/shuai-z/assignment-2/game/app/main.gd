@@ -5,7 +5,7 @@ extends Node2D
 ## - PLAYING;
 ## - DYING: a fall below a cliff, which costs a heart, or a hit that takes his
 ##   last heart. After a fade every monster is back where it started, even the
-##   defeated ones. After a fall that leaves him hearts, Rudy gets back up at
+##   defeated ones, and so is the sword-and-shield pickup. After a fall that leaves him hearts, Rudy gets back up at
 ##   the last checkpoint, the lit waystone or else the start, with the hearts he
 ##   has left. Once his last heart is gone, by a hit or a fall, the level starts
 ##   over from the opening: he is at the start with full hearts, and the
@@ -43,6 +43,7 @@ var _shake_left := 0.0
 @onready var _hud: Hud = $Hud
 @onready var _waystone: Waystone = $Level1/Waystone
 @onready var _portal: Portal = $Level1/Portal
+@onready var _pickup: SwordPickup = $Level1/SwordPickup
 
 
 func _ready() -> void:
@@ -92,6 +93,7 @@ func _die(cause: StringName) -> void:
 	_rudy.respawn_at(_checkpoint, start_over)
 	for monster in _level.get_node("Enemies").get_children():
 		monster.reset()
+	_pickup.reset() # he gets back up without gear, so the pickup is back where it was
 	_shake_left = 0.0
 	_camera.offset = Vector2.ZERO
 	_snap_camera()

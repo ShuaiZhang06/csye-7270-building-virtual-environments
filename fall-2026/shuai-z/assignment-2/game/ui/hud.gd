@@ -52,8 +52,9 @@ func is_showing_end_card() -> bool:
 func _process(_delta: float) -> void:
 	if _rudy == null or not _debug.visible:
 		return
-	_debug.text = "%s   %s   speed %d, %d   x %d   level %s\nSfx: %s   (F1 hides this line)" % [
+	_debug.text = "%s   %s   %s   speed %d, %d   x %d   level %s\nSfx: %s   (F1 hides this line)" % [
 		_rudy.pose,
+		"sword and shield" if _rudy.gear == Rudy.Gear.SWORD else "no gear",
 		"on the ground" if _rudy.is_on_floor() else "in the air",
 		roundi(_rudy.velocity.x), roundi(_rudy.velocity.y),
 		roundi(_rudy.global_position.x),

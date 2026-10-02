@@ -10,6 +10,8 @@ extends Node
 ##   teleport circle and the end card (STORYBOARD.md panels 1, 5, 6 and 7).
 ## - 1c: a jump over the spikes, a stomp, a hit from a goblin with the hearts
 ##   and the flash, and the defeat (panels 2 and 4).
+## - 1d: the sword-and-shield pickup, the sword form, a slash that cuts a
+##   goblin, and the gear flying off after a hit (panels 3 and 4).
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
@@ -22,7 +24,7 @@ var _step := ""
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c"]
+		steps = ["1a", "1b", "1c", "1d"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
@@ -37,6 +39,8 @@ func _ready() -> void:
 				await _capture_1b()
 			"1c":
 				await _capture_1c()
+			"1d":
+				await _capture_1d()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -148,6 +152,41 @@ func _capture_1c() -> void:
 		Input.action_release(&"move_right")
 		await _frames(30 if shot == "defeat" else 4)
 		await _shot(shot)
+
+
+func _capture_1d() -> void:
+	var pickup: SwordPickup = _main.get_node("Level1/SwordPickup")
+	var spikes: Spikes = _main.get_node("Level1/Hazards/SpikesA")
+	var goblin_b: Goblin = _main.get_node("Level1/Enemies/GoblinB")
+	goblin_b.speed = 0.0 # it holds still for the slash
+	# Running up to the pickup (panel 3, in play).
+	_rudy.global_position = Vector2(pickup.global_position.x - 330.0, 840.0)
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.global_position.x >= pickup.global_position.x - 90.0)
+	await _shot("pickup")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.SWORD)
+	Input.action_release(&"move_right")
+	await _until(func() -> bool: return _rudy.is_on_floor() and _rudy.velocity.x == 0.0)
+	await _frames(10)
+	await _shot("sword-idle")
+	# A cut that reaches a goblin.
+	_rudy.global_position = Vector2(goblin_b.global_position.x - 70.0, 840.0)
+	await _frames(4)
+	Input.action_press(&"slash")
+	await _until(func() -> bool: return goblin_b.dead)
+	Input.action_release(&"slash")
+	await _frames(2)
+	await _shot("slash")
+	await _until(func() -> bool: return not _rudy.is_slashing())
+	# A hit takes the gear: it flies off (panel 4).
+	_rudy.global_position = Vector2(spikes.global_position.x - 200.0, 840.0)
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.NONE)
+	Input.action_release(&"move_right")
+	await _frames(8)
+	await _shot("gear-flies")
 
 
 func _out_dir() -> String:

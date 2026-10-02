@@ -5,6 +5,9 @@ extends Node2D
 ## with the chin at 107 px and the top of the head at 151 px, in the palette
 ## sampled from CHAR-REF-07 (CHARACTER-SHEET.md, revision 2). The pose's asset ID
 ## is written above his head, so each state can be checked before the art exists.
+## The sword form's poses (CHAR-SWORD-*) reuse the default form's legs, hold the
+## shield in front of his chest and the sword forward and down, and the slash
+## swings the sword straight out with a trail.
 
 const HAIR := Color("#C9905A")
 const EYE := Color("#475827")
@@ -31,7 +34,10 @@ const POSES := {
 	&"CHAR-CELEBRATE": [Vector2(10, 0), Vector2(-10, 0), 125.0, -120.0, -6.0, 0.0],
 	&"CHAR-HURT": [Vector2(14, -6), Vector2(-4, -14), 100.0, 140.0, -20.0, 0.0],
 	&"CHAR-DEFEAT": [Vector2(34, 0), Vector2(28, -2), -30.0, -40.0, -8.0, 30.0],
+	&"CHAR-SWORD-SLASH": [Vector2(24, 0), Vector2(-18, 0), 90.0, 40.0, 12.0, 0.0],
 }
+const SWORD_ARM := 60.0 ## the sword arm's angle in the sword form, except in the slash
+const SHIELD_ARM := 35.0 ## the shield arm's angle in the sword form
 
 var _pose: StringName = &"CHAR-IDLE"
 
@@ -43,9 +49,16 @@ func show_pose(id: StringName) -> void:
 
 
 func _draw() -> void:
-	var p: Array = POSES.get(_pose, POSES[&"CHAR-IDLE"])
+	var id := String(_pose)
+	var sword_form := id.begins_with("CHAR-SWORD-")
+	var slash := _pose == &"CHAR-SWORD-SLASH"
+	# The sword form's movement poses stand like the default form's.
+	var base: StringName = _pose if slash or not sword_form else StringName(id.replace("SWORD-", ""))
+	var p: Array = POSES.get(base, POSES[&"CHAR-IDLE"])
 	var near_sole: Vector2 = p[0]
 	var far_sole: Vector2 = p[1]
+	var near_arm := float(p[2]) if slash or not sword_form else SWORD_ARM
+	var far_arm := float(p[3]) if slash or not sword_form else SHIELD_ARM
 	var lean := deg_to_rad(float(p[4]))
 	var drop := Vector2(0, float(p[5]))
 	var upper := Transform2D(0.0, drop) * Transform2D(lean, HIP) * Transform2D(0.0, -HIP)
@@ -53,15 +66,36 @@ func _draw() -> void:
 	# The far side first, so the body covers it.
 	_leg(Vector2(-4, HIP.y) + drop, far_sole, SHADE.darkened(0.2), LEATHER.darkened(0.2))
 	draw_set_transform_matrix(upper)
-	_arm(float(p[3]), SHADE)
+	_arm(far_arm, SHADE)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
 	_leg(Vector2(4, HIP.y) + drop, near_sole, SHADE, LEATHER)
 	draw_set_transform_matrix(upper)
 	_robe()
 	_head()
-	_arm(float(p[2]), ROBE)
+	_arm(near_arm, ROBE)
+	if sword_form:
+		_gear(near_arm, far_arm, slash)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
 	_label()
+
+
+## The shield in front of his chest, at the far hand, and the sword in the near
+## hand: forward and down, or straight out with a trail in the slash.
+func _gear(near_arm_deg: float, far_arm_deg: float, slash: bool) -> void:
+	GearArt.shield(self, _hand(far_arm_deg), 16.0)
+	var hand := _hand(near_arm_deg)
+	if slash:
+		for i in 3:
+			var r := 58.0 + i * 8.0
+			draw_arc(SHOULDER, r, deg_to_rad(-60.0), deg_to_rad(40.0), 16, Color(1, 1, 1, 0.45 - i * 0.12), 4.0)
+		GearArt.sword(self, hand, hand + Vector2(48, 0))
+	else:
+		GearArt.sword(self, hand, hand + Vector2(0.85, 0.5).normalized() * 46.0)
+
+
+func _hand(angle_deg: float) -> Vector2:
+	var a := deg_to_rad(angle_deg)
+	return SHOULDER + Vector2(sin(a), cos(a)) * 30.0
 
 
 func _leg(hip: Vector2, sole: Vector2, fill: Color, boot_fill: Color) -> void:
