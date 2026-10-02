@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://content/rudy/rudy.gd" id="1_rudy"]
+[ext_resource type="Script" path="res://content/rudy/rudy_placeholder.gd" id="2_look"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 20.0
+height = 136.0
+
+[node name="Rudy" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_rudy")
+
+[node name="Body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -68)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="Look" type="Node2D" parent="."]
+script = ExtResource("2_look")

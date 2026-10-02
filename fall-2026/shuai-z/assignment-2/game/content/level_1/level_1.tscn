@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://content/level_1/ground_segment.gd" id="1_ground"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+
+[node name="Level1" type="Node2D"]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Segment1" type="StaticBody2D" parent="Ground"]
+position = Vector2(0, 840)
+script = ExtResource("1_ground")
+size = Vector2(3840, 240)
+
+[node name="Bounds" type="StaticBody2D" parent="."]
+
+[node name="Left" type="CollisionShape2D" parent="Bounds"]
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="Right" type="CollisionShape2D" parent="Bounds"]
+position = Vector2(3840, 0)
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="StartPoint" type="Marker2D" parent="."]
+position = Vector2(300, 840)

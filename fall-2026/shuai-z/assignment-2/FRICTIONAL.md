@@ -341,6 +341,61 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - the time of each Gemini turn.
 - **Next:** the sword form, starting with CHAR-SWORD-IDLE.
 
+## 2026-10-01 — The greybox plan; step 1a
+
+*Written on 2026-10-01 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Wanted:** the smallest Godot 4 scene that proves my assets: a controllable Rudy with his states, one environment, my four sound events on real events, a looping music track and mute controls. My art and audio are still being generated, so it starts as a greybox with code-drawn placeholders, in CHANGE-BRIEF.md's build order and Walker's brief → build → playtest → inspect → revise loop.
+- **Asked:** Claude to read CONCEPT, STORYBOARD, CHARACTER-SHEET and CHANGE-BRIEF and list the files and nodes it would create, without editing; then to build one approved step at a time, show the diff, run it, and say what still needs human listening or playtesting.
+- **Got:** a plan.
+  - GDScript, because the installed Godot 4.7.2 is the standard build and .NET is not installed. Walker's bundled Godot guide is written for C#; its README says that is not a requirement.
+  - The Godot project in `game/`, so that the large images in `design/`, `generated/` and `_raw/` are not imported.
+  - The four sound events are SFX-JUMP (action), SFX-STOMP (success), SFX-HURT (failure) and SFX-PORTAL (completion). SFX-PICKUP and SFX-SLASH are wired the same way.
+  - Build step 1 split into four approvals: 1a Rudy on flat ground; 1b the environment and layout (cliffs, falling, respawn, the waystone, the teleport circle); 1c damage (hearts, spikes, goblins, the stomp); 1d the sword form.
+  - The smallest scene leaves out the title, the end-card art, the mushroom and the staff; they stay in their steps or in the cut order.
+- **Decided:**
+  - **Accepted as Claude proposed:**
+    - GDScript and the `game/` folder;
+    - controls: A/D or ←/→ to move; Space, W or ↑ to jump; J or X to slash; K or C to block; Enter to play again on the end text; Esc to pause; M and N to mute the music and the sound effects; F1 for the debug line;
+    - `Sfx.play(id)` sits at each event from step 1a, counting plays but silent until the audio step;
+    - the pickup is hidden and restored after a death instead of freeing itself. CHANGE-BRIEF says both that it frees itself and that it reappears; its wording is fixed in step 1d;
+    - first-guess feel numbers, editable in the inspector: run 420 px/s, gravity 2400 px/s², jump 1000 px/s, stomp bounce 600 px/s, knockback (350, −400) with 0.35 s without control, 1.2 s of invulnerability, a 0.2 s, 8 px camera shake, 0.35 s fades;
+    - a draft layout, in x px: start 300, spikes 1100, goblin 1500–1900, sword and shield 2500, goblin 3000–3500 (the mushroom at 2800 in step 4), waystone 4000, cliff 4300–4560, spikes 5100, goblin 5600–6000, cliff 6400–6640, teleport circle 7200; about 7,700 px long;
+    - placeholder sounds made by a script, not by a model, until the generated audio arrives;
+    - steps 2 and 3 may swap if the sword-form or environment art is not ready.
+  - **Changed:** after a death, every defeated monster comes back. Claude had proposed that they stay defeated, since CHANGE-BRIEF names only the pickup. I gave no reason. It is built in step 1c, with the rule added to CHANGE-BRIEF.
+- **Got (step 1a):**
+  - the `game/` project: Rudy's controller with the CHAR-IDLE, CHAR-RUN-A/B, CHAR-RISE and CHAR-FALL poses; a code-drawn Rudy in the revision-2 palette with the pose ID over his head; one flat ground strip with walls at both ends; a camera that follows him sideways only; a debug line; the counting `Sfx`;
+  - headless checks (21, all passing) and a windowed capture into `evidence/1a/`;
+  - Claude's calls in this step:
+    - the apex is 217 px, not the 208 px Claude first stated: 208 comes from the continuous formula, and at 60 physics ticks per second the controller reaches 217;
+    - the run shows each of its two frames for 0.125 s, and reaching full speed or stopping takes 0.1 s (`run_accel`, 4200 px/s²). I had not chosen these;
+    - Godot wrote the input map itself, with every key event set to all devices;
+    - the raised arm of the RISE placeholder was lowered after Claude's first capture showed it covering the face.
+- **Human / Claude / model:** the decisions above are mine; the plan, the code and the text are Claude's. No generative model was used.
+- **Still unresolved:** how step 1a feels in my hands: run speed, jump height and fall, turning, and the camera.
+- **Next:** step 1b, after I play 1a.
+
+## 2026-10-01 — Step 1a playtests: faster, turning on the spot, a quicker fall
+
+*Written on 2026-10-01 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** step 1a, on my Mac.
+- **Found (my words):** "The run is not fast enough. The jump is a little slow, both going up and coming down. Turning is not crisp: he should be able to turn on the spot, so the camera does not move, and only move once the key is held."
+- **Got (Claude's changes and calls):**
+  - the run goes from 420 to 560 px/s. Reaching full speed and stopping still take 0.1 s (`run_accel` from 4200 to 5600 px/s²);
+  - a faster jump of about the same height: gravity from 2400 to 4000 px/s², jump from 1000 to 1300 px/s. The apex goes from 217 to 222 px and a jump from about 0.85 s to about 0.65 s. The reach at full speed stays about 370 px, so the planned 240–260 px cliffs stay easy;
+  - turning, as Claude read my words:
+    - on the ground, pressing the other direction turns him at once, with no slide. He moves that way only if the key is still held after 0.12 s (`turn_hold_time`), so a tap turns him without moving him or the camera. From a run, too, he stops at once and turns;
+    - pressing the direction he already faces moves him at once;
+    - in the air he turns at once and his speed changes with no delay, so a stray tap in mid-jump cannot stop him dead over a cliff;
+  - four new checks for turning; 25 checks in all, all passing.
+- **Played again, and found (my words):** "More gravity on the way down. Everything else is fine now."
+- **Got:** a separate gravity for the fall, `fall_gravity`, 6400 px/s² (1.6 times the 4000 on the way up; the number is Claude's). The apex stays 222 px; the fall takes 0.27 s instead of 0.33 s, so a jump lasts 0.6 s; the reach at full speed is about 336 px. One more check: 26 in all, all passing.
+- **Decided:** the run speed, the turning and the rise of the jump are fine as they are.
+- **Human / Claude / model:** the findings and the decision are mine; the numbers, the reading of "turn on the spot" and the code are Claude's. No generative model was used.
+- **Still unresolved:** how the quicker fall feels in my hands.
+
 ## 2026-10-01 — Rudy's sword form (Gemini); removing the background
 
 *Written on 2026-10-01 by Claude, from my Gemini export, the seven downloads and my answers in our chat (translated from Chinese).*
