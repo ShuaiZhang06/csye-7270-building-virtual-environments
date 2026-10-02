@@ -24,7 +24,7 @@ An empty repository, created on 2026-09-30. There is no starter code and no star
 
 | Model | Version | Where it ran | Terms | Assets |
 |---|---|---|---|---|
-| Gemini app image generation, which the app reports as Nano Banana | The exact image-model version is not shown. The chat model was Gemini 3.8 Flash | Gemini app, hosted by Google, on my personal Google account | Google Terms of Service and the [Generative AI Additional Terms of Service](https://policies.google.com/terms/generative-ai). The page fetched on 2026-10-01 says it was last modified 2023-08-09. It forbids using the service to develop machine-learning models, requires following the Generative AI Prohibited Use Policy, and does not say who owns generated content | CHAR-REF-01 to CHAR-REF-07; the default-form poses CHAR-IDLE-01 to CHAR-CELEBRATE-01 |
+| Gemini app image generation, which the app reports as Nano Banana | The exact image-model version is not shown. The chat model was Gemini 3.8 Flash | Gemini app, hosted by Google, on my personal Google account | Google Terms of Service and the [Generative AI Additional Terms of Service](https://policies.google.com/terms/generative-ai). The page fetched on 2026-10-01 says it was last modified 2023-08-09. It forbids using the service to develop machine-learning models, requires following the Generative AI Prohibited Use Policy, and does not say who owns generated content | CHAR-REF-01 to CHAR-REF-07; the default-form poses CHAR-IDLE-01 to CHAR-CELEBRATE-01; the sword form CHAR-SWORD-IDLE-01 to CHAR-SWORD-FALL-01 |
 
 No sound or music model has been used yet.
 

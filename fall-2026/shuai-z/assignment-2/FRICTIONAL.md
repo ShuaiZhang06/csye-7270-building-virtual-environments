@@ -340,3 +340,36 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - the scale factor of each frame;
   - the time of each Gemini turn.
 - **Next:** the sword form, starting with CHAR-SWORD-IDLE.
+
+## 2026-10-01 — Rudy's sword form (Gemini); removing the background
+
+*Written on 2026-10-01 by Claude, from my Gemini export, the seven downloads and my answers in our chat (translated from Chinese).*
+
+- **Wanted:** the sword-and-shield form: the ready stance, the slash, the block and the four movement poses.
+- **Asked:** Gemini, in a new chat (`c96980a1d1603d6f`), seven turns (log: `generated/logs/2026-10-01-gemini-CHAR-SWORD.md`):
+  - turns 1–3: the prompts v2 sword prompts, unchanged;
+  - turns 4–7: the movement prompt, without its last sentence, attaching each default pose and CHAR-SWORD-IDLE-01. In turn 6 I added "that is, keep the shield in his left hand and the sword in his right".
+- **Got:** seven images. Rudy, the sword and the shield are the same in all of them, and the movement poses keep the bodies of the default poses. Claude's check found:
+  - the idle shield is half hidden behind the body, so it is small in the silhouette;
+  - Gemini added a motion trail to the slash, which I had not asked for;
+  - turn 5's image is 1024×1024. Claude first took it for the export's preview; it is Gemini's original.
+- **Decided:**
+  - all seven accepted;
+  - the slash keeps its trail.
+- **Asked Claude:**
+  - whether it can remove the blue background from every generated image, and the cast shadow under CHAR-DEFEAT-01;
+  - whether the 1024 px image will cause problems in the game;
+  - whether I should generate on a transparent background instead;
+  - where the assignment wants the processed assets.
+- **Got:**
+  - **Background and shadow:** yes. Claude keyed a test on four frames: the flat background is removed with soft, despilled edges, and the shadow under DEFEAT goes with it, because it is the background color, only darker. The trail stays semi-transparent.
+  - **The 1024 px image:** no problem. Every frame is shrunk to about 160 px and scaled by head size, so the source size does not matter; the matting tool works in proportion to the image size.
+  - **Transparent backgrounds:** no. The assignment itself says to prompt for a solid color and remove it, because asking for "transparent" usually gives a drawn checkerboard. The Gemini app cannot output real transparency, and changing models now would break consistency with CHAR-REF-07.
+  - **Where processed assets go:** the assignment names no folder. It asks that the asset log's "Where used" give the file path in the project, that "Edits" say what was changed and with which tool, that the originals be kept, and that the project run from a fresh copy. So the game-ready frames go inside the Godot project, `game/`, and the originals stay in `generated/accepted/`.
+- **Human / Claude / model:**
+  - **Mine:** the decisions and the wording of turn 6's note.
+  - **Claude's:** the prompts (prompts v2), the checks, the matting test and the files.
+  - **Gemini's:** the images.
+- **Still unresolved:**
+  - the matting and scaling tool itself, and where in `game/` its output goes;
+  - the time of each Gemini turn.
