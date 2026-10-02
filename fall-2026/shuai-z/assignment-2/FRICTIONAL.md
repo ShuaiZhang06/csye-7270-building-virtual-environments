@@ -489,3 +489,39 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - the cliffs and the gravities stay as they were.
 - **Human / Claude / model:** the finding and the idea of a higher jump are mine; the numbers and the code are Claude's. No generative model was used.
 - **Still unresolved:** whether the higher, slightly longer jump still feels quick enough. If not, the cliffs can narrow instead, or a short grace time after leaving the edge can be added (a change to the jump rule in CHANGE-BRIEF).
+
+## 2026-10-01/02 — Level 1 environment (Gemini) and its game layers
+
+*Written on 2026-10-02 by Claude, from my three Gemini exports, the downloads and our chat (translated from Chinese).*
+
+- **Wanted:** the far layer (sky and castle), the middle layer (wheat and meadow) and the ground with its cliff edge.
+- **Asked:** Gemini, in three new chats (log: `generated/logs/2026-10-01-gemini-ENV.md`), each starting from the prompts v2 text:
+  - **Sky:** "too realistic; it doesn't need so much detail", then "now too cartoony; a little more realistic".
+  - **Ground:** "thicker lines, less realistic, fewer stones"; then, attaching the first two, "in between the two"; then the prompts v2 cliff edit; then "the cliff needs to be a right angle".
+  - **Fields:** one turn.
+- **Got:**
+  - ENV-SKY-CASTLE-03, ENV-GROUND-03 and ENV-GROUND-CLIFF-02, which I kept. The sky adds corner trees and a village low in the image, where the fields layer covers them.
+  - ENV-FIELDS-01, whose full-size download came back doubled: the fields twice, one above the other, unlike the chat's preview. Claude found this by comparing the download with the preview; my re-download is 1584×672 and correct.
+  - Claude's mock-up of a 1920×1080 screen showed Rudy readable over all three layers, in color and grayscale. At a scale where the ground's soil fills the screen below the ground line, the wheat tufts would be taller than Rudy.
+- **Decided:**
+  - the re-downloaded fields are accepted;
+  - **plan B** for the ground: tufts at about half Rudy's height, with the soil continued below the slab.
+- **Got (the layers):** `design/tools/prepare_env.py`, written by Claude, and `game/content/level_1/art/`:
+  - `sky_castle.jpg`, resized to the view height;
+  - `fields.png`, with its sky keyed out. The image is drawn twice across its width, so one 792 px period is cut where the two copies match (4.8 levels apart) and cross-faded; it tiles without a seam.
+  - `ground_tile.png`, one 1000 px period of the slab, cut and cross-faded the same way, at 2 texture px per game px.
+  - `ground_cliff_right.png` and its mirror `ground_cliff_left.png`. They start with the tile's first column and reuse its soil, so they join it exactly.
+  - `env.json` (sizes, positions, the ground line and the cliff edge), and `generated/checks/ENV-layers-check.jpg`, a mock-up built only from these files with a pit and Rudy's frames.
+- **Claude's calls:**
+  - the fields' horizon at y 700, below the castle, and the ground's walking line on the top of its tan path band, at the greybox's y 840;
+  - the soil below the slab is the slab's own soil repeated. The first try repeated it in a visible grid, so each repeat is now shifted sideways, and the soil darkens to 62% at the bottom of the view;
+  - the fields layer is used at its own size (1584 px wide, no upscaling), and the sky is shrunk from 1344 to 1080 px.
+- **Human / Claude / model:**
+  - **Mine:** the prompts in Chinese, the choices of outputs, and plan B.
+  - **Claude's:** the prompts v2, the mock-ups, the tool and its calls above.
+  - **Gemini's:** the images.
+- **Still unresolved:**
+  - the layers are not wired into the scene yet, and their parallax speeds are not chosen;
+  - through a pit the mock-up shows the fields and the sky; whether the scene keeps the greybox's dark pit;
+  - whether the repeated soil and the cliff face's seam read well in motion;
+  - the time of each Gemini turn.

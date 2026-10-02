@@ -16,7 +16,7 @@ An empty repository, created on 2026-09-30. There is no starter code and no star
 | Tool | Version | Used for |
 |---|---|---|
 | Claude Code (desktop app), model Claude Opus 5.5 | — | Design questions and drafts; the documents; the blockout, check and contact-sheet scripts; the Godot code in `game/` |
-| Python 3 with Pillow, NumPy and SciPy | Pillow 10.4.0, NumPy 2.1.3, SciPy 1.15.3 | `design/tools/make_blockouts.py`, `check_against_sheet.py`, `contact_sheet.py`, and `matte_sprites.py`, which makes Rudy's game frames from the accepted originals (background removal, scaling, placement) |
+| Python 3 with Pillow, NumPy and SciPy | Pillow 10.4.0, NumPy 2.1.3, SciPy 1.15.3 | `design/tools/make_blockouts.py`, `check_against_sheet.py`, `contact_sheet.py`, `matte_sprites.py`, which makes Rudy's game frames from the accepted originals (background removal, scaling, placement), and `prepare_env.py`, which makes the Level 1 layers (keying, tiling, scaling, the soil below the ground) |
 | Voyager browser extension | — | Exporting the Gemini chats into `generated/logs/` |
 | Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The game, in `game/`, written in GDScript; started on 2026-10-01 as a greybox with code-drawn placeholders |
 
@@ -24,7 +24,7 @@ An empty repository, created on 2026-09-30. There is no starter code and no star
 
 | Model | Version | Where it ran | Terms | Assets |
 |---|---|---|---|---|
-| Gemini app image generation, which the app reports as Nano Banana | The exact image-model version is not shown. The chat model was Gemini 3.8 Flash | Gemini app, hosted by Google, on my personal Google account | Google Terms of Service and the [Generative AI Additional Terms of Service](https://policies.google.com/terms/generative-ai). The page fetched on 2026-10-01 says it was last modified 2023-08-09. It forbids using the service to develop machine-learning models, requires following the Generative AI Prohibited Use Policy, and does not say who owns generated content | CHAR-REF-01 to CHAR-REF-07; the default-form poses CHAR-IDLE-01 to CHAR-CELEBRATE-01; the sword form CHAR-SWORD-IDLE-01 to CHAR-SWORD-FALL-01 |
+| Gemini app image generation, which the app reports as Nano Banana | The exact image-model version is not shown. The chat model was Gemini 3.8 Flash | Gemini app, hosted by Google, on my personal Google account | Google Terms of Service and the [Generative AI Additional Terms of Service](https://policies.google.com/terms/generative-ai). The page fetched on 2026-10-01 says it was last modified 2023-08-09. It forbids using the service to develop machine-learning models, requires following the Generative AI Prohibited Use Policy, and does not say who owns generated content | CHAR-REF-01 to CHAR-REF-07; the default-form poses CHAR-IDLE-01 to CHAR-CELEBRATE-01; the sword form CHAR-SWORD-IDLE-01 to CHAR-SWORD-FALL-01; the Level 1 environment (ENV-SKY-CASTLE, ENV-FIELDS, ENV-GROUND) |
 
 No sound or music model has been used yet.
 
