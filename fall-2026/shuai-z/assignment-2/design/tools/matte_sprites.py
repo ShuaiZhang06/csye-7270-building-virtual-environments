@@ -82,9 +82,14 @@ def sha12(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()[:12]
 
 
-def matte(path, trail=False):
-    """Return the figure as float RGBA (alpha 0..1) at full size, and the background color."""
-    im = np.asarray(Image.open(path).convert("RGB")).astype(float)
+def matte(path, trail=False, glow=None, min_glow_area=2000):
+    """Return the figure in `path` (a file or a PIL image) as float RGBA (alpha 0..1) at full size,
+    and the background color.
+
+    trail keeps the slash's white trail as semi-transparent; glow does the same for a glow of another
+    color (an RGB triple), for props that glow. min_glow_area is in px of a 2048 px image."""
+    src = path if isinstance(path, Image.Image) else Image.open(path)
+    im = np.asarray(src.convert("RGB")).astype(float)
     h, w, _ = im.shape
     px = w / 2048  # every distance below is tuned on 2048 px images
     k = max(4, round(24 * px))
@@ -109,21 +114,22 @@ def matte(path, trail=False):
     dd = np.linalg.norm(im - ref, axis=2)
     alpha[band] = np.clip((dd[band] - 18) / 70, 0, 1)
     col = im.copy()
-    if trail:
+    light = TRAIL_WHITE if glow is None else np.asarray(glow, dtype=float)
+    if trail or glow is not None:
         # the trail is white laid over the background at partial strength: im = bg + t * (white - bg)
-        v = TRAIL_WHITE - bg
+        v = light - bg
         t = ((im - bg) @ v) / (v @ v)
         # t > 0.08 leaves out the background's own faint shading, which also lies on this line
         on_line = (t > 0.08) & (t < 1.05) & (np.linalg.norm(im - bg - t[..., None] * v, axis=2) < 14)
         lab, n = ndimage.label(on_line)
         # only large stretches that touch the background directly; the blade's light steel is inside an outline
         touch = np.unique(lab[ndimage.binary_dilation(bgm, iterations=max(1, round(2 * px))) & on_line])
-        big = np.nonzero(ndimage.sum(on_line, lab, range(1, n + 1)) > 2000 * px * px)[0] + 1
+        big = np.nonzero(ndimage.sum(on_line, lab, range(1, n + 1)) > min_glow_area * px * px)[0] + 1
         tr = np.isin(lab, np.intersect1d(touch[touch > 0], big))
         alpha[tr] = np.clip(t[tr], 0, 1)
-        col[tr] = TRAIL_WHITE
+        col[tr] = light
     a = np.clip(alpha, 1e-3, 1)[..., None]
-    unmix = band & ~(col == TRAIL_WHITE).all(axis=2)
+    unmix = band & ~(col == light).all(axis=2)
     col[unmix] = np.clip((im[unmix] - (1 - a[unmix]) * ref[unmix]) / a[unmix], 0, 255)
     return np.dstack([col, alpha]), bg
 

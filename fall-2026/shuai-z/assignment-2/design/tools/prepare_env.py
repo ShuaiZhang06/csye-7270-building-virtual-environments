@@ -3,7 +3,9 @@
 
     python3 design/tools/prepare_env.py
 
-- sky_castle.jpg (ENV-SKY-CASTLE-03): the far layer, resized to the 1080 px view height. Opaque.
+- sky_castle.jpg (ENV-SKY-CASTLE-03): the far layer, resized to the 1080 px view height, without the
+  large trees at its left edge, which stood above the fields. Opaque. It does not repeat: env.json gives
+  the largest motion scale at which this one image still covers the whole level.
 - fields.png (ENV-FIELDS-01, re-downloaded): the middle layer. Its flat pale sky is keyed out, and one
   792 px period of the image (it is drawn twice across its width) is cut where the two copies match
   best, with a 40 px cross-fade, so the tile repeats without a seam.
@@ -12,6 +14,7 @@
   by its own soil, repeated downward with cross-fades, so the ground reaches the bottom of the view.
 - ground_cliff_right.png (ENV-GROUND-CLIFF-02) and ground_cliff_left.png (its mirror): the end of a
   ground segment at a pit. They start with the ground tile's first column, so they join it without a seam.
+- endcard.jpg (ENV-ENDCARD-02): the "Level complete" card, resized to 1920x1080.
 - env.json: the size of each layer in game px, its texture density, and where its ground line or
   horizon falls, for the scene to place them.
 - generated/checks/ENV-layers-check.jpg: a 1920x1080 mock-up built only from these files, with Rudy's
@@ -44,11 +47,14 @@ _spec.loader.exec_module(ms)
 VIEW_H = 1080
 GROUND_Y = 840  # the greybox's ground line (game/content/level_1/level_1.tscn)
 HORIZON_Y = 700  # where the fields layer's horizon sits, below the castle on the far layer
+LEVEL_W = 7700  # the level's width (level_1.tscn), so the camera scrolls LEVEL_W - 1920 px
+SKY_CROP_X = 500  # game px cut from the far layer's left edge: the large autumn trees
 
 SKY = ACCEPTED / "ENV-SKY-CASTLE-03.jpg"
 FIELDS = ACCEPTED / "ENV-FIELDS-01.jpg"
 GROUND = ACCEPTED / "ENV-GROUND-03.jpg"
 CLIFF = ACCEPTED / "ENV-GROUND-CLIFF-02.jpg"
+ENDCARD = ACCEPTED / "ENV-ENDCARD-02.jpg"
 
 # ENV-GROUND, measured on the 2750 x 1536 originals
 GROUND_SCALE = 0.22  # game px per source px: the wheat tufts (about 362 px) become about 80 game px
@@ -150,11 +156,13 @@ def main():
     # far layer
     sky = Image.open(SKY).convert("RGB")
     s = VIEW_H / sky.height
-    sky = sky.resize((round(sky.width * s), VIEW_H), Image.LANCZOS)
+    sky = sky.resize((round(sky.width * s), VIEW_H), Image.LANCZOS).crop((SKY_CROP_X, 0, round(sky.width * s), VIEW_H))
     sky.save(OUT / "sky_castle.jpg", quality=92)
     env["layers"]["sky_castle"] = {"file": "sky_castle.jpg", "source": str(SKY.relative_to(ROOT)),
                                    "density": 1, "size": list(sky.size), "y": 0, "tiles": False,
-                                   "scale_from_source": round(s, 5)}
+                                   "scale_from_source": round(s, 5), "cropped_left_px": SKY_CROP_X,
+                                   "max_motion_scale": round((sky.width - 1920) / (LEVEL_W - 1920), 4),
+                                   "note": "does not repeat; scroll it at most max_motion_scale of the camera"}
 
     # middle layer
     rgba, skycol = key_flat_sky(FIELDS)
@@ -228,6 +236,10 @@ def main():
             "walk_row_texture_px": walk, "y": GROUND_Y - walk / GROUND_DENSITY, "tiles": False,
             "cliff_edge_game_px": round((edge if name.endswith("right") else img_.width - edge) / GROUND_DENSITY, 1),
             "note": note}
+    card = Image.open(ENDCARD).convert("RGB").resize((1920, VIEW_H), Image.LANCZOS)
+    card.save(OUT / "endcard.jpg", quality=92)
+    env["layers"]["endcard"] = {"file": "endcard.jpg", "source": str(ENDCARD.relative_to(ROOT)), "density": 1,
+                                "size": [1920, VIEW_H], "y": 0, "tiles": False, "note": "full-screen card, not a layer"}
     (OUT / "env.json").write_text(json.dumps(env, indent=2) + "\n")
     for k, v in env["layers"].items():
         print(f"{k:20s} {v['size']} game px, density {v['density']}, y {v['y']}")

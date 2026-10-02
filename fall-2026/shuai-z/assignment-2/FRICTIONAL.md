@@ -568,3 +568,45 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Decided (my words):** "Whenever the hearts reach zero, he goes back to the opening."
 - **Got:** a defeat by hits now starts the level over from the opening too, so the waystone only matters after a fall that leaves him hearts. One more check, 72 in all, all passing; with a defeat sent back to the waystone, it fails. CHANGE-BRIEF.md and CONCEPT.md say the same.
 - **Human / Claude / model:** the rules are mine; the details above and the code are Claude's. No generative model was used.
+
+## 2026-10-02 — Props, the goblin, the end card and the hearts (Gemini); their sprites
+
+*Written on 2026-10-02 by Claude, from my seven Gemini exports, the downloads and our chat (translated from Chinese).*
+
+- **Wanted:** the "must" props and the goblin: the spikes, the waystone dark and lit, the teleport circle, the sword-and-shield pickup, and the goblin's two walk frames and squashed frame. Also the end card, which is "could".
+- **Decided first:** the scene keeps the greybox's dark pit, which Claude had asked about after the environment mock-up.
+- **Asked:** Gemini, in six new chats (log: `generated/logs/2026-10-02-gemini-PROPS.md`), each starting from the prompts v2 text, then:
+  - **Spikes:** "give me a front view".
+  - **Circle:** "fewer, simpler symbols".
+  - **Goblin:** my own wording for the second walk frame (a passing pose); then "keep the side view and draw it squashed flat".
+  - **Pickup:** "the shield's edge has a silver metal rim".
+  - **End card:** with the circle attached, "use this circle in the picture".
+- **Got and decided:** I kept the last output of each, and both waystone outputs. Claude's notes on them:
+  - the waystone's rune looks like a Latin R;
+  - the goblin is about 3.5 heads tall, not 2;
+  - the squashed goblin lies on its back;
+  - the pickup's export records no attached image in its first turn; I confirmed that I attached CHAR-SWORD-IDLE-01;
+  - the end card: Claude first said my download was turn 1's; I said it is turn 2's, and comparing the circle itself confirmed that. A faint edited rectangle shows beside the circle.
+- **Got (the sprites):** `design/tools/prepare_props.py`, written by Claude, which keys, scales and places them at 2 texture px per game px. The output is in `game/content/level_1/art/` and `game/content/goblin/frames/`, with `props.json`. Claude also extended `matte_sprites.py`'s key to keep a glow of any color; Rudy's frames come out unchanged.
+  - The sizes follow the greybox: spikes 160 px wide, the waystone 112 px tall, the circle's disc 300 px wide, the goblin 104 px tall.
+  - **Claude's calls:**
+    - the pickup is about 72 px tall;
+    - the squashed goblin is 1.3 times the goblin's height long;
+    - the circle is flattened to 0.55 of its height, because Gemini drew it from a high angle and it read like a lid standing up.
+  - `generated/checks/PROPS-layers-check.jpg` shows everything over the Level 1 layers with Rudy, in color and grayscale.
+- **Human / Claude / model:**
+  - **Mine:** the decisions and the wording of the later turns.
+  - **Claude's:** the prompts v2, the checks, the tool and the calls above.
+  - **Gemini's:** the images.
+- **Then (my review of the first sprites):**
+  - **The hearts:** I generated UI-HEART, which was missing; one chat, the prompts v2 text. Its two halves become `UI-HEART-FULL` and `UI-HEART-EMPTY`, 48 px wide, in `game/ui/art/`.
+  - **The goblin was too short:** at 104 px it hid among the ground's wheat tufts. It is now 128 px tall.
+  - **The spikes were too tall:** at 160 px wide they stood 96 px. They are now 64 px tall (106 px wide). The greybox's goblin box (56×104) and spike box (150×40) have to change to match the art when they are wired in.
+  - **Asked:** the far layer seems to loop while I play, and its edge shows; how do 2D games handle that?
+  - **Got:** Claude's answer. A far layer does not have to loop: it scrolls at a small fraction of the camera's speed, so one image wide enough covers the whole level and its edge never comes into view. Layers that do repeat, like the fields and the ground, are made seamless, as they already are. The other common fixes are a mirrored repeat, a static sky, or a sky cut from the band that repeats. The edge showed only in Claude's mock-up, which repeated the image. Claude's calls:
+    - the far layer's left 500 px are cut off, which also removes the large trees;
+    - `env.json` now gives its largest motion scale, 0.0218 of the camera's speed. At that speed the 2046 px image covers the 7700 px level, so it looks almost still, as a far castle should;
+    - the props mock-up now shows two camera positions at those speeds, with the fields at 0.4.
+- **Still unresolved:**
+  - the spikes are about as tall as the wheat tufts, and a tuft can stand right behind them; whether they still read as dangerous in play;
+  - the time of each Gemini turn.
