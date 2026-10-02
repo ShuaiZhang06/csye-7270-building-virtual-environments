@@ -29,6 +29,8 @@ const POSES := {
 	&"CHAR-FALL": [Vector2(10, 0), Vector2(-10, -4), 100.0, -70.0, -4.0, 0.0],
 	&"CHAR-RESPAWN": [Vector2(18, 0), Vector2(-26, -2), 70.0, -10.0, 14.0, 24.0],
 	&"CHAR-CELEBRATE": [Vector2(10, 0), Vector2(-10, 0), 125.0, -120.0, -6.0, 0.0],
+	&"CHAR-HURT": [Vector2(14, -6), Vector2(-4, -14), 100.0, 140.0, -20.0, 0.0],
+	&"CHAR-DEFEAT": [Vector2(34, 0), Vector2(28, -2), -30.0, -40.0, -8.0, 30.0],
 }
 
 var _pose: StringName = &"CHAR-IDLE"

@@ -490,6 +490,28 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Human / Claude / model:** the finding and the idea of a higher jump are mine; the numbers and the code are Claude's. No generative model was used.
 - **Still unresolved:** whether the higher, slightly longer jump still feels quick enough. If not, the cliffs can narrow instead, or a short grace time after leaving the edge can be added (a change to the jump rule in CHANGE-BRIEF).
 
+## 2026-10-01 — Step 1c: hearts, spikes, goblins and the stomp
+
+*Written on 2026-10-01 by Claude, from our chat.*
+
+- **Asked:** to commit the higher jump (commit `94cc6f5`), then build step 1c.
+- **Got (step 1c):**
+  - three hearts, drawn in the HUD. A hit costs one: Rudy turns toward it, is knocked back about 55 px, loses control for 0.35 s, and flashes while he is invulnerable for 1.2 s; the camera shakes for 0.2 s;
+  - two rows of spikes (x 1100 and 5100) and three patrolling goblins (1500–1900, 3000–3500, 5600–6000), as in the draft layout;
+  - landing on a goblin from above defeats it, with one stomp sound, and bounces Rudy up; touching it any other way costs a heart;
+  - at zero hearts Rudy is defeated (CHAR-DEFEAT) and, after a fade, gets back up at the last checkpoint with three hearts. A fall refills his hearts too;
+  - after any death every goblin is back where it started, the defeated ones too, as I decided. The rule is now CHANGE-BRIEF.md's first revision after design-v1;
+  - 23 new checks, 68 in all, all passing; screenshots in `evidence/1c/`.
+- **Claude's calls in this step:**
+  - after a death, the goblins that were not defeated also go back to where they started;
+  - goblins walk at 100 px/s. A stomp counts when Rudy is falling and his soles were at most 14 px below the goblin's top before his last move;
+  - the checks and screenshots found two problems, both fixed:
+    - a goblin read its contacts from the area's overlap list, which reports a contact two ticks late, so a stomp from the top of a full jump (about 1600 px/s) counted as a hit. It now asks the physics space directly each tick, and a check stomps from the top of a jump;
+    - landing on two goblins in the same tick hurt Rudy, because the first stomp's bounce changed his speed before the second goblin looked. The bounce now starts on his next tick;
+  - the step 1a checks run across the spikes and the first goblin, so these are switched off while they run. The route checks jump the spikes and goblins and must reach the circle without a hit.
+- **Human / Claude / model:** the rule that monsters come back is mine; the numbers, the placing of the threats and the code are Claude's. No generative model was used.
+- **Still unresolved:** how step 1c plays: whether the stomp and the side hit feel fair, the knockback distance, the length of the invulnerability, the shake, and the pace from a defeat to the respawn. Also, letting go of the direction in mid-air stops Rudy within 0.1 s, so he drops almost straight down; whether that air control feels right.
+
 ## 2026-10-01/02 — Level 1 environment (Gemini) and its game layers
 
 *Written on 2026-10-02 by Claude, from my three Gemini exports, the downloads and our chat (translated from Chinese).*
@@ -525,3 +547,24 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - through a pit the mock-up shows the fields and the sky; whether the scene keeps the greybox's dark pit;
   - whether the repeated soil and the cliff face's seam read well in motion;
   - the time of each Gemini turn.
+
+## 2026-10-02 — Step 1c playtests: a fall costs a heart; the last one starts the level over
+
+*Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** step 1c, on my Mac. Everything else was fine.
+- **Found (my words):** "After falling off a cliff, the hearts should not be refilled; it should cost one heart."
+- **Got (Claude's changes and calls):**
+  - a fall below a cliff costs one heart. As before, the screen fades and Rudy gets back up at the last checkpoint, now with the hearts he has left;
+  - a fall that takes his last heart counts as a defeat, and he gets back up with three, as at zero hearts after a hit;
+  - the fall plays only the fall sound, not the hurt sound; the emptied heart in the HUD is its visual cue;
+  - unchanged, since I did not mention it: every monster is still back where it started whenever he goes back to a checkpoint, after a fall too;
+  - CHANGE-BRIEF.md and CONCEPT.md each get a revision; it also overrides panel 5's "hearts refilled to 3" in STORYBOARD.md;
+  - the checks follow the new rule, and one more covers a fall from the last heart: 69 checks, all passing. Put back to "a fall refills the hearts", four checks fail.
+- **Played again, and found (my words):** "If the fall takes the last heart, he goes back to the start: the game starts over. Everything else is fine."
+- **Got:** a fall that takes his last heart now starts the level over from the opening: Rudy is at the start with three hearts, the waystone is dark again (it lights again when he reaches it), and every monster is back. Two more checks, 71 in all, all passing; without the start-over, two fail.
+- **Decided:** the rest stays as it is, including the monsters coming back after a fall that leaves him hearts.
+- **Asked:** whether a hit that takes the last heart should start the level over as well; until then it sent him back to the last checkpoint with three hearts. Claude suggested treating every way of losing the last heart alike.
+- **Decided (my words):** "Whenever the hearts reach zero, he goes back to the opening."
+- **Got:** a defeat by hits now starts the level over from the opening too, so the waystone only matters after a fall that leaves him hearts. One more check, 72 in all, all passing; with a defeat sent back to the waystone, it fails. CHANGE-BRIEF.md and CONCEPT.md say the same.
+- **Human / Claude / model:** the rules are mine; the details above and the code are Claude's. No generative model was used.

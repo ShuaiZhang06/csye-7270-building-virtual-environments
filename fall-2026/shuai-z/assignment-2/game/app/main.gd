@@ -1,15 +1,20 @@
 class_name Main
 extends Node2D
 ## Runs Level 1. It places Rudy, keeps the camera on him, and runs the level's
-## states (CHANGE-BRIEF.md, STORYBOARD.md panels 5–7):
+## states (CHANGE-BRIEF.md, STORYBOARD.md panels 4–7):
 ## - PLAYING;
-## - DYING: a fall below a cliff is instant death; after a fade Rudy gets back
-##   up at the last checkpoint, the lit waystone or else the start;
+## - DYING: a fall below a cliff, which costs a heart, or a hit that takes his
+##   last heart. After a fade every monster is back where it started, even the
+##   defeated ones. After a fall that leaves him hearts, Rudy gets back up at
+##   the last checkpoint, the lit waystone or else the start, with the hearts he
+##   has left. Once his last heart is gone, by a hit or a fall, the level starts
+##   over from the opening: he is at the start with full hearts, and the
+##   waystone is dark;
 ## - COMPLETE: entered once, on the teleport circle. Input stops, Rudy
 ##   celebrates, the light rises, the camera pulls back, and the screen fades to
 ##   the end card, where Enter plays the level again from the opening.
 ## The camera follows Rudy sideways only, so the ground stays at the same height
-## on screen and a fall drops him out of the frame.
+## on screen and a fall drops him out of the frame. It shakes briefly on a hit.
 
 signal restart_requested ## only when Main is not the current scene, as in the checks
 
@@ -17,16 +22,20 @@ enum State { PLAYING, DYING, COMPLETE }
 
 const KILL_Y := 1300.0 ## below this line he has fallen out of the level
 const FALL_HOLD := 0.25 ## s after he crosses the kill line, before the fade
+const DEFEAT_HOLD := 0.8 ## s in CHAR-DEFEAT before the fade
 const FADE_TIME := 0.35 ## s each way
 const CELEBRATE_TIME := 2.0 ## s on the circle before the fade to the end card
 const END_ZOOM := Vector2(0.8, 0.8)
 const ZOOM_TIME := 1.5
+const SHAKE_TIME := 0.2 ## s the camera shakes on a hit
+const SHAKE_PX := 8.0
 
 var state := State.PLAYING
 var checkpoint_name := "start"
 
 var _checkpoint: Vector2
 var _end_card_shown := false
+var _shake_left := 0.0
 
 @onready var _level: Node2D = $Level1
 @onready var _rudy: Rudy = $Rudy
@@ -45,6 +54,8 @@ func _ready() -> void:
 	_snap_camera()
 	_waystone.activated.connect(_on_waystone_activated)
 	_portal.reached.connect(_on_portal_reached)
+	_rudy.hit.connect(_on_rudy_hit)
+	_rudy.defeated.connect(_on_rudy_defeated)
 	_hud.track(_rudy)
 	_show_status()
 
@@ -52,29 +63,60 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	_camera.position.x = _rudy.global_position.x
 	if state == State.PLAYING and _rudy.global_position.y > KILL_Y:
-		_die_by_fall()
+		_die(&"fall")
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if _shake_left > 0.0:
+		_shake_left -= delta
+		var shaking := _shake_left > 0.0
+		_camera.offset = Vector2(randf_range(-SHAKE_PX, SHAKE_PX), randf_range(-SHAKE_PX, SHAKE_PX)) if shaking else Vector2.ZERO
 	if _end_card_shown and Input.is_action_just_pressed(&"restart"):
 		_end_card_shown = false
 		_restart()
 
 
-func _die_by_fall() -> void:
+## A fall below a cliff, or a defeat at zero hearts. Once his last heart is
+## gone, the level starts over from the opening.
+func _die(cause: StringName) -> void:
 	state = State.DYING # set first, so the kill line ignores him from now on
-	_rudy.fall_out()
-	Sfx.play(&"fall")
+	var start_over := true # a defeat: his last heart is gone
+	if cause == &"fall":
+		start_over = _rudy.fall_out() # only if the fall took his last heart
+		Sfx.play(&"fall")
 	_show_status()
-	await get_tree().create_timer(FALL_HOLD).timeout
+	await get_tree().create_timer(FALL_HOLD if cause == &"fall" else DEFEAT_HOLD).timeout
 	await _hud.fade_to(1.0, FADE_TIME)
-	_rudy.respawn_at(_checkpoint)
+	if start_over:
+		_back_to_the_opening()
+	_rudy.respawn_at(_checkpoint, start_over)
+	for monster in _level.get_node("Enemies").get_children():
+		monster.reset()
+	_shake_left = 0.0
+	_camera.offset = Vector2.ZERO
 	_snap_camera()
 	await _hud.fade_to(0.0, FADE_TIME)
 	if _rudy.mode == Rudy.Mode.RESPAWNING:
 		await _rudy.respawned
 	state = State.PLAYING
 	_show_status()
+
+
+## As if the level had just begun: the start is the checkpoint again, and the
+## waystone is dark.
+func _back_to_the_opening() -> void:
+	_checkpoint = (_level.get_node("StartPoint") as Marker2D).global_position
+	checkpoint_name = "start"
+	_waystone.reset()
+
+
+func _on_rudy_hit() -> void:
+	_shake_left = SHAKE_TIME
+
+
+func _on_rudy_defeated() -> void:
+	if state == State.PLAYING:
+		_die(&"defeat")
 
 
 func _on_waystone_activated(waystone: Waystone) -> void:

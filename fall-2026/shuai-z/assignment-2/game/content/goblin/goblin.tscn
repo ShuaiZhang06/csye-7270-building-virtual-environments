@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://content/goblin/goblin.gd" id="1_goblin"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(56, 104)
+
+[node name="Goblin" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+script = ExtResource("1_goblin")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -52)
+shape = SubResource("RectangleShape2D_body")

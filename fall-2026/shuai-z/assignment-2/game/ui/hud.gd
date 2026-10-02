@@ -1,14 +1,15 @@
 class_name Hud
 extends CanvasLayer
-## The HUD: the debug line, the black fade, and the plain "Level complete" end
-## card (UI-TITLE and ENV-ENDCARD are cut for now; CHANGE-BRIEF.md cut order 1).
-## The debug line shows Rudy's pose ID, whether he is on the ground, his speed
-## and position, the level's state, and how many times each sound ID has
-## played. F1 hides or shows it.
+## The HUD: Rudy's hearts, the debug line, the black fade, and the plain
+## "Level complete" end card (UI-TITLE and ENV-ENDCARD are cut for now;
+## CHANGE-BRIEF.md cut order 1). The debug line shows Rudy's pose ID, whether he
+## is on the ground, his speed and position, the level's state, and how many
+## times each sound ID has played. F1 hides or shows it.
 
 var _rudy: Rudy
 var _status := ""
 
+@onready var _hearts: Hearts = $Hearts
 @onready var _debug: Label = $Debug
 @onready var _fade: ColorRect = $Fade
 @onready var _end_card: Control = $EndCard
@@ -16,6 +17,17 @@ var _status := ""
 
 func track(rudy: Rudy) -> void:
 	_rudy = rudy
+	_hearts.max_hearts = rudy.max_hearts
+	set_hearts(rudy.hearts)
+	rudy.hearts_changed.connect(set_hearts)
+
+
+func set_hearts(hearts: int) -> void:
+	_hearts.shown = hearts
+
+
+func hearts_shown() -> int:
+	return _hearts.shown
 
 
 func set_status(text: String) -> void:

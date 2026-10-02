@@ -2,7 +2,8 @@
 class_name Waystone
 extends Area2D
 ## The checkpoint (ENV-WAYSTONE). The first time Rudy touches it, it lights,
-## once, and the level brings him back to its spawn point after a death.
+## once, and the level brings him back to its spawn point after a death. It is
+## dark again only if the level starts over from the opening.
 ## Drawn by code until the art swap: a weathered standing stone with a carved
 ## rune that is dark, then lit. The origin is at the foot of the stone.
 
@@ -31,6 +32,12 @@ func _on_body_entered(body: Node2D) -> void:
 	queue_redraw()
 	Sfx.play(&"checkpoint")
 	activated.emit(self)
+
+
+## Dark again, as at the opening; touching it lights it again.
+func reset() -> void:
+	lit = false
+	queue_redraw()
 
 
 func _draw() -> void:

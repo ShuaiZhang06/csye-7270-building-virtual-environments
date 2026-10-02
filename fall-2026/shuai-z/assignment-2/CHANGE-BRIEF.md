@@ -119,3 +119,13 @@ Each step is approved before it is implemented, then run and checked.
 3. Audio: buses, `Sfx.play`, the four required sounds first, then the rest; MUS-LOOP with its pause, dip and fade behavior; the mute keys.
 4. The mushroom, the spores and blocking (should).
 5. Automated checks, then my own playtest with sound on and with sound muted.
+
+## Revisions after design-v1
+
+The sections above are design v1 (tag `design-v1`) and stay as written. Where they differ, these revisions win.
+
+- **2026-10-01, greybox step 1c:** after a death, every monster is back where it started, the defeated ones too, alongside the sword-and-shield pickup. Decided in the greybox plan; see FRICTIONAL.md.
+- **2026-10-02, after the step 1c playtests:**
+  - a fall below a cliff is no longer instant death with full hearts. It costs one heart, plays SFX-FALL only, and sends Rudy back to the last checkpoint with the hearts he has left; as after any death, every monster is back there too;
+  - whenever his last heart goes, by a hit or a fall, the level starts over from the opening, as if the game had just begun: Rudy is at the start with three hearts, the waystone is dark again, and every monster is back;
+  - this replaces "Falling below a cliff is instant death" and "Zero hearts or a fall sends Rudy back to the last waystone with 3 hearts" above, and panel 5's "reappears at the last waystone with 3 hearts" in STORYBOARD.md. The waystone now matters only after a fall that leaves him hearts.

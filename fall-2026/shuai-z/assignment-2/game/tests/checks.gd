@@ -6,9 +6,12 @@ extends Node
 ## sheet, his movement states, turning on the spot, the camera, and the jump
 ## sound's guard (one Sfx "jump" per takeoff, CHANGE-BRIEF.md).
 ## Step 1b: the layout, a fall below a cliff, the respawn at the last
-## checkpoint, the waystone, the teleport circle and the end card, and a timed
-## route from the opening to the circle. Sounds counted: "fall", "checkpoint",
-## "portal", each once per event.
+## checkpoint, the waystone, the teleport circle and the end card, a clean
+## route from the opening to the circle, and how forgiving the widest cliff is.
+## Sounds counted: "fall", "checkpoint", "portal", each once per event.
+## Step 1c: hearts, spikes, goblins, the stomp, invulnerability, knockback, the
+## camera shake, defeat at zero hearts, and every monster back after a death.
+## Sounds counted: "hurt" once per heart lost, "stomp" once per goblin stomped.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
@@ -16,11 +19,16 @@ const REQUIRED_NODES := {
 	"res://content/rudy/rudy.tscn": ["Body", "Look"],
 	"res://content/level_1/level_1.tscn": [
 		"Backdrop/Far/Art", "Backdrop/Mid/Art", "PitShade", "Ground/Segment1", "Ground/Segment2",
-		"Ground/Segment3", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
+		"Ground/Segment3", "Hazards/SpikesA", "Hazards/SpikesB", "Enemies/GoblinA", "Enemies/GoblinB",
+		"Enemies/GoblinC", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
 	],
-	"res://ui/hud.tscn": ["Debug", "Fade", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
+	"res://content/goblin/goblin.tscn": ["Shape"],
+	"res://content/level_1/spikes.tscn": ["Shape"],
+	"res://ui/hud.tscn": ["Hearts", "Debug", "Fade", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
 }
-const JUMP_LEAD := 60.0 ## the route presses jump this far before a cliff's edge
+const CLIFF_LEAD := 100.0 ## the route jumps this far before a cliff's edge
+const SPIKES_LEAD := 100.0 ## ...before a row of spikes
+const GOBLIN_LEAD := 220.0 ## ...before a live goblin, which may be walking toward him
 
 var _failures := 0
 var _main: Main
@@ -38,6 +46,7 @@ func _ready() -> void:
 	_start_level()
 	await _run_1a()
 	await _run_1b()
+	await _run_1c()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -67,6 +76,8 @@ func _on_restart_requested() -> void:
 
 
 func _run_1a() -> void:
+	# The movement checks run over the spikes and the first goblin; switch them off.
+	_set_threats(false)
 	var body: CollisionShape2D = _rudy.get_node("Body")
 	var capsule := body.shape as CapsuleShape2D
 	_check("the capsule is 40 x 136 px with its bottom on the soles",
@@ -229,6 +240,7 @@ func _run_1a() -> void:
 	_check("the camera stops at the level's left edge",
 		is_equal_approx(_camera.get_screen_center_position().x, 960.0),
 		"view centre x %.1f" % _camera.get_screen_center_position().x)
+	_set_threats(true)
 
 
 func _run_1b() -> void:
@@ -241,20 +253,25 @@ func _run_1b() -> void:
 	_check("Level 1 has two cliffs, after the waystone and before the teleport circle",
 		gaps.size() == 2 and gaps[0].x > spawn.x and gaps[-1].y < portal.global_position.x, str(gaps))
 
-	# A fall before the waystone: instant death, one fall sound, back at the start.
+	# A fall before the waystone: one heart, one fall sound, back at the start.
 	_reset_counts()
+	var hearts_before := _rudy.hearts
 	_teleport(Vector2(gaps[0].x - 120.0, start.y)) # past the waystone, without touching it
 	Input.action_press(&"move_right")
 	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 240)
 	Input.action_release(&"move_right")
-	_check("falling below a cliff is instant death, with one fall sound",
-		_main.state == Main.State.DYING and _rudy.mode == Rudy.Mode.FALLEN and Sfx.count(&"fall") == 1,
-		"state %s, fall sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"fall")])
+	var hud: Hud = _main.get_node("Hud")
+	_check("a fall below a cliff costs one heart, with one fall sound and no hurt sound",
+		_main.state == Main.State.DYING and _rudy.mode == Rudy.Mode.FALLEN and Sfx.count(&"fall") == 1
+		and Sfx.count(&"hurt") == 0 and _rudy.hearts == hearts_before - 1 and hud.hearts_shown() == _rudy.hearts,
+		"state %s, fall sounds %d, hearts %d -> %d" % [
+			Main.State.keys()[_main.state], Sfx.count(&"fall"), hearts_before, _rudy.hearts])
 	var back_after: int = await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
-	_check("after a fade he is back at the start, the last checkpoint, in control",
+	_check("after a fade he is back at the start, the last checkpoint, in control, with the hearts he had left",
 		_main.state == Main.State.PLAYING and _rudy.mode == Rudy.Mode.PLAY
-		and _rudy.global_position.distance_to(start) < 1.0 and _rudy.is_on_floor(),
-		"after %.2f s, at x %.0f" % [back_after / 60.0, _rudy.global_position.x])
+		and _rudy.global_position.distance_to(start) < 1.0 and _rudy.is_on_floor()
+		and _rudy.hearts == hearts_before - 1,
+		"after %.2f s, at x %.0f, hearts %d" % [back_after / 60.0, _rudy.global_position.x, _rudy.hearts])
 	_check("the kill line counted the fall once, though he stayed below it",
 		Sfx.count(&"fall") == 1, "fall sounds %d" % Sfx.count(&"fall"))
 	_check("he gets back up in CHAR-RESPAWN, then stands in CHAR-IDLE",
@@ -275,22 +292,24 @@ func _run_1b() -> void:
 	_check("crossing it again does not light it again", Sfx.count(&"checkpoint") == 1,
 		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
 
-	# A fall after the waystone brings him back at the waystone.
+	# A fall after the waystone brings him back at the waystone, one heart fewer.
 	_reset_counts()
+	hearts_before = _rudy.hearts
 	Input.action_press(&"move_right")
 	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 240)
 	Input.action_release(&"move_right")
 	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
-	_check("after a fall past the waystone he gets back up at the waystone",
-		_rudy.global_position.distance_to(spawn) < 1.0 and Sfx.count(&"fall") == 1,
-		"at x %.0f; spawn x %.0f" % [_rudy.global_position.x, spawn.x])
+	_check("after a fall past the waystone he gets back up at the waystone, one heart fewer",
+		_rudy.global_position.distance_to(spawn) < 1.0 and Sfx.count(&"fall") == 1
+		and _rudy.hearts == hearts_before - 1,
+		"at x %.0f, spawn x %.0f; hearts %d -> %d" % [_rudy.global_position.x, spawn.x, hearts_before, _rudy.hearts])
 
 	# From the waystone, over both cliffs, onto the teleport circle.
 	_reset_counts()
 	var route_ticks: int = await _run_route(gaps, 900)
-	_check("from the waystone he clears both cliffs and reaches the teleport circle",
-		route_ticks > 0 and _main.state == Main.State.COMPLETE,
-		"state %s, fall sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"fall")])
+	_check("from the waystone he clears both cliffs and reaches the teleport circle, unhurt",
+		route_ticks > 0 and _main.state == Main.State.COMPLETE and Sfx.count(&"hurt") == 0,
+		"state %s, fall sounds %d, hurt sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"fall"), Sfx.count(&"hurt")])
 	await _frames(2) # his pose follows on his next tick
 	_check("the circle completes the level once: one portal sound; he celebrates",
 		Sfx.count(&"portal") == 1 and _rudy.mode == Rudy.Mode.CELEBRATING and _rudy.pose == &"CHAR-CELEBRATE",
@@ -302,7 +321,6 @@ func _run_1b() -> void:
 	await _frames(20)
 	_check("input stops on the circle", absf(_rudy.global_position.x - x_done) < 0.01 and _rudy.is_on_floor(),
 		"moved %.2f px" % (_rudy.global_position.x - x_done))
-	var hud: Hud = _main.get_node("Hud")
 	var card_after: int = await _wait_until(func() -> bool: return hud.is_showing_end_card(), 300)
 	_check("the camera pulls back and the screen fades to the end card",
 		hud.is_showing_end_card() and _camera.zoom.is_equal_approx(Main.END_ZOOM),
@@ -327,9 +345,11 @@ func _run_1b() -> void:
 		_main.state == Main.State.PLAYING and not fresh_waystone.lit
 		and _rudy.global_position.distance_to(start) < 1.0)
 	route_ticks = await _run_route(gaps, 1800)
-	_check("the route from the opening reaches the circle: the waystone lights once, no falls",
-		route_ticks > 0 and Sfx.count(&"checkpoint") == 1 and Sfx.count(&"portal") == 1 and Sfx.count(&"fall") == 0,
-		"%.1f s from the opening at full speed" % (route_ticks / 60.0))
+	_check("a clean route from the opening reaches the circle: the waystone lights once; no falls, no hits",
+		route_ticks > 0 and Sfx.count(&"checkpoint") == 1 and Sfx.count(&"portal") == 1
+		and Sfx.count(&"fall") == 0 and Sfx.count(&"hurt") == 0,
+		"%.1f s from the opening at full speed, jumping the cliffs, spikes and goblins; hurt sounds %d" % [
+			route_ticks / 60.0, Sfx.count(&"hurt")])
 
 	# How forgiving the widest cliff is, measured: full-speed takeoffs every 5 px
 	# from 300 px before its edge to 40 px past it, on a fresh level.
@@ -347,6 +367,233 @@ func _run_1b() -> void:
 		window_s >= 0.3,
 		"takeoffs from %s to %s clear it: %.0f px, %.2f s of running" % [
 			_from_edge(window.x), _from_edge(window.y), window.y - window.x, window_s])
+
+
+func _run_1c() -> void:
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	await _frames(5)
+	var level: Node2D = _main.get_node("Level1")
+	var hud: Hud = _main.get_node("Hud")
+	var look: Node2D = _rudy.get_node("Look")
+	var spikes: Spikes = level.get_node("Hazards/SpikesA")
+	var goblin_a: Goblin = level.get_node("Enemies/GoblinA")
+	var goblin_b: Goblin = level.get_node("Enemies/GoblinB")
+	var goblin_c: Goblin = level.get_node("Enemies/GoblinC")
+	var goblins: Array[Goblin] = [goblin_a, goblin_b, goblin_c]
+	var start := (level.get_node("StartPoint") as Marker2D).global_position
+	var ground_y := start.y
+	_check("Rudy starts with three hearts, and the HUD shows three",
+		_rudy.hearts == 3 and hud.hearts_shown() == 3, "hearts %d, shown %d" % [_rudy.hearts, hud.hearts_shown()])
+
+	# Spikes: one heart, one hurt sound, a knockback, a shake and a flash.
+	_reset_counts()
+	_teleport(Vector2(spikes.global_position.x - 220.0, ground_y))
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _wait_until(func() -> bool: return _rudy.hearts < 3, 120)
+	Input.action_release(&"move_right")
+	var hit_x := _rudy.global_position.x
+	_check("touching the spikes costs one heart, with one hurt sound; the HUD shows two",
+		_rudy.hearts == 2 and Sfx.count(&"hurt") == 1 and hud.hearts_shown() == 2,
+		"hearts %d, hurt sounds %d, shown %d" % [_rudy.hearts, Sfx.count(&"hurt"), hud.hearts_shown()])
+	_check("the hit knocks him back, away from the spikes, and turns him toward them",
+		_rudy.mode == Rudy.Mode.HURT and _rudy.velocity.x < 0.0 and _rudy.facing == 1,
+		"mode %s, speed %.0f, facing %d" % [Rudy.Mode.keys()[_rudy.mode], _rudy.velocity.x, _rudy.facing])
+	await _frames(2)
+	_check("he shows CHAR-HURT, and the camera shakes",
+		_rudy.pose == &"CHAR-HURT" and _camera.offset != Vector2.ZERO,
+		"pose %s, camera offset %s" % [_rudy.pose, _camera.offset])
+	var alphas := {}
+	for i in 24:
+		await _frames(1)
+		alphas[snappedf(look.modulate.a, 0.01)] = true
+	_check("he flashes while he is invulnerable", alphas.size() == 2 and _rudy.is_invulnerable(),
+		"alphas seen %s" % str(alphas.keys()))
+	_check("the camera shake is over after 0.2 s", _camera.offset == Vector2.ZERO, str(_camera.offset))
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY, 60)
+	_check("control returns after the knockback", _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(),
+		"knocked back %.0f px" % (hit_x - _rudy.global_position.x))
+
+	# The spikes and a goblin at once: one heart, one hurt sound.
+	await _wait_until(func() -> bool: return not _rudy.is_invulnerable(), 120)
+	goblin_a.speed = 0.0
+	goblin_a.position.x = spikes.global_position.x + 50.0 # outside its patrol, until a reset
+	_reset_counts()
+	_teleport(Vector2(spikes.global_position.x + 40.0, ground_y))
+	await _frames(3)
+	_check("touching the spikes and a goblin at once costs one heart, with one hurt sound",
+		_rudy.hearts == 1 and Sfx.count(&"hurt") == 1, "hearts %d, hurt sounds %d" % [_rudy.hearts, Sfx.count(&"hurt")])
+
+	# Standing on the spikes: nothing while he is invulnerable, then his last heart goes.
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(), 60)
+	_teleport(Vector2(spikes.global_position.x - 30.0, ground_y))
+	var hit_while_invulnerable := false
+	while _rudy.is_invulnerable():
+		await _frames(1)
+		if Sfx.count(&"hurt") != 1:
+			hit_while_invulnerable = true
+			break
+	await _frames(3)
+	_check("standing on the spikes hurts again only once his invulnerability is over",
+		not hit_while_invulnerable and Sfx.count(&"hurt") == 2, "hurt sounds %d" % Sfx.count(&"hurt"))
+	_check("with his last heart gone he is defeated (CHAR-DEFEAT), and the level is dying; no fall",
+		_rudy.hearts == 0 and _rudy.mode == Rudy.Mode.DEFEATED and _rudy.pose == &"CHAR-DEFEAT"
+		and _main.state == Main.State.DYING and Sfx.count(&"fall") == 0,
+		"hearts %d, pose %s, state %s" % [_rudy.hearts, _rudy.pose, Main.State.keys()[_main.state]])
+	var back_after: int = await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("after the fade the level starts over: he is at the start with three hearts, flashing",
+		_rudy.global_position.distance_to(start) < 1.0 and _rudy.hearts == 3 and hud.hearts_shown() == 3
+		and _rudy.is_invulnerable(),
+		"after %.2f s; hearts %d" % [back_after / 60.0, _rudy.hearts])
+	_check("the goblin that was moved is back in its patrol",
+		not goblin_a.dead and goblin_a.position.x >= 1500.0 and goblin_a.position.x <= 1500.0 + goblin_a.patrol_distance,
+		"x %.0f" % goblin_a.position.x)
+	goblin_a.speed = 100.0
+
+	# Landing on a goblin from above: one stomp sound, no hit, and a bounce.
+	await _wait_until(func() -> bool: return not _rudy.is_invulnerable(), 120)
+	_reset_counts()
+	_teleport(Vector2(goblin_a.global_position.x, ground_y - Goblin.HEIGHT - 60.0))
+	_rudy.velocity = Vector2(0, 200)
+	await _frames(1) # is_on_floor() is stale until his next move
+	await _wait_until(func() -> bool: return goblin_a.dead or _rudy.is_on_floor(), 60)
+	await _frames(2)
+	_check("landing on a goblin from above defeats it, with one stomp sound and no hit",
+		goblin_a.dead and Sfx.count(&"stomp") == 1 and Sfx.count(&"hurt") == 0 and _rudy.hearts == 3,
+		"stomp sounds %d, hurt sounds %d" % [Sfx.count(&"stomp"), Sfx.count(&"hurt")])
+	_check("the stomp bounces him up", _rudy.velocity.y < 0.0 and not _rudy.is_on_floor(),
+		"speed y %.0f" % _rudy.velocity.y)
+	await _frames(60)
+	_check("a defeated goblin ignores him when he comes down on it again, then disappears",
+		Sfx.count(&"hurt") == 0 and Sfx.count(&"stomp") == 1 and not goblin_a.visible)
+
+	# Walking into a goblin: a heart, a knockback away from it, and it stays.
+	await _wait_until(func() -> bool:
+		return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable(), 120)
+	_reset_counts()
+	_teleport(Vector2(goblin_b.global_position.x - 250.0, ground_y))
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _wait_until(func() -> bool: return _rudy.hearts < 3, 120)
+	Input.action_release(&"move_right")
+	_check("walking into a goblin costs a heart and knocks him back from it; the goblin stays",
+		_rudy.hearts == 2 and Sfx.count(&"hurt") == 1 and Sfx.count(&"stomp") == 0
+		and _rudy.velocity.x < 0.0 and not goblin_b.dead,
+		"hearts %d, speed %.0f" % [_rudy.hearts, _rudy.velocity.x])
+
+	# Landing on two goblins in the same tick: two stomp sounds, no hit.
+	await _wait_until(func() -> bool:
+		return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable(), 120)
+	for goblin: Goblin in [goblin_b, goblin_c]:
+		goblin.speed = 0.0
+	goblin_b.position.x = 2500.0
+	goblin_c.position.x = 2540.0
+	_reset_counts()
+	_teleport(Vector2(2520.0, ground_y - Goblin.HEIGHT - 60.0))
+	_rudy.velocity = Vector2(0, 200)
+	await _frames(1) # is_on_floor() is stale until his next move
+	await _wait_until(func() -> bool: return goblin_b.dead or goblin_c.dead or _rudy.is_on_floor(), 60)
+	await _frames(2)
+	_check("landing on two goblins in the same tick: two stomp sounds, no hit",
+		goblin_b.dead and goblin_c.dead and Sfx.count(&"stomp") == 2 and Sfx.count(&"hurt") == 0,
+		"stomp sounds %d, hurt sounds %d" % [Sfx.count(&"stomp"), Sfx.count(&"hurt")])
+	for goblin: Goblin in [goblin_b, goblin_c]:
+		goblin.speed = 100.0
+
+	# A fall: every goblin comes back, and it costs a heart.
+	await _frames(30)
+	var hearts_before := _rudy.hearts
+	_teleport(Vector2(4400.0, 700.0)) # over the first cliff, past the waystone without touching it
+	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 120)
+	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	var back := PackedStringArray()
+	for goblin in goblins:
+		if not goblin.dead and goblin.visible:
+			back.append(goblin.name)
+	_check("after a death every goblin is back, the defeated ones too", back.size() == goblins.size(),
+		"back: %s" % ", ".join(back))
+	var homes: Array[float] = [1500.0, 3000.0, 5600.0] # where level_1.tscn starts them
+	var in_patrol := true
+	for i in goblins.size():
+		var x := goblins[i].position.x
+		if x < homes[i] or x > homes[i] + goblins[i].patrol_distance:
+			in_patrol = false
+	_check("each goblin is back in its own patrol", in_patrol,
+		"x %.0f, %.0f, %.0f" % [goblin_a.position.x, goblin_b.position.x, goblin_c.position.x])
+	_check("a fall costs a heart and does not refill the others",
+		hearts_before == 2 and _rudy.hearts == 1 and hud.hearts_shown() == 1,
+		"hearts before %d, after %d" % [hearts_before, _rudy.hearts])
+
+	# A stomp at full falling speed: from the top of a jump onto a goblin.
+	await _wait_until(func() -> bool:
+		return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable(), 120)
+	goblin_a.speed = 0.0
+	_reset_counts()
+	var apex := _expected_jump().x
+	_teleport(Vector2(goblin_a.global_position.x, ground_y - apex))
+	await _frames(1)
+	var landing_speed := 0.0
+	for i in 60:
+		landing_speed = _rudy.velocity.y
+		await _frames(1)
+		if goblin_a.dead or _rudy.is_on_floor():
+			break
+	_check("falling from the top of a jump onto a goblin still counts as a stomp, not a hit",
+		goblin_a.dead and Sfx.count(&"stomp") == 1 and Sfx.count(&"hurt") == 0,
+		"falling at %.0f px/s; stomp sounds %d, hurt sounds %d" % [landing_speed, Sfx.count(&"stomp"), Sfx.count(&"hurt")])
+	goblin_a.speed = 100.0
+
+	# A fall that takes his last heart starts the level over from the opening,
+	# even after the waystone was lit.
+	var waystone: Waystone = level.get_node("Waystone")
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(), 120)
+	_teleport(Vector2(waystone.global_position.x - 200.0, ground_y))
+	await _frames(2)
+	await _hold_until(&"move_right", func() -> bool:
+		return _rudy.global_position.x > waystone.spawn_point.global_position.x, 120)
+	var lit_before := waystone.lit and _main.checkpoint_name == "waystone"
+	_reset_counts()
+	hearts_before = _rudy.hearts
+	_teleport(Vector2(4400.0, 700.0))
+	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 120)
+	var hearts_at_fall := _rudy.hearts
+	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("a fall that takes his last heart starts the level over: at the start, three hearts, the waystone dark",
+		lit_before and hearts_before == 1 and hearts_at_fall == 0
+		and _rudy.global_position.distance_to(start) < 1.0 and _rudy.hearts == 3 and hud.hearts_shown() == 3
+		and not waystone.lit and _main.checkpoint_name == "start"
+		and Sfx.count(&"fall") == 1 and Sfx.count(&"hurt") == 0,
+		"waystone lit before %s; hearts %d -> %d at the fall -> %d; at x %.0f; waystone lit now %s" % [
+			lit_before, hearts_before, hearts_at_fall, _rudy.hearts, _rudy.global_position.x, waystone.lit])
+	var all_alive := true
+	for goblin in goblins:
+		all_alive = all_alive and not goblin.dead and goblin.visible
+	_check("starting over brings every goblin back", all_alive)
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(), 120)
+	_teleport(Vector2(waystone.global_position.x - 200.0, ground_y))
+	await _frames(2)
+	await _hold_until(&"move_right", func() -> bool:
+		return _rudy.global_position.x > waystone.spawn_point.global_position.x, 120)
+	_check("after starting over, the waystone lights again", waystone.lit and Sfx.count(&"checkpoint") == 1,
+		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
+
+	# Hits that take his last heart start the level over too, even after the waystone.
+	var spikes_b: Spikes = level.get_node("Hazards/SpikesB")
+	_reset_counts()
+	for i in 3:
+		await _wait_until(func() -> bool:
+			return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable(), 120)
+		var hearts_now := _rudy.hearts
+		_teleport(Vector2(spikes_b.global_position.x, ground_y))
+		await _wait_until(func() -> bool: return _rudy.hearts < hearts_now, 30)
+	var defeated := _main.state == Main.State.DYING and _rudy.mode == Rudy.Mode.DEFEATED and Sfx.count(&"hurt") == 3
+	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
+	_check("hits that take his last heart start the level over too: at the start, three hearts, the waystone dark",
+		defeated and _rudy.global_position.distance_to(start) < 1.0 and _rudy.hearts == 3
+		and not waystone.lit and _main.checkpoint_name == "start",
+		"defeated %s; at x %.0f; hearts %d; waystone lit %s" % [defeated, _rudy.global_position.x, _rudy.hearts, waystone.lit])
 
 
 ## The cliffs: the gaps between ground segments, as (from x, to x).
@@ -409,10 +656,10 @@ func _from_edge(x: float) -> String:
 	return "%.0f px past the edge" % x
 
 
-## Holds right and jumps once before each cliff, until the level is complete.
-## Returns the ticks it took, or -1 if he fell or ran out of time.
+## Holds right and jumps over each cliff, row of spikes and live goblin ahead,
+## until the level is complete. Returns the ticks it took, or -1 if he died or
+## ran out of time.
 func _run_route(gaps: Array[Vector2], max_ticks: int) -> int:
-	var next_gap := 0
 	var release_jump_at := -1
 	Input.action_press(&"move_right")
 	for t in max_ticks:
@@ -425,15 +672,37 @@ func _run_route(gaps: Array[Vector2], max_ticks: int) -> int:
 			return t + 1
 		if _main.state == Main.State.DYING:
 			break
-		while next_gap < gaps.size() and _rudy.global_position.x > gaps[next_gap].x:
-			next_gap += 1
-		if next_gap < gaps.size() and release_jump_at < t and _rudy.is_on_floor() \
-				and _rudy.global_position.x >= gaps[next_gap].x - JUMP_LEAD:
+		if release_jump_at < t and _rudy.is_on_floor() and _obstacle_ahead(gaps):
 			Input.action_press(&"jump")
 			release_jump_at = t + 3
 	Input.action_release(&"move_right")
 	Input.action_release(&"jump")
 	return -1
+
+
+## True when a cliff, a row of spikes or a live goblin starts close enough ahead
+## that the route should jump now.
+func _obstacle_ahead(gaps: Array[Vector2]) -> bool:
+	var x := _rudy.global_position.x
+	for gap in gaps:
+		if x >= gap.x - CLIFF_LEAD and x < gap.x:
+			return true
+	for spikes in _main.get_node("Level1/Hazards").get_children():
+		var left := (spikes as Node2D).global_position.x - Spikes.WIDTH / 2.0
+		if x >= left - SPIKES_LEAD and x < left:
+			return true
+	for goblin in _main.get_node("Level1/Enemies").get_children():
+		if not (goblin as Goblin).dead:
+			var left := (goblin as Node2D).global_position.x - 28.0
+			if x >= left - GOBLIN_LEAD and x < left:
+				return true
+	return false
+
+
+## Switches the spikes and the goblins on or off, for checks of movement alone.
+func _set_threats(enabled: bool) -> void:
+	for path: String in ["Level1/Hazards", "Level1/Enemies"]:
+		_main.get_node(path).process_mode = Node.PROCESS_MODE_INHERIT if enabled else Node.PROCESS_MODE_DISABLED
 
 
 func _check_scenes() -> void:

@@ -58,4 +58,5 @@ None at the moment. The ranged monster (draft v2's open question) is the mushroo
 ## Revisions after design-v1
 
 - **2026-10-01, Rudy's look, after his reference was generated:** he is about 3.4 heads tall rather than 2–3. His robe has a thin pale trim along the hood edge, the front opening, the cuffs and the hem. See CHARACTER-SHEET.md, revision 2.
+- **2026-10-02, falling and zero hearts, after the greybox playtests:** a fall off a cliff is no longer instant death. It costs one heart and sends Rudy back to the last checkpoint with the hearts he has left. At zero hearts, by a hit or a fall, he no longer restarts from the last checkpoint: the level starts over from the opening, as if the game had just begun. See CHANGE-BRIEF.md.
 
