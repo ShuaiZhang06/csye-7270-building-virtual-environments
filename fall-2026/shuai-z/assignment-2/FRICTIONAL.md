@@ -630,3 +630,23 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - CHANGE-BRIEF.md gets the revision promised in the greybox plan: the pickup hides instead of freeing itself.
 - **Human / Claude / model:** the step and the rules are mine; the numbers above and the code are Claude's. No generative model was used.
 - **Still unresolved:** how step 1d plays: the reach and timing of the cut, whether the sword form reads at once (P1), and whether losing the gear is clear. Also, whether a fall with the gear should cost the gear instead of a heart.
+
+## 2026-10-02 — Sound prompts; the first sound effect; six sounds instead of ten
+
+*Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** whether there were prompts for music and sound effects, and if not, to write templates from the game's design so that I could generate them myself.
+- **Got:** a sound-effects section and a music section at the end of `design/generation-prompts.md` (commit `bf9907c`): one shared block and one line for each of the ten sounds in CHANGE-BRIEF.md, with target lengths; and two MUS-LOOP prompts (folk ensemble, 104 BPM, D mixolydian, no vocals) with the steps for cutting a clean loop.
+- **Generated:** SFX-JUMP in Adobe Firefly on the free plan, with the prompt unchanged; four takes. Firefly shows no model name; Claude read it from the takes' Content Credentials: Adobe Firefly GenSoundFX 2, version 1.2.
+- **Decided (my words):** "I choose number 4. It is clear enough that you can hear him take off, and it doesn't sound strange."
+- **Asked:** whether I should trim the silence at the start in Audacity, or whether Claude could; and to cut the sound list to the five or six that matter, since the assignment needs at least four.
+- **Got:**
+  - `design/tools/prepare_sfx.py` cuts take 04 to 210–500 ms, fades it, mixes it to mono and sets the peak to −1 dBFS: `game/systems/audio/sfx/SFX-JUMP.wav`, 0.29 s. It keeps the take's XMP link to its Content Credentials, since Adobe's terms forbid removing them to mislead;
+  - Claude's proposal: keep the four required sounds (jump, stomp, hurt, portal) plus the slash and the pickup; play the hurt sound on a fall, since a fall costs a heart; leave the waystone silent; and drop the spore and block sounds with the mushroom.
+- **Asked:** how SFX-STOMP and SFX-PORTAL differ, since I have made only one level.
+- **Got:** the stomp plays on every goblin defeated by a stomp, short and padded, for the success event; the portal plays once, at the end of the level, for the completion event. Cutting either would leave one of the four required events without a sound.
+- **Decided (my words):** "Keep six, as you said."
+- **Got:** a revision in CHANGE-BRIEF.md (the six sounds, the fall playing SFX-HURT, the cut sounds); the cut rows marked in the prompts; SFX-JUMP and Firefly in ASSET-LOG.md and SOURCES.md; the generation log `generated/logs/2026-10-02-firefly-SFX-JUMP.md`.
+- **Human / Claude / model:** the choice of take and the six sounds are mine; the prompts, the cut points, the script and the terms research are Claude's; the takes come from Adobe Firefly.
+- **Checked (mine):** the Generate sound effects page shows no beta label.
+- **Still unresolved:** the other five sounds and MUS-LOOP. The code still calls `Sfx.play(&"fall")`; it changes to the hurt sound in build step 3.

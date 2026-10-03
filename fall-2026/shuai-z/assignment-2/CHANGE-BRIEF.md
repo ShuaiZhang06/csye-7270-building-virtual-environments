@@ -130,3 +130,8 @@ The sections above are design v1 (tag `design-v1`) and stay as written. Where th
   - whenever his last heart goes, by a hit or a fall, the level starts over from the opening, as if the game had just begun: Rudy is at the start with three hearts, the waystone is dark again, and every monster is back;
   - this replaces "Falling below a cliff is instant death" and "Zero hearts or a fall sends Rudy back to the last waystone with 3 hearts" above, and panel 5's "reappears at the last waystone with 3 hearts" in STORYBOARD.md. The waystone now matters only after a fall that leaves him hearts.
 - **2026-10-02, greybox step 1d:** the pickup does not free itself after its first `body_entered`, as the event-to-sound map says: it stops monitoring and hides, so it can be back where it was after a death. The guard against a second SFX-PICKUP is the same.
+- **2026-10-02, cutting the sound list to six:** the slice has six sound effects: SFX-JUMP, SFX-STOMP, SFX-HURT and SFX-PORTAL (the four the assignment requires), plus SFX-SLASH and SFX-PICKUP.
+  - SFX-FALL is cut. A fall costs a heart, so it plays SFX-HURT, once, at the same moment SFX-FALL would have played (Rudy crosses the kill line); the kill line's guard is unchanged. This replaces "plays SFX-FALL only" above and panel 5's "the fall sound (SFX-FALL)" in STORYBOARD.md.
+  - SFX-CHECKPOINT is cut. The waystone lighting up is the cue, with no sound.
+  - SFX-SPORE and SFX-BLOCK are cut with the mushroom (cut-order step 4). If the mushroom is built after all, SFX-SPORE comes back, since P2 gives every enemy shot its attack sound.
+  - The asset list and the event-to-sound map above keep their rows for the record; the cut rows are not generated.

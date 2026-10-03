@@ -224,14 +224,16 @@ Two small heart icons for a game's health display, side by side: a full heart in
 
 ## Sound effects
 
-Drafted 2026-10-01 from CONCEPT.md's audio direction and CHANGE-BRIEF.md's event-to-sound map. No audio model has been chosen yet, so the prompts are written to work in any text-to-sound-effect tool.
+Drafted 2026-10-01 from CONCEPT.md's audio direction and CHANGE-BRIEF.md's event-to-sound map, and written to work in any text-to-sound-effect tool. I generate them in Adobe Firefly (Generate sound effects), on the free plan; each prompt gives four takes.
+
+On 2026-10-02 the list was cut to six sounds (CHANGE-BRIEF.md, revisions): SFX-JUMP, SFX-STOMP, SFX-HURT, SFX-PORTAL, SFX-SLASH and SFX-PICKUP. The four cut rows are kept below for the record and are not generated.
 
 ### How to use them
 
 1. **One prompt, one sound.** Paste the shared block and then the line for the sound. If the tool has a duration setting, set it to the upper end of the target length; if it has a prompt-strength setting, keep it high.
-2. **Make three or four takes of each sound** and keep the best. Save every take as `ID-NN` (for example `SFX-JUMP-01.wav`) in `_raw/`, and follow step 4 of *How to use them* above for accepted and rejected takes.
-3. **Record for each take:** the model name and version, the date, the exact prompt, the duration and any other settings, and the seed if the tool shows one.
-4. **Game-ready version:** trim the silence at the start (the sound must begin on the event's frame), trim or fade the tail, convert to mono, normalize the peak to about −1 dBFS, and export as WAV. The edits go in the asset log.
+2. **Make three or four takes of each sound** (one Firefly prompt gives four) and keep the best. Save every take as `ID-NN` (for example `SFX-JUMP-01.wav`) in `_raw/`, and follow step 4 of *How to use them* above for accepted and rejected takes.
+3. **Record for each take:** the model name and version, the date, the exact prompt, the duration and any other settings, and the seed if the tool shows one. Firefly's page shows no model name, but each WAV's Content Credentials do: its XMP chunk links to a manifest that names the model and version.
+4. **Game-ready version:** trim the silence at the start (the sound must begin on the event's frame), trim or fade the tail, convert to mono, normalize the peak to about −1 dBFS, and export as WAV. `design/tools/prepare_sfx.py` does this from the accepted take, with each sound's cut points in its `CUTS` table, and keeps the take's Content Credentials link. The edits go in the asset log.
 5. **Listen in context.** Jump and slash play many times a minute, so they must not tire the ear; play each one ten times in a row before accepting it.
 6. Never add the name of a game, a franchise, a studio or a composer to any prompt.
 
@@ -251,10 +253,10 @@ A single short sound effect for a cozy 2D fantasy platformer. Soft, warm and rou
 | SFX-HURT | 0.3–0.5 s | `A short, non-vocal hurt sound: a soft muffled thud followed by a quick falling pluck on a wooden string instrument. It stings a little but stays soft. No voice, no groan, no scream.` |
 | SFX-PORTAL | 2–3 s | `Arriving at a magic teleport circle: a bright, airy shimmer that swells upward, made of soft glassy bell tones and sparkling high chimes, then rings out and fades to silence. Wondrous and calm, a sense of completion, not a fanfare.` |
 | SFX-SLASH | 0.2–0.3 s | `A light sword swish: a quick, airy swipe of a short steel blade cutting through the air. Thin and clean, no clang, no impact.` |
-| SFX-SPORE | 0.3–0.5 s | `A mushroom creature puffing out a ball of spores: a soft, dusty puff of air, like squeezing a small pouch of powder, with a faint low wobble. Clearly an attack, but not alarming.` |
-| SFX-BLOCK | 0.2–0.35 s | `A ball of soft spores hitting a small wooden shield: a hollow wooden knock with a little dusty puff as it bursts. Short and solid, no metal ring.` |
-| SFX-FALL | 0.8–1.2 s | `Falling off a cliff: a soft, descending whistle of wind that drifts away and fades out, with no impact at the end. Gentle, a little comic, not scary.` |
-| SFX-CHECKPOINT | 1–1.5 s | `An old standing stone waking up as a checkpoint: a low, warm hum of resonant stone, with a gentle chime blooming on top, then a soft fade. Reassuring and calm.` |
+| SFX-SPORE | **cut** (0.3–0.5 s) | `A mushroom creature puffing out a ball of spores: a soft, dusty puff of air, like squeezing a small pouch of powder, with a faint low wobble. Clearly an attack, but not alarming.` |
+| SFX-BLOCK | **cut** (0.2–0.35 s) | `A ball of soft spores hitting a small wooden shield: a hollow wooden knock with a little dusty puff as it bursts. Short and solid, no metal ring.` |
+| SFX-FALL | **cut** (0.8–1.2 s) | `Falling off a cliff: a soft, descending whistle of wind that drifts away and fades out, with no impact at the end. Gentle, a little comic, not scary.` |
+| SFX-CHECKPOINT | **cut** (1–1.5 s) | `An old standing stone waking up as a checkpoint: a low, warm hum of resonant stone, with a gentle chime blooming on top, then a soft fade. Reassuring and calm.` |
 
 If a take keeps adding music or a voice, add `Only the sound effect.` at the end of the prompt. If the hurt sound keeps coming back with a voice, drop the word "hurt" and describe only the thud and the pluck.
 
