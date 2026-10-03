@@ -699,7 +699,10 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 *Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
 
 - **Asked:** ChatGPT, in a chat in my CSYE7270 project (`6ac050e7-3c0c-83ee-80af-efc1d1657df3`), for a new sword-form run frame. The chat model was GPT-5.6 Sol at high reasoning; the image model was ChatGPT's default. The prompts and attachments go into ASSET-LOG.md.
-- **Got:** a sword-form run frame whose legs are the same as CHAR-SWORD-RUN-A's: the same leg stretched out behind him, the other in front.
+- **Got:** three images in three turns (log: `generated/logs/2026-10-02-chatgpt-CHAR-SWORD-RUN-B.md`):
+  - turn 1, Claude's run-redo prompt unchanged: the arms were swapped instead of the legs, so the sword went to the back hand. I wrote: "You got it wrong: the hands stay the same; it's the legs and feet that should change!";
+  - turn 2: the arms were back as before, but the legs were unchanged;
+  - turn 3, Claude's second turn: the legs were still the same as CHAR-SWORD-RUN-A's, the same leg stretched out behind him and the other in front.
 - **Decided (my words):** "The newly generated sword-form RUN-B is even more like RUN-A, so I'm giving up on changing RUN-B; it stays as it was."
   - CHAR-RUN-B-02 and CHAR-SWORD-RUN-B-01 stay in the game, and pose 4 in CHARACTER-SHEET.md stays the passing pose;
   - the two run frames still keep the same leg behind him, which I noticed in the 2a playtest; I accept that as it is. I gave no further reason.
