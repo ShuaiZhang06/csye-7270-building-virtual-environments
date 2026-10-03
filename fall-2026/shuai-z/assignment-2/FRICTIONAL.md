@@ -631,6 +631,49 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Human / Claude / model:** the step and the rules are mine; the numbers above and the code are Claude's. No generative model was used.
 - **Still unresolved:** how step 1d plays: the reach and timing of the cut, whether the sword form reads at once (P1), and whether losing the gear is clear. Also, whether a fall with the gear should cost the gear instead of a heart.
 
+## 2026-10-02 — The art-swap plan; step 2a: Rudy's frames and the outer outline
+
+*Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** to start build step 2, swapping in the generated art, as a plan first.
+- **Got:** a plan in three approvals:
+  - 2a: Rudy's frames and the in-engine outer outline;
+  - 2b: the Level 1 layers and ground;
+  - 2c: the props, the goblin, the hearts and the end card, with the goblin's and the spikes' collision boxes fitted to their art.
+  - Claude also found two problems for 2b. The middle ground segment has cliffs at both ends, and the 1490 px between its cliff pieces is 6.77 ground tiles, so one end would show a seam. And when the camera pulls back to 0.8 on the teleport circle, the 2046 px far layer would show its edges; Claude proposed keeping the far layer at its screen size during the pull-back.
+- **Decided (my words):** "Approve 2a; squeeze the seam by 3%." The middle segment's tiles are squeezed 3%, to seven tiles, and the layout stays as it is (the other choice was to move the second cliff 50 px to the right).
+- **Got (step 2a):**
+  - Rudy is drawn from his 16 generated frames: the controller's pose ID picks the frame, which shares the frames' canvas and body origin and is drawn at half scale, with linear filtering and mipmaps. He flips to face left, and the hit flash fades the frame. The sword form's frames show the sword and shield he holds;
+  - the outer outline: a canvas shader, `game/systems/art/outline.gdshader`, adds a 4 px line in the art's line colour `#290F0D` under the edge of the frame. Measured in the screenshots, it is 4–5 px wide;
+  - the code-drawn Rudy and the pose ID over his head are gone; the debug line still shows the pose. The pickup and the flying gear stay code-drawn until 2c;
+  - 4 new checks, 95 in all, all passing. With CHAR-RUN-B pointed at CHAR-RUN-A's frame, the frame check fails;
+  - crops of every pose at game size in `evidence/2a/`, each with a copy showing the collision shapes, and a contact sheet.
+- **Claude's calls in this step:**
+  - a pixel counts toward the outline from alpha 0.5, fully from 0.9. Simulated on CHAR-SWORD-SLASH, counting every pixel gave the slash trail's faint tail a dark smudge; with this threshold the near-solid arc is outlined and the tail fades without a line;
+  - CHAR-SWORD-BLOCK is loaded but not shown until blocking is built (step 4);
+  - in the collision screenshots the capsule stays on the torso and the soles on the ground line in every pose. The hurt, defeat and respawn frames reach outside the capsule, but in those states he is invulnerable or cannot be touched.
+- **Human / Claude / model:** the plan's approval and the seam decision are mine; the plan, the shader, the threshold and the code are Claude's. No generative model was used in this step.
+- **Still unresolved:**
+  - whether the run and jump pairs pop in motion;
+  - whether the outline's weight looks right, and whether the outlined arc of the slash reads as the swing;
+  - how Rudy reads against the generated wheat, which comes in 2b.
+
+## 2026-10-02 — Step 2a playtest: a jump in place keeps the rising pose; the second run frame is redone
+
+*Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** step 2a, on my Mac.
+- **Found (my words):**
+  - "A jump in place doesn't need the jump's second pose, because that pose looks as if he is also moving sideways."
+  - "The second run frame doesn't look good. In both frames the same leg is in front and the other behind; only the stride changes. He looks as if he is hopping along on one foot. I need to regenerate it."
+- **Asked:** how to write the prompt for the new run frame.
+- **Got (Claude's changes and calls):**
+  - the falling pose shows only if he was moving sideways when the fall began, which is decided at the top of the jump, so the pose changes at most once in the air. A jump in place keeps CHAR-RISE all the way down; a running jump comes down in CHAR-FALL; a running jump whose key is let go before the top drops in CHAR-RISE. The sword form follows the same rule. CHARACTER-SHEET.md gets revision 3;
+  - the checks: the jump-in-place check now expects CHAR-RISE all the way down, and two new checks cover the running jump and letting go before the top. 97 in all, all passing;
+  - Claude's proposal for the run: keep two frames, and make CHAR-RUN-B the other contact pose, with the legs and arms swapped, so the frames alternate legs. The prompt is an edit of CHAR-RUN-A-01 with CHAR-REF-07 as the character reference; it is in `design/generation-prompts.md` ("Run redo"), with a second turn in case the legs come back unchanged. CHAR-SWORD-RUN-B has the same problem and is redone from the new CHAR-RUN-B with the unchanged sword-form movement prompt.
+- **Human / Claude / model:** the findings are mine; the rule's details, the prompt and the code are Claude's. No generative model was used yet.
+- **Still unresolved:** the new CHAR-RUN-B and CHAR-SWORD-RUN-B. Once they are accepted, pose 4 in CHARACTER-SHEET.md changes from the passing pose to the second contact pose.
+
 ## 2026-10-02 — Sound prompts; the first sound effect; six sounds instead of ten
 
 *Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
@@ -650,3 +693,14 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Human / Claude / model:** the choice of take and the six sounds are mine; the prompts, the cut points, the script and the terms research are Claude's; the takes come from Adobe Firefly.
 - **Checked (mine):** the Generate sound effects page shows no beta label.
 - **Still unresolved:** the other five sounds and MUS-LOOP. The code still calls `Sfx.play(&"fall")`; it changes to the hurt sound in build step 3.
+
+## 2026-10-02 — The run redo is dropped; both run frames stay
+
+*Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** ChatGPT, in a chat in my CSYE7270 project (`6ac050e7-3c0c-83ee-80af-efc1d1657df3`), for a new sword-form run frame. The chat model was GPT-5.6 Sol at high reasoning; the image model was ChatGPT's default. The prompts and attachments go into ASSET-LOG.md.
+- **Got:** a sword-form run frame whose legs are the same as CHAR-SWORD-RUN-A's: the same leg stretched out behind him, the other in front.
+- **Decided (my words):** "The newly generated sword-form RUN-B is even more like RUN-A, so I'm giving up on changing RUN-B; it stays as it was."
+  - CHAR-RUN-B-02 and CHAR-SWORD-RUN-B-01 stay in the game, and pose 4 in CHARACTER-SHEET.md stays the passing pose;
+  - the two run frames still keep the same leg behind him, which I noticed in the 2a playtest; I accept that as it is. I gave no further reason.
+- **Human / Claude / model:** the decision is mine; Claude's prompt from the previous entry was the starting point; ChatGPT's image model made the image.

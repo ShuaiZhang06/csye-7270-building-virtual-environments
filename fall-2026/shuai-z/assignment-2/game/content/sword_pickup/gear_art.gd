@@ -1,6 +1,7 @@
 class_name GearArt
 ## Code-drawn sword and shield until the art swap (PROP-SWORDSHIELD), shared by
-## the pickup, the gear Rudy holds, and the gear that flies off him after a hit:
+## the pickup and the gear that flies off Rudy after a hit (the gear he holds is
+## in his frames):
 ## a short, straight steel sword and a small round wooden shield with a plain
 ## iron rim and no emblem (CHARACTER-SHEET.md). Call these from a _draw().
 

@@ -5,6 +5,7 @@
 > - **v1** (2026-09-30) is preserved at the `design-v1` tag.
 > - **v2** (2026-10-01) follows the accepted reference CHAR-REF-07: no prompt names the character any more (see SOURCES.md), every pose attaches CHAR-REF-07, and the proportions and robe trim follow that image.
 > - **Audio** (2026-10-01): the sound-effect and music prompts at the end, drafted from CONCEPT.md's audio direction and CHANGE-BRIEF.md's event-to-sound map.
+> - **Run redo** (2026-10-02): a new CHAR-RUN-B and CHAR-SWORD-RUN-B, after the step 2a playtest (see "Run redo" under Rudy).
 >
 > The asset log records the exact prompt actually used for each output.
 
@@ -98,6 +99,22 @@ Use the attached image as the exact reference for the character, the sword and t
 ```text
 Keep exactly the pose, body and background of the first attached image. Add the sword and shield exactly as they look in the second attached image, held naturally for this pose. Change nothing else.
 ```
+
+### Run redo: CHAR-RUN-B, the other contact pose (after the step 2a playtest)
+
+In the game, CHAR-RUN-A and CHAR-RUN-B-02 both have the same leg behind him, so the two-frame run looks like hopping on one foot. The new CHAR-RUN-B is the other contact pose: the same stride with the legs and arms swapped, so the two frames alternate legs. It is an edit of the accepted run frame, which keeps its size, lean and framing.
+
+New chat. Attach `generated/accepted/CHAR-RUN-A-01.jpg` first and CHAR-REF-07 second:
+
+```text
+Edit the first attached image, which shows this boy running in side view facing right, in the contact pose. Use the second attached image as the exact character reference. Draw the next step of the same run: the same contact pose with the legs and arms swapped. The leg that is stretched out behind him now becomes the front leg, its foot just touching the ground in front of him, and the front leg now stretches out behind him. The arms swing the other way too: the arm that reaches forward now swings back, and the arm that is back now swings forward. Keep the same forward lean, stride length, size and position in the frame, and keep him facing right. Keep the same cel-shaded style, flat neutral lighting and the same plain, solid steel-blue background (#4F7CAA). Change nothing except the legs and arms. Square image.
+```
+
+If the legs come back unchanged, a second turn: "The legs are still the same as in the first image. The boot that is behind him in the first image must now be in front, touching the ground, and the front boot must be behind him."
+
+**Then CHAR-SWORD-RUN-B:** a new chat with the sword-form movement prompt above, unchanged, attaching the new CHAR-RUN-B first and CHAR-SWORD-IDLE-01 second.
+
+**Outcome (2026-10-02):** dropped. The new sword-form run frame came back with the same legs as CHAR-SWORD-RUN-A, so CHAR-RUN-B-02 and CHAR-SWORD-RUN-B-01 stay as they are. See FRICTIONAL.md and ASSET-LOG.md.
 
 ## Environment
 

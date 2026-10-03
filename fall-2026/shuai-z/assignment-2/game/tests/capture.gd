@@ -12,9 +12,13 @@ extends Node
 ##   and the flash, and the defeat (panels 2 and 4).
 ## - 1d: the sword-and-shield pickup, the sword form, a slash that cuts a
 ##   goblin, and the gear flying off after a hit (panels 3 and 4).
+## - 2a: Rudy's generated frames with the outer outline: every pose he can take,
+##   facing right and left, and the flash, each cropped around him at game
+##   size (520 x 380 px); and two full screens, the opening and the slash.
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
+const CROP := Vector2i(520, 380) ## around Rudy, his soles 300 px from the top
 
 var _main: Main
 var _rudy: Rudy
@@ -24,7 +28,7 @@ var _step := ""
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c", "1d"]
+		steps = ["1a", "1b", "1c", "1d", "2a"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
@@ -41,6 +45,8 @@ func _ready() -> void:
 				await _capture_1c()
 			"1d":
 				await _capture_1d()
+			"2a":
+				await _capture_2a()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -189,16 +195,116 @@ func _capture_1d() -> void:
 	await _shot("gear-flies")
 
 
+func _capture_2a() -> void:
+	await _shot("opening")
+	var hazards: Node2D = _main.get_node("Level1/Hazards")
+	var enemies: Node2D = _main.get_node("Level1/Enemies")
+	for threats: Node2D in [hazards, enemies]:
+		threats.process_mode = Node.PROCESS_MODE_DISABLED
+		threats.visible = false
+	# The default form's movement, as in 1a.
+	await _shot("idle", true)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-RUN-A")
+	await _shot("run-a", true)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-RUN-B")
+	await _shot("run-b", true)
+	Input.action_press(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-RISE")
+	await _frames(10)
+	await _shot("rise", true)
+	Input.action_release(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-FALL")
+	await _frames(8)
+	await _shot("fall", true)
+	await _until(func() -> bool: return _rudy.is_on_floor())
+	Input.action_release(&"move_right")
+	Input.action_press(&"move_left")
+	await _frames(30)
+	Input.action_release(&"move_left")
+	await _frames(20)
+	await _shot("idle-left", true)
+	# The spikes: the hit, the flash, then the defeat and the respawn.
+	hazards.process_mode = Node.PROCESS_MODE_INHERIT
+	hazards.visible = true
+	var spikes: Spikes = hazards.get_node("SpikesA")
+	_rudy.global_position = Vector2(spikes.global_position.x - 220.0, 840.0)
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.HURT)
+	Input.action_release(&"move_right")
+	var look: Node2D = _rudy.get_node("Look")
+	await _until(func() -> bool: return look.modulate.a == 1.0) # between flashes
+	await _shot("hurt", true)
+	await _until(func() -> bool: return _rudy.is_on_floor() and look.modulate.a < 1.0)
+	await _shot("flash", true)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and not _rudy.is_invulnerable())
+	_rudy.hearts = 1 # the next hit is the last heart
+	_rudy.global_position = Vector2(spikes.global_position.x - 220.0, 840.0)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.DEFEATED)
+	Input.action_release(&"move_right")
+	await _frames(20)
+	await _shot("defeat", true)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.RESPAWNING)
+	await _frames(28) # the fade-in is over
+	await _shot("respawn", true)
+	await _until(func() -> bool: return _main.state == Main.State.PLAYING)
+	hazards.process_mode = Node.PROCESS_MODE_DISABLED
+	hazards.visible = false
+	# The sword form: the pickup, its movement, its idle and the slash.
+	var pickup: SwordPickup = _main.get_node("Level1/SwordPickup")
+	_rudy.global_position = Vector2(pickup.global_position.x - 300.0, 840.0)
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.SWORD)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-RUN-A")
+	await _shot("sword-run-a", true)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-RUN-B")
+	await _shot("sword-run-b", true)
+	Input.action_press(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-RISE")
+	await _frames(10)
+	await _shot("sword-rise", true)
+	Input.action_release(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-FALL")
+	await _frames(8)
+	await _shot("sword-fall", true)
+	await _until(func() -> bool: return _rudy.is_on_floor())
+	Input.action_release(&"move_right")
+	await _frames(30)
+	await _shot("sword-idle", true)
+	Input.action_press(&"slash")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-SLASH")
+	Input.action_release(&"slash")
+	await _frames(6)
+	await _shot("slash", true)
+	await _shot("slash-full")
+	# On the teleport circle.
+	var portal: Portal = _main.get_node("Level1/Portal")
+	_rudy.global_position = Vector2(portal.global_position.x - 400.0, 840.0)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.COMPLETE)
+	Input.action_release(&"move_right")
+	await _frames(40)
+	await _shot("celebrate", true)
+
+
 func _out_dir() -> String:
 	return ProjectSettings.globalize_path("res://").path_join("../evidence/%s" % _step).simplify_path()
 
 
-func _shot(label: String) -> void:
+## Saves the screen, or with `crop` only the CROP around Rudy.
+func _shot(label: String, crop := false) -> void:
 	await RenderingServer.frame_post_draw
 	var image := get_viewport().get_texture().get_image()
 	var rendered := image.get_size()
 	if rendered != SIZE:
 		image.resize(SIZE.x, SIZE.y, Image.INTERPOLATE_LANCZOS)
+	if crop:
+		var soles := Vector2i(_rudy.get_global_transform_with_canvas().origin.round())
+		var corner := (soles - Vector2i(CROP.x / 2, 300)).clamp(Vector2i.ZERO, SIZE - CROP)
+		image = image.get_region(Rect2i(corner, CROP))
 	var suffix := "-collisions" if get_tree().debug_collisions_hint else ""
 	var path := _out_dir().path_join("%s-%s%s.png" % [_step, label, suffix])
 	image.save_png(path)

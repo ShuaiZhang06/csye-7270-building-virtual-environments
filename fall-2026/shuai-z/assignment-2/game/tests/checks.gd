@@ -15,6 +15,10 @@ extends Node
 ## Step 1d: the sword-and-shield pickup, the sword form, the slash and its
 ## reach, the gear knocked away by a hit, and the pickup back after a death.
 ## Sounds counted: "pickup" once per pickup, "slash" once per swing.
+## Step 2a: Rudy's generated frames: every frame in frames.json is in his look
+## at the canvas size, drawn with its body origin on his and at 1/density, with
+## mipmaps and the outline material; and every pose he took in the checks above
+## showed its own frame.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
@@ -43,6 +47,9 @@ var _restart_requests := 0
 var _takeoffs := 0
 var _was_on_floor := true
 var _trail: Array[StringName] = [] # each pose, once per change
+# Every pose Rudy took in all the checks, and any tick his look showed another pose's frame.
+var _poses_taken: Dictionary[StringName, bool] = {}
+var _frame_mismatches: PackedStringArray = []
 
 
 func _ready() -> void:
@@ -52,6 +59,7 @@ func _ready() -> void:
 	await _run_1b()
 	await _run_1c()
 	await _run_1d()
+	_run_2a()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -65,6 +73,10 @@ func _physics_process(_delta: float) -> void:
 	_was_on_floor = on_floor
 	if _trail.is_empty() or _trail[-1] != _rudy.pose:
 		_trail.append(_rudy.pose)
+	_poses_taken[_rudy.pose] = true
+	var shown := (_rudy.get_node("Look") as RudyLook).frame()
+	if shown != RudyLook.FRAMES.get(_rudy.pose) and _frame_mismatches.size() < 5:
+		_frame_mismatches.append("%s showed %s" % [_rudy.pose, shown.resource_path.get_file() if shown else "nothing"])
 
 
 func _start_level() -> void:
@@ -114,7 +126,7 @@ func _run_1a() -> void:
 	_check("he stops and shows CHAR-IDLE again",
 		_rudy.pose == &"CHAR-IDLE" and _rudy.velocity.x == 0.0, _rudy.pose)
 
-	# One tap: one takeoff and one jump sound; RISE, then FALL, then IDLE on landing.
+	# One tap in place: one takeoff and one jump sound; RISE all the way down, then IDLE on landing.
 	_reset_counts()
 	var floor_y := _rudy.global_position.y
 	# His height after each tick. A key pressed from inside a physics tick, as
@@ -127,8 +139,8 @@ func _run_1a() -> void:
 			Input.action_release(&"jump")
 		heights.append(floor_y - _rudy.global_position.y)
 	_check("a tap jumps once, with one jump sound", _takeoffs == 1 and Sfx.count(&"jump") == 1, _counts_text())
-	_check("the jump shows CHAR-RISE, then CHAR-FALL, then CHAR-IDLE",
-		_trail == [&"CHAR-IDLE", &"CHAR-RISE", &"CHAR-FALL", &"CHAR-IDLE"], _trail_text())
+	_check("a jump in place shows CHAR-RISE all the way down, then CHAR-IDLE",
+		_trail == [&"CHAR-IDLE", &"CHAR-RISE", &"CHAR-IDLE"], _trail_text())
 	var expected := _expected_jump()
 	var takeoff := 0
 	while takeoff < heights.size() - 1 and heights[takeoff] <= 0.0:
@@ -221,6 +233,24 @@ func _run_1a() -> void:
 	await _frames(30)
 	_check("holding it then runs him the other way",
 		_rudy.velocity.x < 0.0 and _rudy.global_position.x < x_run, "speed %.0f" % _rudy.velocity.x)
+
+	# A running jump comes down in CHAR-FALL. Let go before the top and he drops
+	# straight down in CHAR-RISE; either way the pose changes at most once in the air.
+	_reset_counts()
+	await _tap(&"jump")
+	await _wait_until(func() -> bool: return _rudy.is_on_floor(), 90)
+	var air := _trail.filter(func(id: StringName) -> bool: return not String(id).begins_with("CHAR-RUN-"))
+	_check("a running jump shows CHAR-RISE, then CHAR-FALL", air == [&"CHAR-RISE", &"CHAR-FALL"], _trail_text())
+	await _frames(5)
+	_reset_counts()
+	await _tap(&"jump")
+	await _frames(4)
+	Input.action_release(&"move_left")
+	await _wait_until(func() -> bool: return _rudy.is_on_floor(), 90)
+	await _frames(2)
+	air = _trail.filter(func(id: StringName) -> bool: return not String(id).begins_with("CHAR-RUN-"))
+	_check("letting go before the top: he drops in CHAR-RISE all the way down",
+		air == [&"CHAR-RISE", &"CHAR-IDLE"], _trail_text())
 	Input.action_release(&"move_left")
 
 	# In the air there is no turning delay: the facing and the speed change at once.
@@ -759,6 +789,47 @@ func _run_1d() -> void:
 	_check("he gets back up without gear, even when he fell with it, and the pickup is back",
 		had_sword and _rudy.gear == Rudy.Gear.NONE and pickup.visible and _rudy.pose == &"CHAR-IDLE",
 		"had the sword %s; gear %s; pose %s" % [had_sword, Rudy.Gear.keys()[_rudy.gear], _rudy.pose])
+
+
+func _run_2a() -> void:
+	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/rudy/frames/frames.json"))
+	var canvas := Vector2(manifest.canvas[0], manifest.canvas[1])
+	var origin := Vector2(manifest.origin[0], manifest.origin[1])
+	var density: float = manifest.density
+	var problems: PackedStringArray = []
+	for id: String in manifest.frames:
+		var frame: Texture2D = RudyLook.FRAMES.get(StringName(id))
+		if frame == null:
+			problems.append("%s missing" % id)
+		elif Vector2(frame.get_size()) != canvas:
+			problems.append("%s is %s" % [id, frame.get_size()])
+		elif not FileAccess.get_file_as_string(frame.resource_path + ".import").contains("mipmaps/generate=true"):
+			problems.append("%s has no mipmaps" % id)
+	_check("every frame in frames.json is in Rudy's look, at the canvas size, with mipmaps",
+		problems.is_empty() and RudyLook.FRAMES.size() == manifest.frames.size(), ", ".join(problems))
+
+	var look: RudyLook = _rudy.get_node("Look")
+	var sprite: Sprite2D = look.get_node("Sprite")
+	_check("each frame is drawn at 1/density with its body origin on Rudy's origin (his soles)",
+		not sprite.centered and sprite.position == Vector2.ZERO and sprite.offset == -origin
+		and sprite.scale == Vector2.ONE / density,
+		"offset %s, scale %s; frames.json origin %s, density %s" % [sprite.offset, sprite.scale, origin, density])
+	var material := sprite.material as ShaderMaterial
+	_check("the frames draw with linear mipmap filtering and the 4 px outline",
+		look.texture_filter == CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		and sprite.texture_filter == CanvasItem.TEXTURE_FILTER_PARENT_NODE
+		and material != null and material.shader.resource_path == "res://systems/art/outline.gdshader"
+		and is_equal_approx(material.get_shader_parameter(&"width"), 4.0 * density),
+		"filter %d, width %s" % [look.texture_filter, material.get_shader_parameter(&"width") if material else null])
+
+	# Every pose the controller can pick: every frame but the block, which waits for step 4.
+	var not_taken: PackedStringArray = []
+	for id: StringName in RudyLook.FRAMES:
+		if id != &"CHAR-SWORD-BLOCK" and not _poses_taken.has(id):
+			not_taken.append(id)
+	_check("every pose he took in the checks showed its own frame, and he took all fifteen",
+		_frame_mismatches.is_empty() and not_taken.is_empty(),
+		"; ".join(_frame_mismatches) + ("" if not_taken.is_empty() else " not taken: " + ", ".join(not_taken)))
 
 
 ## The cliffs: the gaps between ground segments, as (from x, to x).

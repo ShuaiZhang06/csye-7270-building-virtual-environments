@@ -1,8 +1,13 @@
 class_name Rudy
 extends CharacterBody2D
 ## Rudy's controller. It moves him and picks the pose that shows his state,
-## named by the pose's asset ID in CHARACTER-SHEET.md, so the art swap only has
-## to map each ID to a frame. The origin is at his soles.
+## named by the pose's asset ID in CHARACTER-SHEET.md; his Look shows that ID's
+## generated frame. The origin is at his soles.
+##
+## In the air he shows the rising pose, and the falling pose only if he was
+## moving sideways when the fall began. The falling pose leaps forward, so a
+## jump straight up keeps the rising pose all the way down; the pose changes
+## at most once in the air, at the top.
 ##
 ## On the ground, pressing the other direction turns him in place at once, with
 ## no slide; he moves that way only if the key is still held after
@@ -81,10 +86,12 @@ var _respawn_time_left := 0.0
 var _hurt_time_left := 0.0
 var _invulnerable_left := 0.0
 var _bounce_pending := false
+var _was_falling := false
+var _falls_sideways := false ## whether he was moving sideways when this fall began
 var _slash_clock := -1.0 ## s into the current swing; below 0 when he is not swinging
 var _slash_query := PhysicsShapeQueryParameters2D.new()
 
-@onready var _look: RudyPlaceholder = $Look
+@onready var _look: RudyLook = $Look
 @onready var _sword_box: CollisionShape2D = $SwordHitbox/Shape
 
 
@@ -289,7 +296,12 @@ func _pick_pose(delta: float) -> StringName:
 	var form := "CHAR-SWORD-" if gear == Gear.SWORD else "CHAR-"
 	if not is_on_floor():
 		_run_clock = 0.0
-		return StringName(form + ("RISE" if velocity.y < 0.0 else "FALL"))
+		var falling := velocity.y >= 0.0
+		if falling and not _was_falling:
+			_falls_sideways = absf(velocity.x) > 1.0
+		_was_falling = falling
+		return StringName(form + ("FALL" if falling and _falls_sideways else "RISE"))
+	_was_falling = false
 	if absf(velocity.x) > 1.0:
 		_run_clock += delta
 		var second_frame := fmod(_run_clock, run_frame_time * 2.0) >= run_frame_time

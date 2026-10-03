@@ -132,3 +132,8 @@ The robe came out lighter than planned: its contrast against the wheat is 2.52, 
   - **Changed:** height and head size follow CHAR-REF-07, and the robe has the trim described above.
   - **Unchanged:** every other v1 rule still holds: one cowlick, the center part, green eyes, the large hood down, brown belt and boots, no jewelry and no emblem.
 
+## Revision 3 — 2026-10-02, after the step 2a playtest
+
+Where they differ, this revision wins over the sections above.
+
+- **Rising and falling:** the falling pose (6) leaps forward, so it shows only if Rudy was moving sideways when the fall began. A jump straight up keeps the rising pose (5) all the way down, and so does a running jump whose key is let go before the top. The pose changes at most once in the air, at the top. The sword form follows the same rule.
