@@ -764,3 +764,23 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Decided:** the rest of 2b stays as it is.
 - **Human / Claude / model:** the finding is mine; the changes and the numbers are Claude's. No generative model was used.
 - **Still unresolved:** whether the spikes now read as a threat at once in play (P2).
+
+## 2026-10-03 — The last four sound effects
+
+*Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Generated:** SFX-HURT, SFX-PORTAL, SFX-SLASH and SFX-PICKUP in ElevenLabs on the free plan, four takes each, as for SFX-STOMP.
+- **Decided (my words):**
+  - "Hurt: number 1, because it sounds a lot like the cry a character makes when hurt."
+  - "Portal: number 2, because it feels like being carried away by the teleport circle."
+  - "Slash: number 3, because it has the sound of the wind when a sword is swung."
+  - "Pickup: number 2, because it has the sound of metal striking metal."
+- **Got:**
+  - four new rows in `design/tools/prepare_sfx.py` and the game files in `game/systems/audio/sfx/`: the hurt 0.20 s, the portal 1.68 s, the slash 0.315 s, the pickup 0.60 s, each mixed to mono with the peak at −1 dBFS. The portal's and the pickup's takes end in a click, which is cut off. The slash starts 85 ms into its take, so its peak comes 155 ms after the key, while the hitbox is live;
+  - the hurt and the portal are about 4 dB louder than the jump and the stomp; the balance between the sounds is left to build step 3;
+  - the rows in ASSET-LOG.md, and the generation log `generated/logs/2026-10-03-elevenlabs-SFX-HURT-PORTAL-SLASH-PICKUP.md`.
+- **Claude's calls:** the cut points; the prompts are recorded as unchanged, which I did not say this time.
+- **Human / Claude / model:** the choice of takes is mine; the cuts and the script are Claude's; the takes come from ElevenLabs.
+- **Asked:** Claude pointed out that the hurt sound I chose is a cry, while CONCEPT.md's audio direction asks for "a short non-vocal hurt cue" and the prompt said no voice, so either CONCEPT changes or the hurt is generated again.
+- **Decided (my words):** "Change CONCEPT; keep the cry." CONCEPT.md gets a revision, which also records the six sounds.
+- **Still unresolved:** MUS-LOOP.

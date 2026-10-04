@@ -32,6 +32,19 @@ CUTS = {
     # fade-in removes the click. After 190 ms it is more than 33 dB under its
     # loudest 10 ms.
     "SFX-STOMP": ("SFX-STOMP-02.wav", 0, 320, 3, 100),
+    # Loud from the first sample; after 120 ms it is more than 33 dB under its
+    # loudest 10 ms, with only low noise left.
+    "SFX-HURT": ("SFX-HURT-01.wav", 0, 200, 3, 60),
+    # Swells from the start to its peak at about 0.5 s, then rings out; after
+    # 1.56 s it is more than 50 dB under the peak. The file ends in a click.
+    "SFX-PORTAL": ("SFX-PORTAL-02.wav", 0, 1680, 3, 200),
+    # Silent for the first 50 ms; before 85 ms it is more than 30 dB under its
+    # peak (at 240 ms), so the peak comes 155 ms after the key, inside the
+    # hitbox's 0.03-0.18 s.
+    "SFX-SLASH": ("SFX-SLASH-03.wav", 85, 400, 5, 80),
+    # Starts at once; after 540 ms it is more than 50 dB under its loudest
+    # 10 ms. The file ends in a click.
+    "SFX-PICKUP": ("SFX-PICKUP-02.wav", 0, 600, 3, 120),
 }
 
 
