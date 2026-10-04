@@ -138,7 +138,7 @@ func _on_portal_reached() -> void:
 	create_tween().tween_property(_camera, "zoom", END_ZOOM, ZOOM_TIME).set_trans(Tween.TRANS_SINE)
 	await get_tree().create_timer(CELEBRATE_TIME).timeout
 	await _hud.fade_to(1.0, FADE_TIME)
-	_hud.show_end_card()
+	_hud.show_end_card(FADE_TIME) # Enter works from its first frame
 	_end_card_shown = true
 
 

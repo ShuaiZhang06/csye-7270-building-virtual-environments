@@ -26,6 +26,12 @@ extends Node
 ## their share of the camera's motion in the same frame. After the 2b
 ## playtest, the spikes: each row stands between two tall wheat tufts, and the
 ## box that hurts covers the row of spikes and stops below the tips.
+## Step 2c: the props, the goblin, the hearts and the end card: every sprite is
+## drawn at 1/density from its props.json origin, with mipmaps; the outline is
+## on the goblins and the spikes only; the goblin walks in two frames facing its
+## way and is squashed when defeated; its box fits its art; the waystone's art
+## lights; the flying gear is the pickup's art; and the end card's picture
+## fades in under the text.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
@@ -36,10 +42,12 @@ const REQUIRED_NODES := {
 		"Ground/Segment3", "Hazards/SpikesA", "Hazards/SpikesB", "Enemies/GoblinA", "Enemies/GoblinB",
 		"Enemies/GoblinC", "SwordPickup", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
 	],
-	"res://content/goblin/goblin.tscn": ["Shape"],
-	"res://content/level_1/spikes.tscn": ["Shape"],
-	"res://content/sword_pickup/sword_pickup.tscn": ["Shape"],
-	"res://ui/hud.tscn": ["Hearts", "Debug", "Fade", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
+	"res://content/goblin/goblin.tscn": ["Art", "Shape"],
+	"res://content/level_1/spikes.tscn": ["Art", "Shape"],
+	"res://content/level_1/waystone.tscn": ["Art", "Shape", "SpawnPoint"],
+	"res://content/level_1/portal.tscn": ["Art", "Shape"],
+	"res://content/sword_pickup/sword_pickup.tscn": ["Art", "Shape"],
+	"res://ui/hud.tscn": ["Hearts", "Debug", "Fade", "EndCard/Picture", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
 }
 const CLIFF_LEAD := 100.0 ## the route jumps this far before a cliff's edge
 const SPIKES_LEAD := 100.0 ## ...before a row of spikes
@@ -68,6 +76,7 @@ func _ready() -> void:
 	await _run_1d()
 	_run_2a()
 	await _run_2b()
+	await _run_2c()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -966,6 +975,155 @@ func _run_2b() -> void:
 		"box %s; in the art the row is %.1f px wide, the tips %.1f px up, the plank %.1f px" % [box, art.x, art.y, art.z])
 
 
+func _run_2c() -> void:
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	await _frames(5)
+	var level: Node2D = _main.get_node("Level1")
+	var props: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/level_1/art/props.json")).frames
+	var placed := {
+		"Hazards/SpikesA/Art": "ENV-SPIKES", "Hazards/SpikesB/Art": "ENV-SPIKES", "Waystone/Art": "ENV-WAYSTONE",
+		"Portal/Art": "ENV-PORTAL", "SwordPickup/Art": "PROP-SWORDSHIELD", "Enemies/GoblinA/Art": "ENEMY-GOBLIN-WALK-A",
+	}
+	var problems: PackedStringArray = []
+	for path: String in placed:
+		var frame: Dictionary = props[placed[path]]
+		var sprite: Sprite2D = level.get_node(path)
+		var size: float = SwordPickup.SCALE if path.begins_with("SwordPickup") else 1.0 # the pickup is shown larger
+		if sprite.centered or sprite.offset != -Vector2(frame.origin[0], frame.origin[1]) \
+				or sprite.scale != Vector2.ONE * size / frame.density or sprite.texture.resource_path != "res://" + frame.file:
+			problems.append("%s: offset %s, scale %s, %s" % [path, sprite.offset, sprite.scale, sprite.texture.resource_path])
+	var gear: Dictionary = props["PROP-SWORDSHIELD"]
+	if FlyingGear.ORIGIN != Vector2(gear.origin[0], gear.origin[1]) or FlyingGear.DENSITY != gear.density:
+		problems.append("FlyingGear")
+	for id: String in props:
+		if not FileAccess.get_file_as_string("res://" + props[id].file + ".import").contains("mipmaps/generate=true"):
+			problems.append("%s has no mipmaps" % id)
+	var hearts: Hearts = _main.get_node("Hud/Hearts")
+	if Hearts.DENSITY != props["UI-HEART-FULL"].density or hearts.texture_filter != CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS \
+			or level.texture_filter != CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS:
+		problems.append("hearts or level filtering")
+	_check("every prop, the goblin and the hearts draw at 1/density from props.json's origin, with mipmaps",
+		problems.is_empty(), "; ".join(problems))
+	var pickup_art: Sprite2D = level.get_node("SwordPickup/Art")
+	var pickup_shape: CollisionShape2D = level.get_node("SwordPickup/Shape")
+	var reach := (pickup_shape.shape as CircleShape2D).radius
+	var art_width: float = props["PROP-SWORDSHIELD"].body_game_px[0] * SwordPickup.SCALE
+	_check("the pickup shows at 1.5 times its art's size, floating at its height, with a touch area to match",
+		pickup_shape.position.y == -SwordPickup.HEIGHT and absf(2.0 * reach - art_width) < 0.15 * art_width
+		and pickup_art.position.y >= -SwordPickup.HEIGHT - SwordPickup.BOB - 0.01
+		and pickup_art.position.y <= -SwordPickup.HEIGHT + SwordPickup.BOB + 0.01,
+		"%.0f px across, touch radius %.0f, at %.0f px" % [art_width, reach, -pickup_art.position.y])
+
+	var outlined: PackedStringArray = []
+	for path: String in placed:
+		if (level.get_node(path) as Sprite2D).material != null:
+			outlined.append(path.get_slice("/", path.get_slice_count("/") - 2))
+	_check("the outline is on the goblins and the spikes, not on the glowing waystone, circle and pickup",
+		outlined == PackedStringArray(["SpikesA", "SpikesB", "GoblinA"]), ", ".join(outlined))
+
+	# The goblin's box against its art.
+	var art := _goblin_art()
+	var box := ((level.get_node("Enemies/GoblinA/Shape") as CollisionShape2D).shape as RectangleShape2D).size
+	_check("the goblin's box reaches the top of its head and is as wide as its body, not its arms",
+		box == Vector2(Goblin.WIDTH, Goblin.HEIGHT) and absf(box.y - art.x) <= 4.0 and box.x >= art.y and box.x < art.z,
+		"box %s; in the art the head's top is %.1f px up, the body %.1f px wide, the arms %.1f" % [box, art.x, art.y, art.z])
+
+	# The goblin walks in two frames, facing its way; squashed when defeated, then gone.
+	var goblin: Goblin = level.get_node("Enemies/GoblinB")
+	var goblin_art: Sprite2D = goblin.get_node("Art")
+	var seen := {}
+	var faced_wrong := 0
+	for i in 120:
+		await _frames(1)
+		seen[goblin_art.texture] = true
+		if goblin_art.flip_h != (goblin.facing < 0):
+			faced_wrong += 1
+	goblin.position.x = goblin._start_x + goblin.patrol_distance # it turns at the end of its patrol
+	await _frames(3)
+	var turned := goblin.facing == -1 and goblin_art.flip_h
+	_check("a walking goblin shows walk A and B in turn, and is mirrored when it walks left",
+		seen.size() == 2 and seen.has(Goblin.WALK_A) and seen.has(Goblin.WALK_B) and faced_wrong == 0 and turned,
+		"frames seen %d, facing wrong %d ticks, turned %s" % [seen.size(), faced_wrong, turned])
+	goblin.defeat(&"slash")
+	await _frames(2)
+	var squashed := goblin_art.texture == Goblin.SQUASH and goblin.visible
+	await _frames(roundi(Goblin.SQUASH_TIME * Engine.physics_ticks_per_second) + 2)
+	var gone := not goblin.visible
+	goblin.reset()
+	await _frames(1)
+	_check("a defeated goblin shows the squashed frame, then disappears; reset, it walks again",
+		squashed and gone and goblin.visible and goblin_art.texture != Goblin.SQUASH, "squashed %s, gone %s" % [squashed, gone])
+
+	# The waystone's art.
+	_set_threats(false)
+	var waystone: Waystone = level.get_node("Waystone")
+	var stone_art: Sprite2D = waystone.get_node("Art")
+	var halo: Sprite2D = waystone.get_node("Halo")
+	var dark_first := stone_art.texture == Waystone.DARK and not halo.visible and not waystone.is_ringing()
+	_teleport(waystone.global_position)
+	await _frames(3)
+	var lit := stone_art.texture == Waystone.LIT and halo.visible and waystone.is_ringing()
+	await _frames(roundi(Waystone.RING_TIME * Engine.physics_ticks_per_second) + 3)
+	var ring_once := not waystone.is_ringing() and halo.visible
+	waystone.reset()
+	_check("the waystone shows the dark stone; lit, its halo and, once, a ring of light; dark again after a start-over",
+		dark_first and lit and ring_once and stone_art.texture == Waystone.DARK and not halo.visible,
+		"dark at first %s, lit with halo and ring %s, the ring over and the halo on %s" % [dark_first, lit, ring_once])
+
+	# The flying gear is the pickup's art.
+	var pickup: SwordPickup = level.get_node("SwordPickup")
+	_teleport(pickup.global_position + Vector2(-100.0, 0.0))
+	await _hold_until(&"move_right", func() -> bool: return _rudy.gear == Rudy.Gear.SWORD, 120)
+	await _wait_until(func() -> bool: return not _rudy.is_invulnerable(), 120)
+	_rudy.take_hit(_rudy.global_position + Vector2(50.0, 0.0))
+	await _frames(1)
+	var flying := _main.get_children().filter(func(n: Node) -> bool: return n is FlyingGear)
+	_check("the gear that flies off is the pickup's art",
+		flying.size() == 1 and (flying[0] as FlyingGear).texture == pickup.get_node("Art").texture, "%d flying" % flying.size())
+
+	# The end card fades in, its picture under the text.
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY, 60)
+	var portal: Portal = level.get_node("Portal")
+	_teleport(Vector2(portal.global_position.x - 200.0, 840.0))
+	await _hold_until(&"move_right", func() -> bool: return _main.state == Main.State.COMPLETE, 120)
+	var hud: Hud = _main.get_node("Hud")
+	var card: Control = hud.get_node("EndCard")
+	await _wait_until(func() -> bool: return hud.is_showing_end_card(), 300)
+	var faint := card.modulate.a < 0.5
+	await _frames(roundi(Main.FADE_TIME * Engine.physics_ticks_per_second) + 3)
+	var picture: TextureRect = card.get_node("Picture")
+	_check("the end card fades in, with the picture of the road to the castle under the text",
+		faint and is_equal_approx(card.modulate.a, 1.0) and picture.get_index() < card.get_node("Lines").get_index()
+		and picture.texture.resource_path == "res://content/level_1/art/endcard.jpg",
+		"faint at first %s, alpha %.2f" % [faint, card.modulate.a])
+	_set_threats(true)
+
+
+## The goblin's walk frame, in game px: the height of the top of its head (the
+## highest row at least 16 px wide, above the wisps of hair), the width of its
+## body 60 px up, and the width of its swinging arms 40 px up.
+func _goblin_art() -> Vector3:
+	var image := Image.load_from_file(ProjectSettings.globalize_path("res://content/goblin/frames/ENEMY-GOBLIN-WALK-A.png"))
+	var origin := Vector2i(179, 269) # props.json
+	var widths: Array[Vector2i] = []
+	for y in image.get_height():
+		var left := image.get_width()
+		var right := -1
+		for x in image.get_width():
+			if image.get_pixel(x, y).a > 0.5:
+				left = mini(left, x)
+				right = maxi(right, x)
+		widths.append(Vector2i(left, right))
+	var head_row := 0
+	while head_row < widths.size() and widths[head_row].y - widths[head_row].x + 1 < 32:
+		head_row += 1
+	var body := widths[origin.y - 120]
+	var arms := widths[origin.y - 80]
+	return Vector3(origin.y - head_row, body.y - body.x + 1, arms.y - arms.x + 1) / 2.0
+
+
 ## The tall wheat tufts in the ground art, more than 30 px above the walk line, as (from x, to x) in the level.
 func _tall_tufts(segments: Array[GroundSegment]) -> Array[Vector2]:
 	var image := Image.load_from_file(ProjectSettings.globalize_path("res://content/level_1/art/ground_tile.png"))
@@ -1152,7 +1310,7 @@ func _obstacle_ahead(gaps: Array[Vector2]) -> bool:
 			return true
 	for goblin in _main.get_node("Level1/Enemies").get_children():
 		if not (goblin as Goblin).dead:
-			var left := (goblin as Node2D).global_position.x - 28.0
+			var left := (goblin as Node2D).global_position.x - Goblin.WIDTH / 2.0
 			if x >= left - GOBLIN_LEAD and x < left:
 				return true
 	return false

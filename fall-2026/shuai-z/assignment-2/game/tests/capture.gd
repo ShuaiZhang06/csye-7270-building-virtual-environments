@@ -21,6 +21,12 @@ extends Node
 ##   the pull-back on the teleport circle, and Rudy over the wheat in both
 ##   forms and over the sky in a jump, cropped. The spikes, the goblins and the pickup are hidden except
 ##   in the opening; they are swapped in 2c.
+## - 2c: the props, the goblin, the hearts and the end card: the opening; the
+##   goblin walking (both frames), stomped and cut; the pickup, the sword form
+##   and the gear flying off; the waystone dark, lighting (its ring) and lit
+##   (its halo); a hit with the hearts;
+##   the teleport circle in the pull-back; and the end card. Cropped around Rudy
+##   except the opening, the hit, the circle and the end card.
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
@@ -35,7 +41,7 @@ var _step := ""
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c", "1d", "2a", "2b"]
+		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
@@ -56,6 +62,8 @@ func _ready() -> void:
 				await _capture_2a()
 			"2b":
 				await _capture_2b()
+			"2c":
+				await _capture_2c()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -358,6 +366,98 @@ func _capture_2b() -> void:
 	await _shot("teleport-circle")
 
 
+func _capture_2c() -> void:
+	await _shot("opening")
+	var goblin_a: Goblin = _main.get_node("Level1/Enemies/GoblinA")
+	var goblin_b: Goblin = _main.get_node("Level1/Enemies/GoblinB")
+	# The goblin walking toward him, in each walk frame; he turns to face it.
+	_rudy.global_position = Vector2(goblin_a.global_position.x + 220.0, 840.0)
+	_main._snap_camera()
+	await _frames(2)
+	Input.action_press(&"move_left")
+	await _frames(3) # a tap turns him in place
+	Input.action_release(&"move_left")
+	var art: Sprite2D = goblin_a.get_node("Art")
+	await _until(func() -> bool: return art.texture == Goblin.WALK_A)
+	await _shot("goblin-walk-a", true)
+	await _until(func() -> bool: return art.texture == Goblin.WALK_B)
+	await _shot("goblin-walk-b", true)
+	goblin_a.speed = 0.0
+	# A stomp: the squashed frame.
+	_rudy.global_position = Vector2(goblin_a.global_position.x, 840.0 - Goblin.HEIGHT - 120.0)
+	_rudy.velocity = Vector2(0, 100)
+	await _until(func() -> bool: return goblin_a.dead)
+	await _shot("stomp", true)
+	# The pickup, then the sword form beside a goblin, and a cut.
+	var pickup: SwordPickup = _main.get_node("Level1/SwordPickup")
+	_rudy.global_position = Vector2(pickup.global_position.x - 160.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	await _shot("pickup", true)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.SWORD)
+	Input.action_release(&"move_right")
+	goblin_b.speed = 0.0
+	_rudy.global_position = Vector2(goblin_b.global_position.x - 160.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	await _shot("sword-and-goblin", true)
+	_rudy.global_position = Vector2(goblin_b.global_position.x - 70.0, 840.0)
+	await _frames(4)
+	Input.action_press(&"slash")
+	await _until(func() -> bool: return goblin_b.dead)
+	Input.action_release(&"slash")
+	await _frames(2)
+	await _shot("slash", true)
+	await _until(func() -> bool: return not _rudy.is_slashing())
+	# A hit takes the gear: it flies off; the next takes a heart (the hearts in the HUD).
+	var spikes: Spikes = _main.get_node("Level1/Hazards/SpikesA")
+	_rudy.global_position = Vector2(spikes.global_position.x - 200.0, 840.0)
+	_main._snap_camera()
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.NONE)
+	Input.action_release(&"move_right")
+	await _frames(8)
+	await _shot("gear-flies", true)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and not _rudy.is_invulnerable())
+	_rudy.global_position = Vector2(spikes.global_position.x - 200.0, 840.0)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.hearts < 3)
+	Input.action_release(&"move_right")
+	await _frames(4)
+	await _shot("hit-hearts")
+	# The waystone, dark, then lit.
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor() and not _rudy.is_invulnerable())
+	var waystone: Waystone = _main.get_node("Level1/Waystone")
+	_rudy.global_position = Vector2(waystone.global_position.x - 200.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	await _shot("waystone-dark", true)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return waystone.lit)
+	Input.action_release(&"move_right")
+	await _frames(12)
+	await _shot("waystone-ring", true)
+	await _until(func() -> bool: return not waystone.is_ringing())
+	await _hold(&"move_right", 14) # a step past it, so it shows beside him
+	await _frames(10)
+	await _shot("waystone-lit", true)
+	# The teleport circle, pulled back, then the end card.
+	var portal: Portal = _main.get_node("Level1/Portal")
+	_rudy.global_position = Vector2(portal.global_position.x - 500.0, 840.0)
+	_main._snap_camera()
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.COMPLETE)
+	Input.action_release(&"move_right")
+	await _frames(100)
+	await _shot("teleport-circle")
+	var hud: Hud = _main.get_node("Hud")
+	await _until(func() -> bool: return hud.is_showing_end_card())
+	await _frames(30)
+	await _shot("end-card")
+
+
 func _out_dir() -> String:
 	return ProjectSettings.globalize_path("res://").path_join("../evidence/%s" % _step).simplify_path()
 
@@ -381,6 +481,12 @@ func _shot(label: String, crop := false) -> void:
 	else:
 		image.save_png(path)
 	print("saved %s (rendered at %d x %d, pose %s)" % [path.get_file(), rendered.x, rendered.y, _rudy.pose])
+
+
+func _hold(action: StringName, ticks: int) -> void:
+	Input.action_press(action)
+	await _frames(ticks)
+	Input.action_release(action)
 
 
 func _until(condition: Callable) -> void:

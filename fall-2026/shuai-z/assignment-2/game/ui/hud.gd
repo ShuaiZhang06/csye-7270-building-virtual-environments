@@ -1,10 +1,11 @@
 class_name Hud
 extends CanvasLayer
-## The HUD: Rudy's hearts, the debug line, the black fade, and the plain
-## "Level complete" end card (UI-TITLE and ENV-ENDCARD are cut for now;
-## CHANGE-BRIEF.md cut order 1). The debug line shows Rudy's pose ID, whether he
-## is on the ground, his speed and position, the level's state, and how many
-## times each sound ID has played. F1 hides or shows it.
+## The HUD: Rudy's hearts (UI-HEART), the debug line, the black fade, and the
+## end card: "Level complete" over a high view of the road to the castle
+## (ENV-ENDCARD, STORYBOARD.md panel 7), which fades in from the black. The
+## debug line shows Rudy's pose ID, whether he is on the ground, his speed and
+## position, the level's state, and how many times each sound ID has played. F1
+## hides or shows it.
 
 var _rudy: Rudy
 var _status := ""
@@ -41,8 +42,11 @@ func fade_to(alpha: float, duration: float) -> void:
 	await tween.finished
 
 
-func show_end_card() -> void:
+## Shows the end card, fading it in over `duration`.
+func show_end_card(duration: float) -> void:
+	_end_card.modulate.a = 0.0
 	_end_card.visible = true
+	create_tween().tween_property(_end_card, "modulate:a", 1.0, duration)
 
 
 func is_showing_end_card() -> bool:

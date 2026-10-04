@@ -765,6 +765,32 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Human / Claude / model:** the finding is mine; the changes and the numbers are Claude's. No generative model was used.
 - **Still unresolved:** whether the spikes now read as a threat at once in play (P2).
 
+## 2026-10-03 — Step 2c: the props, the goblin, the hearts and the end card
+
+*Written on 2026-10-03 by Claude, from our chat.*
+
+- **Asked:** to commit 2b (commit `aa2ffce`), then build step 2c.
+- **Got (step 2c):**
+  - the goblin: its two walk frames in turn, every 0.18 s, mirrored when it walks left, and the squashed frame for 0.4 s after a stomp or a cut, with the outer outline;
+  - the waystone, dark and then lit; the teleport circle, with the code-drawn column of light rising behind it; the floating pickup, bobbing as before; and the gear that flies off Rudy, which is the pickup's art spinning about its middle;
+  - the hearts in the HUD, full and empty;
+  - the end card: the picture of the road to the castle, with "Level complete" and the hint in its sky. It fades in from the black over 0.35 s;
+  - the code-drawn sword and shield are gone. What is still drawn by code: the column of light, the dark pit, the fade and the debug line;
+  - 9 new checks, 115 in all, all passing: every sprite is drawn at 1/density from its props.json origin with mipmaps; the outline is on the goblins and the spikes only; the goblin's frames, facing and squash; its box against its art; the waystone's art; the flying gear's art; and the end card's fade;
+  - crops and screenshots in `evidence/2c/`, each with a copy showing the collision shapes, and a contact sheet.
+- **Claude's calls in this step:**
+  - the goblin's box is 40 × 118 px instead of 56 × 104, as planned for the swap: its body up to the top of its head. Measured in the art, the head's top is 121.5 px up and the body 33.5 px wide; the ears, the nose, the swinging arms (60.5 px across) and the wisps of hair are outside the box. It is taller than before, so its top, where a stomp counts, is 14 px higher;
+  - the waystone, the circle and the pickup get no outline: their glows are part of the art, and an outline would follow the glow. Their trigger areas are unchanged;
+  - the circle's middle is 6 px above the ground, where the greybox drew it; the pickup floats 64 px up, as before;
+  - the hearts' imports now make mipmaps, as every other half-scale texture does;
+  - the end card's text is cream with a dark-brown outline, placed in the picture's empty sky. Enter plays again from the card's first frame, as before, so a press during the fade-in is not lost;
+  - the title over the opening (UI-TITLE, "could") is not built.
+- **Human / Claude / model:** the step is mine; the code, the checks and the calls above are Claude's. No generative model was used in this step.
+- **Still unresolved:**
+  - how the goblin's new box plays: the stomp on its taller head, and the side hits;
+  - whether the waystone, the circle and the pickup read well without an outline;
+  - how the end card looks and reads.
+
 ## 2026-10-03 — The last four sound effects
 
 *Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
@@ -784,3 +810,18 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Asked:** Claude pointed out that the hurt sound I chose is a cry, while CONCEPT.md's audio direction asks for "a short non-vocal hurt cue" and the prompt said no voice, so either CONCEPT changes or the hurt is generated again.
 - **Decided (my words):** "Change CONCEPT; keep the cry." CONCEPT.md gets a revision, which also records the six sounds.
 - **Still unresolved:** MUS-LOOP.
+
+## 2026-10-03 — Step 2c playtest: a larger pickup, a lit waystone that shows the save, a stronger column of light
+
+*Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** step 2c, on my Mac.
+- **Found (my words):** "Make the pickup bigger. Once the waystone is lit, add a ring of light around it, to show the game is saved. At the end, make the teleport circle's column of light a deeper colour; it doesn't show now."
+- **Got (Claude's changes and calls):**
+  - the pickup is shown at 1.5 times the sprite's size, about 100 px across instead of 68; it floats 76 px up instead of 64, and its touch area grows from a 30 px to a 45 px radius. The gear that flies off Rudy keeps the sprite's size, close to the gear in his frames;
+  - a lit waystone has a halo of the rune's pale blue light behind it, gently pulsing, and as it lights, a ring of that light spreads out from it once, over 0.7 s. Both are drawn by code; no new image was generated. The first halo was too faint over the wheat, so it is now larger and more opaque;
+  - the column of light is deep gold (`#F0A830`) instead of pale cream, brighter in the middle, soft at the sides, and fading toward its top;
+  - the checks follow the pickup's size, and the waystone's check now covers the halo and the ring: 116 in all, all passing;
+  - new crops of the pickup and of the waystone dark, lighting and lit, and a new pull-back screenshot, in `evidence/2c/`.
+- **Human / Claude / model:** the findings are mine; the sizes, colours, the halo and the ring are Claude's. No generative model was used.
+- **Still unresolved:** whether the halo, the ring and the gold column read well in play.
