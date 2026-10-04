@@ -135,3 +135,4 @@ The sections above are design v1 (tag `design-v1`) and stay as written. Where th
   - SFX-CHECKPOINT is cut. The waystone lighting up is the cue, with no sound.
   - SFX-SPORE and SFX-BLOCK are cut with the mushroom (cut-order step 4). If the mushroom is built after all, SFX-SPORE comes back, since P2 gives every enemy shot its attack sound.
   - The asset list and the event-to-sound map above keep their rows for the record; the cut rows are not generated.
+- **2026-10-04, the music loop:** MUS-LOOP is 24 bars (54.87 s at about 105 BPM), because the generated song repeats every 24 bars, not 16 or 32. Predicted failure 4's check changes accordingly: the loop is cut at bar lines, and instead of a cut on a zero crossing, the beat after the end is crossfaded into the first beat, so the end runs straight into the start; the file is mono. Details in ASSET-LOG.md.

@@ -302,3 +302,5 @@ An instrumental loop for a cozy 2D fantasy platformer level set in late-medieval
 3. Export as OGG Vorbis, stereo, with the peak about −1 dBFS and the loudness around −16 LUFS, so the sound effects sit on top. In Godot, turn on Loop in the import settings, then listen to at least three repetitions.
 4. Record the model and version, the date, both prompts, the settings, the take chosen, and the start and end of the cut in the asset log.
 5. If the tool changes the tempo or key on its own, write down what it chose; only the loop length depends on the BPM.
+
+**Used (2026-10-04):** the style-field prompt, unchanged, in Suno v6 mini on the free plan. The song came back at about 105 BPM in D major and repeats every 24 bars, so the loop is 24 bars (54.87 s), cut by `design/tools/prepare_music.py` with a one-beat crossfade at the seam; it is mono because I exported my recording as mono, and it sits at −19.2 LUFS, since −16 LUFS would have passed the −1 dBFS peak. See `generated/logs/2026-10-04-suno-MUS-LOOP.md`.

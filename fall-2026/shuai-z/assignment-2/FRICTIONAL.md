@@ -844,3 +844,15 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - the screenshot tool presses Enter at the start of a frame: pressed inside a physics step, the windowed capture missed it, although the headless checks did not. A real key press is not affected.
 - **Human / Claude / model:** the name and the font are mine; the layout, the text and the code are Claude's. No generative model was used.
 - **Still unresolved:** how the title looks and reads at the start of play; the theme under it comes with the audio (step 3).
+
+## 2026-10-04 — The music loop
+
+*Written on 2026-10-04 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** what format the assignment wants for the music. Claude could not find the assignment text in my files at first; I gave it the link. It says game audio is delivered as OGG or WAV, with no MP3 or MP4 on GitHub.
+- **Generated:** MUS-LOOP in Suno v6 mini on the free plan, with the template's style-field prompt and Suno's default settings; I do not know whether Instrumental was on. I did not download it: I played it in the browser, recorded it with OBS as an MP4, cut the silence from both ends in Audacity, and exported a mono OGG on purpose.
+- **Got (Claude's analysis):** about 105 BPM in D major, not the 104 BPM D mixolydian the prompt asked for; the harmony repeats every 24 bars, so Claude proposed a 24-bar loop, 53.92–108.79 s (54.87 s), with the end moved 5 ms to match the waveform and the beat after it crossfaded into the start. Claude rendered two previews: the seam with 10 s on each side, and the loop three times.
+- **Decided (my words):** "I feel it has a medieval, exotic flavor, and it sounds fairly relaxed and cheerful" (why I kept this song); "it has no vocals"; and of the previews, "I can't hear the seam." I also asked Claude to install the encoder with Homebrew (vorbis-tools), and to state plainly how the file was made.
+- **Got:** `design/tools/prepare_music.py`, which cuts the loop from the accepted take and encodes `game/systems/audio/music/MUS-LOOP.ogg` with oggenc; Loop on in Godot, checked headless (54.867 s). The loudness stops at −19.2 LUFS instead of −16, because the peak reaches −1 dBFS first. Suno, OBS, Audacity and the encoder in SOURCES.md; MUS-LOOP-01 in ASSET-LOG.md; the generation log `generated/logs/2026-10-04-suno-MUS-LOOP.md`; a revision in CHANGE-BRIEF.md for the 24-bar loop.
+- **Human / Claude / model:** the recording, the Audacity cut, the mono export and the judgment of the seam are mine; the analysis, the loop points, the script and the terms research are Claude's; the music comes from Suno.
+- **Still unresolved:** the music in the running slice, with its pause, dip and fade (build step 3), and listening to the seam in the game.
