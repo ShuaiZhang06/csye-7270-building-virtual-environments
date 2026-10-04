@@ -856,3 +856,32 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Got:** `design/tools/prepare_music.py`, which cuts the loop from the accepted take and encodes `game/systems/audio/music/MUS-LOOP.ogg` with oggenc; Loop on in Godot, checked headless (54.867 s). The loudness stops at −19.2 LUFS instead of −16, because the peak reaches −1 dBFS first. Suno, OBS, Audacity and the encoder in SOURCES.md; MUS-LOOP-01 in ASSET-LOG.md; the generation log `generated/logs/2026-10-04-suno-MUS-LOOP.md`; a revision in CHANGE-BRIEF.md for the 24-bar loop.
 - **Human / Claude / model:** the recording, the Audacity cut, the mono export and the judgment of the seam are mine; the analysis, the loop points, the script and the terms research are Claude's; the music comes from Suno.
 - **Still unresolved:** the music in the running slice, with its pause, dip and fade (build step 3), and listening to the seam in the game.
+
+## 2026-10-04 — Step 3: the audio
+
+*Written on 2026-10-04 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** to start build step 3, the audio, with the plan first.
+- **Got:** a plan for one approval: two buses; `Sfx.play` playing the six sounds; the sound calls brought in line with the six-sound list; the music with its dips and its fade; M and N; about ten new checks; a recording of the game's own mix as evidence; the documents. Claude found two places where the code and the brief disagreed. The fall still played `fall` and the waystone still played `checkpoint`, though both sounds were cut on 2026-10-02. And the music table has a row for the pause, but the game had no pause.
+- **Decided (my words):**
+  - "The deadline has been pushed back; there is time for everything";
+  - "There is no double jump, so when jumping again and again, the sound should play only once the second jump really takes off, in step with the keyboard";
+  - "Approve step 3. The fall plays hurt; add Esc to pause; do it all at once."
+- **Got (step 3):**
+  - `game/default_bus_layout.tres` has two buses into Master: Music at −6 dB and SFX at 0 dB. Claude measured the files first: the six sounds' loudest 100 ms are −9.7 to −14.0 dBFS, and the music sits around −19 dBFS;
+  - `Sfx` plays each sound on its own player on the SFX bus, up to four at once. Each sound has a trim, all 0 dB for now. The players pause with the game;
+  - a new autoload, `Music`, plays MUS-LOOP on the Music bus from the title on. It dips 6 dB for 0.6 s on a hit, 12 dB while paused, and 9 dB from a death until Rudy is back in control; on the teleport circle it fades out over 1.5 s, and the end card is silent;
+  - Esc pauses play: everything stops, and "Paused" shows over a dimmed screen (`evidence/3/3-paused.jpg`); Esc again resumes. M and N mute the Music and SFX buses, even while paused, and the debug line shows both;
+  - a fall plays SFX-HURT at the kill line, and the waystone lights without a sound;
+  - the jump sound already played on the physics tick the jump velocity is applied, which needs ground under him and a fresh press. A new check compares the tick of every takeoff with the tick of every jump sound while the key is mashed. With the sound moved to the key press as a test, it fails, along with two older checks;
+  - 19 new checks, 139 in all, all passing. Headless, Godot's audio driver never mixes, so the checks read what the players were told to do, not what is heard;
+  - the evidence: capture step 3, recorded with Godot's movie maker, plays a scripted run: the title, a jump, the pickup, a slash, a stomp, a hit, the pause, M, a fall and the teleport circle. `design/tools/plot_mix.py` measures the recorded mix. Where the game asked for 0, −6, −12 and −9 dB, the music measured 0.00, −6.00, −12.00 and −9.00 dB. Every sound plays within 0.01 dB of its file and starts at the same point in its event's frame. Inside the mute and on the end card the mix is digital silence. The files are `evidence/3/3-mix.png`, `3-mix.ogg` (the mix) and `3-mix-events.json`; the video `3-mix.mp4` stays local, since the course allows no MP4 in git.
+- **Claude's calls in this step:**
+  - the dips act on the music's player, not on the bus as the brief says, so a dip never touches the M mute. Where two are in force the deeper one wins, and every change ramps over 0.15 s;
+  - a fall gets only the death dip, not the hit dip, since a fall is not a hit;
+  - Esc works only in play: not on the title, through a death and the respawn, or from the teleport circle on;
+  - the music plays on across a start-over from the opening; only playing again from the end card starts it from the top;
+  - a mute lasts until the game closes, also across playing again;
+  - while paused the debug line does not update (the HUD pauses too), so a mute pressed then shows there only after resuming.
+- **Human / Claude / model:** the plan's approval, the pause and the jump-sound rule are mine; the plan, the code, the checks, the recording and the measurements are Claude's. No generative model was used in this step.
+- **Still unresolved:** the mix by ear (the sounds against the music, and whether the Music bus should stay at −6 dB), the seam heard three times in the game, and how the dips feel.

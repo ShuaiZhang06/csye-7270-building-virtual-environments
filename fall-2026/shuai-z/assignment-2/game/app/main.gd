@@ -20,6 +20,17 @@ extends Node2D
 ##   the end card, where Enter plays the level again from the opening.
 ## The camera follows Rudy sideways only, so the ground stays at the same height
 ## on screen and a fall drops him out of the frame. It shakes briefly on a hit.
+##
+## In play, Esc pauses everything but the music, which drops 12 dB and keeps
+## its place, and shows "Paused"; Esc again resumes. Only in play: not on the
+## title, through a death and the respawn, or from the teleport circle on.
+## SystemKeys reads the key, since this node stops while the game is paused.
+##
+## The music (Music, CHANGE-BRIEF.md): it starts on the title and plays on when
+## Enter starts play; it dips under a hit and through a death and the respawn,
+## and never restarts from the top; on the teleport circle it fades out, and
+## the end card is silent. A fall plays the hurt sound as he crosses the kill
+## line, since it costs a heart.
 
 signal restart_requested ## only when Main is not the current scene, as in the checks
 
@@ -65,6 +76,7 @@ func _ready() -> void:
 	_rudy.hit.connect(_on_rudy_hit)
 	_rudy.defeated.connect(_on_rudy_defeated)
 	_hud.track(_rudy)
+	Music.start()
 	if not title_shown:
 		state = State.TITLE
 		_rudy.mode = Rudy.Mode.WAITING
@@ -106,7 +118,8 @@ func _die(cause: StringName) -> void:
 	var start_over := true # a defeat: his last heart is gone
 	if cause == &"fall":
 		start_over = _rudy.fall_out() # only if the fall took his last heart
-		Sfx.play(&"fall")
+		Sfx.play(&"hurt")
+	Music.dip(&"death", Music.DEATH_DIP)
 	_show_status()
 	await get_tree().create_timer(FALL_HOLD if cause == &"fall" else DEFEAT_HOLD).timeout
 	await _hud.fade_to(1.0, FADE_TIME)
@@ -123,6 +136,7 @@ func _die(cause: StringName) -> void:
 	if _rudy.mode == Rudy.Mode.RESPAWNING:
 		await _rudy.respawned
 	state = State.PLAYING
+	Music.end_dip(&"death")
 	_show_status()
 
 
@@ -134,8 +148,26 @@ func _back_to_the_opening() -> void:
 	_waystone.reset()
 
 
+## Esc: pauses play, or resumes it. Only in play.
+func toggle_pause() -> void:
+	var tree := get_tree()
+	if tree.paused:
+		tree.paused = false
+		Music.end_dip(&"pause")
+		_hud.show_paused(false)
+	elif state == State.PLAYING:
+		tree.paused = true
+		Music.dip(&"pause", Music.PAUSE_DIP)
+		_hud.show_paused(true)
+
+
+func is_paused() -> bool:
+	return get_tree().paused
+
+
 func _on_rudy_hit() -> void:
 	_shake_left = SHAKE_TIME
+	Music.dip(&"hurt", Music.HURT_DIP, Music.HURT_TIME)
 
 
 func _on_rudy_defeated() -> void:
@@ -155,6 +187,7 @@ func _on_portal_reached() -> void:
 	state = State.COMPLETE # entered once; input stops
 	_rudy.celebrate()
 	Sfx.play(&"portal")
+	Music.fade_out()
 	_show_status()
 	_portal.light_up(CELEBRATE_TIME)
 	create_tween().tween_property(_camera, "zoom", END_ZOOM, ZOOM_TIME).set_trans(Tween.TRANS_SINE)
@@ -162,6 +195,13 @@ func _on_portal_reached() -> void:
 	await _hud.fade_to(1.0, FADE_TIME)
 	_hud.show_end_card(FADE_TIME) # Enter works from its first frame
 	_end_card_shown = true
+
+
+## A level that goes away never leaves the game paused.
+func _exit_tree() -> void:
+	if get_tree().paused:
+		get_tree().paused = false
+		Music.end_dip(&"pause")
 
 
 func _restart() -> void:

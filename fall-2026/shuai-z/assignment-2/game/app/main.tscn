@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://content/level_1/level_1.tscn" id="2_level"]
 [ext_resource type="PackedScene" path="res://content/rudy/rudy.tscn" id="3_rudy"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="4_hud"]
+[ext_resource type="Script" path="res://app/system_keys.gd" id="5_keys"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -21,3 +22,6 @@ position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
 [node name="Hud" parent="." instance=ExtResource("4_hud")]
+
+[node name="SystemKeys" type="Node" parent="."]
+script = ExtResource("5_keys")

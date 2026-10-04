@@ -136,3 +136,9 @@ The sections above are design v1 (tag `design-v1`) and stay as written. Where th
   - SFX-SPORE and SFX-BLOCK are cut with the mushroom (cut-order step 4). If the mushroom is built after all, SFX-SPORE comes back, since P2 gives every enemy shot its attack sound.
   - The asset list and the event-to-sound map above keep their rows for the record; the cut rows are not generated.
 - **2026-10-04, the music loop:** MUS-LOOP is 24 bars (54.87 s at about 105 BPM), because the generated song repeats every 24 bars, not 16 or 32. Predicted failure 4's check changes accordingly: the loop is cut at bar lines, and instead of a cut on a zero crossing, the beat after the end is crossfaded into the first beat, so the end runs straight into the start; the file is mono. Details in ASSET-LOG.md.
+- **2026-10-04, build step 3 (the audio):**
+  - the pause: the game had no pause. Esc pauses play and resumes it, only in play (not on the title, through a death and the respawn, or from the teleport circle on). The game stops, "Paused" shows over a dimmed screen, the sound effects pause, and the music plays on 12 dB down, keeping its place. This is what the music behavior's "Pause" row means;
+  - the dips act on the music's player, not on the Music bus, so they never touch the M mute. Where two are in force the music plays at the deeper one, so they never add up: a hit that takes the last heart dips 9 dB, not 15. Every change ramps over 0.15 s;
+  - the hurt dip follows a hit; a fall plays SFX-HURT and gets the death dip only;
+  - the music starts under the title and plays on across a start-over from the opening; only playing again from the end card starts it from the top;
+  - the starting mix: the Music bus at −6 dB, the SFX bus at 0 dB, and every sound at its file's level, to be set by ear in the playtest.

@@ -35,6 +35,21 @@ extends Node
 ## Step 2d: the title over the opening: the game opens on it with Rudy idle,
 ## out of control, and the hearts hidden; Enter fades it out and the hearts in,
 ## and play starts on the same screen; it shows once per run.
+## Step 3: the audio. The buses; each of the six sounds plays its own file on
+## the SFX bus, and every sound the scripts play has a file (a fall now plays
+## "hurt", and the waystone lights without a sound, so the checks above count
+## its lights instead); each jump sound plays on the takeoff tick. The music:
+## it starts on the title and Enter does not start it again; a hit dips it
+## 6 dB for 0.6 s; Esc pauses play, and only play, with the music 12 dB down
+## and the sound effects paused; a death dips it 9 dB until he is back in
+## control, and neither a respawn nor a start-over starts it again; it fades
+## out on the teleport circle, the end card is silent, and playing again starts
+## it from the top. M and N mute the buses, even while paused, and with both
+## muted the route from the opening runs the same, tick for tick.
+## A headless run's audio driver never mixes, so a playing sound never ends or
+## moves on: the checks read what the players were told to do, not what is
+## heard, and the sounds still registered with the audio server are reported
+## as leaked at exit.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
@@ -66,7 +81,11 @@ var _camera: Camera2D
 var _restart_requests := 0
 # What the checks see Rudy do, measured from his motion rather than from Sfx.
 var _takeoffs := 0
+var _takeoff_ticks: Array[int] = [] # the ticks on which the checks saw a takeoff...
+var _jump_sound_ticks: Array[int] = [] # ...and a jump sound
+var _tick := 0
 var _was_on_floor := true
+var _lights := 0 # times the waystone lit
 var _trail: Array[StringName] = [] # each pose, once per change
 # Every pose Rudy took in all the checks, and any tick his look showed another pose's frame.
 var _poses_taken: Dictionary[StringName, bool] = {}
@@ -84,6 +103,7 @@ func _ready() -> void:
 	await _run_2b()
 	await _run_2c()
 	await _run_2d()
+	await _run_3()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -91,10 +111,14 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(_rudy):
 		return
+	_tick += 1
 	var on_floor := _rudy.is_on_floor()
 	if _was_on_floor and not on_floor and _rudy.velocity.y < 0.0:
 		_takeoffs += 1
+		_takeoff_ticks.append(_tick)
 	_was_on_floor = on_floor
+	if Sfx.count(&"jump") > _jump_sound_ticks.size():
+		_jump_sound_ticks.append(_tick)
 	if _trail.is_empty() or _trail[-1] != _rudy.pose:
 		_trail.append(_rudy.pose)
 	_poses_taken[_rudy.pose] = true
@@ -109,6 +133,7 @@ func _start_level(with_title := false) -> void:
 	_main = MAIN.instantiate()
 	add_child(_main)
 	_main.restart_requested.connect(_on_restart_requested)
+	(_main.get_node("Level1/Waystone") as Waystone).activated.connect(func(_w: Waystone) -> void: _lights += 1)
 	_rudy = _main.get_node("Rudy")
 	_camera = _main.get_node("Camera")
 	_was_on_floor = true
@@ -217,6 +242,9 @@ func _run_1a() -> void:
 	await _frames(80)
 	_check("mashing jump: one jump sound per takeoff",
 		_takeoffs >= 2 and Sfx.count(&"jump") == _takeoffs, _counts_text())
+	_check("each jump sound plays on the tick he leaves the ground, not on a press",
+		_takeoff_ticks.size() >= 2 and _jump_sound_ticks == _takeoff_ticks,
+		"takeoffs on ticks %s, jump sounds on %s" % [_takeoff_ticks, _jump_sound_ticks])
 
 	# On the ground a tap of the other direction turns him in place: neither he
 	# nor the camera moves.
@@ -322,11 +350,11 @@ func _run_1b() -> void:
 	await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 240)
 	Input.action_release(&"move_right")
 	var hud: Hud = _main.get_node("Hud")
-	_check("a fall below a cliff costs one heart, with one fall sound and no hurt sound",
-		_main.state == Main.State.DYING and _rudy.mode == Rudy.Mode.FALLEN and Sfx.count(&"fall") == 1
-		and Sfx.count(&"hurt") == 0 and _rudy.hearts == hearts_before - 1 and hud.hearts_shown() == _rudy.hearts,
-		"state %s, fall sounds %d, hearts %d -> %d" % [
-			Main.State.keys()[_main.state], Sfx.count(&"fall"), hearts_before, _rudy.hearts])
+	_check("a fall below a cliff costs one heart, with one hurt sound",
+		_main.state == Main.State.DYING and _rudy.mode == Rudy.Mode.FALLEN and Sfx.count(&"hurt") == 1
+		and _rudy.hearts == hearts_before - 1 and hud.hearts_shown() == _rudy.hearts,
+		"state %s, hurt sounds %d, hearts %d -> %d" % [
+			Main.State.keys()[_main.state], Sfx.count(&"hurt"), hearts_before, _rudy.hearts])
 	var back_after: int = await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
 	_check("after a fade he is back at the start, the last checkpoint, in control, with the hearts he had left",
 		_main.state == Main.State.PLAYING and _rudy.mode == Rudy.Mode.PLAY
@@ -334,7 +362,7 @@ func _run_1b() -> void:
 		and _rudy.hearts == hearts_before - 1,
 		"after %.2f s, at x %.0f, hearts %d" % [back_after / 60.0, _rudy.global_position.x, _rudy.hearts])
 	_check("the kill line counted the fall once, though he stayed below it",
-		Sfx.count(&"fall") == 1, "fall sounds %d" % Sfx.count(&"fall"))
+		Sfx.count(&"hurt") == 1, "hurt sounds %d" % Sfx.count(&"hurt"))
 	_check("he gets back up in CHAR-RESPAWN, then stands in CHAR-IDLE",
 		_trail.has(&"CHAR-RESPAWN") and _rudy.pose == &"CHAR-IDLE", _trail_text())
 	_check("the camera comes back with him", absf(_camera.get_screen_center_position().x - 960.0) < 1.0,
@@ -346,12 +374,10 @@ func _run_1b() -> void:
 	_teleport(Vector2(waystone.global_position.x - 300.0, start.y))
 	await _hold_until(&"move_right", func() -> bool: return _rudy.global_position.x > spawn.x, 120)
 	_check("the waystone lights the first time he touches it, and becomes the checkpoint",
-		waystone.lit and Sfx.count(&"checkpoint") == 1 and _main.checkpoint_name == "waystone",
-		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
+		waystone.lit and _lights == 1 and _main.checkpoint_name == "waystone", "lit %d times" % _lights)
 	await _hold(&"move_left", 30)
 	await _hold(&"move_right", 24)
-	_check("crossing it again does not light it again", Sfx.count(&"checkpoint") == 1,
-		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
+	_check("crossing it again does not light it again", _lights == 1, "lit %d times" % _lights)
 
 	# A fall after the waystone brings him back at the waystone, one heart fewer.
 	_reset_counts()
@@ -361,7 +387,7 @@ func _run_1b() -> void:
 	Input.action_release(&"move_right")
 	await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
 	_check("after a fall past the waystone he gets back up at the waystone, one heart fewer",
-		_rudy.global_position.distance_to(spawn) < 1.0 and Sfx.count(&"fall") == 1
+		_rudy.global_position.distance_to(spawn) < 1.0 and Sfx.count(&"hurt") == 1
 		and _rudy.hearts == hearts_before - 1,
 		"at x %.0f, spawn x %.0f; hearts %d -> %d" % [_rudy.global_position.x, spawn.x, hearts_before, _rudy.hearts])
 
@@ -370,7 +396,7 @@ func _run_1b() -> void:
 	var route_ticks: int = await _run_route(gaps, 900)
 	_check("from the waystone he clears both cliffs and reaches the teleport circle, unhurt",
 		route_ticks > 0 and _main.state == Main.State.COMPLETE and Sfx.count(&"hurt") == 0,
-		"state %s, fall sounds %d, hurt sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"fall"), Sfx.count(&"hurt")])
+		"state %s, hurt sounds %d" % [Main.State.keys()[_main.state], Sfx.count(&"hurt")])
 	await _frames(2) # his pose follows on his next tick
 	_check("the circle completes the level once: one portal sound; he celebrates",
 		Sfx.count(&"portal") == 1 and _rudy.mode == Rudy.Mode.CELEBRATING and _rudy.pose == &"CHAR-CELEBRATE",
@@ -407,8 +433,7 @@ func _run_1b() -> void:
 		and _rudy.global_position.distance_to(start) < 1.0)
 	route_ticks = await _run_route(gaps, 1800)
 	_check("a clean route from the opening reaches the circle: the waystone lights once; no falls, no hits",
-		route_ticks > 0 and Sfx.count(&"checkpoint") == 1 and Sfx.count(&"portal") == 1
-		and Sfx.count(&"fall") == 0 and Sfx.count(&"hurt") == 0,
+		route_ticks > 0 and _lights == 1 and Sfx.count(&"portal") == 1 and Sfx.count(&"hurt") == 0,
 		"%.1f s from the opening at full speed, jumping the cliffs, spikes and goblins; hurt sounds %d" % [
 			route_ticks / 60.0, Sfx.count(&"hurt")])
 
@@ -501,7 +526,7 @@ func _run_1c() -> void:
 		not hit_while_invulnerable and Sfx.count(&"hurt") == 2, "hurt sounds %d" % Sfx.count(&"hurt"))
 	_check("with his last heart gone he is defeated (CHAR-DEFEAT), and the level is dying; no fall",
 		_rudy.hearts == 0 and _rudy.mode == Rudy.Mode.DEFEATED and _rudy.pose == &"CHAR-DEFEAT"
-		and _main.state == Main.State.DYING and Sfx.count(&"fall") == 0,
+		and _main.state == Main.State.DYING,
 		"hearts %d, pose %s, state %s" % [_rudy.hearts, _rudy.pose, Main.State.keys()[_main.state]])
 	var back_after: int = await _wait_until(func() -> bool: return _main.state == Main.State.PLAYING, 300)
 	_check("after the fade the level starts over: he is at the start with three hearts, flashing",
@@ -625,7 +650,7 @@ func _run_1c() -> void:
 		lit_before and hearts_before == 1 and hearts_at_fall == 0
 		and _rudy.global_position.distance_to(start) < 1.0 and _rudy.hearts == 3 and hud.hearts_shown() == 3
 		and not waystone.lit and _main.checkpoint_name == "start"
-		and Sfx.count(&"fall") == 1 and Sfx.count(&"hurt") == 0,
+		and Sfx.count(&"hurt") == 1,
 		"waystone lit before %s; hearts %d -> %d at the fall -> %d; at x %.0f; waystone lit now %s" % [
 			lit_before, hearts_before, hearts_at_fall, _rudy.hearts, _rudy.global_position.x, waystone.lit])
 	var all_alive := true
@@ -637,8 +662,7 @@ func _run_1c() -> void:
 	await _frames(2)
 	await _hold_until(&"move_right", func() -> bool:
 		return _rudy.global_position.x > waystone.spawn_point.global_position.x, 120)
-	_check("after starting over, the waystone lights again", waystone.lit and Sfx.count(&"checkpoint") == 1,
-		"checkpoint sounds %d" % Sfx.count(&"checkpoint"))
+	_check("after starting over, the waystone lights again", waystone.lit and _lights == 1, "lit %d times" % _lights)
 
 	# Hits that take his last heart start the level over too, even after the waystone.
 	var spikes_b: Spikes = level.get_node("Hazards/SpikesB")
@@ -1147,6 +1171,174 @@ func _run_2d() -> void:
 		"moved %.0f px" % (_rudy.global_position.x - start.x))
 
 
+func _run_3() -> void:
+	var music_bus := AudioServer.get_bus_index(Music.BUS)
+	var sfx_bus := AudioServer.get_bus_index(Sfx.BUS)
+	_check("the Music and SFX buses feed Master",
+		music_bus > 0 and sfx_bus > 0 and AudioServer.get_bus_send(music_bus) == &"Master"
+		and AudioServer.get_bus_send(sfx_bus) == &"Master",
+		"Music at %.0f dB, SFX at %.0f dB" % [AudioServer.get_bus_volume_db(music_bus), AudioServer.get_bus_volume_db(sfx_bus)])
+
+	# The six sounds, each from a stop.
+	var wrong: PackedStringArray = []
+	for id: StringName in Sfx.STREAMS:
+		var player := Sfx.player(id)
+		player.stop()
+		Sfx.play(id)
+		if player.stream.resource_path.get_file() != "SFX-%s.wav" % String(id).to_upper() or player.bus != Sfx.BUS or not player.playing:
+			wrong.append(id)
+	Sfx.reset_counts()
+	_check("Sfx.play starts each of the six sounds from its own file, on the SFX bus",
+		Sfx.STREAMS.size() == 6 and wrong.is_empty(), ", ".join(wrong))
+	var asked := _sounds_played_in(["res://app", "res://content", "res://ui"])
+	var no_file := asked.filter(func(id: StringName) -> bool: return not Sfx.STREAMS.has(id))
+	var never := Sfx.STREAMS.keys().filter(func(id: StringName) -> bool: return not asked.has(id))
+	_check("every sound the game's scripts play has a file, and every file is played somewhere",
+		no_file.is_empty() and never.is_empty(), "no file: %s; never played: %s" % [no_file, never])
+	var loop := Music.player().stream as AudioStreamOggVorbis
+	_check("the music is MUS-LOOP, looping, 24 bars (54.87 s), on the Music bus",
+		loop.resource_path.get_file() == "MUS-LOOP.ogg" and loop.loop and absf(loop.get_length() - 54.867) < 0.01
+		and Music.player().bus == Music.BUS, "%.3f s, loop %s" % [loop.get_length(), loop.loop])
+
+	# The game opens: the music starts under the title and plays on into play.
+	_main.queue_free()
+	await _frames(1)
+	Music.player().stop() # as before the game opens
+	var starts := Music.starts
+	_start_level(true)
+	await _frames(5)
+	_check("the music starts from the top under the title, at full level",
+		_main.state == Main.State.TITLE and Music.is_playing() and Music.starts == starts + 1 and Music.volume_db() == 0.0,
+		"playing %s, starts %d, %.1f dB" % [Music.is_playing(), Music.starts - starts, Music.volume_db()])
+	await _tap(&"pause")
+	await _frames(3)
+	_check("Esc does nothing on the title", not _main.is_paused() and _main.state == Main.State.TITLE)
+	await _tap(&"restart")
+	await _frames(10)
+	_check("Enter starts play under the same music: it does not start again",
+		_main.state == Main.State.PLAYING and Music.is_playing() and Music.starts == starts + 1,
+		"starts %d" % (Music.starts - starts))
+
+	# A hit: 6 dB down for 0.6 s, then back.
+	var level: Node2D = _main.get_node("Level1")
+	var hud: Hud = _main.get_node("Hud")
+	var ground_y := (level.get_node("StartPoint") as Marker2D).global_position.y
+	var spikes: Spikes = level.get_node("Hazards/SpikesA")
+	_teleport(Vector2(spikes.global_position.x - 220.0, ground_y))
+	await _frames(2)
+	Input.action_press(&"move_right")
+	await _wait_until(func() -> bool: return _rudy.hearts < 3, 120)
+	Input.action_release(&"move_right")
+	var heading := Music.target_db()
+	await _frames(_ticks(Music.RAMP_TIME) + 2)
+	var dipped := Music.volume_db()
+	var back_after: int = await _wait_until(func() -> bool: return Music.volume_db() == 0.0, 120)
+	var dip_ticks := _ticks(Music.RAMP_TIME) + 2 + back_after
+	_check("a hit dips the music 6 dB for 0.6 s under the hurt sound, then it comes back",
+		heading == Music.HURT_DIP and is_equal_approx(dipped, Music.HURT_DIP)
+		and absi(dip_ticks - _ticks(Music.HURT_TIME + Music.RAMP_TIME)) <= 3,
+		"%.1f dB; back at full level after %.2f s" % [dipped, dip_ticks / 60.0])
+
+	# Esc pauses: everything stops but the music, which plays on 12 dB down.
+	await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(), 60)
+	var goblin: Goblin = level.get_node("Enemies/GoblinA")
+	await _tap(&"pause")
+	await _frames(1)
+	var x_paused := _rudy.global_position.x
+	var goblin_x := goblin.position.x
+	Input.action_press(&"move_right")
+	await _frames(_ticks(Music.RAMP_TIME) + 30)
+	Input.action_release(&"move_right")
+	_check("Esc in play pauses the game and shows \"Paused\": Rudy and the goblins stand still",
+		_main.is_paused() and hud.is_showing_paused() and _rudy.global_position.x == x_paused and goblin.position.x == goblin_x,
+		"paused %s; Rudy moved %.1f px, the goblin %.1f px" % [
+			_main.is_paused(), _rudy.global_position.x - x_paused, goblin.position.x - goblin_x])
+	_check("while paused the music plays on 12 dB down, and the sound effects pause",
+		Music.is_playing() and not Music.player().stream_paused and is_equal_approx(Music.volume_db(), Music.PAUSE_DIP)
+		and Sfx.player(&"hurt").stream_paused, "%.1f dB" % Music.volume_db())
+	await _tap(&"mute_music")
+	await _frames(1)
+	var music_muted := AudioServer.is_bus_mute(music_bus) and not AudioServer.is_bus_mute(sfx_bus)
+	await _tap(&"mute_sfx")
+	await _frames(1)
+	var both_muted := AudioServer.is_bus_mute(music_bus) and AudioServer.is_bus_mute(sfx_bus)
+	await _tap(&"mute_music")
+	await _frames(1)
+	await _tap(&"mute_sfx")
+	await _frames(1)
+	_check("M mutes the music and N the sound effects, and again unmutes them, even while paused",
+		music_muted and both_muted and not AudioServer.is_bus_mute(music_bus) and not AudioServer.is_bus_mute(sfx_bus))
+	await _tap(&"pause")
+	await _frames(_ticks(Music.RAMP_TIME) + 2)
+	Input.action_press(&"move_right")
+	await _frames(10)
+	Input.action_release(&"move_right")
+	_check("Esc again resumes: he moves, the music is back at full level, the sound effects play on",
+		not _main.is_paused() and not hud.is_showing_paused() and _rudy.global_position.x > x_paused
+		and Music.volume_db() == 0.0 and not Sfx.player(&"hurt").stream_paused and Music.starts == starts + 1,
+		"moved %.1f px, %.1f dB" % [_rudy.global_position.x - x_paused, Music.volume_db()])
+
+	# A fall: 9 dB down through the fade and the respawn; the music does not start again.
+	var gaps := _gaps(level)
+	for fall in 2: # the second fall takes his last heart: the level starts over from the opening
+		await _wait_until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor(), 120)
+		_teleport(Vector2(gaps[0].x - 120.0, ground_y))
+		Input.action_press(&"move_right")
+		await _wait_until(func() -> bool: return _main.state == Main.State.DYING, 240)
+		Input.action_release(&"move_right")
+		await _tap(&"pause")
+		await _frames(_ticks(Music.RAMP_TIME))
+		var paused := _main.is_paused()
+		var levels := {}
+		while _main.state == Main.State.DYING:
+			levels[snappedf(Music.volume_db(), 0.01)] = true
+			await _frames(1)
+		await _frames(_ticks(Music.RAMP_TIME) + 2)
+		_check("a fall%s dips the music 9 dB through the fade and the respawn, then it comes back; it does not start again" % (
+			" that starts the level over" if fall == 1 else ""),
+			not paused and levels.keys() == [Music.DEATH_DIP] and Music.volume_db() == 0.0
+			and Music.is_playing() and Music.starts == starts + 1 and (fall == 0 or _main.checkpoint_name == "start"),
+			"levels while dying %s; Esc paused it %s; starts %d" % [levels.keys(), paused, Music.starts - starts])
+
+	# The teleport circle: the music fades out and stops, and the end card is silent.
+	var portal: Portal = level.get_node("Portal")
+	_teleport(Vector2(portal.global_position.x - 200.0, ground_y))
+	await _hold_until(&"move_right", func() -> bool: return _main.state == Main.State.COMPLETE, 120)
+	var fading := Music.target_db() == Music.SILENCE
+	var stopped_after: int = await _wait_until(func() -> bool: return not Music.player().playing, 180)
+	_check("on the teleport circle the music fades out over 1.5 s and stops",
+		fading and not Music.player().playing and absi(stopped_after - _ticks(Music.FADE_OUT_TIME)) <= 3,
+		"stopped after %.2f s" % (stopped_after / 60.0))
+	await _wait_until(func() -> bool: return hud.is_showing_end_card(), 300)
+	await _tap(&"pause")
+	await _frames(3)
+	_check("the end card is silent, and Esc does nothing there", not Music.player().playing and not _main.is_paused())
+	# Enter plays again: the game reloads the scene, and Main starts the music.
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	await _frames(5)
+	_check("playing again starts the music from the top, at full level",
+		Music.is_playing() and Music.starts == starts + 2 and Music.volume_db() == 0.0, "starts %d" % (Music.starts - starts))
+
+	# Sound decides nothing: muted, the route from the opening runs the same.
+	var runs: PackedStringArray = []
+	for muted: bool in [false, true]:
+		AudioServer.set_bus_mute(music_bus, muted)
+		AudioServer.set_bus_mute(sfx_bus, muted)
+		_main.queue_free()
+		await _frames(1)
+		_start_level()
+		await _frames(5)
+		_reset_counts()
+		var ticks: int = await _run_route(_gaps(_main.get_node("Level1")), 1800)
+		runs.append("%d ticks, at x %.3f, sounds %s" % [ticks, _rudy.global_position.x, Sfx.summary()])
+	AudioServer.set_bus_mute(music_bus, false)
+	AudioServer.set_bus_mute(sfx_bus, false)
+	_check("with both buses muted the route from the opening runs the same, tick for tick, with the same sounds",
+		runs[0] == runs[1] and not runs[0].begins_with("-1"), " | ".join(runs))
+
+
 ## The goblin's walk frame, in game px: the height of the top of its head (the
 ## highest row at least 16 px wide, above the wisps of hair), the width of its
 ## body 60 px up, and the width of its swinging arms 40 px up.
@@ -1402,6 +1594,28 @@ func _expected_jump() -> Vector3:
 	return Vector3.ZERO
 
 
+## The sound IDs that the scripts under `dirs` pass to Sfx.play.
+func _sounds_played_in(dirs: Array[String]) -> Array[StringName]:
+	var found: Array[StringName] = []
+	var call := RegEx.create_from_string(r'Sfx\.play\(&"(\w+)"\)')
+	var pending := dirs.duplicate()
+	while not pending.is_empty():
+		var dir: String = pending.pop_back()
+		for sub in DirAccess.get_directories_at(dir):
+			pending.append(dir.path_join(sub))
+		for file in DirAccess.get_files_at(dir):
+			if file.ends_with(".gd"):
+				for found_call in call.search_all(FileAccess.get_file_as_string(dir.path_join(file))):
+					var id := StringName(found_call.get_string(1))
+					if not found.has(id):
+						found.append(id)
+	return found
+
+
+func _ticks(seconds: float) -> int:
+	return roundi(seconds * Engine.physics_ticks_per_second)
+
+
 func _check(what: String, ok: bool, detail: String = "") -> void:
 	print("%s  %s%s" % ["PASS" if ok else "FAIL", what, "" if detail.is_empty() else "  (%s)" % detail])
 	if not ok:
@@ -1448,6 +1662,9 @@ func _teleport(spot: Vector2) -> void:
 func _reset_counts() -> void:
 	Sfx.reset_counts()
 	_takeoffs = 0
+	_takeoff_ticks.clear()
+	_jump_sound_ticks.clear()
+	_lights = 0
 	_trail.clear()
 	_trail.append(_rudy.pose)
 

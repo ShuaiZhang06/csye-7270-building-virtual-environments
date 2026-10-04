@@ -161,8 +161,8 @@ func bounce() -> void:
 
 
 ## He fell below a cliff: he keeps falling, out of the player's control, and
-## the fall costs a heart (with no knockback, and no hurt sound: the level plays
-## the fall sound). Returns whether it was his last heart.
+## the fall costs a heart (with no knockback; the level plays the hurt sound as
+## he crosses the kill line). Returns whether it was his last heart.
 func fall_out() -> bool:
 	mode = Mode.FALLEN
 	_slash_clock = -1.0

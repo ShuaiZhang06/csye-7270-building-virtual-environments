@@ -28,6 +28,14 @@ extends Node
 ##   the teleport circle in the pull-back; and the end card. Cropped around Rudy
 ##   except the opening, the hit, the circle and the end card.
 ## - 2d: the title over the opening, the title fading out, and play started.
+## - 3: the audio, for Godot's movie maker, which records the game's own mix:
+##     Godot --path game --resolution 1920x1080 --always-on-top --write-movie <file>.avi res://tests/capture.tscn -- 3
+##   The title with the music under it, then in play a jump, the pickup, a
+##   slash, a stomp, a hit from the spikes (the music dips), the pause (the one
+##   screenshot), the music muted with M and back, a fall and the respawn (the
+##   music dips), and the teleport circle (it fades out) to the silent end
+##   card. Each frame's sounds, the music's level and the pause go to
+##   3-mix-events.json, which design/tools/plot_mix.py draws under the mix.
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
@@ -37,16 +45,18 @@ const PNG_STEPS := ["1a", "1b", "1c", "1d", "2a"] ## over the greybox; later ful
 var _main: Main
 var _rudy: Rudy
 var _step := ""
+var _mix_log := {} ## step 3: what happened each frame
+var _sounds_seen: Dictionary[StringName, int] = {}
 
 
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d"]
+		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d", "3"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
-		Main.title_shown = step != "2d" # only the title's own step opens on it
+		Main.title_shown = step not in ["2d", "3"] # only these steps open on the title
 		_main = MAIN.instantiate()
 		add_child(_main)
 		_rudy = _main.get_node("Rudy")
@@ -68,6 +78,8 @@ func _ready() -> void:
 				await _capture_2c()
 			"2d":
 				await _capture_2d()
+			"3":
+				await _capture_3()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -464,16 +476,117 @@ func _capture_2c() -> void:
 
 func _capture_2d() -> void:
 	await _shot("title")
-	# Main reads Enter in _process, so press it at the start of a process frame.
-	await get_tree().process_frame
-	Input.action_press(&"restart")
-	await get_tree().process_frame
-	await get_tree().process_frame
-	Input.action_release(&"restart")
+	await _press_in_process(&"restart")
 	await _frames(8) # halfway through the fade
 	await _shot("title-fading")
 	await _frames(30)
 	await _shot("play")
+
+
+func _capture_3() -> void:
+	_mix_log = {"fps": Engine.physics_ticks_per_second, "frames": [], "music_db": [], "music_playing": [],
+		"music_muted": [], "sfx_muted": [], "paused": [], "state": [], "sounds": [], "music_starts": [], "music_pos": []}
+	_sounds_seen = Sfx.counts.duplicate()
+	get_tree().process_frame.connect(_log_mix)
+	var level: Node2D = _main.get_node("Level1")
+	await _frames(90) # the title, with the music under it
+	await _press_in_process(&"restart")
+	await _frames(60)
+	await _hold(&"jump", 3)
+	await _frames(60)
+	# The pickup, then a slash.
+	var pickup: SwordPickup = level.get_node("SwordPickup")
+	_rudy.global_position = Vector2(pickup.global_position.x - 160.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.SWORD)
+	Input.action_release(&"move_right")
+	await _frames(45)
+	await _hold(&"slash", 3)
+	await _frames(45)
+	# A stomp.
+	var goblin: Goblin = level.get_node("Enemies/GoblinB")
+	goblin.speed = 0.0
+	_rudy.global_position = Vector2(goblin.global_position.x, 840.0 - Goblin.HEIGHT - 120.0)
+	_rudy.velocity = Vector2(0, 100)
+	_main._snap_camera()
+	await _until(func() -> bool: return goblin.dead)
+	await _frames(60)
+	# A hit from the spikes: the gear flies off, and the music dips.
+	var spikes: Spikes = level.get_node("Hazards/SpikesA")
+	_rudy.global_position = Vector2(spikes.global_position.x - 200.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.HURT)
+	Input.action_release(&"move_right")
+	await _frames(90)
+	# The pause, then the music muted for a moment.
+	await _press_in_process(&"pause")
+	await _frames(30)
+	await _shot("paused")
+	await _frames(90)
+	await _press_in_process(&"pause")
+	await _frames(45)
+	await _press_in_process(&"mute_music")
+	await _frames(90)
+	await _press_in_process(&"mute_music")
+	await _frames(45)
+	# A fall into the first cliff, and the respawn.
+	var waystone: Waystone = level.get_node("Waystone")
+	_rudy.global_position = Vector2(waystone.global_position.x - 300.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.DYING)
+	Input.action_release(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.PLAYING)
+	await _frames(60)
+	# The teleport circle, then the silent end card.
+	var portal: Portal = level.get_node("Portal")
+	_rudy.global_position = Vector2(portal.global_position.x - 300.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.COMPLETE)
+	Input.action_release(&"move_right")
+	var hud: Hud = _main.get_node("Hud")
+	await _until(func() -> bool: return hud.is_showing_end_card())
+	await _frames(120)
+	get_tree().process_frame.disconnect(_log_mix)
+	var path := _out_dir().path_join("3-mix-events.json")
+	FileAccess.open(path, FileAccess.WRITE).store_string(JSON.stringify(_mix_log))
+	print("saved %s (%d frames)" % [path.get_file(), _mix_log.frames.size()])
+
+
+## One frame of step 3, logged before the frame's own processing: the sounds
+## that started since the last frame, and the music's state and position.
+func _log_mix() -> void:
+	var started: Array[String] = []
+	for id: StringName in Sfx.counts:
+		for i in Sfx.counts[id] - _sounds_seen.get(id, 0):
+			started.append(String(id))
+		_sounds_seen[id] = Sfx.counts[id]
+	_mix_log.frames.append(Engine.get_process_frames())
+	_mix_log.music_db.append(snappedf(Music.volume_db(), 0.01))
+	_mix_log.music_playing.append(Music.player().playing)
+	_mix_log.music_muted.append(AudioServer.is_bus_mute(AudioServer.get_bus_index(Music.BUS)))
+	_mix_log.sfx_muted.append(AudioServer.is_bus_mute(AudioServer.get_bus_index(Sfx.BUS)))
+	_mix_log.paused.append(get_tree().paused)
+	_mix_log.state.append(Main.State.keys()[_main.state])
+	_mix_log.sounds.append(started)
+	_mix_log.music_starts.append(Music.starts)
+	_mix_log.music_pos.append(Music.player().get_playback_position()) # s of the loop mixed so far
+
+
+## Main and SystemKeys read these keys in _process, so press one at the start of a process frame.
+func _press_in_process(action: StringName) -> void:
+	await get_tree().process_frame
+	Input.action_press(action)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	Input.action_release(action)
 
 
 func _out_dir() -> String:
