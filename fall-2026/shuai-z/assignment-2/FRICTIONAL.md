@@ -707,3 +707,17 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - CHAR-RUN-B-02 and CHAR-SWORD-RUN-B-01 stay in the game, and pose 4 in CHARACTER-SHEET.md stays the passing pose;
   - the two run frames still keep the same leg behind him, which I noticed in the 2a playtest; I accept that as it is. I gave no further reason.
 - **Human / Claude / model:** the decision is mine; Claude's prompt from the previous entry was the starting point; ChatGPT's image model made the image.
+
+## 2026-10-03 — SFX-STOMP, and a switch to ElevenLabs
+
+*Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Generated:** SFX-STOMP with the prompt unchanged, four takes, in ElevenLabs on the free plan with its default model, instead of Adobe Firefly.
+- **Decided (my words):** "Number 2: it feels like a stomp."
+- **Got:**
+  - take 02 has no silence to trim: it starts at its peak. Its first sample is at 41% of full scale and would click, so `prepare_sfx.py` fades it in over 3 ms, keeps 0–320 ms with a 100 ms fade-out, mixes it to mono and sets the peak to −1 dBFS: `game/systems/audio/sfx/SFX-STOMP.wav`. Its loudest 100 ms are within 1 dB of SFX-JUMP's, so the two need no balancing yet;
+  - the model: the files do not name it, and ElevenLabs lists one sound-effects model, `eleven_text_to_sound_v2`;
+  - the terms: on the free plan I keep the rights in the output, but only for non-commercial use, and anything I publish with these sounds must have "elevenlabs.io" or "11.ai" in its title;
+  - ElevenLabs in ASSET-LOG.md and SOURCES.md, and the generation log `generated/logs/2026-10-03-elevenlabs-SFX-STOMP.md`.
+- **Human / Claude / model:** the switch of tool and the choice of take are mine; the cut, the script and the terms research are Claude's; the takes come from ElevenLabs.
+- **Still unresolved:** the attribution rule applies to the film: if it is published, its title needs "elevenlabs.io" or "11.ai". The other four sounds and MUS-LOOP.

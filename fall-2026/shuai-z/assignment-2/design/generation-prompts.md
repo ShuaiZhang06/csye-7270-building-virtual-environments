@@ -241,14 +241,14 @@ Two small heart icons for a game's health display, side by side: a full heart in
 
 ## Sound effects
 
-Drafted 2026-10-01 from CONCEPT.md's audio direction and CHANGE-BRIEF.md's event-to-sound map, and written to work in any text-to-sound-effect tool. I generate them in Adobe Firefly (Generate sound effects), on the free plan; each prompt gives four takes.
+Drafted 2026-10-01 from CONCEPT.md's audio direction and CHANGE-BRIEF.md's event-to-sound map, and written to work in any text-to-sound-effect tool. I generated SFX-JUMP in Adobe Firefly (Generate sound effects) and, from SFX-STOMP on, generate them in ElevenLabs' sound effects; both on free plans, and each prompt gives four takes.
 
 On 2026-10-02 the list was cut to six sounds (CHANGE-BRIEF.md, revisions): SFX-JUMP, SFX-STOMP, SFX-HURT, SFX-PORTAL, SFX-SLASH and SFX-PICKUP. The four cut rows are kept below for the record and are not generated.
 
 ### How to use them
 
 1. **One prompt, one sound.** Paste the shared block and then the line for the sound. If the tool has a duration setting, set it to the upper end of the target length; if it has a prompt-strength setting, keep it high.
-2. **Make three or four takes of each sound** (one Firefly prompt gives four) and keep the best. Save every take as `ID-NN` (for example `SFX-JUMP-01.wav`) in `_raw/`, and follow step 4 of *How to use them* above for accepted and rejected takes.
+2. **Make three or four takes of each sound** (one prompt gives four in both tools) and keep the best. Save every take as `ID-NN` (for example `SFX-JUMP-01.wav`) in `_raw/`, and follow step 4 of *How to use them* above for accepted and rejected takes.
 3. **Record for each take:** the model name and version, the date, the exact prompt, the duration and any other settings, and the seed if the tool shows one. Firefly's page shows no model name, but each WAV's Content Credentials do: its XMP chunk links to a manifest that names the model and version.
 4. **Game-ready version:** trim the silence at the start (the sound must begin on the event's frame), trim or fade the tail, convert to mono, normalize the peak to about −1 dBFS, and export as WAV. `design/tools/prepare_sfx.py` does this from the accepted take, with each sound's cut points in its `CUTS` table, and keeps the take's Content Credentials link. The edits go in the asset log.
 5. **Listen in context.** Jump and slash play many times a minute, so they must not tire the ear; play each one ten times in a row before accepting it.

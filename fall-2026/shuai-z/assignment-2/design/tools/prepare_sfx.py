@@ -28,6 +28,10 @@ CUTS = {
     # Before 210 ms the take is more than 30 dB under its peak (at 320 ms);
     # after 500 ms it is more than 44 dB under it.
     "SFX-JUMP": ("SFX-JUMP-04.wav", 210, 500, 5, 60),
+    # The take starts at its peak, on a sample at 41% of full scale, so a 3 ms
+    # fade-in removes the click. After 190 ms it is more than 33 dB under its
+    # loudest 10 ms.
+    "SFX-STOMP": ("SFX-STOMP-02.wav", 0, 320, 3, 100),
 }
 
 
