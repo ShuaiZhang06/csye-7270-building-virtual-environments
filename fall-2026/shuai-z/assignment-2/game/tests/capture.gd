@@ -15,10 +15,17 @@ extends Node
 ## - 2a: Rudy's generated frames with the outer outline: every pose he can take,
 ##   facing right and left, and the flash, each cropped around him at game
 ##   size (520 x 380 px); and two full screens, the opening and the slash.
+## - 2b: the Level 1 layers and ground: the opening, each row of spikes
+##   (cropped; their art came in after the 2b playtest), both cliffs from beside
+##   them and in a jump, a fall into a pit, the squeezed middle run of tiles,
+##   the pull-back on the teleport circle, and Rudy over the wheat in both
+##   forms and over the sky in a jump, cropped. The spikes, the goblins and the pickup are hidden except
+##   in the opening; they are swapped in 2c.
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
 const CROP := Vector2i(520, 380) ## around Rudy, his soles 300 px from the top
+const PNG_STEPS := ["1a", "1b", "1c", "1d", "2a"] ## over the greybox; later full screens show painted art and are saved as JPEG
 
 var _main: Main
 var _rudy: Rudy
@@ -28,7 +35,7 @@ var _step := ""
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c", "1d", "2a"]
+		steps = ["1a", "1b", "1c", "1d", "2a", "2b"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
@@ -47,6 +54,8 @@ func _ready() -> void:
 				await _capture_1d()
 			"2a":
 				await _capture_2a()
+			"2b":
+				await _capture_2b()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -290,6 +299,65 @@ func _capture_2a() -> void:
 	await _shot("celebrate", true)
 
 
+func _capture_2b() -> void:
+	await _shot("opening")
+	# Each row of spikes, with the outline, between two wheat tufts.
+	for spikes: Spikes in _main.get_node("Level1/Hazards").get_children():
+		_rudy.global_position = Vector2(spikes.global_position.x - 170.0, 840.0)
+		_main._snap_camera()
+		await _frames(10)
+		await _shot("spikes-" + String(spikes.name).right(1).to_lower(), true)
+	for path: String in ["Level1/Hazards", "Level1/Enemies", "Level1/SwordPickup"]:
+		var hidden: Node2D = _main.get_node(path)
+		hidden.process_mode = Node.PROCESS_MODE_DISABLED
+		hidden.visible = false
+	# Beside each cliff, then over it.
+	for cliff: Array in [["first-cliff", 4300.0], ["second-cliff", 6400.0]]:
+		_rudy.global_position = Vector2(cliff[1] - 160.0, 840.0)
+		_main._snap_camera()
+		await _frames(20)
+		await _shot(cliff[0])
+		Input.action_press(&"move_right")
+		await _until(func() -> bool: return _rudy.global_position.x >= cliff[1] - 90.0)
+		Input.action_press(&"jump")
+		await _until(func() -> bool: return _rudy.global_position.x >= cliff[1] + 100.0)
+		Input.action_release(&"jump")
+		await _shot(cliff[0] + "-jump")
+		if cliff[0] == "first-cliff":
+			await _shot("jump-over-sky", true)
+		await _until(func() -> bool: return _rudy.is_on_floor())
+		Input.action_release(&"move_right")
+		await _frames(20)
+	# The middle run of tiles, squeezed to fit between the cliffs.
+	_rudy.global_position = Vector2(5450.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	await _shot("middle-run")
+	# Rudy over the generated wheat, in both forms, cropped for the readability check.
+	await _shot("on-wheat", true)
+	_rudy.equip_sword()
+	await _frames(5)
+	await _shot("sword-on-wheat", true)
+	# A fall into the first pit (panel 5).
+	_rudy.global_position = Vector2(4220.0, 840.0)
+	_main._snap_camera()
+	await _frames(10)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.global_position.y > 960.0)
+	Input.action_release(&"move_right")
+	await _shot("fall")
+	await _until(func() -> bool: return _main.state == Main.State.PLAYING)
+	# The pull-back on the teleport circle (panel 6).
+	var portal: Portal = _main.get_node("Level1/Portal")
+	_rudy.global_position = Vector2(portal.global_position.x - 500.0, 840.0)
+	_main._snap_camera()
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.COMPLETE)
+	Input.action_release(&"move_right")
+	await _frames(100) # the light has risen and the camera has pulled back
+	await _shot("teleport-circle")
+
+
 func _out_dir() -> String:
 	return ProjectSettings.globalize_path("res://").path_join("../evidence/%s" % _step).simplify_path()
 
@@ -306,8 +374,12 @@ func _shot(label: String, crop := false) -> void:
 		var corner := (soles - Vector2i(CROP.x / 2, 300)).clamp(Vector2i.ZERO, SIZE - CROP)
 		image = image.get_region(Rect2i(corner, CROP))
 	var suffix := "-collisions" if get_tree().debug_collisions_hint else ""
-	var path := _out_dir().path_join("%s-%s%s.png" % [_step, label, suffix])
-	image.save_png(path)
+	var as_jpeg := not crop and not PNG_STEPS.has(_step) # a painted full screen is about 1.5 MB as PNG
+	var path := _out_dir().path_join("%s-%s%s.%s" % [_step, label, suffix, "jpg" if as_jpeg else "png"])
+	if as_jpeg:
+		image.save_jpg(path, 0.9)
+	else:
+		image.save_png(path)
 	print("saved %s (rendered at %d x %d, pose %s)" % [path.get_file(), rendered.x, rendered.y, _rudy.pose])
 
 

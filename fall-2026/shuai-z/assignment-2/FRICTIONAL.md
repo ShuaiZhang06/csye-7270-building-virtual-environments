@@ -708,6 +708,33 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - the two run frames still keep the same leg behind him, which I noticed in the 2a playtest; I accept that as it is. I gave no further reason.
 - **Human / Claude / model:** the decision is mine; Claude's prompt from the previous entry was the starting point; ChatGPT's image model made the image.
 
+## 2026-10-02 — Step 2b: the Level 1 layers and ground
+
+*Written on 2026-10-02 by Claude, from our chat.*
+
+- **Asked:** to commit 2a and the ChatGPT log (commits `ab6fe61` and `becc593`), then build step 2b.
+- **Got (step 2b):**
+  - the far layer, ENV-SKY-CASTLE: it scrolls at 0.0218 of the camera and never repeats, so the one image covers the level. It keeps its screen size when the camera pulls back on the teleport circle. The fields shrink with the world in the pull-back, so more of the far image shows below their horizon: the castle's lower part and the hills;
+  - the fields, ENV-FIELDS: nine copies side by side, scrolling at 0.4 of the camera;
+  - the ground, ENV-GROUND and ENV-GROUND-CLIFF: each ground segment draws the slab tile along it and the cliff pieces at the ends marked as cliffs. As I decided, the seven tiles between the two cliffs are squeezed 3.2% to fit; the first segment's 19 tiles start 80 px before the level, and the last segment's 5 run 200 px past its end;
+  - the dark pit stays, from the walk line down;
+  - the code-drawn hills, castle, meadow, wheat and ground are gone. The spikes, the goblins, the pickup, the waystone and the circle are still code-drawn, until 2c;
+  - 6 new checks, 103 in all, all passing: the art's walk line and each cliff face are on the collision (all four faces within 0 px), the tiles meet the cliff pieces at the start of a period, the far layer and the fields fill the screen along the level and in the pull-back, and the fields move with the camera in the same frame;
+  - screenshots in `evidence/2b/`, each with a copy showing the collision shapes, and a contact sheet;
+  - CHANGE-BRIEF's predicted failure 2, re-checked on the generated layers: the generated wheat is lighter than planned, so Rudy's contrast against it rose (the hair 1.43 → 1.71, the robe 2.52 → 3.00, the outline 9.34 → 11.13). In colour and in grayscale he reads in both forms over the wheat and over the sky (`evidence/2b/2b-readability.png`). The table is in CHARACTER-SHEET.md, revision 3; the tool is `design/tools/check_readability.py`.
+- **Claude's calls in this step:**
+  - the far layer is on a canvas layer behind the world instead of Godot's Parallax2D, so that the camera's zoom does not shrink it;
+  - both layers move after the camera in each frame. With the order reversed, a check found the fields trailing the camera by up to 5.6 px while he runs;
+  - the fields and the ground tiles are drawn one copy at a time instead of as one repeating texture, so the bottom rows cannot bleed into the top edge at half scale. This was a precaution; the repeating version was not tried;
+  - the level's art draws with linear filtering and mipmaps;
+  - full-screen screenshots of the painted level are saved as JPEG at quality 90: as PNG they came to 30 MB for this step.
+- **Human / Claude / model:** the squeeze is my decision; the code, the checks and the calls above are Claude's. No generative model was used in this step.
+- **Still unresolved:**
+  - how the parallax speeds (0.0218 for the far layer, 0.4 for the fields) feel in motion;
+  - how the soil and the cliffs read in motion. The left cliff piece is the right one mirrored, so where it meets the tiles the stones are mirrored; it shows on a close look;
+  - whether the castle's lower part, which shows in the pull-back, looks right;
+  - whether the dark pit reads as a pit.
+
 ## 2026-10-03 — SFX-STOMP, and a switch to ElevenLabs
 
 *Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
@@ -721,3 +748,19 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - ElevenLabs in ASSET-LOG.md and SOURCES.md, and the generation log `generated/logs/2026-10-03-elevenlabs-SFX-STOMP.md`.
 - **Human / Claude / model:** the switch of tool and the choice of take are mine; the cut, the script and the terms research are Claude's; the takes come from ElevenLabs.
 - **Still unresolved:** the attribution rule applies to the film: if it is published, its title needs "elevenlabs.io" or "11.ai". The other four sounds and MUS-LOOP.
+
+## 2026-10-03 — Step 2b playtest: the spikes stand out
+
+*Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** step 2b, on my Mac.
+- **Found (my words):** "Everything else is fine; only the spikes aren't obvious enough. Can an outline or something like it make them stand out more?"
+- **Got (Claude's changes and calls):**
+  - the spikes were still the greybox's: grey, 40 px tall, with no outline. They are now the generated ENV-SPIKES, brought forward from 2c: five dark iron spikes on a wooden plank, 106 px wide with the tips 63 px up, with the 4 px outer outline;
+  - a tall wheat tuft of the ground art stood right behind both rows. The tufts repeat with the ground tile, so each row moved into the gap between two of them: the first from x 1100 to 1065, the second from 5100 to 5180;
+  - the box that hurts is fitted to the art, as planned for the swap: 80 × 52 px instead of 150 × 40. It covers the row of spikes but not the plank's ends, and stops 11 px below the tips, so a graze of a tip is a miss. The rows are narrower than the greybox's, so they are a little easier to jump;
+  - 2 new checks, 105 in all, all passing: no tall tuft stands behind a row of spikes, and the box covers the row of spikes from the plank to below the tips;
+  - crops of both rows in `evidence/2b/`, with copies showing the collision shapes.
+- **Decided:** the rest of 2b stays as it is.
+- **Human / Claude / model:** the finding is mine; the changes and the numbers are Claude's. No generative model was used.
+- **Still unresolved:** whether the spikes now read as a threat at once in play (P2).

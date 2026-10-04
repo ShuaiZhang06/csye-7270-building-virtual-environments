@@ -19,13 +19,20 @@ extends Node
 ## at the canvas size, drawn with its body origin on his and at 1/density, with
 ## mipmaps and the outline material; and every pose he took in the checks above
 ## showed its own frame.
+## Step 2b: Level 1's layers and ground: the ground art's walk line is the
+## segments' top, each cliff face in the art is where the collision gap starts,
+## the tiles meet the cliff pieces at the start of a period, the far layer
+## fills the screen everywhere and during the pull-back, and the fields move at
+## their share of the camera's motion in the same frame. After the 2b
+## playtest, the spikes: each row stands between two tall wheat tufts, and the
+## box that hurts covers the row of spikes and stops below the tips.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
 	"res://app/main.tscn": ["Level1", "Rudy", "Camera", "Hud", "Level1/Waystone", "Level1/Portal"],
 	"res://content/rudy/rudy.tscn": ["Body", "Look", "SwordHitbox/Shape"],
 	"res://content/level_1/level_1.tscn": [
-		"Backdrop/Far/Art", "Backdrop/Mid/Art", "PitShade", "Ground/Segment1", "Ground/Segment2",
+		"Backdrop", "Backdrop/Far/Sky", "PitShade", "Ground/Segment1", "Ground/Segment2",
 		"Ground/Segment3", "Hazards/SpikesA", "Hazards/SpikesB", "Enemies/GoblinA", "Enemies/GoblinB",
 		"Enemies/GoblinC", "SwordPickup", "Waystone/SpawnPoint", "Portal", "Bounds/Left", "Bounds/Right", "StartPoint",
 	],
@@ -60,6 +67,7 @@ func _ready() -> void:
 	await _run_1c()
 	await _run_1d()
 	_run_2a()
+	await _run_2b()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -830,6 +838,221 @@ func _run_2a() -> void:
 	_check("every pose he took in the checks showed its own frame, and he took all fifteen",
 		_frame_mismatches.is_empty() and not_taken.is_empty(),
 		"; ".join(_frame_mismatches) + ("" if not_taken.is_empty() else " not taken: " + ", ".join(not_taken)))
+
+
+func _run_2b() -> void:
+	_main.queue_free()
+	await _frames(1)
+	_start_level()
+	await _frames(5)
+	_set_threats(false)
+	var level: Node2D = _main.get_node("Level1")
+	var env: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://content/level_1/art/env.json"))
+	var tile: Dictionary = env.layers.ground_tile
+	var right: Dictionary = env.layers.ground_cliff_right
+	var left: Dictionary = env.layers.ground_cliff_left
+	var segments: Array[GroundSegment] = []
+	for node in level.get_node("Ground").get_children():
+		segments.append(node as GroundSegment)
+	var on_line := segments.all(func(seg: GroundSegment) -> bool: return seg.position.y == env.ground_y)
+	_check("the ground art's walk line is the segments' top, as env.json gives it",
+		on_line and tile.y - env.ground_y == GroundSegment.ART_TOP
+		and tile.walk_row_texture_px / tile.density == -GroundSegment.ART_TOP
+		and tile.density == GroundSegment.DENSITY and tile.size[0] == GroundSegment.TILE_WIDTH
+		and right.size[0] == GroundSegment.CLIFF_WIDTH and right.cliff_edge_game_px == GroundSegment.CLIFF_FACE
+		and left.cliff_edge_game_px == GroundSegment.CLIFF_WIDTH - GroundSegment.CLIFF_FACE,
+		"art top %.1f, walk row %.1f px below it" % [tile.y - env.ground_y, tile.walk_row_texture_px / tile.density])
+
+	# The cliff faces, measured in the art as prepare_env.py does: the outermost
+	# opaque column 40 px or more below the walk line.
+	var below := int(tile.walk_row_texture_px) + 40 * int(tile.density)
+	var right_face: float = _opaque_columns("res://content/level_1/art/ground_cliff_right.png", below).y / tile.density
+	var left_face: float = _opaque_columns("res://content/level_1/art/ground_cliff_left.png", below).x / tile.density
+	var faces: PackedStringArray = []
+	var off := 0.0
+	for seg in segments:
+		if seg.cliff_right:
+			var art: float = seg.position.x + seg.size.x - GroundSegment.CLIFF_FACE + right_face
+			off = maxf(off, absf(art - (seg.position.x + seg.size.x)))
+			faces.append("%s right: art %.1f, collision %.0f" % [seg.name, art, seg.position.x + seg.size.x])
+		if seg.cliff_left:
+			var art: float = seg.position.x + GroundSegment.CLIFF_FACE - GroundSegment.CLIFF_WIDTH + left_face
+			off = maxf(off, absf(art - seg.position.x))
+			faces.append("%s left: art %.1f, collision %.0f" % [seg.name, art, seg.position.x])
+	_check("each cliff face in the art is where the collision gap starts, within 1 px",
+		faces.size() == 4 and off <= 1.0, "; ".join(faces))
+
+	var runs: PackedStringArray = []
+	var runs_ok := true
+	for seg in segments:
+		var run := seg.tile_run()
+		var start: float = run.from
+		var end: float = run.from + run.count * run.period
+		var need_from := GroundSegment.CLIFF_FACE if seg.cliff_left else 0.0
+		var need_to := seg.size.x - GroundSegment.CLIFF_FACE if seg.cliff_right else seg.size.x
+		runs_ok = runs_ok and start <= need_from + 0.01 and end >= need_to - 0.01
+		runs_ok = runs_ok and (not seg.cliff_left or is_equal_approx(start, need_from))
+		runs_ok = runs_ok and (not seg.cliff_right or is_equal_approx(end, need_to))
+		runs.append("%s: %d tiles of %.1f px (%+.1f%%) from %.1f" % [seg.name, run.count, run.period,
+			(run.period / GroundSegment.TILE_WIDTH - 1.0) * 100.0, seg.position.x + start])
+	var first := segments[0].tile_run()
+	var last := segments[-1].tile_run()
+	var level_end := (level.get_node("Bounds/Right") as Node2D).global_position.x
+	runs_ok = runs_ok and segments[0].position.x + first.from <= -Main.SHAKE_PX
+	runs_ok = runs_ok and segments[-1].position.x + last.from + last.count * last.period >= level_end + Main.SHAKE_PX
+	runs_ok = runs_ok and segments.all(func(seg: GroundSegment) -> bool:
+		return absf(seg.tile_run().period / GroundSegment.TILE_WIDTH - 1.0) <= 0.035)
+	_check("the tiles meet each cliff piece at the start of a period, cover the level past a shake, and stretch by 3.5% at most",
+		runs_ok, "; ".join(runs))
+
+	# The far layer and the fields, with the camera at points along the level.
+	var backdrop: Backdrop = level.get_node("Backdrop")
+	var sky: Sprite2D = level.get_node("Backdrop/Far/Sky")
+	var gaps_seen: PackedStringArray = []
+	var sky_xs: Array[float] = []
+	for x: float in [300.0, 1500.0, 3000.0, 4200.0, 4700.0, 5500.0, 6300.0, 6900.0, 7650.0]:
+		_teleport(Vector2(x, 840.0))
+		_main._snap_camera()
+		await _drawn()
+		sky_xs.append(sky.position.x)
+		var gap := _backdrop_gap(backdrop, sky)
+		if not gap.is_empty():
+			gaps_seen.append("at x %d: %s" % [x, gap])
+	_check("the far layer and the fields fill the screen along the level, and the far layer scrolls its spare width",
+		gaps_seen.is_empty() and sky_xs[0] == 0.0 and absf(sky_xs[-1] + (sky.texture.get_width() - 1920.0)) < 1.0,
+		"; ".join(gaps_seen) + " far layer x from %.1f to %.1f" % [sky_xs[0], sky_xs[-1]])
+
+	# The fields move with the camera in the same frame, at their share of its motion.
+	_teleport(Vector2(600.0, 840.0))
+	_main._snap_camera()
+	await _drawn()
+	var worst := 0.0
+	Input.action_press(&"move_right")
+	for i in 60:
+		await get_tree().process_frame
+		worst = maxf(worst, absf(backdrop.position.x - backdrop.view_left_x() * (1.0 - Backdrop.FIELDS_MOTION)))
+	Input.action_release(&"move_right")
+	_check("while he runs, the fields move at %.1f of the camera in the same frame, with no lag" % Backdrop.FIELDS_MOTION,
+		worst < 0.01, "worst %.2f px" % worst)
+
+	# The pull-back on the teleport circle.
+	var portal: Portal = level.get_node("Portal")
+	_teleport(Vector2(portal.global_position.x - 300.0, 840.0))
+	_main._snap_camera()
+	await _hold_until(&"move_right", func() -> bool: return _main.state == Main.State.COMPLETE, 120)
+	await _frames(roundi(Main.ZOOM_TIME * Engine.physics_ticks_per_second) + 5)
+	await _drawn()
+	var gap := _backdrop_gap(backdrop, sky)
+	_check("pulled back on the teleport circle, the far layer and the fields still fill the screen",
+		is_equal_approx(_camera.zoom.x, Main.END_ZOOM.x) and gap.is_empty(), "zoom %.2f %s" % [_camera.zoom.x, gap])
+	_set_threats(true)
+
+	# The spikes: no tall wheat tuft behind a row, and the box inside the row of spikes.
+	var tufts := _tall_tufts(segments)
+	var crowded: PackedStringArray = []
+	var rows: PackedStringArray = []
+	for spikes: Spikes in level.get_node("Hazards").get_children():
+		var x := spikes.global_position.x
+		rows.append("%s at %d" % [spikes.name, x])
+		for tuft in tufts:
+			if tuft.y > x - 53.0 and tuft.x < x + 53.0:
+				crowded.append("%s at %d: tuft %d to %d" % [spikes.name, x, tuft.x, tuft.y])
+	_check("no tall wheat tuft stands behind a row of spikes", crowded.is_empty() and rows.size() == 2,
+		"; ".join(crowded) if not crowded.is_empty() else ", ".join(rows))
+	var art := _spikes_art()
+	var box := ((level.get_node("Hazards/SpikesA/Shape") as CollisionShape2D).shape as RectangleShape2D).size
+	_check("the spikes' box covers the row of spikes, from the plank to below the tips",
+		box.x == Spikes.WIDTH and absf(box.x - art.x) <= 2.0 and box.y < art.y - 8.0 and box.y > art.z,
+		"box %s; in the art the row is %.1f px wide, the tips %.1f px up, the plank %.1f px" % [box, art.x, art.y, art.z])
+
+
+## The tall wheat tufts in the ground art, more than 30 px above the walk line, as (from x, to x) in the level.
+func _tall_tufts(segments: Array[GroundSegment]) -> Array[Vector2]:
+	var image := Image.load_from_file(ProjectSettings.globalize_path("res://content/level_1/art/ground_tile.png"))
+	var top_rows := int(-GroundSegment.ART_TOP * GroundSegment.DENSITY) - int(30 * GroundSegment.DENSITY)
+	var spans: Array[Vector2] = []
+	var from := -1
+	for x in image.get_width() + 1:
+		var tall := false
+		if x < image.get_width():
+			for y in top_rows:
+				if image.get_pixel(x, y).a > 0.5:
+					tall = true
+					break
+		if tall and from < 0:
+			from = x
+		elif not tall and from >= 0:
+			spans.append(Vector2(from, x) / GroundSegment.DENSITY)
+			from = -1
+	var tufts: Array[Vector2] = []
+	for seg in segments:
+		var run := seg.tile_run()
+		var stretch: float = run.period / GroundSegment.TILE_WIDTH
+		for i in int(run.count):
+			var left: float = seg.position.x + run.from + i * run.period
+			for span in spans:
+				tufts.append(Vector2(left + span.x * stretch, left + span.y * stretch))
+	return tufts
+
+
+## The spikes' art, in game px: the width of the row of spikes just above the
+## plank, the height of the tips, and the height of the plank.
+func _spikes_art() -> Vector3:
+	var image := Image.load_from_file(ProjectSettings.globalize_path("res://content/level_1/art/ENV-SPIKES.png"))
+	var origin_y := 140 # props.json
+	var widths: Array[int] = []
+	var first_row := -1
+	for y in image.get_height():
+		var n := 0
+		for x in image.get_width():
+			if image.get_pixel(x, y).a > 0.5:
+				n += 1
+		widths.append(n)
+		if n > 0 and first_row < 0:
+			first_row = y
+	var widest: int = widths.max()
+	var plank_top := widths.find_custom(func(n: int) -> bool: return n > 0.8 * widest)
+	var row := plank_top - 3
+	var left := image.get_width()
+	var right := 0
+	for x in image.get_width():
+		if image.get_pixel(x, row).a > 0.5:
+			left = mini(left, x)
+			right = maxi(right, x + 1)
+	return Vector3(right - left, origin_y - first_row, origin_y - plank_top) / 2.0
+
+
+## What of the screen the far layer or the fields fail to cover; empty if nothing.
+func _backdrop_gap(backdrop: Backdrop, sky: Sprite2D) -> String:
+	var view_left := backdrop.view_left_x()
+	var view_right := view_left + 1920.0 / _camera.zoom.x
+	var fields := backdrop.fields_span()
+	var problems: PackedStringArray = []
+	if sky.position.x > 0.0 or sky.position.x + sky.texture.get_width() < 1920.0 or sky.texture.get_height() < 1080:
+		problems.append("far layer at %.1f" % sky.position.x)
+	if fields.x > view_left or fields.y < view_right:
+		problems.append("fields %.0f to %.0f, view %.0f to %.0f" % [fields.x, fields.y, view_left, view_right])
+	return ", ".join(problems)
+
+
+## The first and last column with an opaque pixel (alpha over half) at or below `from_row`.
+func _opaque_columns(path: String, from_row: int) -> Vector2:
+	var image := Image.load_from_file(ProjectSettings.globalize_path(path))
+	var first := image.get_width()
+	var last := -1
+	for x in image.get_width():
+		for y in range(from_row, image.get_height()):
+			if image.get_pixel(x, y).a > 0.5:
+				first = mini(first, x)
+				last = maxi(last, x)
+				break
+	return Vector2(first, last + 1)
+
+
+## Waits until the frame after the next one has been processed, so the camera and the layers have both moved.
+func _drawn() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
 
 
 ## The cliffs: the gaps between ground segments, as (from x, to x).

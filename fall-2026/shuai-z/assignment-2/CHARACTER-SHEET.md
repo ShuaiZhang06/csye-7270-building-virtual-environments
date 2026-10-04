@@ -137,3 +137,14 @@ The robe came out lighter than planned: its contrast against the wheat is 2.52, 
 Where they differ, this revision wins over the sections above.
 
 - **Rising and falling:** the falling pose (6) leaps forward, so it shows only if Rudy was moving sideways when the fall began. A jump straight up keeps the rising pose (5) all the way down, and so does a running jump whose key is let go before the top. The pose changes at most once in the air, at the top. The sword form follows the same rule.
+- **Readability on the generated Level 1 (step 2b):** the contrast check, repeated with colours sampled from the generated layers by `design/tools/check_readability.py`. The generated wheat is lighter than planned (`#E8C87F`, not `#D8B858`), so every value against it rose: the hair from 1.43 to 1.71, the robe from 2.52 to 3.00, the outline from 9.34 to 11.13. In-engine crops in colour and grayscale: `evidence/2b/2b-readability.png`; with the outer outline, Rudy reads in both forms over the wheat and over the sky, so the background's middle values do not move.
+
+| Rudy | wheat `#E8C87F` | meadow `#A3AB71` | sky `#D5C6C4` | path `#7B7545` |
+|---|---|---|---|---|
+| hair `#C9905A` | 1.71 | 1.13 | 1.67 | 1.70 |
+| eyes `#475827` | 4.83 | 3.20 | 4.72 | 1.66 |
+| robe `#6F717D` | 3.00 | 1.99 | 2.93 | 1.03 |
+| skin `#FCC5A6` | 1.05 | 1.59 | 1.08 | 3.06 |
+| leather `#754634` | 4.85 | 3.21 | 4.74 | 1.67 |
+| trim `#D4BEA6` | 1.11 | 1.36 | 1.08 | 2.62 |
+| outline `#290F0D` | 11.13 | 7.38 | 10.87 | 3.83 |
