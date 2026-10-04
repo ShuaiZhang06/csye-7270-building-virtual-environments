@@ -1,7 +1,12 @@
 class_name Main
 extends Node2D
 ## Runs Level 1. It places Rudy, keeps the camera on him, and runs the level's
-## states (CHANGE-BRIEF.md, STORYBOARD.md panels 4–7):
+## states (CHANGE-BRIEF.md, STORYBOARD.md panels 1 and 4–7):
+## - TITLE: the game opens on the start of the level with the title on top
+##   (UI-TITLE) and Rudy idle, out of the player's control; the hearts are
+##   hidden. Enter fades the title out and the hearts in, and play starts on the
+##   same screen. The title shows once each time the game starts: Enter on the
+##   end card plays again without it;
 ## - PLAYING;
 ## - DYING: a fall below a cliff, which costs a heart, or a hit that takes his
 ##   last heart. After a fade every monster is back where it started, even the
@@ -18,7 +23,7 @@ extends Node2D
 
 signal restart_requested ## only when Main is not the current scene, as in the checks
 
-enum State { PLAYING, DYING, COMPLETE }
+enum State { TITLE, PLAYING, DYING, COMPLETE }
 
 const KILL_Y := 1300.0 ## below this line he has fallen out of the level
 const FALL_HOLD := 0.25 ## s after he crosses the kill line, before the fade
@@ -29,6 +34,8 @@ const END_ZOOM := Vector2(0.8, 0.8)
 const ZOOM_TIME := 1.5
 const SHAKE_TIME := 0.2 ## s the camera shakes on a hit
 const SHAKE_PX := 8.0
+
+static var title_shown := false ## once the title has shown, a restart goes straight to play
 
 var state := State.PLAYING
 var checkpoint_name := "start"
@@ -58,6 +65,10 @@ func _ready() -> void:
 	_rudy.hit.connect(_on_rudy_hit)
 	_rudy.defeated.connect(_on_rudy_defeated)
 	_hud.track(_rudy)
+	if not title_shown:
+		state = State.TITLE
+		_rudy.mode = Rudy.Mode.WAITING
+		_hud.show_title()
 	_show_status()
 
 
@@ -72,9 +83,20 @@ func _process(delta: float) -> void:
 		_shake_left -= delta
 		var shaking := _shake_left > 0.0
 		_camera.offset = Vector2(randf_range(-SHAKE_PX, SHAKE_PX), randf_range(-SHAKE_PX, SHAKE_PX)) if shaking else Vector2.ZERO
+	if state == State.TITLE and Input.is_action_just_pressed(&"restart"):
+		_start_play()
 	if _end_card_shown and Input.is_action_just_pressed(&"restart"):
 		_end_card_shown = false
 		_restart()
+
+
+## Enter on the title: it fades out, the hearts fade in, and he is the player's.
+func _start_play() -> void:
+	title_shown = true
+	state = State.PLAYING
+	_rudy.mode = Rudy.Mode.PLAY
+	_hud.hide_title(FADE_TIME)
+	_show_status()
 
 
 ## A fall below a cliff, or a defeat at zero hearts. Once his last heart is

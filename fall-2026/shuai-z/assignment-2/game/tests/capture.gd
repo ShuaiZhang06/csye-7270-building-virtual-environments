@@ -27,6 +27,7 @@ extends Node
 ##   (its halo); a hit with the hearts;
 ##   the teleport circle in the pull-back; and the end card. Cropped around Rudy
 ##   except the opening, the hit, the circle and the end card.
+## - 2d: the title over the opening, the title fading out, and play started.
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
@@ -41,10 +42,11 @@ var _step := ""
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c"]
+		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
+		Main.title_shown = step != "2d" # only the title's own step opens on it
 		_main = MAIN.instantiate()
 		add_child(_main)
 		_rudy = _main.get_node("Rudy")
@@ -64,6 +66,8 @@ func _ready() -> void:
 				await _capture_2b()
 			"2c":
 				await _capture_2c()
+			"2d":
+				await _capture_2d()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -456,6 +460,20 @@ func _capture_2c() -> void:
 	await _until(func() -> bool: return hud.is_showing_end_card())
 	await _frames(30)
 	await _shot("end-card")
+
+
+func _capture_2d() -> void:
+	await _shot("title")
+	# Main reads Enter in _process, so press it at the start of a process frame.
+	await get_tree().process_frame
+	Input.action_press(&"restart")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	Input.action_release(&"restart")
+	await _frames(8) # halfway through the fade
+	await _shot("title-fading")
+	await _frames(30)
+	await _shot("play")
 
 
 func _out_dir() -> String:

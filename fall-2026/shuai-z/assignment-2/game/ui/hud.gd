@@ -1,7 +1,8 @@
 class_name Hud
 extends CanvasLayer
-## The HUD: Rudy's hearts (UI-HEART), the debug line, the black fade, and the
-## end card: "Level complete" over a high view of the road to the castle
+## The HUD: the title over the opening (UI-TITLE, STORYBOARD.md panel 1), Rudy's
+## hearts (UI-HEART), which appear when play starts, the debug line, the black
+## fade, and the end card: "Level complete" over a high view of the road to the castle
 ## (ENV-ENDCARD, STORYBOARD.md panel 7), which fades in from the black. The
 ## debug line shows Rudy's pose ID, whether he is on the ground, his speed and
 ## position, the level's state, and how many times each sound ID has played. F1
@@ -14,6 +15,7 @@ var _status := ""
 @onready var _debug: Label = $Debug
 @onready var _fade: ColorRect = $Fade
 @onready var _end_card: Control = $EndCard
+@onready var _title: Control = $Title
 
 
 func track(rudy: Rudy) -> void:
@@ -40,6 +42,25 @@ func fade_to(alpha: float, duration: float) -> void:
 	var tween := create_tween()
 	tween.tween_property(_fade, "color:a", alpha, duration)
 	await tween.finished
+
+
+## Shows the title, with the hearts hidden until play starts.
+func show_title() -> void:
+	_title.visible = true
+	_title.modulate.a = 1.0
+	_hearts.modulate.a = 0.0
+
+
+## Fades the title out and the hearts in, over `duration`.
+func hide_title(duration: float) -> void:
+	var tween := create_tween().set_parallel()
+	tween.tween_property(_title, "modulate:a", 0.0, duration)
+	tween.tween_property(_hearts, "modulate:a", 1.0, duration)
+	tween.chain().tween_callback(_title.hide)
+
+
+func is_showing_title() -> bool:
+	return _title.visible
 
 
 ## Shows the end card, fading it in over `duration`.

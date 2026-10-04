@@ -825,3 +825,22 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - new crops of the pickup and of the waystone dark, lighting and lit, and a new pull-back screenshot, in `evidence/2c/`.
 - **Human / Claude / model:** the findings are mine; the sizes, colours, the halo and the ring are Claude's. No generative model was used.
 - **Still unresolved:** whether the halo, the ring and the gold column read well in play.
+
+## 2026-10-03 — Step 2d: the title over the opening
+
+*Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** to commit 2c (commit `814b5da`), then build the title over the opening (UI-TITLE, "could"; STORYBOARD.md panel 1).
+- **Asked by Claude, and decided:** the game had no name yet; the storyboard's sketch only says "GAME TITLE". Of Claude's three suggestions I chose **Walker Rudy**, after the repository, and the engine's default font, as on the end card, over a free medieval-style font. CONCEPT.md gets a revision.
+- **Got (step 2d):**
+  - the game opens on the start of Level 1 with "Walker Rudy", "Level 1 · Harvest Fields" and "Press Enter to start" in the sky, cream with a dark-brown outline. Rudy stands idle and out of the player's control, and the hearts are hidden;
+  - Enter fades the title out and the hearts in over 0.35 s, and play starts on the same screen, with no scene change;
+  - the title shows once each time the game starts: Enter on the end card plays the level again straight away;
+  - the window's title is "Walker Rudy" too;
+  - 4 new checks, 120 in all, all passing; screenshots of the title, the fade and the start of play in `evidence/2d/`.
+- **Claude's calls in this step:**
+  - the title shows only once per run, so playing again from the end card needs one Enter, not two;
+  - the goblins already walk while the title shows; none is near the start;
+  - the screenshot tool presses Enter at the start of a frame: pressed inside a physics step, the windowed capture missed it, although the headless checks did not. A real key press is not affected.
+- **Human / Claude / model:** the name and the font are mine; the layout, the text and the code are Claude's. No generative model was used.
+- **Still unresolved:** how the title looks and reads at the start of play; the theme under it comes with the audio (step 3).

@@ -38,6 +38,7 @@ signal hearts_changed(hearts: int)
 signal defeated ## a hit took his last heart
 
 enum Mode {
+	WAITING, ## on the title, before play starts (CHAR-IDLE); no control
 	PLAY, ## under the player's control
 	HURT, ## knocked back by a hit (CHAR-HURT); no control for hurt_time
 	DEFEATED, ## his last heart is gone (CHAR-DEFEAT); no control
@@ -76,7 +77,7 @@ const ENEMY_LAYER := 4 ## the Enemy physics layer, for the sword's hitbox
 
 var facing := 1 ## 1 faces right, -1 faces left
 var pose: StringName = &"CHAR-IDLE"
-var mode := Mode.PLAY
+var mode := Mode.PLAY ## the level sets WAITING while the title shows
 var hearts := 3
 var gear := Gear.NONE
 

@@ -32,6 +32,9 @@ extends Node
 ## way and is squashed when defeated; its box fits its art; the waystone's art
 ## lights; the flying gear is the pickup's art; and the end card's picture
 ## fades in under the text.
+## Step 2d: the title over the opening: the game opens on it with Rudy idle,
+## out of control, and the hearts hidden; Enter fades it out and the hearts in,
+## and play starts on the same screen; it shows once per run.
 
 const MAIN := preload("res://app/main.tscn")
 const REQUIRED_NODES := {
@@ -47,7 +50,10 @@ const REQUIRED_NODES := {
 	"res://content/level_1/waystone.tscn": ["Art", "Shape", "SpawnPoint"],
 	"res://content/level_1/portal.tscn": ["Art", "Shape"],
 	"res://content/sword_pickup/sword_pickup.tscn": ["Art", "Shape"],
-	"res://ui/hud.tscn": ["Hearts", "Debug", "Fade", "EndCard/Picture", "EndCard/Lines/Title", "EndCard/Lines/Hint"],
+	"res://ui/hud.tscn": [
+		"Hearts", "Debug", "Title/Name", "Title/Level", "Title/Hint", "Fade", "EndCard/Picture",
+		"EndCard/Lines/Title", "EndCard/Lines/Hint",
+	],
 }
 const CLIFF_LEAD := 100.0 ## the route jumps this far before a cliff's edge
 const SPIKES_LEAD := 100.0 ## ...before a row of spikes
@@ -77,6 +83,7 @@ func _ready() -> void:
 	_run_2a()
 	await _run_2b()
 	await _run_2c()
+	await _run_2d()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -96,7 +103,9 @@ func _physics_process(_delta: float) -> void:
 		_frame_mismatches.append("%s showed %s" % [_rudy.pose, shown.resource_path.get_file() if shown else "nothing"])
 
 
-func _start_level() -> void:
+## A fresh level; without `with_title` it skips the title and starts in play.
+func _start_level(with_title := false) -> void:
+	Main.title_shown = not with_title
 	_main = MAIN.instantiate()
 	add_child(_main)
 	_main.restart_requested.connect(_on_restart_requested)
@@ -1099,6 +1108,43 @@ func _run_2c() -> void:
 		and picture.texture.resource_path == "res://content/level_1/art/endcard.jpg",
 		"faint at first %s, alpha %.2f" % [faint, card.modulate.a])
 	_set_threats(true)
+
+
+func _run_2d() -> void:
+	_main.queue_free()
+	await _frames(1)
+	_start_level(true)
+	await _frames(5)
+	var hud: Hud = _main.get_node("Hud")
+	var title: Control = hud.get_node("Title")
+	var hearts: Control = hud.get_node("Hearts")
+	var start := _rudy.global_position
+	_check("the game opens on the title over the start of the level: Rudy idle, the hearts hidden",
+		_main.state == Main.State.TITLE and hud.is_showing_title() and title.modulate.a == 1.0
+		and hearts.modulate.a == 0.0 and _rudy.pose == &"CHAR-IDLE" and _rudy.mode == Rudy.Mode.WAITING,
+		"state %s, hearts alpha %.1f, pose %s" % [Main.State.keys()[_main.state], hearts.modulate.a, _rudy.pose])
+	_reset_counts()
+	await _hold(&"move_right", 30)
+	await _tap(&"jump")
+	await _frames(30)
+	_check("on the title, moving and jumping do nothing",
+		_rudy.global_position.distance_to(start) < 0.01 and _takeoffs == 0 and Sfx.count(&"jump") == 0,
+		"moved %.1f px, takeoffs %d" % [_rudy.global_position.distance_to(start), _takeoffs])
+	var main_before := _main
+	var requests_before := _restart_requests
+	await _tap(&"restart")
+	await _frames(2)
+	var playing := _main.state == Main.State.PLAYING and _rudy.mode == Rudy.Mode.PLAY
+	var fading := title.visible and title.modulate.a < 1.0
+	await _frames(roundi(Main.FADE_TIME * Engine.physics_ticks_per_second) + 3)
+	_check("Enter starts play on the same screen, fading the title out and the hearts in",
+		playing and fading and not hud.is_showing_title() and is_equal_approx(hearts.modulate.a, 1.0)
+		and _main == main_before and _restart_requests == requests_before,
+		"playing %s, fading %s, hearts alpha %.2f" % [playing, fading, hearts.modulate.a])
+	await _hold(&"move_right", 30)
+	_check("then he is the player's at once, and the title will not show again this run",
+		_rudy.global_position.x > start.x + 100.0 and Main.title_shown,
+		"moved %.0f px" % (_rudy.global_position.x - start.x))
 
 
 ## The goblin's walk frame, in game px: the height of the top of its head (the
