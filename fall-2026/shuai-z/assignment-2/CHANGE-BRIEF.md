@@ -142,3 +142,4 @@ The sections above are design v1 (tag `design-v1`) and stay as written. Where th
   - the hurt dip follows a hit; a fall plays SFX-HURT and gets the death dip only;
   - the music starts under the title and plays on across a start-over from the opening; only playing again from the end card starts it from the top;
   - the starting mix: the Music bus at −6 dB, the SFX bus at 0 dB, and every sound at its file's level, to be set by ear in the playtest.
+- **2026-10-04, build step 4 cut:** the mushroom is cut, as cut-order step 4 says: ENEMY-MUSHROOM, FX-SPORE, SFX-SPORE, SFX-BLOCK and CHAR-SWORD-BLOCK in play (its frame is generated and loaded, but nothing shows it). Panel 4's failure comes from a goblin or the spikes: the hit knocks the gear away, as before. The build order's step 4 is skipped, and TEST-REPORT.md names what of panel 4 the slice does not cover.

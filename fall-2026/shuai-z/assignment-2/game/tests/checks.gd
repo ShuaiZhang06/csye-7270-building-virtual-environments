@@ -46,6 +46,9 @@ extends Node
 ## out on the teleport circle, the end card is silent, and playing again starts
 ## it from the top. M and N mute the buses, even while paused, and with both
 ## muted the route from the opening runs the same, tick for tick.
+## Step 5: every file the game's scenes, resources and scripts name by a res://
+## path is in the project, so a fresh copy of the repository has every asset
+## the slice uses; and, after my playtest, the debug line is hidden at the start.
 ## A headless run's audio driver never mixes, so a playing sound never ends or
 ## moves on: the checks read what the players were told to do, not what is
 ## heard, and the sounds still registered with the audio server are reported
@@ -104,6 +107,7 @@ func _ready() -> void:
 	await _run_2c()
 	await _run_2d()
 	await _run_3()
+	_run_5()
 	print("all checks passed" if _failures == 0 else "%d check(s) FAILED" % _failures)
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -1339,6 +1343,20 @@ func _run_3() -> void:
 		runs[0] == runs[1] and not runs[0].begins_with("-1"), " | ".join(runs))
 
 
+func _run_5() -> void:
+	_main.queue_free()
+	_start_level(true)
+	var debug: Label = _main.get_node("Hud/Debug")
+	_check("the game opens with the debug line hidden", not debug.visible)
+	var named := _res_paths_named_in("res://")
+	var missing: PackedStringArray = []
+	for path: String in named:
+		if not FileAccess.file_exists(path) and not DirAccess.dir_exists_absolute(path):
+			missing.append("%s (named in %s)" % [path, named[path]])
+	_check("every file the scenes, resources and scripts name by a res:// path is in the project",
+		named.size() > 50 and missing.is_empty(), "%d paths; missing: %s" % [named.size(), ", ".join(missing)])
+
+
 ## The goblin's walk frame, in game px: the height of the top of its head (the
 ## highest row at least 16 px wide, above the wisps of hair), the width of its
 ## body 60 px up, and the width of its swinging arms 40 px up.
@@ -1610,6 +1628,27 @@ func _sounds_played_in(dirs: Array[String]) -> Array[StringName]:
 					if not found.has(id):
 						found.append(id)
 	return found
+
+
+## Every res:// path named in the project's scenes, resources, shaders, scripts
+## and project.godot, under `root` (skipping the engine's .godot cache), with
+## the first file that names it.
+func _res_paths_named_in(root: String) -> Dictionary[String, String]:
+	var named: Dictionary[String, String] = {}
+	var path_in_text := RegEx.create_from_string(r'res://[\w./-]+')
+	var pending: Array[String] = [root]
+	while not pending.is_empty():
+		var dir: String = pending.pop_back()
+		for sub in DirAccess.get_directories_at(dir):
+			if not sub.begins_with("."):
+				pending.append(dir.path_join(sub))
+		for file in DirAccess.get_files_at(dir):
+			if file.get_extension() in ["gd", "tscn", "tres", "gdshader", "godot"]:
+				var source := dir.path_join(file)
+				for found in path_in_text.search_all(FileAccess.get_file_as_string(source)):
+					if not named.has(found.get_string()):
+						named[found.get_string()] = source
+	return named
 
 
 func _ticks(seconds: float) -> int:

@@ -885,3 +885,41 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - while paused the debug line does not update (the HUD pauses too), so a mute pressed then shows there only after resuming.
 - **Human / Claude / model:** the plan's approval, the pause and the jump-sound rule are mine; the plan, the code, the checks, the recording and the measurements are Claude's. No generative model was used in this step.
 - **Still unresolved:** the mix by ear (the sounds against the music, and whether the Music bus should stay at −6 dB), the seam heard three times in the game, and how the dips feel.
+
+## 2026-10-04 — Step 4 cut; step 5, the verification, before my playtest
+
+*Written on 2026-10-04 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** to commit step 3 (commit `2d25e0b`); then, in my words, "Step 4 won't be done; start step 5."
+- **Decided:** the mushroom is cut, as cut-order step 4 in CHANGE-BRIEF.md says: the mushroom monster, its spore, blocking, SFX-SPORE and SFX-BLOCK. I gave no further reason. Panel 4's failure comes from a goblin or the spikes. CHANGE-BRIEF.md gets a revision.
+- **Got (the plan):** Claude read the assignment's TEST-REPORT requirements and proposed step 5 in two parts:
+  - 5a, Claude's: a run from a fresh copy; the character and the storyboard beside the slice; the TEST-REPORT draft; the documents;
+  - 5b, mine: playing the finished slice with sound on and then muted, with a list of what to try, and telling Claude what I found, to be recorded in my words.
+- **Decided (my words):** "Approve step 5."
+- **Got (5a):**
+  - a fresh clone of `2d25e0b`, with nothing that git ignores: it imports with no errors, passes all 139 checks and runs windowed with no errors. The 75 `res://` paths the game names are all in git; that is now a check (140 in all, all passing), and with a file moved away it fails;
+  - capture step 5, from the final build: the moment of each storyboard panel, full screen, and every pose facing right and left, with and without the collision shapes (`evidence/5/`). `design/tools/compare_sheets.py` puts them beside the blockouts: `5-storyboard-vs-slice.jpg`, `5-character-vs-sheet-default.jpg` and `5-character-vs-sheet-sword.jpg`;
+  - TEST-REPORT.md, drafted: the seven checks the assignment names, the predicted failures and what happened to each, the inspect-and-revise cycles from this log, and the known limitations. What only my playtest can show is marked "Pending: my playtest";
+  - README.md: what the slice demonstrates, the known limitations, and the film (not made yet).
+- **Claude's calls in this step:**
+  - the fresh copy is a local clone; it is repeated from GitHub at submission;
+  - the screenshots keep the debug line, since it is on by default;
+  - panel 2 is shown at the top of the jump over the spikes, with the goblin ahead: the goblin's patrol starts 435 px after the spikes, beyond one jump;
+  - the step's crops are saved as JPEG: as PNG, the sixty crops over painted art would be about 14 MB.
+- **Human / Claude / model:** cutting step 4 and approving the plan are mine; the plan, the runs, the captures, the sheets and the draft are Claude's. No generative model was used.
+- **Still unresolved:** my playtest of the finished slice, with sound on and muted, which also covers the mix by ear and the seam in the game; and whether the debug line should stay on by default.
+
+## 2026-10-04 — Step 5 playtest: the finished slice, sound on and muted
+
+*Written on 2026-10-04 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Played:** the finished slice at `2d25e0b`, on my Mac, with sound on and then muted.
+- **Found (my words):** "I have played it. With sound on, the sound effects were all clear, and the BGM was fine too; muted, I found no problems either."
+- **Asked by Claude:** whether I had heard at least three repetitions of the loop in the game (about three minutes), and mashed and held the jump and slash keys, since TEST-REPORT.md should not claim either for me. My answer: I did both.
+- **Decided (my words):** "Turn the debug line off by default." Claude had suggested it; I gave no further reason.
+- **Got (Claude's changes):**
+  - the debug line is hidden when the game starts, and F1 shows it; a new check, 141 in all, all passing;
+  - capture step 5 taken again, so the storyboard screenshots show the screen as a player sees it, and the comparison sheets made again;
+  - TEST-REPORT.md: my playtest quoted where it was pending, and the predicted failures 4 and 6 closed; README.md and the controls follow.
+- **Human / Claude / model:** the playtest, its findings and the decision are mine; the changes are Claude's. No generative model was used.
+- **Still unresolved:** the run from a fresh copy is repeated on the commit that holds these changes, and again from GitHub at submission. The film is not made yet.

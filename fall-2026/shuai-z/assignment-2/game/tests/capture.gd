@@ -36,11 +36,19 @@ extends Node
 ##   music dips), and the teleport circle (it fades out) to the silent end
 ##   card. Each frame's sounds, the music's level and the pause go to
 ##   3-mix-events.json, which design/tools/plot_mix.py draws under the mix.
+## - 5: the evidence for TEST-REPORT.md, from the final build. The moment of
+##   each storyboard panel, full screen (panel-1 to panel-7); then every pose
+##   Rudy can take, facing right and then left, cropped around him (the poses
+##   CHARACTER-SHEET.md names; a respawn always faces right). With
+##   --debug-collisions only the poses are captured.
+##   design/tools/compare_sheets.py puts them beside the storyboard and the
+##   character sheet.
 
 const MAIN := preload("res://app/main.tscn")
 const SIZE := Vector2i(1920, 1080)
 const CROP := Vector2i(520, 380) ## around Rudy, his soles 300 px from the top
 const PNG_STEPS := ["1a", "1b", "1c", "1d", "2a"] ## over the greybox; later full screens show painted art and are saved as JPEG
+const JPEG_CROP_STEPS := ["5"] ## sixty crops over painted art: as PNG they would be about 14 MB
 
 var _main: Main
 var _rudy: Rudy
@@ -52,11 +60,11 @@ var _sounds_seen: Dictionary[StringName, int] = {}
 func _ready() -> void:
 	var steps := Array(OS.get_cmdline_user_args())
 	if steps.is_empty():
-		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d", "3"]
+		steps = ["1a", "1b", "1c", "1d", "2a", "2b", "2c", "2d", "3", "5"]
 	for step: String in steps:
 		_step = step
 		DirAccess.make_dir_recursive_absolute(_out_dir())
-		Main.title_shown = step not in ["2d", "3"] # only these steps open on the title
+		Main.title_shown = step not in ["2d", "3", "5"] # only these steps open on the title
 		_main = MAIN.instantiate()
 		add_child(_main)
 		_rudy = _main.get_node("Rudy")
@@ -80,6 +88,8 @@ func _ready() -> void:
 				await _capture_2d()
 			"3":
 				await _capture_3()
+			"5":
+				await _capture_5()
 			_:
 				push_error("no capture for step %s" % step)
 		_main.queue_free()
@@ -560,6 +570,196 @@ func _capture_3() -> void:
 	print("saved %s (%d frames)" % [path.get_file(), _mix_log.frames.size()])
 
 
+func _capture_5() -> void:
+	if not get_tree().debug_collisions_hint:
+		await _capture_panels()
+	for dir: int in [1, -1]:
+		await _fresh_main()
+		await _capture_poses(dir)
+
+
+## The moment of each storyboard panel, in the order of a run.
+func _capture_panels() -> void:
+	var level: Node2D = _main.get_node("Level1")
+	var hud: Hud = _main.get_node("Hud")
+	await _shot("panel-1") # the title over the opening
+	await _press_in_process(&"restart")
+	await _frames(30)
+	# Panel 2: running at the spikes, at the top of the jump over them, the goblin ahead.
+	var spikes: Spikes = level.get_node("Hazards/SpikesA")
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.global_position.x >= spikes.global_position.x - 200.0)
+	Input.action_press(&"jump")
+	await _until(func() -> bool: return not _rudy.is_on_floor())
+	Input.action_release(&"jump")
+	await _until(func() -> bool: return _rudy.velocity.y >= 0.0)
+	await _shot("panel-2")
+	Input.action_release(&"move_right")
+	# Panel 3: just after the pickup, in the sword form.
+	var pickup: SwordPickup = level.get_node("SwordPickup")
+	_rudy.global_position = Vector2(pickup.global_position.x - 200.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.SWORD)
+	Input.action_release(&"move_right")
+	await _frames(8)
+	await _shot("panel-3")
+	# Panel 4: walking into a goblin knocks the gear away; the hearts stay at three.
+	var goblin: Goblin = level.get_node("Enemies/GoblinB")
+	_rudy.global_position = Vector2(goblin.global_position.x - 260.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.NONE)
+	Input.action_release(&"move_right")
+	await _frames(6)
+	await _shot("panel-4")
+	# Panel 5: light the waystone, fall into the first cliff, and get back up beside it.
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and _rudy.is_on_floor())
+	var waystone: Waystone = level.get_node("Waystone")
+	_rudy.global_position = Vector2(waystone.global_position.x - 300.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.DYING)
+	Input.action_release(&"move_right")
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.RESPAWNING)
+	await _frames(28) # the fade-in is over
+	await _shot("panel-5")
+	# Panel 6: onto the teleport circle; the light has risen and the camera pulled back.
+	await _until(func() -> bool: return _main.state == Main.State.PLAYING)
+	var portal: Portal = level.get_node("Portal")
+	_rudy.global_position = Vector2(portal.global_position.x - 500.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(&"move_right")
+	await _until(func() -> bool: return _main.state == Main.State.COMPLETE)
+	Input.action_release(&"move_right")
+	await _frames(100)
+	await _shot("panel-6")
+	# Panel 7: the end card.
+	await _until(func() -> bool: return hud.is_showing_end_card())
+	await _frames(30)
+	await _shot("panel-7")
+
+
+## Every pose, facing `dir` (1 right, -1 left), cropped around him. The spikes,
+## the goblins and the pickup are hidden except where a pose needs them.
+func _capture_poses(dir: int) -> void:
+	var side := "right" if dir == 1 else "left"
+	var move := &"move_right" if dir == 1 else &"move_left"
+	var level: Node2D = _main.get_node("Level1")
+	var hazards: Node2D = level.get_node("Hazards")
+	var pickup: SwordPickup = level.get_node("SwordPickup")
+	for node: Node2D in [hazards, level.get_node("Enemies") as Node2D]:
+		node.process_mode = Node.PROCESS_MODE_DISABLED
+		node.visible = false
+	# The default form's movement, between the pickup and the waystone.
+	_rudy.global_position = Vector2(2700.0 if dir == 1 else 3400.0, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(move)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-RUN-A")
+	await _frames(2)
+	await _shot("CHAR-RUN-A-" + side, true)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-RUN-B")
+	await _frames(2)
+	await _shot("CHAR-RUN-B-" + side, true)
+	Input.action_press(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-RISE")
+	await _frames(10)
+	await _shot("CHAR-RISE-" + side, true)
+	Input.action_release(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-FALL")
+	await _frames(8)
+	await _shot("CHAR-FALL-" + side, true)
+	await _until(func() -> bool: return _rudy.is_on_floor())
+	Input.action_release(move)
+	await _frames(30)
+	await _shot("CHAR-IDLE-" + side, true)
+	# The spikes: the hit (he turns toward it), then the defeat.
+	hazards.process_mode = Node.PROCESS_MODE_INHERIT
+	hazards.visible = true
+	var spikes: Spikes = hazards.get_node("SpikesA")
+	var look: Node2D = _rudy.get_node("Look")
+	_rudy.global_position = Vector2(spikes.global_position.x - 220.0 * dir, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(move)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.HURT)
+	Input.action_release(move)
+	await _until(func() -> bool: return look.modulate.a == 1.0) # between flashes
+	await _shot("CHAR-HURT-" + side, true)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.PLAY and not _rudy.is_invulnerable())
+	_rudy.hearts = 1 # the next hit is the last heart
+	_rudy.global_position = Vector2(spikes.global_position.x - 220.0 * dir, 840.0)
+	_main._snap_camera()
+	await _frames(2)
+	Input.action_press(move)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.DEFEATED)
+	Input.action_release(move)
+	await _frames(20)
+	await _shot("CHAR-DEFEAT-" + side, true)
+	await _until(func() -> bool: return _rudy.mode == Rudy.Mode.RESPAWNING)
+	await _frames(28) # the fade-in is over
+	if dir == 1:
+		await _shot("CHAR-RESPAWN-" + side, true) # he always gets back up facing right
+	await _until(func() -> bool: return _main.state == Main.State.PLAYING)
+	hazards.process_mode = Node.PROCESS_MODE_DISABLED
+	hazards.visible = false
+	# The sword form: the pickup, its movement, its idle and the slash.
+	_rudy.global_position = Vector2(pickup.global_position.x - 300.0 * dir, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(move)
+	await _until(func() -> bool: return _rudy.gear == Rudy.Gear.SWORD)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-RUN-A")
+	await _frames(2)
+	await _shot("CHAR-SWORD-RUN-A-" + side, true)
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-RUN-B")
+	await _frames(2)
+	await _shot("CHAR-SWORD-RUN-B-" + side, true)
+	Input.action_press(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-RISE")
+	await _frames(10)
+	await _shot("CHAR-SWORD-RISE-" + side, true)
+	Input.action_release(&"jump")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-FALL")
+	await _frames(8)
+	await _shot("CHAR-SWORD-FALL-" + side, true)
+	await _until(func() -> bool: return _rudy.is_on_floor())
+	Input.action_release(move)
+	await _frames(30)
+	await _shot("CHAR-SWORD-IDLE-" + side, true)
+	Input.action_press(&"slash")
+	await _until(func() -> bool: return _rudy.pose == &"CHAR-SWORD-SLASH")
+	Input.action_release(&"slash")
+	await _frames(6)
+	await _shot("CHAR-SWORD-SLASH-" + side, true)
+	# On the teleport circle, run onto from either side.
+	var portal: Portal = level.get_node("Portal")
+	_rudy.global_position = Vector2(portal.global_position.x - 400.0 * dir, 840.0)
+	_main._snap_camera()
+	await _frames(20)
+	Input.action_press(move)
+	await _until(func() -> bool: return _main.state == Main.State.COMPLETE)
+	Input.action_release(move)
+	await _frames(40)
+	await _shot("CHAR-CELEBRATE-" + side, true)
+
+
+## A new level in place of the current one, in play.
+func _fresh_main() -> void:
+	_main.queue_free()
+	await _frames(2)
+	Main.title_shown = true
+	_main = MAIN.instantiate()
+	add_child(_main)
+	_rudy = _main.get_node("Rudy")
+	await _frames(30)
+
+
 ## One frame of step 3, logged before the frame's own processing: the sounds
 ## that started since the last frame, and the music's state and position.
 func _log_mix() -> void:
@@ -605,7 +805,7 @@ func _shot(label: String, crop := false) -> void:
 		var corner := (soles - Vector2i(CROP.x / 2, 300)).clamp(Vector2i.ZERO, SIZE - CROP)
 		image = image.get_region(Rect2i(corner, CROP))
 	var suffix := "-collisions" if get_tree().debug_collisions_hint else ""
-	var as_jpeg := not crop and not PNG_STEPS.has(_step) # a painted full screen is about 1.5 MB as PNG
+	var as_jpeg := not PNG_STEPS.has(_step) and (not crop or JPEG_CROP_STEPS.has(_step)) # a painted full screen is about 1.5 MB as PNG
 	var path := _out_dir().path_join("%s-%s%s.%s" % [_step, label, suffix, "jpg" if as_jpeg else "png"])
 	if as_jpeg:
 		image.save_jpg(path, 0.9)

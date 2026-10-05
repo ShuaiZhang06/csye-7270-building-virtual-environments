@@ -19,6 +19,7 @@ mouse_filter = 2
 script = ExtResource("2_hearts")
 
 [node name="Debug" type="Label" parent="."]
+visible = false
 offset_left = 260.0
 offset_top = 16.0
 offset_right = 1900.0

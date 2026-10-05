@@ -7,8 +7,8 @@ extends CanvasLayer
 ## "Paused" over a dimmed screen while play is paused. The debug line shows
 ## Rudy's pose ID, whether he is on the ground, his speed and position, the
 ## level's state, how many times each sound ID has played, and whether the
-## music and the sound effects are muted (it only shows the buses' state). F1
-## hides or shows it.
+## music and the sound effects are muted (it only shows the buses' state). It
+## is hidden when the game starts; F1 shows or hides it.
 
 var _rudy: Rudy
 var _status := ""
