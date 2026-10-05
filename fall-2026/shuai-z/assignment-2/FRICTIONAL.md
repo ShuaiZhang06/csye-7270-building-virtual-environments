@@ -922,4 +922,5 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - capture step 5 taken again, so the storyboard screenshots show the screen as a player sees it, and the comparison sheets made again;
   - TEST-REPORT.md: my playtest quoted where it was pending, and the predicted failures 4 and 6 closed; README.md and the controls follow.
 - **Human / Claude / model:** the playtest, its findings and the decision are mine; the changes are Claude's. No generative model was used.
-- **Still unresolved:** the run from a fresh copy is repeated on the commit that holds these changes, and again from GitHub at submission. The film is not made yet.
+- **Then:** committed as `3b7aa1c`; a fresh clone of it imports with no errors, passes all 141 checks and runs windowed with no errors, and TEST-REPORT.md names it as the source tested.
+- **Still unresolved:** the run from a fresh copy is repeated from GitHub at submission. The film is not made yet.

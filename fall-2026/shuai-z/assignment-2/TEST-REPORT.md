@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| Source tested | Commit `2d25e0b` ("Step 3: the audio"): the fresh-copy run and my playtest. After my playtest, step 5 hides the debug line at the start; the checks and the screenshots in `evidence/5/` are from that version. Otherwise step 5 adds a check, a capture step, a tool, the evidence and the documents |
+| Source tested | Commit `3b7aa1c` ("Step 5: verify the slice; my playtest; the debug line hidden"): the fresh-copy run, the checks and the screenshots in `evidence/5/`. My playtest was at `2d25e0b` ("Step 3: the audio"); the only change to the game since is the debug line, hidden at the start |
 | Engine | Godot 4.7.2.stable.official.ed1daf0bf, the standard build, GL Compatibility renderer |
 | Machine | macOS 15.1 (24B83), Apple M3 |
 | Run on | 2026-10-04 |
@@ -13,7 +13,7 @@
 
 | Check (the assignment's) | Result | Evidence |
 |---|---|---|
-| Startup and controls | A fresh clone of `2d25e0b` imports with no errors, passes every check, and runs windowed with no errors. Every file the game names by a `res://` path is in git. My playtest by hand: no problem reported | [Startup and controls](#1-startup-and-controls) |
+| Startup and controls | A fresh clone of `3b7aa1c` imports with no errors, passes every check, and runs windowed with no errors. Every file the game names by a `res://` path is in git. My playtest by hand: no problem reported | [Startup and controls](#1-startup-and-controls) |
 | Character against the sheet | Every game pose, facing right and left, beside its sheet pose, with the collision shapes. Differences and collision mismatches listed | `evidence/5/5-character-vs-sheet-default.jpg`, `5-character-vs-sheet-sword.jpg` |
 | Storyboard against the slice | All seven panels beside the same moment in the game. Panel 4's mushroom, spore and block are not in the slice (cut) | `evidence/5/5-storyboard-vs-slice.jpg` |
 | Sound events | The four required events (jump, stomp, hurt, portal) and the other two (slash, pickup): one sound per occurrence in the checks, including mashed and held keys and two events in one tick. My playtest: the sound effects "were all clear", and mashing and holding the jump and slash keys gave one sound each time | [Sound events](#4-sound-events) |
@@ -23,7 +23,7 @@
 
 ## 1. Startup and controls
 
-From a fresh copy, as a reviewer would get it (`git clone` of the local repository at `2d25e0b` into a new folder, so nothing ignored by git, such as `_raw/` or the `.godot/` cache, comes along):
+From a fresh copy, as a reviewer would get it (`git clone` of the local repository into a new folder, so nothing ignored by git, such as `_raw/` or the `.godot/` cache, comes along), first at `2d25e0b` and again at `3b7aa1c`:
 
 ```bash
 git clone <repository> fresh && cd fresh
@@ -32,10 +32,10 @@ git clone <repository> fresh && cd fresh
 /Applications/Godot.app/Contents/MacOS/Godot --path game --quit-after 600
 ```
 
-- **Import:** exit code 0; no error, warning or missing-resource line (3.9 s).
-- **Checks:** exit code 0; all 139 checks of `2d25e0b` passed.
-- **Windowed run:** the game opened on the title and ran 600 frames; exit code 0, and no error or warning in the output.
-- **Every used asset is present:** the 75 `res://` paths named in the game's scenes, resources, shaders, scripts and `project.godot` are all tracked in git. Step 5 adds this as a check, so every later run repeats it; with `props.json` moved away as a test, it fails.
+- **Import:** exit code 0 at both commits; no error, warning or missing-resource line.
+- **Checks:** exit code 0; all 139 checks at `2d25e0b`, and all 141 at `3b7aa1c`, passed.
+- **Windowed run:** the game opened on the title and ran 600 frames; exit code 0 at both commits, and no error or warning in the output.
+- **Every used asset is present:** the 75 `res://` paths named in the game's scenes, resources, shaders, scripts and `project.godot` are all tracked in git. Step 5 adds this as a check, so every later run repeats it (it passed in the fresh clone of `3b7aa1c`); with `props.json` moved away as a test, it fails.
 - This was a local clone. At submission it is repeated from the GitHub revision.
 
 Controls, as README.md lists them: A/D or ←/→ to move; Space, W or ↑ to jump; J or X to slash with the sword; Enter to start and to play again; Esc to pause; M and N to mute the music and the sound effects; F1 to show or hide the debug line. The checks drive every state change through the same input actions (`Input.action_press`): running, turning on the spot, jumping, the pickup, the slash, the stomp, the hits, the falls, the waystone, the teleport circle, the end card, the title, the pause and the mutes.
