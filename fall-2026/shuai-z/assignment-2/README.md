@@ -10,7 +10,7 @@ You play Rudy, a cheerful chibi boy who crosses a medieval countryside to reach 
 | Started from | An empty repository (not walker-jumpman and not my Assignment 1 project) |
 | Engine | Godot 4.7.2.stable.official.ed1daf0bf, the standard build, with GDScript; the project is `game/` |
 | Assistance | Claude Code. The human/AI split is recorded in [FRICTIONAL.md](FRICTIONAL.md) and [SOURCES.md](SOURCES.md) |
-| Final film | *Walker Rudy, Wired In.* (Brutalist `godot-gamedev`, `walker` modifier; 9:56, 3840×2160), file `claude-liam-walker-rudy-gamedev.mp4`, SHA-256 `cb2f01dbe7f0788b5a8c9196b8168e2f2151e4be09aee4febee018a1165528a0`. The MP4 is not in git; its beat sheet, capture logs and evidence are in [youtube/claude-liam-walker-rudy-gamedev/](youtube/claude-liam-walker-rudy-gamedev/). Course media: [claude-liam-walker-rudy-gamedev.mp4 on Google Drive](https://drive.google.com/file/d/1E_FuS_34ep_KN5FeWtA05CpvjM1pOXNl/view?usp=drive_link) |
+| Final film | *Walker Rudy, Wired In.* (Brutalist `godot-gamedev`, `walker` modifier; 9:56, 3840×2160), file `claude-liam-walker-rudy-gamedev.mp4`, SHA-256 `cb2f01dbe7f0788b5a8c9196b8168e2f2151e4be09aee4febee018a1165528a0`. The film names its source as `3b7aa1c`, the local commit ID; in the course repository that commit is `9871718`, with the same files. The MP4 is not in git; its beat sheet, capture logs and evidence are in [youtube/claude-liam-walker-rudy-gamedev/](youtube/claude-liam-walker-rudy-gamedev/). Course media: [claude-liam-walker-rudy-gamedev.mp4 on Google Drive](https://drive.google.com/file/d/1E_FuS_34ep_KN5FeWtA05CpvjM1pOXNl/view?usp=drive_link) |
 
 ## What the slice demonstrates
 

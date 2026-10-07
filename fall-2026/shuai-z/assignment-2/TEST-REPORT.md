@@ -4,7 +4,8 @@
 
 | | |
 |---|---|
-| Source tested | Commit `3b7aa1c` ("Step 5: verify the slice; my playtest; the debug line hidden"): the fresh-copy run, the checks and the screenshots in `evidence/5/`. My playtest was at `2d25e0b` ("Step 3: the audio"); the only change to the game since is the debug line, hidden at the start |
+| Source tested | Commit `9871718` ("Step 5: verify the slice; my playtest; the debug line hidden"): the fresh-copy run, the checks and the screenshots in `evidence/5/`. My playtest was at `10c0c2e` ("Step 3: the audio"); the only change to the game since is the debug line, hidden at the start |
+| Commit IDs | Commit IDs refer to the course repository. The project was developed in a local repository and moved there with its history; each listed commit has the same files as the local one that was tested |
 | Engine | Godot 4.7.2.stable.official.ed1daf0bf, the standard build, GL Compatibility renderer |
 | Machine | macOS 15.1 (24B83), Apple M3 |
 | Run on | 2026-10-04 |
@@ -13,7 +14,7 @@
 
 | Check (the assignment's) | Result | Evidence |
 |---|---|---|
-| Startup and controls | A fresh clone of `3b7aa1c` imports with no errors, passes every check, and runs windowed with no errors. Every file the game names by a `res://` path is in git. My playtest by hand: no problem reported | [Startup and controls](#1-startup-and-controls) |
+| Startup and controls | A fresh clone of `9871718` imports with no errors, passes every check, and runs windowed with no errors. Every file the game names by a `res://` path is in git. My playtest by hand: no problem reported | [Startup and controls](#1-startup-and-controls) |
 | Character against the sheet | Every game pose, facing right and left, beside its sheet pose, with the collision shapes. Differences and collision mismatches listed | `evidence/5/5-character-vs-sheet-default.jpg`, `5-character-vs-sheet-sword.jpg` |
 | Storyboard against the slice | All seven panels beside the same moment in the game. Panel 4's mushroom, spore and block are not in the slice (cut) | `evidence/5/5-storyboard-vs-slice.jpg` |
 | Sound events | The four required events (jump, stomp, hurt, portal) and the other two (slash, pickup): one sound per occurrence in the checks, including mashed and held keys and two events in one tick. My playtest: the sound effects "were all clear", and mashing and holding the jump and slash keys gave one sound each time | [Sound events](#4-sound-events) |
@@ -23,7 +24,7 @@
 
 ## 1. Startup and controls
 
-From a fresh copy, as a reviewer would get it (`git clone` of the local repository into a new folder, so nothing ignored by git, such as `_raw/` or the `.godot/` cache, comes along), first at `2d25e0b` and again at `3b7aa1c`:
+From a fresh copy, as a reviewer would get it (`git clone` of the local repository into a new folder, so nothing ignored by git, such as `_raw/` or the `.godot/` cache, comes along), first at `10c0c2e` and again at `9871718`:
 
 ```bash
 git clone <repository> fresh && cd fresh
@@ -33,9 +34,9 @@ git clone <repository> fresh && cd fresh
 ```
 
 - **Import:** exit code 0 at both commits; no error, warning or missing-resource line.
-- **Checks:** exit code 0; all 139 checks at `2d25e0b`, and all 141 at `3b7aa1c`, passed.
+- **Checks:** exit code 0; all 139 checks at `10c0c2e`, and all 141 at `9871718`, passed.
 - **Windowed run:** the game opened on the title and ran 600 frames; exit code 0 at both commits, and no error or warning in the output.
-- **Every used asset is present:** the 75 `res://` paths named in the game's scenes, resources, shaders, scripts and `project.godot` are all tracked in git. Step 5 adds this as a check, so every later run repeats it (it passed in the fresh clone of `3b7aa1c`); with `props.json` moved away as a test, it fails.
+- **Every used asset is present:** the 75 `res://` paths named in the game's scenes, resources, shaders, scripts and `project.godot` are all tracked in git. Step 5 adds this as a check, so every later run repeats it (it passed in the fresh clone of `9871718`); with `props.json` moved away as a test, it fails.
 - This was a local clone. At submission it is repeated from the GitHub revision.
 
 Controls, as README.md lists them: A/D or ←/→ to move; Space, W or ↑ to jump; J or X to slash with the sword; Enter to start and to play again; Esc to pause; M and N to mute the music and the sound effects; F1 to show or hide the debug line. The checks drive every state change through the same input actions (`Input.action_press`): running, turning on the spot, jumping, the pickup, the slash, the stomp, the hits, the falls, the waystone, the teleport circle, the end card, the title, the pause and the mutes.
@@ -149,21 +150,21 @@ Each of these began with something I saw, heard or measured, and changed an asse
 
 | Observation | Revision | Record |
 |---|---|---|
-| CHAR-REF-02 covered in ornate patterns, CHAR-REF-03 too plain | a prompt asking for edge trim only, matched in every view; CHAR-REF-07 accepted | "Rudy's reference, round 2: accepted"; `aabd1d8` |
-| HURT-01 leans toward the hit; RUN-B-01 is not a passing pose | both redone with new edit prompts; HURT-02 and RUN-B-02 accepted | "HURT and RUN-B redone"; `b2d4ee5` |
-| The rising frames 12% too large when overlaid on the idle face | scale ×0.88 by hand in `matte_sprites.py` | "Rudy's game frames: matting, scale and placement"; `66e6499` |
-| My step 1a playtest: the run too slow, the jump slow, turning not crisp | faster run and jump, turning on the spot | "Step 1a playtests"; `93f788a` |
-| My step 1b playtest: the cliffs too tight | a higher jump; a check measuring the takeoff window | "Step 1b playtest"; `94cc6f5` |
-| My step 1c playtest: a fall should cost a heart | the fall rules, and their checks | "Step 1c playtests"; `157c040` |
-| My step 2a playtest: the run frames keep the same leg behind | a run redo prompt; ChatGPT's three outputs rejected; both frames kept | "The run redo is dropped"; `becc593` |
-| My step 2b playtest: the spikes do not stand out | the generated spikes brought forward, with the outline, moved between the wheat tufts | "Step 2b playtest: the spikes stand out"; `aa2ffce` |
-| My step 2c playtest: the pickup small, the save not shown, the light too pale | a larger pickup, the waystone's halo and ring, a deep-gold column of light | "Step 2c playtest"; `814b5da` |
-| The generated song repeats every 24 bars, not 16 or 32 | a 24-bar loop, its end moved 5.1 ms to match the waveform | "The music loop"; `e26d6db` |
+| CHAR-REF-02 covered in ornate patterns, CHAR-REF-03 too plain | a prompt asking for edge trim only, matched in every view; CHAR-REF-07 accepted | "Rudy's reference, round 2: accepted"; `f9f3d07` |
+| HURT-01 leans toward the hit; RUN-B-01 is not a passing pose | both redone with new edit prompts; HURT-02 and RUN-B-02 accepted | "HURT and RUN-B redone"; `7e74814` |
+| The rising frames 12% too large when overlaid on the idle face | scale ×0.88 by hand in `matte_sprites.py` | "Rudy's game frames: matting, scale and placement"; `e019959` |
+| My step 1a playtest: the run too slow, the jump slow, turning not crisp | faster run and jump, turning on the spot | "Step 1a playtests"; `2608528` |
+| My step 1b playtest: the cliffs too tight | a higher jump; a check measuring the takeoff window | "Step 1b playtest"; `46ba347` |
+| My step 1c playtest: a fall should cost a heart | the fall rules, and their checks | "Step 1c playtests"; `ebfdab3` |
+| My step 2a playtest: the run frames keep the same leg behind | a run redo prompt; ChatGPT's three outputs rejected; both frames kept | "The run redo is dropped"; `4d3bad1` |
+| My step 2b playtest: the spikes do not stand out | the generated spikes brought forward, with the outline, moved between the wheat tufts | "Step 2b playtest: the spikes stand out"; `f8c4ae0` |
+| My step 2c playtest: the pickup small, the save not shown, the light too pale | a larger pickup, the waystone's halo and ring, a deep-gold column of light | "Step 2c playtest"; `22d8086` |
+| The generated song repeats every 24 bars, not 16 or 32 | a 24-bar loop, its end moved 5.1 ms to match the waveform | "The music loop"; `af98d88` |
 
 ## My playtests
 
 - **Earlier, during the build:** steps 1a, 1b, 1c, 2a, 2b, 2c and 2d, each on my Mac; what I found is in FRICTIONAL.md and the table above.
-- **The finished slice, sound on, then muted:** on 2026-10-04, on my Mac, at `2d25e0b`. "我已经试玩过了，开声音时音效都清晰的，bgm也没问题；静音时也没发现问题" [I have played it. With sound on, the sound effects were all clear, and the BGM was fine too; muted, I found no problems either].
+- **The finished slice, sound on, then muted:** on 2026-10-04, on my Mac, at `10c0c2e`. "我已经试玩过了，开声音时音效都清晰的，bgm也没问题；静音时也没发现问题" [I have played it. With sound on, the sound effects were all clear, and the BGM was fine too; muted, I found no problems either].
 - **Asked by Claude afterwards:** whether I had heard at least three repetitions of the loop in the game, and mashed and held the jump and slash keys. My answer: I did both.
 - **What changed after it:** the debug line is hidden at the start (F1 shows it). Claude suggested it; the decision is mine, and I gave no further reason.
 
