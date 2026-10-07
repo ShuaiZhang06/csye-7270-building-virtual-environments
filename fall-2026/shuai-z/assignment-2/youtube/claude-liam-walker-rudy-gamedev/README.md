@@ -5,6 +5,10 @@ The required Brutalist Godot explainer for [walker-rudy](../../), built with the
 component-by-component source, each excerpt followed by its visible result in the running slice → Verdict →
 Your Turn → the regular spoken outro. Liam, in for Bear (local Kokoro `am_onyx`). No captions.
 
+**Commit IDs in this folder** are the local `walker-rudy` repository's, as the film shows them; the project moved into the
+course repository with its history, which gave each commit a new ID with the same files: `3b7aa1c` is `9871718` there,
+and `c0e8055` is `440a8f7`.
+
 **Master:** `exports/landscape/claude-liam-walker-rudy-gamedev.mp4` · 9:56 · SHA-256 `cb2f01dbe7f0788b5a8c9196b8168e2f2151e4be09aee4febee018a1165528a0` (not in git; `.gitignore` keeps MP4/WAV out). Gates and the frame review: [`_qc/FILM-REVIEW.md`](_qc/FILM-REVIEW.md).
 
 ## The assignment's six film requirements, and where they are
