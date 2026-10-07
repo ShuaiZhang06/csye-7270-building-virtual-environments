@@ -106,7 +106,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 - **Wanted:** to settle what the storyboard and character sheet need, so the last three design documents could be drafted, and a plan that fits the deadline.
 - **Decided:**
-  - **GitHub:** the public repository is created only when everything is finished. The local repository was created today (commit `6095d0f`).
+  - **GitHub:** the public repository is created only when everything is finished. The local repository was created today (commit `1a4ebeb`).
   - **Checkpoint:** a waystone, as Claude suggested.
   - **Respawn:** hearts refill to 3.
   - **Health packs:** none in Level 1.
@@ -480,7 +480,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-01 by Claude, from our chat; my words are translated from Chinese.*
 
-- **Played:** step 1b, on my Mac. I asked for it to be committed first as it was (commit `d5a768e`).
+- **Played:** step 1b, on my Mac. I asked for it to be committed first as it was (commit `44aa429`).
 - **Found (my words):** "Jumping the cliffs is still a bit tight: I have to jump just before the edge or I die. Maybe try a higher jump."
 - **Got (Claude's changes and calls):**
   - the jump goes from 1300 to 1500 px/s. The apex rises from 222 to 294 px (about 1.8 times Rudy's height; panel 2's jump arc is about 2 times). What clears a cliff is the time in the air, so the jump is also longer: the rise takes 0.38 s instead of 0.33 s, the fall 0.32 s instead of 0.27 s;
@@ -494,7 +494,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-01 by Claude, from our chat.*
 
-- **Asked:** to commit the higher jump (commit `94cc6f5`), then build step 1c.
+- **Asked:** to commit the higher jump (commit `46ba347`), then build step 1c.
 - **Got (step 1c):**
   - three hearts, drawn in the HUD. A hit costs one: Rudy turns toward it, is knocked back about 55 px, loses control for 0.35 s, and flashes while he is invulnerable for 1.2 s; the camera shakes for 0.2 s;
   - two rows of spikes (x 1100 and 5100) and three patrolling goblins (1500–1900, 3000–3500, 5600–6000), as in the draft layout;
@@ -615,7 +615,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
 
-- **Asked:** to start the level over from the opening whenever the hearts reach zero, to commit step 1c (commit `157c040`), then to build step 1d.
+- **Asked:** to start the level over from the opening whenever the hearts reach zero, to commit step 1c (commit `ebfdab3`), then to build step 1d.
 - **Got (step 1d):**
   - the sword-and-shield pickup at x 2500, as in the draft layout, code-drawn and floating. The first touch gives Rudy the sword form, with one pickup sound; the pickup hides, and after any death it is back where it was;
   - the sword form's poses (CHAR-SWORD-IDLE, -RUN-A, -RUN-B, -RISE and -FALL) on the code-drawn Rudy, with the shield in front of his chest;
@@ -679,7 +679,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 *Written on 2026-10-02 by Claude, from our chat; my words are translated from Chinese.*
 
 - **Asked:** whether there were prompts for music and sound effects, and if not, to write templates from the game's design so that I could generate them myself.
-- **Got:** a sound-effects section and a music section at the end of `design/generation-prompts.md` (commit `bf9907c`): one shared block and one line for each of the ten sounds in CHANGE-BRIEF.md, with target lengths; and two MUS-LOOP prompts (folk ensemble, 104 BPM, D mixolydian, no vocals) with the steps for cutting a clean loop.
+- **Got:** a sound-effects section and a music section at the end of `design/generation-prompts.md` (commit `d5ae4cf`): one shared block and one line for each of the ten sounds in CHANGE-BRIEF.md, with target lengths; and two MUS-LOOP prompts (folk ensemble, 104 BPM, D mixolydian, no vocals) with the steps for cutting a clean loop.
 - **Generated:** SFX-JUMP in Adobe Firefly on the free plan, with the prompt unchanged; four takes. Firefly shows no model name; Claude read it from the takes' Content Credentials: Adobe Firefly GenSoundFX 2, version 1.2.
 - **Decided (my words):** "I choose number 4. It is clear enough that you can hear him take off, and it doesn't sound strange."
 - **Asked:** whether I should trim the silence at the start in Audacity, or whether Claude could; and to cut the sound list to the five or six that matter, since the assignment needs at least four.
@@ -712,7 +712,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-02 by Claude, from our chat.*
 
-- **Asked:** to commit 2a and the ChatGPT log (commits `ab6fe61` and `becc593`), then build step 2b.
+- **Asked:** to commit 2a and the ChatGPT log (commits `c60e8e2` and `4d3bad1`), then build step 2b.
 - **Got (step 2b):**
   - the far layer, ENV-SKY-CASTLE: it scrolls at 0.0218 of the camera and never repeats, so the one image covers the level. It keeps its screen size when the camera pulls back on the teleport circle. The fields shrink with the world in the pull-back, so more of the far image shows below their horizon: the castle's lower part and the hills;
   - the fields, ENV-FIELDS: nine copies side by side, scrolling at 0.4 of the camera;
@@ -769,7 +769,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-03 by Claude, from our chat.*
 
-- **Asked:** to commit 2b (commit `aa2ffce`), then build step 2c.
+- **Asked:** to commit 2b (commit `f8c4ae0`), then build step 2c.
 - **Got (step 2c):**
   - the goblin: its two walk frames in turn, every 0.18 s, mirrored when it walks left, and the squashed frame for 0.4 s after a stomp or a cut, with the outer outline;
   - the waystone, dark and then lit; the teleport circle, with the code-drawn column of light rising behind it; the floating pickup, bobbing as before; and the gear that flies off Rudy, which is the pickup's art spinning about its middle;
@@ -830,7 +830,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-03 by Claude, from our chat; my words are translated from Chinese.*
 
-- **Asked:** to commit 2c (commit `814b5da`), then build the title over the opening (UI-TITLE, "could"; STORYBOARD.md panel 1).
+- **Asked:** to commit 2c (commit `22d8086`), then build the title over the opening (UI-TITLE, "could"; STORYBOARD.md panel 1).
 - **Asked by Claude, and decided:** the game had no name yet; the storyboard's sketch only says "GAME TITLE". Of Claude's three suggestions I chose **Walker Rudy**, after the repository, and the engine's default font, as on the end card, over a free medieval-style font. CONCEPT.md gets a revision.
 - **Got (step 2d):**
   - the game opens on the start of Level 1 with "Walker Rudy", "Level 1 · Harvest Fields" and "Press Enter to start" in the sky, cream with a dark-brown outline. Rudy stands idle and out of the player's control, and the hearts are hidden;
@@ -890,14 +890,14 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-04 by Claude, from our chat; my words are translated from Chinese.*
 
-- **Asked:** to commit step 3 (commit `2d25e0b`); then, in my words, "Step 4 won't be done; start step 5."
+- **Asked:** to commit step 3 (commit `10c0c2e`); then, in my words, "Step 4 won't be done; start step 5."
 - **Decided:** the mushroom is cut, as cut-order step 4 in CHANGE-BRIEF.md says: the mushroom monster, its spore, blocking, SFX-SPORE and SFX-BLOCK. I gave no further reason. Panel 4's failure comes from a goblin or the spikes. CHANGE-BRIEF.md gets a revision.
 - **Got (the plan):** Claude read the assignment's TEST-REPORT requirements and proposed step 5 in two parts:
   - 5a, Claude's: a run from a fresh copy; the character and the storyboard beside the slice; the TEST-REPORT draft; the documents;
   - 5b, mine: playing the finished slice with sound on and then muted, with a list of what to try, and telling Claude what I found, to be recorded in my words.
 - **Decided (my words):** "Approve step 5."
 - **Got (5a):**
-  - a fresh clone of `2d25e0b`, with nothing that git ignores: it imports with no errors, passes all 139 checks and runs windowed with no errors. The 75 `res://` paths the game names are all in git; that is now a check (140 in all, all passing), and with a file moved away it fails;
+  - a fresh clone of `10c0c2e`, with nothing that git ignores: it imports with no errors, passes all 139 checks and runs windowed with no errors. The 75 `res://` paths the game names are all in git; that is now a check (140 in all, all passing), and with a file moved away it fails;
   - capture step 5, from the final build: the moment of each storyboard panel, full screen, and every pose facing right and left, with and without the collision shapes (`evidence/5/`). `design/tools/compare_sheets.py` puts them beside the blockouts: `5-storyboard-vs-slice.jpg`, `5-character-vs-sheet-default.jpg` and `5-character-vs-sheet-sword.jpg`;
   - TEST-REPORT.md, drafted: the seven checks the assignment names, the predicted failures and what happened to each, the inspect-and-revise cycles from this log, and the known limitations. What only my playtest can show is marked "Pending: my playtest";
   - README.md: what the slice demonstrates, the known limitations, and the film (not made yet).
@@ -913,7 +913,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 *Written on 2026-10-04 by Claude, from our chat; my words are translated from Chinese.*
 
-- **Played:** the finished slice at `2d25e0b`, on my Mac, with sound on and then muted.
+- **Played:** the finished slice at `10c0c2e`, on my Mac, with sound on and then muted.
 - **Found (my words):** "I have played it. With sound on, the sound effects were all clear, and the BGM was fine too; muted, I found no problems either."
 - **Asked by Claude:** whether I had heard at least three repetitions of the loop in the game (about three minutes), and mashed and held the jump and slash keys, since TEST-REPORT.md should not claim either for me. My answer: I did both.
 - **Decided (my words):** "Turn the debug line off by default." Claude had suggested it; I gave no further reason.
@@ -922,5 +922,14 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
   - capture step 5 taken again, so the storyboard screenshots show the screen as a player sees it, and the comparison sheets made again;
   - TEST-REPORT.md: my playtest quoted where it was pending, and the predicted failures 4 and 6 closed; README.md and the controls follow.
 - **Human / Claude / model:** the playtest, its findings and the decision are mine; the changes are Claude's. No generative model was used.
-- **Then:** committed as `3b7aa1c`; a fresh clone of it imports with no errors, passes all 141 checks and runs windowed with no errors, and TEST-REPORT.md names it as the source tested.
+- **Then:** committed as `9871718`; a fresh clone of it imports with no errors, passes all 141 checks and runs windowed with no errors, and TEST-REPORT.md names it as the source tested.
 - **Still unresolved:** the run from a fresh copy is repeated from GitHub at submission. The film is not made yet.
+
+---
+
+## GitHub pushes
+
+| Date | Commit note |
+|---|---|
+| 2026-10-04 | First push, to branch `shuai-z/assignment-2` of my fork of the course repository: the full local history (29 commits) moved under `fall-2026/shuai-z/assignment-2/`, plus a merge commit, `4f437ba`. The course's blank `README.md` and `FRICTIONAL.md` were replaced by mine. The commit IDs in this file and in TEST-REPORT.md are the ones in the course repository. |
+| 2026-10-07 | Second push, to the same branch: the film's recipe and evidence in `youtube/claude-liam-walker-rudy-gamedev/`, the film named in README.md with its SHA-256 and course media link, and the course-repository commit IDs in this file, TEST-REPORT.md and README.md. The film's own files keep the local ID `3b7aa1c`, which is what the film shows. |
