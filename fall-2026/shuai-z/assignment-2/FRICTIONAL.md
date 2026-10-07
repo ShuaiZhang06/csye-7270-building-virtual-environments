@@ -950,7 +950,8 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Told Claude (my words):** Gemini and ChatGPT: "都是付费版" [both are paid plans]. ASSET-LOG.md and SOURCES.md now say so; Firefly, ElevenLabs and Suno were free plans.
 - **Decided:** mute stays without an on-screen cue, as a known limitation, because adding one would change `game/` after the film's source revision. Claude suggested this; I agreed to the list of changes as Claude proposed it.
 - **Human / Claude / model:** Claude ran the check and made the changes; the answers and decisions are mine. No generative model was used.
-- **Still unresolved:** the run from a fresh copy of the GitHub revision, SUBMISSION.md, and the pull request into the course repository.
+- **Then:** the run from a fresh `git clone` from GitHub at `5865362`: it imports with no errors, passes all 141 checks and runs windowed with no errors (TEST-REPORT.md, Startup and controls). This closes the run from GitHub left open on 2026-10-04.
+- **Still unresolved:** SUBMISSION.md, and the pull request into the course repository.
 
 ---
 
@@ -961,3 +962,4 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 | 2026-10-04 | First push, to branch `shuai-z/assignment-2` of my fork of the course repository: the full local history (29 commits) moved under `fall-2026/shuai-z/assignment-2/`, plus a merge commit, `4f437ba`. The course's blank `README.md` and `FRICTIONAL.md` were replaced by mine. The commit IDs in this file and in TEST-REPORT.md are the ones in the course repository. |
 | 2026-10-07 | Second push, to the same branch: the film's recipe and evidence in `youtube/claude-liam-walker-rudy-gamedev/`, the film named in README.md with its SHA-256 and course media link, and the course-repository commit IDs in this file, TEST-REPORT.md and README.md. The film's own files keep the local ID `3b7aa1c`, which is what the film shows. |
 | 2026-10-07 | Third push, to the same branch: the revision notes and the new collision overlay and sound-take sheet, the film's tools and contributions in SOURCES.md, the paid plans stated, and the `design-v1` tag on `5649d5b`. Nothing in `game/` changed. |
+| 2026-10-07 | Fourth push, to the same branch: the fresh-copy run from GitHub at `5865362` recorded in TEST-REPORT.md and here. Nothing in `game/` changed. |

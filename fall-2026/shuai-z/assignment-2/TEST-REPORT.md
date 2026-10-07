@@ -37,7 +37,7 @@ git clone <repository> fresh && cd fresh
 - **Checks:** exit code 0; all 139 checks at `10c0c2e`, and all 141 at `9871718`, passed.
 - **Windowed run:** the game opened on the title and ran 600 frames; exit code 0 at both commits, and no error or warning in the output.
 - **Every used asset is present:** the 75 `res://` paths named in the game's scenes, resources, shaders, scripts and `project.godot` are all tracked in git. Step 5 adds this as a check, so every later run repeats it (it passed in the fresh clone of `9871718`); with `props.json` moved away as a test, it fails.
-- This was a local clone. At submission it is repeated from the GitHub revision.
+- This was a local clone. On 2026-10-07 the same three commands were run again on a fresh `git clone` from GitHub, branch `shuai-z/assignment-2` of my fork of the course repository, at `5865362`, in `fall-2026/shuai-z/assignment-2/`: import exit code 0 with no error, warning or missing-resource line; all 141 checks passed, exit code 0; the windowed run exited 0 with no error or warning. `game/` there is the same tree as at `9871718` (git tree `96db935`); the commits since change only documents.
 
 Controls, as README.md lists them: A/D or ←/→ to move; Space, W or ↑ to jump; J or X to slash with the sword; Enter to start and to play again; Esc to pause; M and N to mute the music and the sound effects; F1 to show or hide the debug line. The checks drive every state change through the same input actions (`Input.action_press`): running, turning on the spot, jumping, the pickup, the slash, the stomp, the hits, the falls, the waystone, the teleport circle, the end card, the title, the pause and the mutes.
 
