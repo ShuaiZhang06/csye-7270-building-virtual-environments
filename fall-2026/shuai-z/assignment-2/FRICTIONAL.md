@@ -4,7 +4,7 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 
 **How this file is written.** Claude Code drafts each entry from our Claude Code conversation, and I check it against what I actually said and decided. My reasons are translated from the Chinese chat. Where I gave no reason, the entry says so instead of inventing one. Each entry says when it was written.
 
-**Tools and roles so far.** Claude Opus 5.5 in Claude Code (desktop app) asked the design questions and drafted the documents in English. I made the design decisions. No image, sound or music model has been used yet.
+**Tools and roles, as first written on 2026-09-30.** Claude Opus 5.5 in Claude Code (desktop app) asked the design questions and drafted the documents in English. I made the design decisions. No image, sound or music model had been used yet. Each later entry names the models it used; SOURCES.md lists them all.
 
 ---
 
@@ -925,6 +925,33 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 - **Then:** committed as `9871718`; a fresh clone of it imports with no errors, passes all 141 checks and runs windowed with no errors, and TEST-REPORT.md names it as the source tested.
 - **Still unresolved:** the run from a fresh copy is repeated from GitHub at submission. The film is not made yet.
 
+## 2026-10-04 to 2026-10-07 — The film
+
+*Written on 2026-10-07 by Claude, from our chats and the film's own records; my words are translated from Chinese.*
+
+- **Wanted:** the one explainer the assignment requires, made with the course's Brutalist `godot-gamedev` workflow and the `walker` modifier: the concept, one asset traced from the sheet to the game, the states and the four sounds in real play, a segment of the slice's own audio, and what was tested.
+- **Got:** *Walker Rudy, Wired In.*, 9:56 at 3840×2160, `claude-liam-walker-rudy-gamedev.mp4`. Its recipe and evidence are in `youtube/claude-liam-walker-rudy-gamedev/` (commit `b114557`); the film shows the game source at `9871718` (its local ID, `3b7aa1c`, is what the film names).
+- **Decided (my words):**
+  - not publishing it: "不公开到youtube因为作业没要求" [not putting it on YouTube, because the assignment does not require it]. I put it on Google Drive, where it opens without signing in (README.md, commits `f3e9f99` and `b5529a6`);
+  - the slice's own audio stays in the film: "保留游戏原声是作业要求" [keeping the game's own sound is what the assignment requires];
+  - the Liam narration (a free local synthetic voice, Kokoro): "接受" [accepted].
+- **Checked (my words):** "完整看过听过最终的影片了，没问题" [I have watched and listened to the whole final film; no problems]. Before that, Claude's own frame and sound review (`_qc/FILM-REVIEW.md`) found and fixed nine defects; it was not a human sign-off.
+- **Human / Claude / model:** Claude wrote the beat sheet, the narration, the capture driver and the build tools, and ran the captures, builds and checks; Kokoro-82M voiced the narration; no image, sound or music model was used for the film. The decisions above and the final watch are mine.
+- **Still unresolved:** B12 says the frames are "chosen by a dozen lines"; the code is fifteen lines. It is in the rendered film, so FACTCHECK.md notes it instead.
+
+## 2026-10-07 — Moving into the course repository; checking against the assignment
+
+*Written on 2026-10-07 by Claude, from our chat; my words are translated from Chinese.*
+
+- **Asked:** whether my commit history could be kept when the work goes into the course repository; then, before writing SUBMISSION.md, a check of everything against the assignment, and whether Claude needed anything from me.
+- **Got:**
+  - the history moved into the course repository with all its commits, under `fall-2026/shuai-z/assignment-2/`, which gave every commit a new ID. The documents now name the new IDs; TEST-REPORT.md and README.md say so, and the `design-v1` tag was set again on its new commit, `5649d5b`;
+  - the check against the assignment found gaps in the record, not in the game. Fixed: STORYBOARD.md and CONCEPT.md gained revision notes for the cut mushroom and the changed falls; ASSET-LOG.md no longer claims every storyboard ID has a row; a new collision overlay on the real frames (CHARACTER-SHEET.md revision 4); a sheet of every sound-effect take, kept and not chosen, since the rejected takes were only in `_raw/`; SOURCES.md now covers the film's tools and who did what in it; stale "not yet" lines here, in TEST-REPORT.md and in the film's folder updated. Nothing in `game/` changed.
+- **Told Claude (my words):** Gemini and ChatGPT: "都是付费版" [both are paid plans]. ASSET-LOG.md and SOURCES.md now say so; Firefly, ElevenLabs and Suno were free plans.
+- **Decided:** mute stays without an on-screen cue, as a known limitation, because adding one would change `game/` after the film's source revision. Claude suggested this; I agreed to the list of changes as Claude proposed it.
+- **Human / Claude / model:** Claude ran the check and made the changes; the answers and decisions are mine. No generative model was used.
+- **Still unresolved:** the run from a fresh copy of the GitHub revision, SUBMISSION.md, and the pull request into the course repository.
+
 ---
 
 ## GitHub pushes
@@ -933,3 +960,4 @@ A dated log of the design as it happened: what I wanted, what I asked for, what 
 |---|---|
 | 2026-10-04 | First push, to branch `shuai-z/assignment-2` of my fork of the course repository: the full local history (29 commits) moved under `fall-2026/shuai-z/assignment-2/`, plus a merge commit, `4f437ba`. The course's blank `README.md` and `FRICTIONAL.md` were replaced by mine. The commit IDs in this file and in TEST-REPORT.md are the ones in the course repository. |
 | 2026-10-07 | Second push, to the same branch: the film's recipe and evidence in `youtube/claude-liam-walker-rudy-gamedev/`, the film named in README.md with its SHA-256 and course media link, and the course-repository commit IDs in this file, TEST-REPORT.md and README.md. The film's own files keep the local ID `3b7aa1c`, which is what the film shows. |
+| 2026-10-07 | Third push, to the same branch: the revision notes and the new collision overlay and sound-take sheet, the film's tools and contributions in SOURCES.md, the paid plans stated, and the `design-v1` tag on `5649d5b`. Nothing in `game/` changed. |

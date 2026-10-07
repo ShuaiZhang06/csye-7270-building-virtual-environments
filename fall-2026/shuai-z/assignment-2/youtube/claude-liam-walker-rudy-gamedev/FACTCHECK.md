@@ -21,6 +21,8 @@ Source paths are relative to `walker-rudy/`; `game/` is at `3b7aa1c`.
 | B11 | Key held for a second and a half: one takeoff, one sound | 90 ticks held | `capture/run-03-inputs.jsonl` mark "jump held for 1.5 s", check "a held key jumps once, one sound" |
 | B12 | Run frames alternate every eighth of a second | `run_frame_time := 0.125` | `rudy.gd:61, 308` |
 | B12 | Sixteen frames, fifteen lines | 16; lines 295–309 | `rudy_look.gd:15–32`; the excerpt |
+
+Note (2026-10-07): B12's narration says the frames are "chosen by a dozen lines"; the excerpt is fifteen lines (`rudy.gd:295–309`). "A dozen" is a round figure in the rendered film and is left as spoken.
 | B13 | Rise, then fall at the top because he was moving | debug line CHAR-RISE → CHAR-FALL | run-03 frames 272–293 |
 | B14 | Pose seven; drawn by Claude in code | — | CHARACTER-SHEET.md table; poses.png footer "code-drawn by Claude · not a generative-model output" |
 | B15 | First output leaned toward the hit; rejected; one-sentence edit; second accepted, nearly flat, gold motifs | — | ASSET-LOG.md rows CHAR-HURT-01, CHAR-HURT-02 |

@@ -93,3 +93,14 @@ Requirements check:
 - **Hear:** nothing; the music has faded out, and the card is silent
 - **Assets:** ENV-ENDCARD, UI-TITLE (the "Level complete" text)
 - **Design reason (P4 — A journey into another world):** the session ends by showing how far the road still goes, so finishing a level feels like the start of the next stretch
+
+## Revisions after design-v1
+
+*Written on 2026-10-07 by Claude, from CHANGE-BRIEF.md's revisions and TEST-REPORT.md; no decision in it is new.*
+
+The panels above are design v1 (tag `design-v1`, commit `5649d5b`) and stay as written, pictures included. Where they differ from the slice, these notes win. The slice beside each panel is in TEST-REPORT.md, [Storyboard against the slice](TEST-REPORT.md#3-storyboard-against-the-slice).
+
+- **Panel 1:** UI-TITLE is text in the engine's default font, not a generated asset, so it has no row in ASSET-LOG.md. The panel has no sound event; the music is its only sound.
+- **Panel 4:** the mushroom monster is cut (2026-10-04, cut-order step 4), so the spore from behind, the block pose and SFX-SPORE are not in the slice. ENEMY-MUSHROOM, FX-SPORE and SFX-SPORE were never generated; CHAR-SWORD-BLOCK was generated and is loaded, but nothing shows it. The failure comes from a goblin or the spikes instead: the hit knocks the gear away, as planned, and plays SFX-HURT with the music's short dip.
+- **Panel 5:** a fall is no longer instant death with 3 hearts (2026-10-02). It costs one heart and sends Rudy back to the last waystone with the hearts he has left; when the last heart goes, by a hit or a fall, the level starts over from the opening. SFX-FALL is cut: a fall plays SFX-HURT.
+- **Not on any panel:** the sword's slash (CHAR-SWORD-SLASH, SFX-SLASH) is in the slice but has no panel; CHANGE-BRIEF.md lists its panel as "—". CHAR-DEFEAT, which CHANGE-BRIEF.md maps to panels 5 and 6, shows when the last heart goes, a moment neither panel draws.

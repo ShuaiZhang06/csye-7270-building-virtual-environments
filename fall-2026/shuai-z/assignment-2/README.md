@@ -33,12 +33,13 @@ Checks, headless: `Godot --headless --path game --fixed-fps 60 res://tests/check
 
 ## Design documents
 
-- [CONCEPT.md](CONCEPT.md): the game on one page (draft)
-- [STORYBOARD.md](STORYBOARD.md): seven panels of the play experience (draft; blockout pictures in `design/storyboard/`)
-- [CHARACTER-SHEET.md](CHARACTER-SHEET.md): the contract for Rudy's generated frames (draft; blockout images in `design/character/`)
-- [CHANGE-BRIEF.md](CHANGE-BRIEF.md): the asset list, event-to-sound map, music behavior and predicted failures (draft)
+- [CONCEPT.md](CONCEPT.md): the game on one page (design v1, tag `design-v1`, with dated revisions)
+- [STORYBOARD.md](STORYBOARD.md): seven panels of the play experience (design v1, tag `design-v1`, with dated revisions; blockout pictures in `design/storyboard/`)
+- [CHARACTER-SHEET.md](CHARACTER-SHEET.md): the contract for Rudy's generated frames (design v1, tag `design-v1`, with dated revisions; blockout images in `design/character/`)
+- [CHANGE-BRIEF.md](CHANGE-BRIEF.md): the asset list, event-to-sound map, music behavior and predicted failures (design v1, tag `design-v1`, with dated revisions)
 - [TEST-REPORT.md](TEST-REPORT.md): the checks, my playtests, the storyboard and character sheet against the slice, and what the predicted failures turned out to be
 - [design/generation-prompts.md](design/generation-prompts.md): the prompt templates the generations started from
+- [design/character/collision-r2.png](design/character/collision-r2.png): the collision shapes the slice uses, over all 16 game frames
 - [design/tools/make_blockouts.py](design/tools/make_blockouts.py): draws the blockouts (code written by Claude; not a generative model)
 - [ASSET-LOG.md](ASSET-LOG.md): every generation kept or seriously considered, with its prompt, outcome and reason
 - [SOURCES.md](SOURCES.md): starting point, tools, generative models and their terms, and who did what

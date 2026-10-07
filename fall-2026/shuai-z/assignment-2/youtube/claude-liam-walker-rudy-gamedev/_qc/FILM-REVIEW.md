@@ -6,6 +6,9 @@ Master: `exports/landscape/claude-liam-walker-rudy-gamedev.mp4` · 3840×2160 ·
 
 This file is Claude's frame and sound review, not a human sign-off. **shuai-z has not yet watched the film.**
 
+> **2026-10-07, human review:** shuai-z watched and listened to the whole final film (this master, same SHA-256) and
+> reported "完整看过听过最终的影片了，没问题" [I have watched and listened to the whole final film; no problems].
+
 ## Gates (actual results)
 
 | Gate | Result |

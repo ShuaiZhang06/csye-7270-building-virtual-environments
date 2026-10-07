@@ -122,7 +122,7 @@ Each step is approved before it is implemented, then run and checked.
 
 ## Revisions after design-v1
 
-The sections above are design v1 (tag `design-v1`) and stay as written. Where they differ, these revisions win.
+The sections above are design v1 (tag `design-v1`, commit `5649d5b`) and stay as written. Where they differ, these revisions win.
 
 - **2026-10-01, greybox step 1c:** after a death, every monster is back where it started, the defeated ones too, alongside the sword-and-shield pickup. Decided in the greybox plan; see FRICTIONAL.md.
 - **2026-10-02, after the step 1c playtests:**

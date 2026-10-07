@@ -53,7 +53,7 @@ Against the sheet:
 - **Facing left is a runtime flip**, as the sheet says, so facing left the sword and shield change hands. Every pose flips; the respawn is only ever seen facing right, because he always gets back up facing right.
 - **Differences from the blockouts, all accepted earlier:** about 3.4 heads instead of 2.5, and the pale trim on the robe (CHARACTER-SHEET.md, revision 2); CHAR-HURT thrown almost flat, with gold motifs on the trim (HURT-02, accepted 2026-10-01); the two run frames keep the same leg behind (accepted 2026-10-02, after the ChatGPT redo failed); CHAR-CELEBRATE in three-quarter view; the falling pose leaps forward, so a jump in place keeps the rising pose (revision 3).
 
-Against the collision shape (the 40 × 136 px capsule; the sheet's collision overlay):
+Against the collision shape (the 40 × 136 px capsule, drawn over all 16 frames in `design/character/collision-r2.png`, CHARACTER-SHEET.md revision 4):
 - **Standing and running:** the capsule stays on his torso, with its bottom on his soles on the ground line, in both forms and both directions.
 - **In the air:** the robe, the arms, the sword and the shield reach outside the capsule. That is the design: only the capsule is hit, so a hit that grazes his hair, his sword or his shield misses.
 - **CHAR-HURT, CHAR-DEFEAT and CHAR-RESPAWN** lie or kneel outside the capsule. In those states he is invulnerable or cannot be touched, so the mismatch never decides a hit.
@@ -178,6 +178,7 @@ No one else has played or listened to the slice.
 - **Art kept as it is:** the two run frames keep the same leg behind; CHAR-HURT is thrown almost flat; Rudy is about 3.4 heads, not the sheet's 2.5.
 - **The mix** was set from measured loudness and not changed after my playtest, which found the sounds clear and the music fine; no one else has listened to it.
 - **The debug line** (F1) does not update while the game is paused.
+- **Mute has no on-screen cue:** M and N mute the music and the sound effects, but only the debug line (hidden by default) shows it, and no in-game text names the keys; README.md does. Adding one would change `game/` after the film's source revision, so it is left for later.
 - **Tested only on macOS** (15.1, Apple M3); no Windows or Linux run.
 - **The checks cannot hear:** headless, they check what the audio players were told to do; what is heard was measured once, in the movie-maker recording of step 3.
 - **Terms:** ElevenLabs' and Suno's free plans allow only non-commercial use, Suno keeps the rights in the music, and anything published with the ElevenLabs sounds needs "elevenlabs.io" or "11.ai" in its title (SOURCES.md).

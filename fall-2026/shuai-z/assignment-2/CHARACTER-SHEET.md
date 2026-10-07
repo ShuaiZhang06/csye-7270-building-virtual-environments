@@ -93,7 +93,7 @@ These are the blockouts for the first committed version. They were drawn by code
 
 ## Revision 2 — 2026-10-01, after the reference was generated
 
-The sections above are design v1 (tag `design-v1`) and stay as written. Where they differ, this revision wins. The changes come from the accepted reference, `generated/accepted/CHAR-REF-07.jpg`, which Gemini (Nano Banana) generated and I accepted on 2026-10-01 (see ASSET-LOG.md).
+The sections above are design v1 (tag `design-v1`, commit `5649d5b`) and stay as written. Where they differ, this revision wins. The changes come from the accepted reference, `generated/accepted/CHAR-REF-07.jpg`, which Gemini (Nano Banana) generated and I accepted on 2026-10-01 (see ASSET-LOG.md).
 
 - **Reference:** CHAR-REF-07 replaces the blockout turnaround as the reference for every pose. The v1 blockouts still define the poses themselves.
 - **Proportions:** about 3.4 heads, measured on CHAR-REF-07's front view: 279 px from the top of the hair to the chin, out of 958 px from the top of the hair to the soles. I chose to keep them for now instead of 2.5 heads.
@@ -148,3 +148,13 @@ Where they differ, this revision wins over the sections above.
 | leather `#754634` | 4.85 | 3.21 | 4.74 | 1.67 |
 | trim `#D4BEA6` | 1.11 | 1.36 | 1.08 | 2.62 |
 | outline `#290F0D` | 11.13 | 7.38 | 10.87 | 3.83 |
+
+## Revision 4 — 2026-10-07, the collision overlay on the game frames
+
+*Written on 2026-10-07 by Claude. It records the shapes the game already uses; nothing in the game changed.*
+
+Revision 2 narrowed the planned capsule to 40 × 136 px, but `design/character/collision.png` still shows the v1 capsule (64 px) over the blockouts. `design/character/collision-r2.png` shows the shapes the slice uses, from `game/content/rudy/rudy.tscn`, over all 16 game frames at the same scale (twice game size): the body capsule, 40 × 136 px with its bottom on the soles, and, on the slash frame, the sword hitbox, 56 × 70 px, centred 50 px in front of him and 76 px up. `design/tools/make_collision_overlay.py` draws it and prints, for each frame, how far the art reaches past the capsule.
+
+- **Standing, running and in the air:** the hair reaches 13–40 px above the capsule; the arms, the robe's flare, the boots in a stride, the sword and the shield reach up to 74 px to the sides (the slash). Only the capsule is hit, so a hit that grazes his hair, robe, sword or shield misses; that errs in the player's favour.
+- **CHAR-HURT, CHAR-DEFEAT and CHAR-RESPAWN** lie or kneel, so the capsule stands above the art. In those states he cannot be hit: a hit makes him invulnerable for 1.2 s, longer than the 0.35 s he spends in CHAR-HURT; CHAR-RESPAWN is invulnerable; CHAR-DEFEAT has no control and ends the run.
+- **The sword hitbox** is live only 0.03–0.18 s into a slash and covers the blade's swing in front of him, not the trail behind.

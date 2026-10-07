@@ -43,4 +43,4 @@ Your Turn → the regular spoken outro. Liam, in for Bear (local Kokoro `am_onyx
 - The outline-off frame is a **diagnostic** runtime change on an isolated copy, labelled.
 - No gameplay was sped up or centre-cut; replays and held frames are labelled. Every sound heard in gameplay
   is the engine's own recorded mix.
-- Media (MP4, WAV) stay out of git per the repository's `.gitignore`. Nothing was uploaded or published.
+- Media (MP4, WAV) stay out of git per the repository's `.gitignore`. The final MP4 is on Google Drive as the course media copy (linked from the project README.md); it is not published on YouTube or elsewhere.

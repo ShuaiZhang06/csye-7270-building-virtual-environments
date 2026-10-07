@@ -56,5 +56,6 @@ that the film will not be published online. If that changes:
 
 ## Not used
 
-No paid generation, no ElevenLabs or other paid TTS for narration, no stock footage, no Higgsfield beats, no
-captions. Nothing was uploaded, published or pushed.
+No paid generation for the film (the game's Gemini images, and ChatGPT's rejected frames, came from paid plans; project
+SOURCES.md), no ElevenLabs or other paid TTS for narration, no stock footage, no Higgsfield beats, no captions. The
+final MP4 was put on Google Drive as the course media copy by shuai-z; it is not published on YouTube or elsewhere.
