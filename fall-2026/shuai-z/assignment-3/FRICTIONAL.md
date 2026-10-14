@@ -120,3 +120,13 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Does the check catch anything? (Claude)** Claude raised the waystone 0.3 m in the scene file and ran the check again. It reported `FAIL  Waystone sits on the floor (lowest point 0.3000 m above the floor's top)`. Claude then rebuilt the scene with the builder script; the result was the same as before apart from Godot's node ids.
 - **What the check does not show:** whether the props look right, read as what they are, or suit the game under this light. That is my human check, not done yet.
 - **Human / AI:** Claude wrote and ran the export, the project, the scene builder and the check, and tested that the check can fail. I chose a separate project for the scene.
+
+## 2026-10-13 — My look at the scene, screenshots, and TEST-REPORT
+
+*Written on 2026-10-13, from the conversation.*
+
+- **My human check:** I opened the scene in the Godot editor and looked at it: "看完了，没什么问题" (I have looked at it; there is no problem). I recorded nothing more specific.
+- **Screenshots (Claude):** [godot/tests/capture_props.gd](godot/tests/capture_props.gd) renders the scene in a real window, because the headless renderer draws nothing. It saves five views to [evidence/godot/](evidence/godot/): the camera, behind, low, above, and below the floor.
+- **A bug in it, found by looking at the output (Claude):** the first "camera" image showed only sky and an edge of gold. The script had read the camera's global transform before the scene was in the tree, so it got the identity. Waiting one frame fixed it. Claude added the below-the-floor view afterwards, for the assignment's "from behind and below".
+- **TEST-REPORT (Claude):** drafted from the runs, the screenshots and this log. My check is quoted as I said it; Claude's observations from the screenshots are listed separately as Claude's.
+- **Human / AI:** I did the look in Godot. Claude wrote the screenshot script, found and fixed its bug, and drafted the report.
