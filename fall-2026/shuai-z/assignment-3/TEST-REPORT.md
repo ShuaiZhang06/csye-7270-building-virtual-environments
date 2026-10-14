@@ -36,7 +36,7 @@ timeout 120 /Applications/Godot.app/Contents/MacOS/Godot --headless --path godot
 
 **Read the last line, not the exit code.** The check ends with `PASS: 0 failed check(s)` or `FAIL: n failed check(s)` and quits with 1 on a failure. But when the first version of the script had a parse error, Godot printed the error and still exited with **0**: a check that never ran looked like one that passed.
 
-The run recorded here: [evidence/check_props-2026-10-13.txt](evidence/check_props-2026-10-13.txt), 46 checks, `PASS: 0 failed check(s)`.
+The run recorded here: [evidence/check_props-2026-10-13.txt](evidence/check_props-2026-10-13.txt), 44 checks, `PASS: 0 failed check(s)`.
 
 **The check can fail.** With the waystone raised 0.3 m in the scene file, the same command reported `FAIL  Waystone sits on the floor (lowest point 0.3000 m above the floor's top)` and `FAIL: 1 failed check(s)`. The scene was then rebuilt with `godot/tools/build_props_room.gd`, the same as before apart from Godot's node ids.
 

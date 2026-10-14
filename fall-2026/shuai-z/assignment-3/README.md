@@ -12,7 +12,7 @@ walker-rudy is my 2D side-scroller from Assignment 2 ([`../assignment-2/`](../as
 | MCP | MCP for Blender ([`ahujasid/mcp-for-blender`](https://github.com/ahujasid/mcp-for-blender)), server 2.1.9, add-on 1.8. All three props were built through the MCP; no asset library or generator was used |
 | Machine | macOS 15.1, Apple M3 |
 | Assistance | Claude Code, Claude Opus 5.5. The human/AI split is in [SOURCES.md](SOURCES.md) and [FRICTIONAL.md](FRICTIONAL.md) |
-| Final film | *Not made yet* |
+| Final film | *Three Props for Walker Rudy.* (Brutalist `godot-gamedev`, `walker` modifier; 6:31, 3840×2160), file `claude-liam-walker-rudy-3d-props.mp4`, SHA-256 `e5372f47fd683d2bd3765ab3006afe9b1bbe520f1c96c16cc4cf001a13fe7276`. It shows the source at `f6f8acf`. The MP4 is not in git; its beat sheet, prompts, evidence and checks are in [youtube/claude-liam-walker-rudy-3d-props/](youtube/claude-liam-walker-rudy-3d-props/). Course media link: *not uploaded yet* |
 
 ## Open the scene
 
@@ -71,3 +71,4 @@ In full in [TEST-REPORT.md](TEST-REPORT.md#known-limitations):
 | `godot/tests/` | `check_props.gd` (headless check), `capture_props.gd` (screenshots) |
 | `godot/tools/build_props_room.gd` | Builds the scene |
 | `evidence/` | Screenshots, the MCP setup log, the check's output, the hand-edited waystone |
+| `youtube/claude-liam-walker-rudy-3d-props/` | The film's beat sheet, prompts, fact check, captures' logs, stills and build tools (the MP4 is not in git) |
