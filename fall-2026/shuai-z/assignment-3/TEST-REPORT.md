@@ -21,7 +21,7 @@
 | Origin | Each origin is at the centre of the prop's underside; on the floor in the scene, each lowest point is level with the floor's top | [Origin](#origin) |
 | Triangle count | 118 / 130, 280 / 300 and 82 / 100, all under the course limit of 500 | [Triangle count](#triangle-count) |
 | Imports and appears | All three import with no errors and appear in `godot/scenes/props_room.tscn` | [Imports and appears](#imports-and-appears) |
-| HUMAN CHECK: look | I looked at the scene in Godot and found no problems | [Human check](#human-check-look) |
+| HUMAN CHECK: look | I looked at the scene in Godot: the sizes suit the 1.2 m post, nothing is wrong from behind or below, the gold is brighter in Godot than in Blender, and the spikes are closest to the 2D art and the teleport circle furthest from it | [Human check](#human-check-look) |
 | What Claude got wrong | Three things, listed | [What Claude got wrong](#what-claude-got-wrong) |
 | Inspect and revise | The waystone's rune, after looking at it: rectangle → my hand edit → an R (rejected) → an 8-sided ring → a thinner 12-sided ring | [Inspect and revise](#inspect-and-revise) |
 
@@ -98,7 +98,12 @@ Screenshots of the running scene, rendered in a window by `godot/tests/capture_p
 
 ## Human check: look
 
-**Mine.** I opened the scene in the Godot editor and looked at it. In my words: "看完了，没什么问题" (I have looked at it; there is no problem). Opening it in the editor created the two `.uid` files in `godot/tests/` and `godot/tools/`.
+**Mine.** I opened the scene in the Godot editor and looked at it. In my words: "看完了，没什么问题" (I have looked at it; there is no problem). Opening it in the editor created the two `.uid` files in `godot/tests/` and `godot/tools/`. Asked for more detail, I added (translated):
+
+- Beside the 1.2 m post, all three props are a suitable size.
+- From behind and from below there is no problem.
+- Blender's gold is on the dark side; Godot's gold is brighter, and more golden.
+- The spikes look most like the game's 2D art; the teleport circle looks least like it.
 
 **Claude's observations from the screenshots**, kept apart from mine:
 
