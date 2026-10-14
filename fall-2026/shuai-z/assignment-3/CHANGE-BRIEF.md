@@ -86,3 +86,13 @@ Revision 1 above is unchanged. This revision changes only the waystone's rune an
 **Triangle budget: 130** (was 60). Two 12-sided cylinders are 44 triangles each; with the body (12), the top (6) and the moss (12), the waystone is 118. An n-sided cylinder has 4n − 4 triangles, so within 60 the two cylinders could have at most 4 sides each: a square, not a ring. 130 leaves a little room and is well under the course limit of 500.
 
 **Checks unchanged.** Predictions 1–6 and their checks still apply. For prediction 6, the waystone now has 5 objects before they are joined.
+
+---
+
+## Revision 3 — 2026-10-13, the teleport circle's undersides, before building it
+
+Revisions 1 and 2 above are unchanged. This revision changes only where two of the teleport circle's discs start.
+
+**What revision 1 missed.** It says every top face of the teleport circle is at a different height, so no two faces overlap. That is true of the tops, but all three discs started at Z = 0, so their undersides would have shared the floor plane in three different colours. From below, as the human check asks, that shows as flickering (z-fighting). Claude noticed this while planning the build; the brief, which Claude drafted and I approved, had not predicted it.
+
+**The change.** The dark inner disc runs from Z = 0.01 to 0.06 (0.05 m tall, was 0.06), and the gold centre disc from Z = 0.02 to 0.08 (0.06 m tall, was 0.08). Both undersides are hidden inside the rim disc, which still runs from 0 to 0.04. Every top face, the outer size (2.25 × 2.25 × 0.08 m), the origin, the colours and the triangle count (280 of 300) are unchanged.
