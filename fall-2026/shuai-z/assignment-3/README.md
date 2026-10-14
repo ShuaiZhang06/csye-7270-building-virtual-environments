@@ -55,7 +55,7 @@ The scene itself is built by `godot/tools/build_props_room.gd` (run it the same 
 In full in [TEST-REPORT.md](TEST-REPORT.md#known-limitations):
 
 - the scene is a separate Godot project, not connected to the 2D game, and Rudy is shown only as a 1.2 m post;
-- flat colours only, with no glow or light column; of the three, the teleport circle looks least like its 2D art (my own judgement);
+- flat colours only: of the three, the teleport circle looks least like its 2D art, because it lacks the circle's pattern of runes, the column of light and the glow (my own judgement); adding them is the next step;
 - the Blender sizes and triangle counts were read by code through the MCP, not from screenshots of Blender's sidebar;
 - the check's expected numbers are copied by hand from the brief;
 - tested only on macOS.

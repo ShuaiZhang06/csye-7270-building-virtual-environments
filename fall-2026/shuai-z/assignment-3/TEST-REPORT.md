@@ -103,7 +103,7 @@ Screenshots of the running scene, rendered in a window by `godot/tests/capture_p
 - Beside the 1.2 m post, all three props are a suitable size.
 - From behind and from below there is no problem.
 - Blender's gold is on the dark side; Godot's gold is brighter, and more golden.
-- The spikes look most like the game's 2D art; the teleport circle looks least like it.
+- The spikes look most like the game's 2D art; the teleport circle looks least like it, because it lacks the circle's pattern of runes, the column of light and the glow.
 
 **Claude's observations from the screenshots**, kept apart from mine:
 
@@ -150,7 +150,7 @@ The budget rose from 60 to 130 in CHANGE-BRIEF revision 2, with the reason; revi
 
 - The scene is a separate Godot project in `godot/`, not connected to the 2D game.
 - Rudy is shown only as a 1.2 m post; the props are not seen beside his sprite.
-- Flat colours only: the teleport circle's column of light and the waystone's glow are not modelled, and the waystone shows only its lit rune.
+- Flat colours only: the teleport circle's pattern of runes, its column of light and its glow are not modelled, nor the waystone's glow, and the waystone shows only its lit rune. These are why, in my judgement, the teleport circle is furthest from its 2D art; modelling them is the next step.
 - The Blender sizes and triangle counts were read by code through the MCP, not from screenshots of Blender's sidebar or Scene Statistics.
 - The check's expected numbers are copied into the script by hand from the brief.
 - Godot's exit code does not show whether the check ran; only its last line does.
