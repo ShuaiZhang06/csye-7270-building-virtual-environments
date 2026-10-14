@@ -90,3 +90,17 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Joined (Claude):** one object, `TeleportCircle`. Check after joining: origin (0, 0, 0) at the centre of the underside, rotation 0, scale 1, 2.25 × 2.25 × 0.08 m, on the ground, 280 triangles, 3 materials, 0 non-manifold edges. Saved at 21:15:05 EDT.
 - **Not checked yet:** how it looks in Godot under the scene's light; whether the colours survive the export (prediction 5).
 - **Human / AI:** Claude planned the build, found the undersides gap, wrote and ran all the code, and measured each step. I approved the plan and the revision, asked for more runes, and chose to keep three when the shape limit came up.
+
+## 2026-10-13 — Building the spikes through the MCP
+
+*Written on 2026-10-13, from the conversation. The code of every call, in order: [tools/blender/build_spikes.py](tools/blender/build_spikes.py).*
+
+- **New file (Claude):** saved the session as `blender/spikes.blend` first, then emptied it; `teleport_circle.blend` was left unchanged.
+- **Plan (Claude, approved by me):** the wooden base and five 8-sided cones, exactly to [CHANGE-BRIEF.md](CHANGE-BRIEF.md) revision 1. Before building, Claude checked whether the cones' undersides at Z = 0.12 would share a plane with the base's top in a visible way. They do share it, but the cone hides it from above and the base from below, so the brief needed no revision.
+- **Built (Claude, one call per object):** the base, then the cones at X = −0.32, −0.16, 0, 0.16 and 0.32.
+- **Check (Claude):** 0.80 × 0.30 × 0.47 m, Z from 0; 6 objects, no modifiers, rotation 0 and scale 1; 82 triangles against a budget of 100; a 0.02 m gap between neighbouring cones; colours read back as `#7A5838` and `#5C6168`.
+- **Claude's observations, from `look`:** the most recognisable of the three; the base is 0.30 m deep but the cones only 0.14 m across, so a strip of bare wood shows in front of and behind the row; the eight sides of each cone show on close view.
+- **My decision:** I looked and changed nothing.
+- **Joined (Claude):** one object, `Spikes`. Check after joining: origin (0, 0, 0) at the centre of the underside, rotation 0, scale 1, 0.80 × 0.30 × 0.47 m, on the ground, 82 triangles, 2 materials, 0 non-manifold edges. Saved at 21:31:51 EDT.
+- **Not checked yet:** how it looks in Godot; whether the colours survive the export (prediction 5).
+- **Human / AI:** Claude planned, wrote and ran all the code and measured each step. I approved the plan and accepted the result unchanged.
