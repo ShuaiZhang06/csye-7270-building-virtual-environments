@@ -56,3 +56,22 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Response (me):** I opened Blender, and at 18:10 EDT the same call returned my scene: `1 camera, 1 light, 1 mesh`, the Cube at `(0.0, 0.0, 0.0)`, `size 2.0x2.0x2.0`, `unit scale 1.0`.
 - **What this shows:** the Claude Code side starts on its own, but every tool call needs Blender running with the add-on's server listening.
 - **To do:** disable the add-on in Preferences when I am not working on this assignment, because its socket opens every time Blender starts.
+
+## 2026-10-13 — Building the waystone through the MCP
+
+*Written on 2026-10-13, from the conversation. The code of every call, in order: [tools/blender/build_waystone.py](tools/blender/build_waystone.py).*
+
+- **Attempt:** the assignment's workflow for one asset. Claude first called `get_scene_info` (the default scene: a 2 m Cube, a light and a camera, unsaved, unit scale 1.0) and proposed eight steps without building. I approved them, including deleting the camera and light and joining the parts at the end.
+- **Built (Claude, one `execute_blender_code` call per object):** an empty scene in metric metres; then the body, the pyramid top, the rectangular rune and the moss, exactly to [CHANGE-BRIEF.md](CHANGE-BRIEF.md) revision 1. After each call, `get_scene_info` reported location, size, rotation, scale and ground.
+- **Check (Claude):** 0.70 × 0.40 × 0.84 m, Z from 0 to 0.84; 4 objects, no modifiers, rotation 0 and scale 1 on each; 42 triangles against a budget of 60. The base colours read back from the shader nodes as `#8C8A80`, `#6E7F3C` and `#99E0FF`, the brief's values. Claude converted each hex colour from sRGB to linear before writing it to the node's Base Color, and also set the viewport colour.
+- **Claude's own observation, from `look`:** the stone reads as a box with a low gable rather than a weathered standing stone, the rune as a plain rectangle, and the rune's blue looks greyer in Blender's material preview than its value. Claude said these were for me to judge.
+- **My hand edit, in Blender's window:** I moved the rune up. Claude read it back: from Z = 0.42 to Z = 0.4537 (+0.034 m), with X, Y and size unchanged, and the file saved at 20:05 EDT. That file is kept as [evidence/waystone-after-hand-edit.blend](evidence/waystone-after-hand-edit.blend). **[What doing it taught me about the interface: not recorded yet]**
+- **Revision, from an observation (mine):**
+  1. I asked Claude to try a capital R. The waystone in my Assignment 2 art has a rune that looks like an R. Claude built it from three shapes (6 shapes in all, the course limit) and reported 82 triangles, over my budget of 60. I looked at it and rejected it: "现在不好看" (it does not look good).
+  2. I asked for a ring. A torus is not one of the course's basic shapes, so Claude made it from two 8-sided cylinders, a blue ring and a stone-coloured disc in front of its middle: 86 triangles.
+  3. I asked for 12 sides and a thinner band. Claude rebuilt both cylinders: band 0.03 m (was 0.05), 118 triangles.
+  4. I accepted it. Claude added [CHANGE-BRIEF.md](CHANGE-BRIEF.md) revision 2 (the rune and a budget of 130); revision 1 is unchanged.
+- **Joined (Claude, approved by me):** the five parts became one object, `Waystone`, with its origin at the world origin, the centre of its underside. Check after joining: location (0, 0, 0), rotation 0, scale 1, 0.70 × 0.40 × 0.84 m, on the ground, 118 triangles, 3 materials (Stone, Moss, Rune), 0 non-manifold edges. Claude looked at it from the front, back, right, three-quarter and from below.
+- **A small surprise:** right after the save, the check printed `dirty True`. Claude read it again in a separate call: `dirty False`, with the file's time at 20:43:06 EDT, so the save had taken.
+- **Not checked yet:** how it looks in Godot, beside the other two assets; whether the colours survive the export (prediction 5).
+- **Human / AI:** Claude proposed the plan, wrote and ran all the code, and measured each step. I approved the plan, did the hand edit, rejected the R, chose the ring, its 12 sides and its thinner band, and accepted the result.

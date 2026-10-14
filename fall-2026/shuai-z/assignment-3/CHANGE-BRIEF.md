@@ -61,3 +61,28 @@ All three: flat-colour Principled BSDF materials, no textures, no sculpting, no 
 | 4 | An asset goes **over its triangle budget**, most likely the teleport circle if Claude uses default 32-sided cylinders. | Blender's Scene Statistics for each file against the budget above; the segment counts in `tools/blender/build_<asset>.py`. |
 | 5 | A **colour does not survive the export**. The MCP server's own instructions warn that `material.diffuse_color` only changes the viewport colour, and the exporter reads the shader node's Base Color. | Each asset's colours in the Godot scene, compared with the hex values above. |
 | 6 | Claude builds **more detail than asked**: extra shapes, bevels or a subdivision modifier. | `get_scene_info` after each step: the number of objects must match the brief and stay at or under 6, with no modifiers. |
+
+---
+
+## Revision 2 — 2026-10-13, the waystone's rune, after building and looking
+
+Revision 1 above is unchanged. This revision changes only the waystone's rune and its triangle budget. The size, origin, other parts and colours are as in revision 1.
+
+**What I saw.** The waystone was built exactly to revision 1: 0.70 × 0.40 × 0.84 m, 4 shapes, 42 triangles. Looking at it in Blender, the rune, a plain rectangle, did not read as a rune.
+
+**What I tried.**
+
+1. **My hand edit:** I moved the rectangular rune up 0.034 m, from Z = 0.42 to Z = 0.4537 (the file as it was then: `evidence/waystone-after-hand-edit.blend`).
+2. **A capital R** of three shapes (a cube for the upright, an 8-sided cylinder for the bowl, a rotated cube for the leg): 6 shapes, 82 triangles. I rejected it because it did not look good.
+3. **A ring** of two 8-sided cylinders: 5 shapes, 86 triangles. I asked for 12 sides and a thinner band.
+
+**The rune now** (replaces the "rune" line under Look):
+
+- ring: a 12-sided cylinder lying along Y, Ø 0.22 m, 0.02 m deep, in the rune colour `#99E0FF`, 0.015 m proud of the front face.
+- hole: a 12-sided cylinder, Ø 0.16 m, in the stone colour `#8C8A80`, 0.002 m in front of the ring's face, so the ring reads as a band 0.03 m wide. A torus is not one of the course's basic shapes, so the ring is made of two cylinders.
+- both are centred at Z = 0.4537, the height of my hand edit.
+- The waystone is now **5 shapes**.
+
+**Triangle budget: 130** (was 60). Two 12-sided cylinders are 44 triangles each; with the body (12), the top (6) and the moss (12), the waystone is 118. An n-sided cylinder has 4n − 4 triangles, so within 60 the two cylinders could have at most 4 sides each: a square, not a ring. 130 leaves a little room and is well under the course limit of 500.
+
+**Checks unchanged.** Predictions 1–6 and their checks still apply. For prediction 6, the waystone now has 5 objects before they are joined.
