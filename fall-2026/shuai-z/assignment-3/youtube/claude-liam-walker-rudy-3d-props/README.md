@@ -4,7 +4,7 @@ The required Brutalist Godot explainer for Assignment 3, built with the course-p
 
 **Source shown:** `fall-2026/shuai-z/assignment-3/` at `f6f8acf` (the Godot project in `godot/` is unchanged since). The commit that adds this folder changes no game source.
 
-**Master:** `exports/landscape/claude-liam-walker-rudy-3d-props.mp4` · 6:31 · 3840×2160 · SHA-256 `e5372f47fd683d2bd3765ab3006afe9b1bbe520f1c96c16cc4cf001a13fe7276` (not in git; `.gitignore` and the repository's rules keep MP4/WAV out). Gates and the frame review: [`_qc/REPORT.md`](_qc/REPORT.md).
+**Master:** `exports/landscape/claude-liam-walker-rudy-3d-props.mp4` · 6:31 · 3840×2160 · SHA-256 `e5372f47fd683d2bd3765ab3006afe9b1bbe520f1c96c16cc4cf001a13fe7276` (not in git; `.gitignore` and the repository's rules keep MP4/WAV out). Gates and the frame review: [`_qc/REPORT.md`](_qc/REPORT.md). Course media copy: [claude-liam-walker-rudy-3d-props.mp4 on Google Drive](https://drive.google.com/file/d/1Kwu9iYwfaDHa3HdD_G-FQ89Ik9Yynv0c/view?usp=drive_link); it is not published on YouTube or elsewhere.
 
 ## The assignment's film requirements, and where they are
 
