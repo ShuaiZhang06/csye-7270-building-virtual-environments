@@ -40,4 +40,4 @@ Every still is composed by `tools/make_stills.py` from these files; it only crop
 
 - **shuai-z:** chose option (b) for the hand edit; everything the film reports as shuai-z's (the props, the brief's decisions, the hand edit, the rejections and choices, the human check) is from the project's own records.
 - **Claude Code:** the film's structure, narration, stills, capture driver, scripts and documents; the check re-runs; the after-edit look capture.
-- shuai-z has not yet watched the final export; the film is not published.
+- shuai-z uploaded the final export to the course Google Drive (README.md); the film is not published on YouTube or elsewhere.

@@ -131,3 +131,16 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **A bug in it, found by looking at the output (Claude):** the first "camera" image showed only sky and an edge of gold. The script had read the camera's global transform before the scene was in the tree, so it got the identity. Waiting one frame fixed it. Claude added the below-the-floor view afterwards, for the assignment's "from behind and below".
 - **TEST-REPORT (Claude):** drafted from the runs, the screenshots and this log. My check is quoted as I said it; Claude's observations from the screenshots are listed separately as Claude's.
 - **Human / AI:** I did the look in Godot. Claude wrote the screenshot script, found and fixed its bug, and drafted the report.
+
+## 2026-10-13 to 10-14 — Making the film
+
+*Written on 2026-10-14, from the conversation. The film's own records are in [youtube/claude-liam-walker-rudy-3d-props/](youtube/claude-liam-walker-rudy-3d-props/) (CAPTURE.md, FACTCHECK.md, `_qc/FILM-REVIEW.md`).*
+
+- **Attempt:** the required Brutalist explainer. Claude read the `godot-gamedev` skill, its evidence reference and the walker modifier's bookends in `brutalist.art`, and the assignment's film requirements, before building anything.
+- **My choice: how to show the hand edit.** There was no screen recording of it. Claude offered (a) re-enact it and record the screen, labelled as a re-enactment, or (b) before/after stills from the two files. I chose (b). No image had been taken between my edit and the R trial, so Claude opened a byte-identical copy of `evidence/waystone-after-hand-edit.blend` in my Blender and called `look` with the same settings as the 19:58 "before" image. The film labels both as comparison stills, not a recording.
+- **New evidence (Claude):** a native 4K Movie Maker take of the real scene on an isolated copy of `godot/`, with an autoload that only moves the camera; the headless check re-run (PASS), and run again with the waystone raised 0.3 m on a copy (FAIL, exit 1). The project's files were not changed.
+- **Found while making it (Claude):** TEST-REPORT.md and this file said the check run had 46 checks; the log has 44 `ok` lines. I asked Claude to correct both to 44, and the film says 44.
+- **Problems the film's own checks found, and the fixes (Claude):** a code panel cut off the lines the narration pointed to (shorter excerpt, narration redone for that beat); two note boxes clipped; the type check read the teleport circle's 2D runes as overlapping labels (that card became a still; the art and the checker were not changed); my stills crossed the title-safe edge by about 20 px (moved). Then the evidence check, the type check and the frame check passed.
+- **Not checked by the tools:** whether the explanation is right and the film is good to watch; the frame check samples 40 frames and does not listen.
+- **Media:** I uploaded the MP4 to the course Google Drive and gave Claude the link; Claude checked that it opens without signing in and shows the file name, and added it to the README. The MP4 is not in git.
+- **Human / AI:** Claude wrote the beat sheet, the narration, the stills, the capture driver and the scripts, rendered the film and wrote its records. I chose option (b), asked for the 46 → 44 correction, and uploaded the film.

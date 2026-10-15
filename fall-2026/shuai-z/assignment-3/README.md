@@ -49,6 +49,7 @@ The scene itself is built by `godot/tools/build_props_room.gd` (run it the same 
 - **Blender:** [BLENDER-NOTES.md](BLENDER-NOTES.md), my notes on the window; the MCP setup ([evidence/mcp-setup-log.md](evidence/mcp-setup-log.md)); three `.blend` sources; every code body Claude ran, in [`tools/blender/`](tools/blender/) (`build_waystone.py`, `build_teleport_circle.py`, `build_spikes.py`, `export_glb.py`); my hand edit, kept as [evidence/waystone-after-hand-edit.blend](evidence/waystone-after-hand-edit.blend).
 - **Godot:** the new project in `godot/` with the three `.glb` files and their `.import` files, the scene, the scene builder, the headless check and the screenshot script.
 - **Records:** [TEST-REPORT.md](TEST-REPORT.md), [FRICTIONAL.md](FRICTIONAL.md), [SOURCES.md](SOURCES.md).
+- **The film:** *Three Props for Walker Rudy.* (6:31, 4K), made with the Brutalist `godot-gamedev` skill and its `walker` modifier; its beat sheet, prompts, fact check, capture logs, stills and build tools are in [youtube/claude-liam-walker-rudy-3d-props/](youtube/claude-liam-walker-rudy-3d-props/), and the MP4 is linked above.
 
 ## Known limitations
 
