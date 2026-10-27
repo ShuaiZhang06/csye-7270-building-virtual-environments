@@ -108,3 +108,28 @@ What I tried, what I expected, what happened, how I checked it, what I did about
   - the brief citations the draft did not open.
 - **Expected / learned:** none recorded.
 - **Human / AI:** the scoped `claude -p` session wrote `CLAUDE.md`. Claude, in this conversation, ran that session and checked its output. I logged the command line in.
+
+## 2026-10-26 — Step 2: reviewing the CLAUDE.md draft
+
+*Written on 2026-10-26, from the conversation. The unedited draft is commit `dfeca3fb`; the review is the commit that adds this entry.*
+
+- **Attempt (Claude, at my request):** the review the assignment asks for. Check every reference, delete what is not a test, and add a "Headless facts" block confirmed on this machine.
+- **References:** Claude opened every file and line the draft cites, and all were right. The draft already kept the two screenshot scripts out of the test commands and called them not tests, so nothing had to be deleted.
+- **Probes**, in `evidence/headless-probe/`, with their logs in `logs/probe_*.log`, run headless with Godot 4.7.2:
+  - **`probe_surfaces.gd`, run against `godot/`.** `Waystone/Waystone` has surfaces 0 Stone, 1 Moss and 2 Rune; `TeleportCircle/TeleportCircle` has 0 Gold, 1 DarkStone and 2 PaleGold. This settles the two items the draft left unconfirmed.
+  - **`probe_headless.gd`, in a throwaway project:**
+    - the run had the headless display server and the dummy renderer, with no video adapter;
+    - a broken shader loaded without an error; the `SHADER ERROR` came when the shader was set on a `ShaderMaterial` (line 17 of the probe);
+    - the broken shader's uniform list was empty;
+    - the good shader listed `amount` with its type and range, but the renderer reported no default for it (null);
+    - the frame could not be read back;
+    - the probe still quit with exit code 0.
+  - **A difference from Example 06.** Claude added `--rendering-driver metal` or `vulkan` to `--headless`, in either order, and all four runs stayed on the headless display server. Example 06 saw the fallback to a window with the long form, `--display-driver headless`. That was not repeated here, because it can open a window. The rule stays: use `--headless` exactly.
+- **Changes to CLAUDE.md** (82 lines, now 91):
+  - added the surface indices and mesh names, so the overrides go on surface 0 and surface 1;
+  - added, with references, the facts behind the brief citations the draft had not opened: the order of hits, the pause rule, the defeat timing and the shared outline material;
+  - added how `checks.gd` counts;
+  - added the Headless facts block;
+  - removed the settled items from Unconfirmed.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude did the review and the probes; I asked for it.
