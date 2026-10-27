@@ -16,19 +16,20 @@ Credits, tools, versions, and who did what. The dated record is [FRICTIONAL.md](
 
 ## People
 
-- **Shuai Zhang (me):** asking for each step; reviewing and approving the change brief; deciding when to commit.
+- **Shuai Zhang (me):** asking for each step; reviewing and approving the change brief; writing the shader from code; deciding when to commit.
 - No other collaborators. No one else has looked at the work.
 
 ## Tools
 
 | Tool | Version | Used for |
 |---|---|---|
-| Claude Code (desktop app), model Claude Opus 5.5 | 2.1.302 | Reading the assignment against my project; step 0 (the copy, the `.gitignore` exception, the wrapper, the imports and the baselines); drafting CHANGE-BRIEF.md, including the colour line, the predicted values and the short answers; drafting this file and FRICTIONAL.md |
-| Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The imports and the headless baselines |
-| GNU coreutils `timeout` (Homebrew) | 9.12 | The wrapper's time limit |
+| Claude Code (desktop app), model Claude Opus 5.5 | 2.1.302 | Reading the assignment against my project; step 0 (the copy, the `.gitignore` exception, the wrapper, the imports and the baselines); drafting CHANGE-BRIEF.md, including the colour line, the predicted values and the short answers; running the scoped CLAUDE.md session, then checking and reviewing its draft; the guide and the checks for the shader from code; the probes in `evidence/headless-probe/`; drafting this file and FRICTIONAL.md |
+| Claude Code (command line, `claude -p`), model `claude-opus-5-5` | 2.1.302 for the run that could not log in, 2.1.310 for the draft | The scoped session that drafted CLAUDE.md (`sessions/prompt-1.txt`, `sessions/session-1.jsonl`) |
+| Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The imports, the headless tests and the probes |
+| GNU coreutils `timeout` (Homebrew) | 9.12 | The time limit in the wrapper and the probe runs |
 | Python 3 with Pillow | 3.13.5, Pillow 10.4.0 | Reading the heart textures' texels, the `.glb` headers and an Assignment 2 screenshot; computing the brief's predicted values and contrast ratios, with a short script kept outside the repository |
 | jq | 1.7.1 | Reading the result event of a `claude -p` transcript |
-| Git | 2.51.0 | Version control; `git archive` for the copy |
+| Git | 2.51.0 | Version control; `git archive` for the copy, and for the temporary copies in `evidence/headless-probe/import_check.sh` |
 
 `/opt/homebrew/bin/godot` is a two-line shim to the app's binary, so that `godot` is on my PATH. Claude installed it on 2026-10-24; it is outside the repository.
 
@@ -44,7 +45,7 @@ Chosen in CHANGE-BRIEF.md, not downloaded yet:
 
 | Colour | Value | Source |
 |---|---|---|
-| The hearts' tint, `tint_color` | `Color(0.6, 0.88, 1.0)`, `#99E0FF` | `game/content/level_1/waystone.gd` line 19, `GLOW`, the lit waystone's glow |
+| The hearts' tint, `tint_color` | `Color(0.6, 0.88, 1.0)`, `#99E0FF` | `game/content/level_1/waystone.gd` line 19, `GLOW`, the lit waystone's glow. It is the uniform's default in `game/shaders/invulnerable_tint.gdshader` line 4 |
 | The waystone's Stone and the circle's DarkStone, as imported | `#8C8A80`, `#4A4440` | Assignment 3's brief, checked by `godot/tests/check_props.gd` |
 | `albedo_tint` in `circle_darkstone.tres` | `#8F857D` | A starting value Claude proposed in the brief, to be set in the sweep |
 
@@ -55,5 +56,7 @@ Chosen in CHANGE-BRIEF.md, not downloaded yet:
 | Reading the assignment | Read it against my two projects and the course's chapters. Found the existing checks that rule out a new material on Rudy and the props; the check that rules out Use External; the wrapper's three problems; and that the Assignment 4 branch must not be the base | Asked for the step-by-step plan |
 | Step 0 | Branched from `a3`; copied both projects; found and fixed the `*.wav` ignore; adapted the wrapper; imported both projects; ran the baselines; installed the `godot` shim | Asked for it; held the commits until the brief was reviewed; asked for the shim |
 | CHANGE-BRIEF.md | Drafted all of it: the design (the hearts, the invulnerable window, Rock 01, overrides rather than Use External), the rules, the colour line, the predicted values, the contrast check that moved `tint_strength` from 0.6 to 0.4, and the short answers | Asked for the full draft; reviewed it and found no problems; approved the commit |
-| The colour line | Suggested `COLOR.rgb = mix(COLOR.rgb, tint_color.rgb, tint_amount * tint_strength);` | Will type it into the shader myself |
+| CLAUDE.md | The scoped `claude -p` session drafted it: 82 lines, committed unedited (`dfeca3fb`). Claude, in our conversation, ran that session twice (the first could not log in), checked the draft, and reviewed it with two probes; the reviewed version has 91 lines (`c095e9de`) | Logged the command-line `claude` in; asked for the run and the review; approved both commits |
+| The shader from code, `game/shaders/invulnerable_tint.gdshader` | Specified it in the brief: the file, the three uniforms' names, types, hints and defaults, and the colour line. Listed what to prepare and how to check it; wrote `probe_shader.gd` and `import_check.sh`; ran the checks | Wrote it from the brief and committed it on its own (`ae0a3757`) |
+| The colour line | Suggested `COLOR.rgb = mix(COLOR.rgb, tint_color.rgb, tint_amount * tint_strength);` in the brief | Typed it into the shader, line 8 |
 | Documents | Drafted this file and FRICTIONAL.md from our conversation | Will check them against what I did |

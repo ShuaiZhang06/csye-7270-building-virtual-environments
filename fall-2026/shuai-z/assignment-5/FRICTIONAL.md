@@ -133,3 +133,32 @@ What I tried, what I expected, what happened, how I checked it, what I did about
   - removed the settled items from Unconfirmed.
 - **Expected / learned:** none recorded.
 - **Human / AI:** Claude did the review and the probes; I asked for it.
+
+## 2026-10-27 — The shader from code
+
+*Written on 2026-10-27, from the conversation. The shader is commit `ae0a3757`.*
+
+- **Attempt (me):** I wrote `game/shaders/invulnerable_tint.gdshader` from the brief's section 2. I committed it on its own, with the `.uid` Godot made for it, as `ae0a3757`. Its nine lines follow the brief:
+  - `shader_type canvas_item;`, with no `render_mode`;
+  - the three uniforms, with the brief's names, types, hints and defaults;
+  - the colour line, at line 8, exactly as the brief gives it.
+- **What I adopted from Claude:** the colour line and the three uniforms come from the brief, which Claude drafted. I typed them in. SOURCES.md records this too.
+- **Before I wrote it (Claude):** Claude listed what to prepare and how to check the result. It wrote `evidence/headless-probe/probe_shader.gd`. The probe sets a shader on a `ShaderMaterial`, which makes Godot compile it, then prints the uniforms the engine reports and the source's declaration lines.
+- **Finding (Claude): a clean import says nothing about this shader yet.** The assignment's check is to reimport and confirm that no `SHADER ERROR` appears. `evidence/headless-probe/import_check.sh` imports two fresh copies of `game/` that contain broken shaders (`logs/probe_import_check.log`):
+  - `outline.gdshader`, which the main scene uses, with a semicolon removed: one `SHADER ERROR`;
+  - in the same copy, `unused_typo.gdshader`, which nothing uses, with `COLOR` misspelt: no error on import, though the probe then reports `Unknown identifier in expression: 'COLOUR'`;
+  - the broken outline again, in a copy with no main scene: no error.
+
+  So a headless import compiles only what the main scene uses. Nothing uses the new shader until the driver gives `Hud/Hearts` its material, so the probe is the check that compiles it.
+- **Checks (Claude):**
+  - The commit holds only the shader and its `.uid`.
+  - The text matches the brief's section 2, with no `TIME`, sampler, `vertex()` or `light()`. It is 302 bytes of ASCII.
+  - Reimport: exit 0, with no `SHADER ERROR` and no other `ERROR` or `WARNING` line (`logs/game_import_tint.log`).
+  - Compile, with the probe: no `SHADER ERROR` or `SCRIPT ERROR` line (`logs/probe_invulnerable_tint.log`). The engine reports three uniforms: `tint_amount` and `tint_strength` as `float` with the range 0.0 to 1.0, and `tint_color` as `Color`. The declarations give the defaults 0.0, `vec4(0.6, 0.88, 1.0, 1.0)` and 0.4.
+  - The existing tests, through the wrapper at 60 fps: the game's 141 PASS and 0 FAIL, and the props scene's 44 ok and 0 failed. The game's log differs from step 0's in two lines: the camera shake's random offset, and the ObjectDB instances leaked at exit, 30 instead of 41.
+- **A false alarm (Claude's mistake):** the first compile check counted one `SHADER ERROR` line, but it was the probe's own marker, which contained those words. Claude reworded the marker. The rerun counted none, and on a broken copy the probe still caught Godot's real error.
+- **Differs from the assignment:**
+  - the shader is in `game/shaders/`, because the effect is in the 2D game (the brief, section 2);
+  - the probe backs up the reimport check, for the reason above.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I wrote the shader and committed it. Claude wrote the probe and the import check, ran every check, and drafted this entry.
