@@ -71,6 +71,10 @@ const MATERIALS := {
 }
 
 ## Every [params] value the brief sets for each texture (sections 4 and 5).
+## The integers are the importer's enums (Godot 4.7.2,
+## editor/import/resource_importer_texture.cpp): compress/mode 0 Lossless,
+## 2 VRAM Compressed; compress/normal_map 1 Enable, 2 Disabled;
+## detect_3d/compress_to 0 Disabled; roughness/mode 1 Disabled.
 const IMPORTS := {
 	DIFF: {"compress/mode": 2, "compress/normal_map": 2, "mipmaps/generate": true,
 		"detect_3d/compress_to": 0},

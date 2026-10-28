@@ -299,3 +299,7 @@ Section 5 gave `circle_darkstone.tres` the `albedo_tint` `#8F857D` as a starting
 - **How it was computed.** Each texel is decoded from sRGB to linear, the texels are averaged, and the average is multiplied by the tint, also decoded to linear, then encoded back to sRGB. This is the colour of the texture alone, before lighting and the Filmic tonemap; the look on screen is my check in the editor.
 - **Who.** Claude computed both averages and the new tint. I chose to change it.
 - **Unchanged:** everything else in section 5, including the circle's other values and the waystone's material.
+
+### Revision 3 — 2026-10-27: line numbers in section 5
+
+The surface overrides added two `ext_resource` lines to `props_room.tscn`, so the lines section 5 cites for the lighting moved. The Environment is now lines 9–15 and `Sun` lines 42–45, not 7–13 and 40–43. The values are unchanged. The audit found this (`godot/MATERIALS.md`, finding 4).

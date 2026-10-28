@@ -323,3 +323,26 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **The editor (me):** each band of B is lighter than the band of A above it, and the bands have sharp edges. The session changed no file. The displayed values themselves, 64, 128 and 192 against 137, 188 and 225, still need a capture that reads them in the engine.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I wrote the shader and checked the scene. Claude wrote the strip writer, the materials, the builder and the probes, and drafted this entry.
+
+## 2026-10-27 — The materials audit and its review
+
+*Written on 2026-10-27, from the conversation. Prompt `sessions/prompt-3.txt`; transcript `sessions/session-3.jsonl`. The audit, unedited, is commit `cd1e71a3`; the review is the commit that adds this entry.*
+
+- **The prompt (Claude, reviewed by me):** the course's audit prompt, changed in five places:
+  - this folder's paths and wrapper;
+  - a sentence that the brief's dated revisions replace what they name;
+  - the attribution sentence: the course's "which I checked myself" became "which were checked against Poly Haven's API and licence page", since Claude, not I, checked them;
+  - two more assertions, from the brief's predicted failures 8 and 9: every import setting the brief sets, and the surface or quad each material is on.
+- **The command:** `dontAsk`, with `Edit` allowed only on `godot/MATERIALS.md` and `godot/tests/test_materials.gd`, by absolute path, and the shader folders disallowed.
+- **The run:** 21:04:16 to 21:08:35 EDT: `success`, `is_error` false, `terminal_reason` completed, 35 turns, $1.65.
+  - Two permission denials: a `for` loop over `cat` in `godot/`, and a wrapper command joined with `; echo "exit $?"`. It then ran the wrapper alone.
+  - It wrote only the two files; every other file's hash matched the snapshot taken before the run.
+- **The test:** 125 PASS and 0 FAIL, in five parts: the shaders' uniform lists and sampler hints, the materials, the import settings, where each material is, and the normal maps' curl ratios, 0.1444 and 1.8556 again. Claude's own run outside the wrapper matched its log.
+- **Its findings:** eight, none a mismatch with the brief. Among them: the roughness map loses its 16-bit precision as DXT1; `_nor_dx` is imported though nothing uses it; the brief's line numbers for the lighting are stale; and the `source_color` mutation is left to me.
+- **The review (Claude):**
+  - Every integer enum was looked up, the importer's in Godot 4.7.2's source and the scene's in `ClassDB`. The audit's names were all right; two unnamed values now have names.
+  - The formats were checked with `get_image().get_format()`, and match.
+  - One number nobody measured was wrong: "about 3 MB" for the DirectX map's import, which is 1,908,496 bytes on disk. "About 23°" is now 22.97°, computed from the camera's transform.
+  - The stale line numbers are corrected in the brief's revision 3, and the test got a comment naming the importer enums it compares.
+- **Expected / learned:** none recorded.
+- **Human / AI:** the scoped session wrote `MATERIALS.md` and the test. Claude drafted the prompt, ran and checked the session, did the review and drafted this entry. I approved the prompt and the run.
