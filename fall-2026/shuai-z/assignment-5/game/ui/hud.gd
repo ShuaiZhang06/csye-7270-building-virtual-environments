@@ -1,8 +1,9 @@
 class_name Hud
 extends CanvasLayer
 ## The HUD: the title over the opening (UI-TITLE, STORYBOARD.md panel 1), Rudy's
-## hearts (UI-HEART), which appear when play starts, the debug line, the black
-## fade, and the end card: "Level complete" over a high view of the road to the castle
+## hearts (UI-HEART), which appear when play starts and take on the waystone's
+## glow while he is invulnerable, the debug line, the black fade, and the end
+## card: "Level complete" over a high view of the road to the castle
 ## (ENV-ENDCARD, STORYBOARD.md panel 7), which fades in from the black; and
 ## "Paused" over a dimmed screen while play is paused. The debug line shows
 ## Rudy's pose ID, whether he is on the ground, his speed and position, the
@@ -86,7 +87,10 @@ func is_showing_paused() -> bool:
 
 
 func _process(_delta: float) -> void:
-	if _rudy == null or not _debug.visible:
+	if _rudy == null:
+		return
+	_tint_hearts()
+	if not _debug.visible:
 		return
 	_debug.text = "%s   %s   %s   speed %d, %d   x %d   level %s\nSfx: %s   music %s, effects %s (M, N)   (F1 hides this line)" % [
 		_rudy.pose,
@@ -99,6 +103,12 @@ func _process(_delta: float) -> void:
 		_on_or_muted(Music.BUS),
 		_on_or_muted(Sfx.BUS),
 	]
+
+
+## The hearts take on the lit waystone's glow while Rudy is invulnerable,
+## fading with the time left (CHANGE-BRIEF.md). Reads his state, never sets it.
+func _tint_hearts() -> void:
+	(_hearts.material as ShaderMaterial).set_shader_parameter(&"tint_amount", _rudy._invulnerable_left / _rudy.invulnerable_time)
 
 
 func _on_or_muted(bus_name: StringName) -> String:
