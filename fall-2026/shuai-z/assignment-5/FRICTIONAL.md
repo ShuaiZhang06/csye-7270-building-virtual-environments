@@ -360,3 +360,67 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **The restore (me), checked by Claude:** the shader matches `a87a18be` byte for byte. The clean run passed 125 of 125 again, and its log matches the committed one.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I made the mutation and restored the shader. Claude moved the cache, ran the import and the tests, kept the logs and drafted this entry.
+
+## 2026-10-27 — The generated shader and LANGUAGE-NOTES
+
+*Written on 2026-10-27, from the conversation. The generated shader is commit `fe795908`; LANGUAGE-NOTES.md, `5db11399`.*
+
+- **The generated shader (me):** in the editor, I gave a unique StandardMaterial3D Rock 01's albedo, OpenGL normal and roughness textures, enabled Normal Map, and converted it to a ShaderMaterial from the Inspector's resource menu. I saved the code as `godot/shaders/standard_generated.gdshader` and annotated it. Its 34 code lines and Godot's two comments are unchanged; the other 25 comment lines are mine. Nothing uses it.
+- **Checks (Claude):**
+  - it compiles headlessly, and the engine reports 16 uniforms (`logs/probe_standard_generated.log`);
+  - the annotations change no code;
+  - the four uniforms the comments call unused, `albedo_texture_size`, `point_size`, `uv2_scale` and `uv2_offset`, are read by neither function, and no line writes `ALPHA`.
+- **The editor session:** it drew Rock 01's three textures in a StandardMaterial3D, the case the brief's predicted failure 8 is about. Afterwards `git status` showed only the two new files, and no `.import` file had changed.
+- **LANGUAGE-NOTES.md (me):** part A gives the generated shader's lines the assignment asks for; part B answers the eight questions, each with a line reference to one of my three shaders.
+  - Claude checked every line reference, and all were right.
+  - At my request, Claude changed the 12 links from local absolute paths to relative ones, with GitHub line anchors, and corrected line 16 to say the conversion used the Inspector's resource menu.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I made and annotated the generated shader and wrote the notes. Claude checked both, made the two changes I asked for in the notes, and drafted this entry.
+
+## 2026-10-27 — The windowed captures of the hearts and the hint experiment
+
+*Written on 2026-10-27, from the conversation. Commit `1868dc08`; logs `logs/capture_tint.log` and `logs/capture_hint.log`.*
+
+- **The tools (Claude):** `game/tests/capture_tint.tscn`, with its script, and `godot/tests/capture_hint.gd`. Each saves the frame as drawn, 1920 × 1080, never resized, and prints the sampled pixels beside the brief's predictions.
+  - For the hearts, `move_right` walks Rudy into the first spikes. Once that window has run out, the tool stops the driver with `hud.set_process(false)` and sets `tint_amount` from code.
+  - Claude's first dry runs used `--headless`, and both hung until the time limit ended them (exit 124), because `frame_post_draw` never comes without a renderer. Both tools now stop at once, with exit 1, when run headless.
+- **The runs (Claude, with my approval),** in a window, each in its project's renderer:
+  - the hearts, in GL Compatibility: P1 and P2 match the brief exactly at 0.0, 0.5 and 1.0. At 2.0, P1 is `#A3C1D7` against `#A2C0D7` and P2 is exact, so `hint_range` does not clamp a value set from code. P3 never changes;
+  - at 0.0, against a capture with no material, one edge pixel of the 11,200 under the hearts differs, by one step;
+  - the hint experiment, in Forward+: all six bands match, 64, 128 and 192 with `source_color`, and 137, 188 and 225 without.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude wrote both tools, ran them and drafted this entry. I approved the runs.
+
+## 2026-10-27 — My playtest
+
+*Written on 2026-10-27, from the conversation.*
+
+- **Attempt (me):** I played the game in the editor. At first Run Project opened the 3D scene, because I had the `godot/` project open. Claude explained that `game/` holds the game, gave me the controls, and listed what to look for.
+- **What I saw, in my words:** "确实像你说的，受伤时红心颜色变淡，然后逐渐恢复。其他都没改变" ("It is as you said: when I'm hit, the hearts turn pale, then gradually recover. Nothing else changed.")
+- **The three boundary cases:** Claude asked whether I had also tried walking back into the spikes in the window, losing all three hearts, and pausing in the window. I answered "都试过了" ("I tried them all."). I did not describe them one by one, so TEST-REPORT.md records them as behaving as the brief says.
+- **Check (Claude):** after the session, `git status` showed no file changed.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I played and said what I saw. Claude listed what to try, checked `git status`, and drafted this entry.
+
+## 2026-10-27 — The sweep, the two materials and the OS screenshot, done by Claude
+
+*Written on 2026-10-27, from the conversation. Logs `logs/capture_sweep.log` and `logs/capture_hint_vs_os.log`; the results are in TEST-REPORT.md, sections 7, 8 and 12.*
+
+- **Why Claude:** the assignment marks the sweep and the two materials HUMAN CHECK, and asks me to compare a capture with an OS screenshot once. I asked Claude to do all three for me and to record that truthfully: "这几项我要求你帮我做，如实记录" ("I'm asking you to do these for me; record them truthfully"). So they rest on in-engine captures and Claude's reading of them.
+- **The sweep tool (Claude):** `godot/tests/capture_sweep.gd`. It changes the loaded material and shader in memory and never saves them, so the Ownership rule holds. Afterwards `git status` showed every material, the shader and the scene unchanged.
+- **The sweep:**
+  - From the scene's Camera, `albedo_tint` and `uv_scale` changed the look plainly. `normal_strength` and `roughness_offset` changed it by 1 to 3 steps on average, and Claude could not see the difference.
+  - So Claude added a close-up pass, with the camera moved in memory to about 2 m from the waystone. The two changed it by about 3 steps again.
+  - Claude then measured why. The normal map's normals tilt 7.7° from flat on average. 90% of the roughness map's texels lie between 0.474 and 0.571. And the Sun's mirror direction off the waystone's sides points below the floor, so no camera can see a highlight there.
+  - Claude's judgement: `uv_scale` breaks the look at both ends.
+- **One shader, two materials:**
+  - Line 18 with `ALBEDO` halved, in the loaded shader's code only, darkened both stones, by 22.54 and 10.52 steps.
+  - The circle's `normal_strength` at 2.0 changed only the circle, by 0.76 steps, too little to see. So Claude added a second edit, the circle's `albedo_tint` at white: 19.97 steps on the circle, 0.00 on the waystone.
+- **The OS screenshot:**
+  - The first `screencapture` missed the window: I have two displays, and the region pointed at the wrong one. Claude moved that file out of the repository without opening it, since it held another part of my screen. It then changed the tool to put the window on the primary display first, and to delete any screenshot that does not show the window.
+  - The second showed the window's client area only, at 1920 × 1080. Claude looked at it, and it shows only the hint scene.
+  - The engine capture matched all six predictions; the screenshot was 4 to 11 steps darker. The screenshot embeds the display's colour profile, "Q27q-1L". Converted from it to sRGB with Pillow, all six bands came back to the engine's values exactly, so the engine capture is the one to trust.
+- **The rerun (Claude):** before drafting TEST-REPORT.md, Claude ran every headless test again at `5db11399`. All passed with the same counts. Six logs came out byte for byte as committed. `logs/game_checks_60fps.log` differs in two lines that are not results: the random camera-shake offset, and a path count of 81 instead of 79, from the two `capture_tint` files.
+- **My review:** I reviewed Claude's results and looked at the captures, and found no problems: "我审核了你的结果，截图也看过了，没有问题。" ("I reviewed your results and looked at the screenshots too; there is no problem.") TEST-REPORT.md records this too.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I asked Claude to do these checks, then reviewed its results and the captures. Claude wrote both tools, ran them, judged the captures, made the measurements, and drafted this entry and TEST-REPORT.md.
