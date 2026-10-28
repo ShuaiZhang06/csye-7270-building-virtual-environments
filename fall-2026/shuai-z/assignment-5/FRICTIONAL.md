@@ -346,3 +346,17 @@ What I tried, what I expected, what happened, how I checked it, what I did about
   - The stale line numbers are corrected in the brief's revision 3, and the test got a comment naming the importer enums it compares.
 - **Expected / learned:** none recorded.
 - **Human / AI:** the scoped session wrote `MATERIALS.md` and the test. Claude drafted the prompt, ran and checked the session, did the review and drafted this entry. I approved the prompt and the run.
+
+## 2026-10-27 — The fresh cache and the `source_color` mutation
+
+*Written on 2026-10-27, from the conversation. Logs: `logs/godot_import_fresh_cache.log` and `logs/godot_test_materials_60fps_no_source_color.log`.*
+
+- **The fresh cache (Claude, at my request):** the assignment says to delete `godot/.godot`, reimport and run the test. Claude moved the cache into its scratchpad instead of deleting it, so it could be restored; for `godot/` the effect is the same. The cache was 8.6 MB, ignored by git, with no tracked files.
+  - The import from empty took 3 s: exit 0, with no `SHADER ERROR` and no other error or warning. It made 16 imported files, as many as before (`logs/godot_import_fresh_cache.log`).
+  - `test_materials.gd` passed 125 of 125, `check_props.gd` 44 of 44, and the calibration passed. Their logs matched the committed ones byte for byte, and no `.import` or `.uid` file changed.
+- **The mutation (me):** I deleted `source_color` from `albedo_tex`, line 3 of `weathered_stone.gdshader`. `git diff` showed that one line and nothing else.
+  - Through the wrapper at 60 fps, `test_materials.gd` exited 1 with no `SHADER ERROR`: 124 checks passed and one failed (`logs/godot_test_materials_60fps_no_source_color.log`). The failure was `weathered_stone.gdshader: albedo_tex hints are source_color, filter_linear_mipmap, repeat_enable`, which found `filter_linear_mipmap, repeat_enable`.
+  - The shader still parses, and the engine does not report sampler hints, so only that check, which reads the hints from the source text, catches it. This is the brief's predicted failure 7.
+- **The restore (me), checked by Claude:** the shader matches `a87a18be` byte for byte. The clean run passed 125 of 125 again, and its log matches the committed one.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I made the mutation and restored the shader. Claude moved the cache, ran the import and the tests, kept the logs and drafted this entry.
