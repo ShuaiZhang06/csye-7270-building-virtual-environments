@@ -16,15 +16,15 @@ Credits, tools, versions, and who did what. The dated record is [FRICTIONAL.md](
 
 ## People
 
-- **Shuai Zhang (me):** asking for each step; reviewing and approving the change brief; writing the shader from code; deciding when to commit.
+- **Shuai Zhang (me):** asking for each step; reviewing and approving the change brief, the prompts and the plan; writing the shader from code and making its two mutations; deciding when to commit.
 - No other collaborators. No one else has looked at the work.
 
 ## Tools
 
 | Tool | Version | Used for |
 |---|---|---|
-| Claude Code (desktop app), model Claude Opus 5.5 | 2.1.302 | Reading the assignment against my project; step 0 (the copy, the `.gitignore` exception, the wrapper, the imports and the baselines); drafting CHANGE-BRIEF.md, including the colour line, the predicted values and the short answers; running the scoped CLAUDE.md session, then checking and reviewing its draft; the guide and the checks for the shader from code; the probes in `evidence/headless-probe/`; drafting this file and FRICTIONAL.md |
-| Claude Code (command line, `claude -p`), model `claude-opus-5-5` | 2.1.302 for the run that could not log in, 2.1.310 for the draft | The scoped session that drafted CLAUDE.md (`sessions/prompt-1.txt`, `sessions/session-1.jsonl`) |
+| Claude Code (desktop app), model Claude Opus 5.5 | 2.1.302 | Reading the assignment against my project; step 0 (the copy, the `.gitignore` exception, the wrapper, the imports and the baselines); drafting CHANGE-BRIEF.md, including the colour line, the predicted values and the short answers; running the scoped CLAUDE.md session, then checking and reviewing its draft; the guide and the checks for the shader from code; the probes in `evidence/headless-probe/`; the prompts, commands and checks for the driver's sessions, and the review of its plan; running the test after each shader mutation; drafting this file and FRICTIONAL.md |
+| Claude Code (command line, `claude -p`), model `claude-opus-5-5` | 2.1.302 for the CLAUDE.md run that could not log in, 2.1.310 for every later session | The scoped sessions: the CLAUDE.md draft (`sessions/session-1.jsonl`), the driver's plan (`sessions/session-2.jsonl`) and its implementation (`sessions/session-2b-refused.jsonl`, `sessions/session-2b.jsonl`) |
 | Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The imports, the headless tests and the probes |
 | GNU coreutils `timeout` (Homebrew) | 9.12 | The time limit in the wrapper and the probe runs |
 | Python 3 with Pillow | 3.13.5, Pillow 10.4.0 | Reading the heart textures' texels, the `.glb` headers and an Assignment 2 screenshot; computing the brief's predicted values and contrast ratios, with a short script kept outside the repository |
@@ -56,7 +56,9 @@ Chosen in CHANGE-BRIEF.md, not downloaded yet:
 | Reading the assignment | Read it against my two projects and the course's chapters. Found the existing checks that rule out a new material on Rudy and the props; the check that rules out Use External; the wrapper's three problems; and that the Assignment 4 branch must not be the base | Asked for the step-by-step plan |
 | Step 0 | Branched from `a3`; copied both projects; found and fixed the `*.wav` ignore; adapted the wrapper; imported both projects; ran the baselines; installed the `godot` shim | Asked for it; held the commits until the brief was reviewed; asked for the shim |
 | CHANGE-BRIEF.md | Drafted all of it: the design (the hearts, the invulnerable window, Rock 01, overrides rather than Use External), the rules, the colour line, the predicted values, the contrast check that moved `tint_strength` from 0.6 to 0.4, and the short answers | Asked for the full draft; reviewed it and found no problems; approved the commit |
-| CLAUDE.md | The scoped `claude -p` session drafted it: 82 lines, committed unedited (`dfeca3fb`). Claude, in our conversation, ran that session twice (the first could not log in), checked the draft, and reviewed it with two probes; the reviewed version has 91 lines (`c095e9de`) | Logged the command-line `claude` in; asked for the run and the review; approved both commits |
+| CLAUDE.md | The scoped `claude -p` session drafted it: 82 lines, committed unedited (`dfeca3fb`). Claude, in our conversation, ran that session twice (the first could not log in), checked the draft, and reviewed it with two probes; the reviewed version has 91 lines (`c095e9de`). Before the driver's session, Claude updated it: the shader now exists, and a headless import compiles only what the main scene uses | Logged the command-line `claude` in; asked for the run and the review; approved both commits and the update |
 | The shader from code, `game/shaders/invulnerable_tint.gdshader` | Specified it in the brief: the file, the three uniforms' names, types, hints and defaults, and the colour line. Listed what to prepare and how to check it; wrote `probe_shader.gd` and `import_check.sh`; ran the checks | Wrote it from the brief and committed it on its own (`ae0a3757`) |
 | The colour line | Suggested `COLOR.rgb = mix(COLOR.rgb, tint_color.rgb, tint_amount * tint_strength);` in the brief | Typed it into the shader, line 8 |
+| The driver and its test: `game/ui/hearts_tint.tres`, `hud.tscn`, `hud.gd`, `game/tests/invulnerable_tint_checks.gd` and `.tscn` | The scoped sessions planned them (`session-2.jsonl`), then wrote and ran them (`session-2b.jsonl`). Claude, in our conversation, drafted both prompts, reviewed the plan and proposed five changes, wrote the scoped commands, ran the sessions and checked every result | Reviewed and approved both prompts and each run; accepted the plan with Claude's changes |
+| The shader mutations | Ran the new test through the wrapper after each, and kept both logs | Made both mutations and restored the shader |
 | Documents | Drafted this file and FRICTIONAL.md from our conversation | Will check them against what I did |

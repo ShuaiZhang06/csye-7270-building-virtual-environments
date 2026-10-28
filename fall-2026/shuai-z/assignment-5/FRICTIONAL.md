@@ -162,3 +162,101 @@ What I tried, what I expected, what happened, how I checked it, what I did about
   - the probe backs up the reimport check, for the reason above.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I wrote the shader and committed it. Claude wrote the probe and the import check, ran every check, and drafted this entry.
+
+## 2026-10-27 — The driver and its test: the plan
+
+*Written on 2026-10-27, from the conversation. Prompt `sessions/prompt-2.txt`; transcript `sessions/session-2.jsonl`; the plan, extracted unchanged from its result event, `sessions/plan-2.md`.*
+
+- **Before the run (Claude, approved by me):** CLAUDE.md was brought up to date, because the agent reads it first.
+  - `game/shaders/` holds the shader now, so the two lines that said it did not exist were changed.
+  - A Headless fact was added: a headless import compiles only the shaders the main scene uses.
+- **The prompt (Claude, reviewed by me):** the course's prompt for this step, for the plan only.
+  - It names `game/` and `Hud/Hearts`.
+  - It asks for each *driven* uniform, because the brief says code never sets `tint_color` or `tint_strength`.
+  - It asks for numbered steps, each with the files it changes.
+- **The command was read-only.** `--permission-mode dontAsk` refuses anything not allowed. Only the read tools and read-only `git` and `ls` were allowed, and `Edit`, `Write` and `NotebookEdit` were disallowed. This CLI's `--help` (2.1.310) lists no `default` mode; its choices are `acceptEdits`, `auto`, `bypassPermissions`, `manual`, `dontAsk` and `plan`.
+- **The run:** 19:15:48 to 19:19:21 EDT.
+  - The result event: `success`, `is_error` false, `terminal_reason` completed, 8 turns, $1.30, no permission denials.
+  - It read files with 7 Bash commands and changed nothing. Apart from its transcript, all 181 files matched a snapshot of their hashes taken before the run.
+- **The plan:** 5 steps and 14 assertions, A1 to A14, each tied to a rule in the brief:
+  - a material on `Hud/Hearts`, local to the scene;
+  - a driver in `hud.gd` that sets only `tint_amount`;
+  - a new headless test that plays through four hits with real input.
+- **Claude's review, and the changes I accepted:**
+  1. A13 reloaded by adding a second Main beside the first. It now frees the old one first, as `checks.gd` does at lines 1320–1323.
+  2. A6 checks the first frame of every window, not only after hits 1 and 4.
+  3. The two temporary `hud.gd` mutations the plan offered are approved, with a check that `hud.gd` is restored.
+  4. As proposed, the material is local to the scene and stores no `tint_color` or `tint_strength`.
+  5. The capture tool is left for later.
+- **A correction (Claude):** Claude first told me that the course's command, which disallows `Edit(godot/shaders/**)`, would not stop the Write tool. The permissions documentation says the opposite: `Edit(path)` rules cover every tool that edits files, and `Write(path)` rules never match.
+- **My e-mail address is in the transcript once**, in the output of a `git show` the agent ran. It is the address in every commit's author field. The transcript stays unedited.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude drafted the prompt and the CLAUDE.md changes, ran the session, checked it and reviewed the plan. I reviewed and approved each of them, and accepted the plan with Claude's changes.
+
+## 2026-10-27 — The driver and its test: the first implementation run was refused
+
+*Written on 2026-10-27, from the conversation. Prompt `sessions/prompt-2b.txt`; transcript `sessions/session-2b-refused.jsonl`.*
+
+- **The command (Claude):** `--permission-mode dontAsk`, with `Edit` allowed only on the five files the plan names, plus the wrapper and read-only `git`, and with the shader folders disallowed. Unlike the course's `acceptEdits`, it allowed no other change.
+- **The run:** 19:29:24 to 19:30:08 EDT: `success`, `is_error` false, 11 turns, $0.88, 2 permission denials.
+- **What happened:**
+  - The agent's second command was `cd .../game && cat ...`, and its current directory stayed `game/` from then on.
+  - The rules were written relative to the current directory, so `Edit(game/ui/hearts_tint.tres)` no longer named the file.
+  - Its Write of `game/ui/hearts_tint.tres` was refused, and so was a `git -C ..` command.
+  - It stopped, as the prompt asks, and would not write the file through the shell instead.
+- **Check (Claude):** apart from the transcript, all 184 files matched the snapshot taken before the run.
+- **The mistake was in Claude's command.** By the same reading, the relative deny rules on the shader folders stopped covering them after the `cd`. The shader stayed safe because `dontAsk` refuses every write that is not allowed. With the course's `acceptEdits`, a `cd` could leave a relative deny rule covering nothing. That last point is an inference, not tested.
+- **Fix:**
+  - Every path rule is now absolute, `//Users/...`, written as `/$PWD/...`.
+  - The wrapper is allowed under the other spellings an agent in `game/` would use.
+  - The prompt is unchanged.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude wrote the command, ran it and found the cause. I approved the run and the rerun.
+
+## 2026-10-27 — The driver and its test: the implementation
+
+*Written on 2026-10-27, from the conversation. Prompt `sessions/prompt-2b.txt`; transcript `sessions/session-2b.jsonl`.*
+
+- **The run:** 19:38:29 to 19:51:56 EDT: `success`, `is_error` false, `terminal_reason` completed, $3.97. It took 96 turns, more than `--max-turns 80`, without being cut short, so the limit does not count turns the way the result event does.
+- **Permission denials: 4,** none of which stopped the work:
+  - a Python rewrite of the test file;
+  - two wrapper commands joined by `; echo "exit $?"`;
+  - a `git diff --no-index /dev/null` after a `cd`.
+
+  It edited only the five planned files.
+- **What it wrote:**
+  - `game/ui/hearts_tint.tres`: the `ShaderMaterial`, local to the scene;
+  - `game/ui/hud.tscn`: the material on `Hearts`;
+  - `game/ui/hud.gd`: `_tint_hearts()`, which sets only `tint_amount`, from Rudy's `_invulnerable_left / invulnerable_time`. It runs before the debug line's early return;
+  - `game/tests/invulnerable_tint_checks.gd`, 520 lines, and its `.tscn`: 15 checks.
+- **Its results:**
+  - The new test passed 15 of 15 at 30, 60 and 144 fps, `checks.tscn` 141 of 141, and `check_props.gd` 44 of 44.
+  - The two `hud.gd` mutations each exited 1. A frame-counting driver failed A9, among others, at 30 and 144 fps. A driver that runs while paused, on its own clock, failed A12, among others, at 60.
+  - `hud.gd` was restored to the same blob.
+- **Deviations it reported:**
+  - In the first frame-counting runs, a setup check of its own failed before A9 was reached. It changed how the test names the windows, then reran step 5 and both mutations. It says it loosened no assertion.
+  - The reload, A13, ends hit 4's window early. So A12 checks that the tint fell by the unpaused game time only, 0.5333 s over 1.05 s of real time, and not a whole window's length across the pause.
+- **Findings:**
+  - At 144 fps, the respawn's first frame is exactly 1.0 (72/72), because the respawn falls in a frame with no physics tick after it. That meets rule 1's "at least 70/72"; the brief's reason for the value not being 1.0 covers hits only.
+  - The leak count at exit in `logs/game_checks_60fps.log` rose to 42. It had already gone from 41 to 30 between two runs with no change to the game, so it says nothing by itself.
+- **Checks (Claude):**
+  - Against the snapshot, only the five files, the logs and the transcript changed. `rudy.gd`, `main.gd`, `checks.gd`, both shader folders, `godot/`, the wrapper, the brief, SOURCES and FRICTIONAL are unchanged.
+  - The test calls none of `take_hit()`, `respawn_at()` or `set_shader_parameter()`, and assigns none of Rudy's state. It gives input through `Input.action_press()`.
+  - Claude ran the new test again at 30, 60 and 144 fps, outside the wrapper's logs. Leak lines aside, each run matched the session's log.
+- **Expected / learned:** none recorded.
+- **Human / AI:** the scoped session wrote the material, the driver and the test, and ran them. Claude ran the session and checked it. I approved the run.
+
+## 2026-10-27 — The shader mutations
+
+*Written on 2026-10-27, from the conversation.*
+
+- **Mutation 1 (me):** I deleted the semicolon after `shader_type canvas_item` on line 1. Through the wrapper at 60 fps, the new test exited 1 (`logs/game_invulnerable_tint_checks_60fps_no_semicolon.log`):
+  - one `SHADER ERROR`, "Expected a ';' after 'shader_type canvas_item'";
+  - A1 and A2 failed, and 13 checks passed.
+- **Mutation 2 (me):** I put the semicolon back and renamed `tint_amount` to `tint_amt` on lines 3 and 8, so the shader still parsed. The test exited 1 with no `SHADER ERROR` (`logs/game_invulnerable_tint_checks_60fps_renamed.log`):
+  - A1 and A2 failed;
+  - the other 13 passed, including every check of the value on the material. `set_shader_parameter()` with the old name raises no error and reads back what it stored, so only the name checks catch this.
+- **Restore (me), checked by Claude:** `git diff` on the shader is empty, and the file matches `ae0a3757` byte for byte. The clean test then passed 15 of 15 at 60 fps.
+- **A false mismatch (Claude's mistake):** Claude's first check that the rename was the only change used `\b` with macOS `sed`, which does not support it, and so it reported a difference. Redone without `\b`, the renamed shader matched the commit once the name was changed back.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I made both mutations and restored the shader. Claude ran the test after each and kept both logs.
