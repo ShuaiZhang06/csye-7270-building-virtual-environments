@@ -290,4 +290,12 @@ They differ in three values and share their textures. A change to the shader the
 
 ## Revisions
 
-None yet.
+### Revision 2 — 2026-10-27: the circle's `albedo_tint` is `#A4A7B4`
+
+Section 5 gave `circle_darkstone.tres` the `albedo_tint` `#8F857D` as a starting value, aimed at an average near Assignment 3's DarkStone `#4A4440`, to be set in the sweep and recorded here. It is now `#A4A7B4`.
+
+- **Why.** Rock 01's colour map, averaged in linear light, is `#776C5E`, a warm grey. Multiplied by `#8F857D`, which is warm too, it averages `#40352A`: darker and browner than `#4A4440`, by 10, 15 and 22 steps in red, green and blue.
+- **The new value.** `#A4A7B4` is the tint that puts the average at `#4A4440`, computed the same way. It is slightly cool, so it cancels the photo's warmth.
+- **How it was computed.** Each texel is decoded from sRGB to linear, the texels are averaged, and the average is multiplied by the tint, also decoded to linear, then encoded back to sRGB. This is the colour of the texture alone, before lighting and the Filmic tonemap; the look on screen is my check in the editor.
+- **Who.** Claude computed both averages and the new tint. I chose to change it.
+- **Unchanged:** everything else in section 5, including the circle's other values and the waystone's material.

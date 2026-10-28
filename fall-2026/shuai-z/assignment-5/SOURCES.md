@@ -47,7 +47,7 @@ Chosen in CHANGE-BRIEF.md, not downloaded yet:
 |---|---|---|
 | The hearts' tint, `tint_color` | `Color(0.6, 0.88, 1.0)`, `#99E0FF` | `game/content/level_1/waystone.gd` line 19, `GLOW`, the lit waystone's glow. It is the uniform's default in `game/shaders/invulnerable_tint.gdshader` line 4 |
 | The waystone's Stone and the circle's DarkStone, as imported | `#8C8A80`, `#4A4440` | Assignment 3's brief, checked by `godot/tests/check_props.gd` |
-| `albedo_tint` in `circle_darkstone.tres` | `#8F857D` | A starting value Claude proposed in the brief, to be set in the sweep |
+| `albedo_tint` in `circle_darkstone.tres` | `#A4A7B4` | Computed by Claude so that Rock 01's average colour, times the tint, is Assignment 3's DarkStone `#4A4440`. It replaced the brief's starting value `#8F857D`, which averaged `#40352A`; I chose the change (CHANGE-BRIEF.md, revision 2) |
 
 ## Human / AI contributions
 

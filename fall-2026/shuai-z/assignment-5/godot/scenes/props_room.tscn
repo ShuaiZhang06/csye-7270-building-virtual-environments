@@ -2,7 +2,9 @@
 
 [ext_resource type="PackedScene" path="res://assets/props/spikes.glb" id="1_yknrx"]
 [ext_resource type="PackedScene" path="res://assets/props/waystone.glb" id="2_qn2o3"]
+[ext_resource type="Material" path="res://materials/waystone_stone.tres" id="3_5qx48"]
 [ext_resource type="PackedScene" path="res://assets/props/teleport_circle.glb" id="3_ybgmy"]
+[ext_resource type="Material" path="res://materials/circle_darkstone.tres" id="5_6txal"]
 
 [sub_resource type="Environment" id="Environment_5qx48"]
 background_mode = 1
@@ -42,14 +44,20 @@ transform = Transform3D(0.8, -0.46093282, 0.38411063, 0, 0.64018434, 0.7682213, 
 light_energy = 1.1
 shadow_enabled = true
 
-[node name="Spikes" type="Node3D" parent="." unique_id=835106322 instance=ExtResource("1_yknrx")]
+[node name="Spikes" parent="." unique_id=835106322 instance=ExtResource("1_yknrx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
-[node name="Waystone" type="Node3D" parent="." unique_id=422308381 instance=ExtResource("2_qn2o3")]
+[node name="Waystone" parent="." unique_id=422308381 instance=ExtResource("2_qn2o3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0)
 
-[node name="TeleportCircle" type="Node3D" parent="." unique_id=934880156 instance=ExtResource("3_ybgmy")]
+[node name="Waystone" parent="Waystone" index="0" unique_id=600200631]
+surface_material_override/0 = ExtResource("3_5qx48")
+
+[node name="TeleportCircle" parent="." unique_id=934880156 instance=ExtResource("3_ybgmy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 0)
+
+[node name="TeleportCircle" parent="TeleportCircle" index="0" unique_id=971477983]
+surface_material_override/1 = ExtResource("5_6txal")
 
 [node name="RudyHeightMarker" type="MeshInstance3D" parent="." unique_id=533647149]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9, 0.6, 0)
@@ -59,3 +67,6 @@ mesh = SubResource("CylinderMesh_rikk5")
 transform = Transform3D(1, 0, 0, 0, 0.9206908, 0.39029285, 0, -0.39029285, 0.9206908, -0.3, 2.2, 4.6)
 current = true
 fov = 50.0
+
+[editable path="Waystone"]
+[editable path="TeleportCircle"]
