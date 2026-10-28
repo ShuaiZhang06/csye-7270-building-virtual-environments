@@ -56,7 +56,7 @@ PASS  the widest cliff can be cleared by full-speed takeoffs spread over at leas
 PASS  Rudy starts with three hearts, and the HUD shows three  (hearts 3, shown 3)
 PASS  touching the spikes costs one heart, with one hurt sound; the HUD shows two  (hearts 2, hurt sounds 1, shown 2)
 PASS  the hit knocks him back, away from the spikes, and turns him toward them  (mode HURT, speed -257, facing 1)
-PASS  he shows CHAR-HURT, and the camera shakes  (pose CHAR-HURT, camera offset (5.937151, -4.491579))
+PASS  he shows CHAR-HURT, and the camera shakes  (pose CHAR-HURT, camera offset (-7.121405, 7.079364))
 PASS  he flashes while he is invulnerable  (alphas seen [0.35, 1.0])
 PASS  the camera shake is over after 0.2 s  ((0.0, 0.0))
 PASS  control returns after the knockback  (knocked back 55 px)
@@ -140,7 +140,7 @@ PASS  the end card is silent, and Esc does nothing there
 PASS  playing again starts the music from the top, at full level  (starts 2)
 PASS  with both buses muted the route from the opening runs the same, tick for tick, with the same sounds  (733 ticks, at x 7118.076, sounds jump 7  pickup 1  portal 1 | 733 ticks, at x 7118.076, sounds jump 7  pickup 1  portal 1)
 PASS  the game opens with the debug line hidden
-PASS  every file the scenes, resources and scripts name by a res:// path is in the project  (79 paths; missing: )
+PASS  every file the scenes, resources and scripts name by a res:// path is in the project  (81 paths; missing: )
 all checks passed
 WARNING: 42 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
