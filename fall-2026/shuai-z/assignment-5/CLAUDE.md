@@ -57,10 +57,11 @@ This folder holds two Godot projects, `game/` and `godot/`.
   - only `SpikesA`, `SpikesB` and `GoblinA` may carry a material among the placed level sprites (`game/tests/checks.gd:1056-1061`).
 - `systems/art/outline.tres` is one material shared by Rudy, the goblin and the spikes (`game/content/rudy/rudy.tscn:6`, `game/content/goblin/goblin.tscn:5`, `game/content/level_1/spikes.tscn:5`).
 
-**Headless facts on this machine** (checked 2026-10-26 with Godot 4.7.2 on macOS 15.1, in `evidence/headless-probe/`):
+**Headless facts on this machine** (checked 2026-10-26 and 2026-10-27 with Godot 4.7.2 on macOS 15.1, in `evidence/headless-probe/`):
 - `--headless` gives the headless display server and the dummy renderer, with no video adapter. It runs Godot's shader parser, so a broken shader prints `SHADER ERROR`, but it draws nothing, and the frame cannot be read back (`logs/probe_headless.log`).
 - A shader error does not change Godot's exit code: the probe exited 0 after one (`logs/probe_headless.log` for the error, `logs/probe_headless_rendering_driver.log` for the `exit 0` lines). Any `SHADER ERROR` line in a log is a failure, whatever the exit code; the wrapper enforces this.
 - A `.gdshader` error is reported when the shader is set on a `ShaderMaterial`, not when it is loaded. A shader that failed to parse has an empty `get_shader_uniform_list()`. The dummy renderer reports no uniform defaults (`shader_get_parameter_default()` is null), so a test reads defaults from the source text (`logs/probe_headless.log`).
+- A headless `--import` compiles only the shaders the main scene uses. A broken shader that nothing uses yet raises no error on import, so a clean import says nothing about it (`logs/probe_import_check.log`, from `evidence/headless-probe/import_check.sh`).
 - Use `--headless` exactly, as the wrapper does. Here, adding `--rendering-driver metal` or `vulkan` to it, in either order, still stayed headless (`logs/probe_headless_rendering_driver.log`). Example 06 saw the long form, `--display-driver headless`, fall back to a window on macOS, and nothing in this folder needs `--rendering-driver`.
 
 ## Current change
@@ -69,7 +70,7 @@ This folder holds two Godot projects, `game/` and `godot/`.
 
 ## Ownership
 
-Every file in `game/shaders/` and `godot/shaders/` is written by hand by the human. An agent never creates, edits, reformats or "fixes" any of them, even to make a test pass. If a shader looks wrong, report it and stop. Neither folder exists yet.
+Every file in `game/shaders/` and `godot/shaders/` is written by hand by the human. An agent never creates, edits, reformats or "fixes" any of them, even to make a test pass. If a shader looks wrong, report it and stop. `game/shaders/` holds `invulnerable_tint.gdshader`, committed on its own (`ae0a3757`); `godot/shaders/` does not exist yet.
 
 ## Out of scope
 
@@ -85,7 +86,7 @@ Every file in `game/shaders/` and `godot/shaders/` is written by hand by the hum
 
 ## Unconfirmed
 
-- **Folders that do not exist yet.** `game/shaders/`, `godot/shaders/`, `godot/materials/`, `godot/assets/textures/` and `godot/assets/hint_experiment/` do not exist. Neither does `game/ui/hearts_tint.tres`, nor `godot/tools/write_grey_strip.gd`; `godot/tools/` holds only `build_props_room.gd`.
+- **Folders that do not exist yet.** `godot/shaders/`, `godot/materials/`, `godot/assets/textures/` and `godot/assets/hint_experiment/` do not exist. Neither does `game/ui/hearts_tint.tres`, nor `godot/tools/write_grey_strip.gd`; `godot/tools/` holds only `build_props_room.gd`.
 - **Brief facts not checkable from files here.** The hint-experiment design and the Poly Haven texture facts.
 - **Missing files.** There is no `AGENTS.md` and no `README.md` in this folder.
 - **Rendering claims.** These come from the brief, not from files here: the Compatibility renderer uploads canvas uniforms without sRGB conversion, and `hint_range` does not clamp values set from code.
