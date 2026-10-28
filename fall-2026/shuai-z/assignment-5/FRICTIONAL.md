@@ -260,3 +260,66 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **A false mismatch (Claude's mistake):** Claude's first check that the rename was the only change used `\b` with macOS `sed`, which does not support it, and so it reported a difference. Redone without `\b`, the renamed shader matched the commit once the name was changed back.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I made both mutations and restored the shader. Claude ran the test after each and kept both logs.
+
+## 2026-10-27 — The textured shader: Rock 01's textures
+
+*Written on 2026-10-27, from the conversation. Commit `e0e14c17`.*
+
+- **Attempt (Claude, after I approved the download):** the four 1k PNGs the brief names, from Poly Haven. Before asking me, Claude read their sizes and MD5 sums from Poly Haven's API.
+- **The download:** into an empty staging folder first. All four match the API's size and MD5. Three are 8-bit RGB; the roughness map is 16-bit greyscale, which the brief did not say.
+- **A mistake on the way (Claude):** the session's working directory had changed to the repository's root, and the copy used a relative path, so the PNGs landed in a new `godot/` folder there. The first import found no textures, which showed it. Claude moved the four files into `assignment-5/godot/assets/textures/rock_01/`, with their MD5 sums unchanged, and removed the empty folders. Nothing was left outside `assignment-5/`.
+- **ATTRIBUTION.md** records the page and file URLs, Rob Tuytel with the role "All", 2018-08-09, 1500 mm, CC0, and `_nor_gl` as the convention used. The licence page, checked on 2026-10-27, says "Our assets are all licensed as CC0".
+- **Import settings:**
+  - Godot's first import gave lossless compression, normal-map detection, no mipmaps and `detect_3d/compress_to=1`. The editor would have switched the textures to VRAM compression the first time it drew them in 3D.
+  - Claude wrote the brief's section 5 settings into the four `.import` files, removed their cached imports and reimported. Godot kept the settings.
+  - `probe_textures.gd` reads the imported formats (`logs/probe_textures.log`). The colour and roughness maps are DXT1 and the OpenGL normal map is RGTC_RG, each with 10 mipmap levels; the DirectX map is RGB8 with none. `get_image().get_format()` works in a headless run.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I approved the download. Claude did the rest and drafted this entry.
+
+## 2026-10-27 — The textured shader: the normal-map check
+
+*Written on 2026-10-27, from the conversation. Commit `14efd4ba`.*
+
+- **The check:** `godot/tests/normal_map_check.gd` is the assignment's code, unchanged; a diff against the assignment's text is empty.
+- **Calibration (Claude):** `calibrate_normal_map_check.gd` runs it on Rock 01's normal map in both conventions (`logs/godot_calibrate_normal_map_check_60fps.log`):
+
+  | | `directx = false` | `directx = true` |
+  |---|---|---|
+  | `_nor_gl` | 0.1444 | 1.8556 |
+  | `_nor_dx` | 1.8556 | 0.1444 |
+
+  The OpenGL file is low with `directx = false`, so the sign convention is the right way round, and nothing needs to go in TEST-REPORT.md.
+- **A property of the ratio (Claude):** a map's two ratios always sum to 2, because (t1 − t2)² + (t1 + t2)² = 2(t1² + t2²). The DirectX file is the OpenGL file with green inverted, so the pair gives one independent number, 0.1444.
+- **The threshold** is not set yet. Claude proposed 0.5, between the known-good 0.1444 and the 1 of a map with no surface behind it.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude copied the check, wrote and ran the calibration, and drafted this entry. I approved the commit.
+
+## 2026-10-27 — The textured shader: the shader and its materials
+
+*Written on 2026-10-27, from the conversation. The shader is commit `a87a18be`; the materials, `6d71a4f4`.*
+
+- **Attempt (me):** I wrote `godot/shaders/weathered_stone.gdshader` from the brief's section 5 and committed it on its own.
+- **Check (Claude):** it compiles, and the engine lists nine entries: three samplers, the groups `surface` and `relief`, and four uniforms (`logs/probe_weathered_stone.log`). The engine reports a sampler only as a `Texture2D`, with no hints, so Claude checked the hints from the source lines. All ten declarations match the brief.
+- **The materials (Claude):** `waystone_stone.tres` and `circle_darkstone.tres`, with the brief's values.
+  - `godot/tools/add_stone_overrides.gd` set them as surface material overrides, on surface 0 of `Waystone/Waystone` and surface 1 of `TeleportCircle/TeleportCircle`, and saved `props_room.tscn` the way the editor does. That also dropped `type="Node3D"` from the three instance lines, which Assignment 3's builder had written; it changes nothing.
+  - `probe_overrides.gd` shows each override on its surface and the other six surfaces unchanged (`logs/probe_overrides.log`). The materials' values read back as written.
+  - `check_props.gd` still passes 44 of 44. The overrides leave alone the `.glb` materials it reads, as the brief planned.
+- **The editor (me):** I looked at both materials in the editor. Neither of the two sessions changed any file. The import settings held, so the brief's predicted failure 8, that the editor rewrites them, did not happen.
+- **The circle's tint:**
+  - Claude averaged Rock 01's colour map in linear light: `#776C5E`. Times `#8F857D` it is `#40352A`, darker and browner than the brief's aim, `#4A4440`.
+  - The tint that gives `#4A4440` is `#A4A7B4`. I chose it, and the brief's revision 2 records why. I looked at the circle in the editor again.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I wrote the shader, chose the tint and checked the look. Claude checked the shader, wrote the materials, the tool and the probes, computed the tint, and drafted this entry.
+
+## 2026-10-27 — The hint experiment
+
+*Written on 2026-10-27, from the conversation. The shader is commit `9481663a`; the strip, the materials and the scene, `143e9055`.*
+
+- **The strip (Claude):** `godot/tools/write_grey_strip.gd` writes `grey_strip_3x1.png`, three opaque texels of 64, 128 and 192, and Godot and Pillow both read those values back. It is imported lossless, with no mipmaps and with normal-map detection and 3D compression off. The imported texture is RGB8 with the same three values.
+- **The shader (me):** `godot/shaders/hint_experiment.gdshader`, spatial and unshaded, with `source_color_tex` (`source_color, filter_nearest`), `plain_tex` (`filter_nearest`) and the bool `use_source_color`, which picks the one that writes `ALBEDO`. It compiles with those three uniforms (`logs/probe_hint_experiment.log`). I committed it on its own.
+- **The materials and the scene (Claude):** `hint_source_color.tres` and `hint_plain.tres` bind the strip to both samplers and differ only in the bool. `godot/tools/build_hint_experiment.gd` builds `hint_experiment.tscn`: quad A above quad B, a camera facing them, and a WorldEnvironment.
+  - The tonemap is Linear at exposure 1.0, with glow, fog and adjustments off. Those are the defaults, so the scene file leaves them out; `probe_hint_scene.gd` reads them back (`logs/probe_hint_scene.log`).
+  - The labels "A  source_color" and "B  no hint" and the background `#202830` are Claude's choices; the brief names neither.
+- **The editor (me):** each band of B is lighter than the band of A above it, and the bands have sharp edges. The session changed no file. The displayed values themselves, 64, 128 and 192 against 137, 188 and 225, still need a capture that reads them in the engine.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I wrote the shader and checked the scene. Claude wrote the strip writer, the materials, the builder and the probes, and drafted this entry.

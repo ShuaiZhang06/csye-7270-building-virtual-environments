@@ -23,11 +23,12 @@ Credits, tools, versions, and who did what. The dated record is [FRICTIONAL.md](
 
 | Tool | Version | Used for |
 |---|---|---|
-| Claude Code (desktop app), model Claude Opus 5.5 | 2.1.302 | Reading the assignment against my project; step 0 (the copy, the `.gitignore` exception, the wrapper, the imports and the baselines); drafting CHANGE-BRIEF.md, including the colour line, the predicted values and the short answers; running the scoped CLAUDE.md session, then checking and reviewing its draft; the guide and the checks for the shader from code; the probes in `evidence/headless-probe/`; the prompts, commands and checks for the driver's sessions, and the review of its plan; running the test after each shader mutation; drafting this file and FRICTIONAL.md |
+| Claude Code (desktop app), model Claude Opus 5.5 | 2.1.302 | Reading the assignment against my project; step 0 (the copy, the `.gitignore` exception, the wrapper, the imports and the baselines); drafting CHANGE-BRIEF.md, including the colour line, the predicted values and the short answers; running the scoped CLAUDE.md session, then checking and reviewing its draft; the guide and the checks for the shader from code; the probes in `evidence/headless-probe/`; the prompts, commands and checks for the driver's sessions, and the review of its plan; running the test after each shader mutation; downloading and checking Rock 01, its import settings and the normal-map check's calibration; the stone and hint materials, the scene tools and their probes, and the circle's tint; drafting this file and FRICTIONAL.md |
 | Claude Code (command line, `claude -p`), model `claude-opus-5-5` | 2.1.302 for the CLAUDE.md run that could not log in, 2.1.310 for every later session | The scoped sessions: the CLAUDE.md draft (`sessions/session-1.jsonl`), the driver's plan (`sessions/session-2.jsonl`) and its implementation (`sessions/session-2b-refused.jsonl`, `sessions/session-2b.jsonl`) |
-| Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The imports, the headless tests and the probes |
+| Godot | 4.7.2.stable.official.ed1daf0bf, the standard build | The imports, the headless tests, the probes and the scene tools |
 | GNU coreutils `timeout` (Homebrew) | 9.12 | The time limit in the wrapper and the probe runs |
-| Python 3 with Pillow | 3.13.5, Pillow 10.4.0 | Reading the heart textures' texels, the `.glb` headers and an Assignment 2 screenshot; computing the brief's predicted values and contrast ratios, with a short script kept outside the repository |
+| Python 3 with Pillow | 3.13.5, Pillow 10.4.0 | Reading the heart textures' texels, the `.glb` headers and an Assignment 2 screenshot; computing the brief's predicted values and contrast ratios, with a short script kept outside the repository; reading the grey strip back, and averaging Rock 01's colour map for the circle's tint, also with scripts kept outside it |
+| curl | 8.12.1 | Downloading Rock 01 and reading Poly Haven's API |
 | jq | 1.7.1 | Reading the result event of a `claude -p` transcript |
 | Git | 2.51.0 | Version control; `git archive` for the copy, and for the temporary copies in `evidence/headless-probe/import_check.sh` |
 
@@ -35,11 +36,10 @@ Credits, tools, versions, and who did what. The dated record is [FRICTIONAL.md](
 
 ## Textures
 
-Chosen in CHANGE-BRIEF.md, not downloaded yet:
-
-- **Rock 01** (`rock_01`) from Poly Haven, by Rob Tuytel, CC0 (https://polyhaven.com/a/rock_01).
-  - Files: the 1k diffuse, `_nor_gl`, `_nor_dx` (calibration only) and roughness PNGs.
-  - When the files are added, `godot/assets/textures/rock_01/ATTRIBUTION.md` will record the URLs, the author and role, the licence, the date checked, and the normal-map convention used.
+- **Rock 01** (`rock_01`) from Poly Haven, by Rob Tuytel, CC0 (https://polyhaven.com/a/rock_01), downloaded on 2026-10-27.
+  - Files: the 1k diffuse, `_nor_gl`, `_nor_dx` (calibration only) and roughness PNGs, in `godot/assets/textures/rock_01/`. Each matches the size and MD5 that Poly Haven's API lists.
+  - `godot/assets/textures/rock_01/ATTRIBUTION.md` records the URLs, the author and role, the licence, the date checked, and the normal-map convention used, `_nor_gl`.
+- **The grey strip**, `godot/assets/hint_experiment/grey_strip_3x1.png`, is written by code: `godot/tools/write_grey_strip.gd`.
 
 ## Colour sources
 
@@ -61,4 +61,9 @@ Chosen in CHANGE-BRIEF.md, not downloaded yet:
 | The colour line | Suggested `COLOR.rgb = mix(COLOR.rgb, tint_color.rgb, tint_amount * tint_strength);` in the brief | Typed it into the shader, line 8 |
 | The driver and its test: `game/ui/hearts_tint.tres`, `hud.tscn`, `hud.gd`, `game/tests/invulnerable_tint_checks.gd` and `.tscn` | The scoped sessions planned them (`session-2.jsonl`), then wrote and ran them (`session-2b.jsonl`). Claude, in our conversation, drafted both prompts, reviewed the plan and proposed five changes, wrote the scoped commands, ran the sessions and checked every result | Reviewed and approved both prompts and each run; accepted the plan with Claude's changes |
 | The shader mutations | Ran the new test through the wrapper after each, and kept both logs | Made both mutations and restored the shader |
+| Rock 01's textures and their import settings | Downloaded and checked them, wrote ATTRIBUTION.md, wrote the brief's import settings and checked the imported formats | Approved the download |
+| The normal-map check | Copied the assignment's check unchanged, and wrote and ran its calibration | Approved the commit |
+| The textured shader, `godot/shaders/weathered_stone.gdshader` | Specified it in the brief; listed what to prepare and how to check it; ran the checks | Wrote it from the brief and committed it on its own (`a87a18be`) |
+| The stone materials and their overrides | Wrote both materials and `godot/tools/add_stone_overrides.gd`, checked each surface, and computed the circle's tint | Chose the tint `#A4A7B4`; checked the look in the editor, twice |
+| The hint experiment | Wrote the strip's writer, both materials, `godot/tools/build_hint_experiment.gd` and the probes | Wrote `godot/shaders/hint_experiment.gdshader` and committed it on its own (`9481663a`); checked the scene in the editor |
 | Documents | Drafted this file and FRICTIONAL.md from our conversation | Will check them against what I did |

@@ -33,17 +33,25 @@ This folder holds two Godot projects, `game/` and `godot/`.
 - The tint colour comes from the waystone: `GLOW := Color(0.6, 0.88, 1.0)` (`game/content/level_1/waystone.gd:19`).
 
 **3D objects for the textured shader** (in `godot/scenes/props_room.tscn`)
-- `Waystone` is an instance of `res://assets/props/waystone.glb` (`props_room.tscn:4`, `props_room.tscn:48-49`). Its material `Stone` must stay `#8C8A80` in the imported `.glb` (`godot/tests/check_props.gd:20-21`).
-- `TeleportCircle` is an instance of `res://assets/props/teleport_circle.glb` (`props_room.tscn:5`, `props_room.tscn:51-52`). Its material `DarkStone` must stay `#4A4440` (`check_props.gd:22-23`).
+- `Waystone` is an instance of `res://assets/props/waystone.glb` (`props_room.tscn:4`, `props_room.tscn:50-51`). Its material `Stone` must stay `#8C8A80` in the imported `.glb` (`godot/tests/check_props.gd:20-21`).
+- `TeleportCircle` is an instance of `res://assets/props/teleport_circle.glb` (`props_room.tscn:6`, `props_room.tscn:56-57`). Its material `DarkStone` must stay `#4A4440` (`check_props.gd:22-23`).
 - The meshes inside the instances are `Waystone/Waystone`, with surfaces 0 `Stone`, 1 `Moss` and 2 `Rune`, and `TeleportCircle/TeleportCircle`, with surfaces 0 `Gold`, 1 `DarkStone` and 2 `PaleGold`. All are `StandardMaterial3D` (`logs/probe_surfaces.log`, from `evidence/headless-probe/probe_surfaces.gd`). So the overrides go on surface 0 of the waystone's mesh and surface 1 of the circle's.
-- Where their materials come from now: the importer, embedded in each `.glb`. Nothing is extracted (`materials/extract=0` and `_subresources={}` in `godot/assets/props/waystone.glb.import:39-42` and `teleport_circle.glb.import:39-42`), and the scene sets no surface overrides (`props_room.tscn:48-52`).
+- The imported materials stay embedded in each `.glb`; nothing is extracted (`materials/extract=0` and `_subresources={}` in `godot/assets/props/waystone.glb.import:39-42` and `teleport_circle.glb.import:39-42`).
+- The scene overrides surface 0 of `Waystone/Waystone` with `res://materials/waystone_stone.tres` and surface 1 of `TeleportCircle/TeleportCircle` with `res://materials/circle_darkstone.tres` (`props_room.tscn:5`, `props_room.tscn:7`, `props_room.tscn:53-54`, `props_room.tscn:59-60`, `props_room.tscn:71-72`). `godot/tools/add_stone_overrides.gd` set them; the other six surfaces keep their imported materials (`logs/probe_overrides.log`).
 - `check_props.gd` reads every imported material's `albedo_color` by `resource_name`, but only while the material is a `BaseMaterial3D` (`check_props.gd:81-89`). That is why the brief uses surface material overrides in the scene and not *Use External* (`CHANGE-BRIEF.md` section 5).
-- Lighting is the Environment sub-resource and `Sun` (`props_room.tscn:7-13`, `props_room.tscn:40-43`).
+- Lighting is the Environment sub-resource and `Sun` (`props_room.tscn:9-15`, `props_room.tscn:42-45`).
+
+**The textured shader, its textures and the hint experiment** (in `godot/`)
+- `shaders/weathered_stone.gdshader` has the samplers `albedo_tex`, `normal_tex` and `roughness_tex` (lines 3-5) and the groups `surface` and `relief` (lines 7-14). `materials/waystone_stone.tres` and `materials/circle_darkstone.tres` both use it, with the Rock 01 textures.
+- The textures are in `assets/textures/rock_01/`, with `ATTRIBUTION.md`; each one's import settings are in the `.import` file beside it. They import as DXT1 (colour, roughness) and RGTC_RG (OpenGL normal) with 10 mipmap levels, and `_nor_dx`, which no material uses, as RGB8 with none (`logs/probe_textures.log`).
+- The hint experiment is `shaders/hint_experiment.gdshader`, `materials/hint_source_color.tres` and `materials/hint_plain.tres`, and `scenes/hint_experiment.tscn`, built by `tools/build_hint_experiment.gd`. Its strip, `assets/hint_experiment/grey_strip_3x1.png`, is written by `tools/write_grey_strip.gd`. The scene's tonemap, exposure, glow, fog and adjustments are at their defaults, so the file leaves them out (`hint_experiment.tscn:6-8`, `logs/probe_hint_scene.log`).
+- `tests/normal_map_check.gd` is the assignment's curl check, unchanged. Calibrated on Rock 01, `_nor_gl` gives 0.1444 with `directx = false` and 1.8556 with `true`, and `_nor_dx` the reverse (`logs/godot_calibrate_normal_map_check_60fps.log`).
 
 **Tests: always run through `scripts/run-test.sh <game|godot> <test-file> <fps>`** (`scripts/run-test.sh:2`)
 - Run from this folder: `scripts/run-test.sh game checks.tscn 60` gives 141 checks and ends `all checks passed` (`logs/game_checks_60fps.log`). `checks.tscn` runs `checks.gd` as the scene (`game/tests/checks.tscn`).
 - `checks.gd` prints one `PASS` or `FAIL` line per check and ends `all checks passed` or `N check(s) FAILED` (`game/tests/checks.gd:1659`, `checks.gd:111`). The 141 is its `PASS` lines.
 - `scripts/run-test.sh godot check_props.gd 60` gives 44 `ok` lines and `PASS: 0 failed check(s)` (`logs/godot_check_props_60fps.log`).
+- `scripts/run-test.sh godot calibrate_normal_map_check.gd 60` prints the four ratios and ends `all checks passed` (`logs/godot_calibrate_normal_map_check_60fps.log`).
 - The wrapper does five things (`scripts/run-test.sh:19-38`):
   - it runs a `.tscn` as the scene and a `.gd` with `--script`;
   - it pins `--fixed-fps`;
@@ -61,6 +69,8 @@ This folder holds two Godot projects, `game/` and `godot/`.
 - `--headless` gives the headless display server and the dummy renderer, with no video adapter. It runs Godot's shader parser, so a broken shader prints `SHADER ERROR`, but it draws nothing, and the frame cannot be read back (`logs/probe_headless.log`).
 - A shader error does not change Godot's exit code: the probe exited 0 after one (`logs/probe_headless.log` for the error, `logs/probe_headless_rendering_driver.log` for the `exit 0` lines). Any `SHADER ERROR` line in a log is a failure, whatever the exit code; the wrapper enforces this.
 - A `.gdshader` error is reported when the shader is set on a `ShaderMaterial`, not when it is loaded. A shader that failed to parse has an empty `get_shader_uniform_list()`. The dummy renderer reports no uniform defaults (`shader_get_parameter_default()` is null), so a test reads defaults from the source text (`logs/probe_headless.log`).
+- `get_shader_uniform_list()` reports a sampler as an `Object` with the hint string `Texture2D`, and none of its hints (`source_color`, `hint_normal`, filters), so a test reads them from the source text (`logs/probe_weathered_stone.log`).
+- An imported texture's format and mipmaps can be read headlessly with `get_image()` (`logs/probe_textures.log`).
 - A headless `--import` compiles only the shaders the main scene uses. A broken shader that nothing uses yet raises no error on import, so a clean import says nothing about it (`logs/probe_import_check.log`, from `evidence/headless-probe/import_check.sh`).
 - Use `--headless` exactly, as the wrapper does. Here, adding `--rendering-driver metal` or `vulkan` to it, in either order, still stayed headless (`logs/probe_headless_rendering_driver.log`). Example 06 saw the long form, `--display-driver headless`, fall back to a window on macOS, and nothing in this folder needs `--rendering-driver`.
 
@@ -70,13 +80,13 @@ This folder holds two Godot projects, `game/` and `godot/`.
 
 ## Ownership
 
-Every file in `game/shaders/` and `godot/shaders/` is written by hand by the human. An agent never creates, edits, reformats or "fixes" any of them, even to make a test pass. If a shader looks wrong, report it and stop. `game/shaders/` holds `invulnerable_tint.gdshader`, committed on its own (`ae0a3757`); `godot/shaders/` does not exist yet.
+Every file in `game/shaders/` and `godot/shaders/` is written by hand by the human. An agent never creates, edits, reformats or "fixes" any of them, even to make a test pass. If a shader looks wrong, report it and stop. `game/shaders/` holds `invulnerable_tint.gdshader` (`ae0a3757`), and `godot/shaders/` holds `weathered_stone.gdshader` (`a87a18be`) and `hint_experiment.gdshader` (`9481663a`), each committed on its own.
 
 ## Out of scope
 
 - `game/content/rudy/rudy.gd` stays byte for byte. Presentation code may read `_invulnerable_left` and `invulnerable_time`, but never assigns them or any other game state.
 - Don't touch movement, collision, input, or the state machine and its timings in `rudy.gd` and `game/app/main.gd`. That covers the 1.2 s window, the 0.35 s hurt time and the 0.12 s flicker.
-- Leave the outline material (`systems/art/outline.tres` / `outline.gdshader`) and where it is used alone. Rudy, the goblins, the spikes, the waystone, the circle and the pickup get no new material.
+- Leave the outline material (`systems/art/outline.tres` / `outline.gdshader`) and where it is used alone. In `game/`, Rudy, the goblins, the spikes, the waystone, the circle and the pickup get no new material.
 - No HUD element except `Hud/Hearts` changes: not the title, debug line, fade, end card or "Paused".
 - No existing test, or anything it expects, changes: 141 checks in `game/`, 44 in `godot/`. New tests are added beside them.
 - In `godot/`, the `.glb` files and their `.import` files stay as they are. Don't switch the imported materials to *Use External*, and don't re-run `godot/tools/build_props_room.gd` once the overrides are in.
@@ -86,7 +96,7 @@ Every file in `game/shaders/` and `godot/shaders/` is written by hand by the hum
 
 ## Unconfirmed
 
-- **Folders that do not exist yet.** `godot/shaders/`, `godot/materials/`, `godot/assets/textures/` and `godot/assets/hint_experiment/` do not exist. Neither does `game/ui/hearts_tint.tres`, nor `godot/tools/write_grey_strip.gd`; `godot/tools/` holds only `build_props_room.gd`.
-- **Brief facts not checkable from files here.** The hint-experiment design and the Poly Haven texture facts.
+- **Files that do not exist yet.** `godot/MATERIALS.md`, `godot/tests/test_materials.gd`, `LANGUAGE-NOTES.md`, `TEST-REPORT.md` and `godot/shaders/standard_generated.gdshader`.
+- **Brief facts no headless run can check.** The hint experiment's displayed values (brief section 4) and the look of the stone materials (section 5).
 - **Missing files.** There is no `AGENTS.md` and no `README.md` in this folder.
 - **Rendering claims.** These come from the brief, not from files here: the Compatibility renderer uploads canvas uniforms without sRGB conversion, and `hint_range` does not clamp values set from code.
