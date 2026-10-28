@@ -303,3 +303,7 @@ Section 5 gave `circle_darkstone.tres` the `albedo_tint` `#8F857D` as a starting
 ### Revision 3 — 2026-10-27: line numbers in section 5
 
 The surface overrides added two `ext_resource` lines to `props_room.tscn`, so the lines section 5 cites for the lighting moved. The Environment is now lines 9–15 and `Sun` lines 42–45, not 7–13 and 40–43. The values are unchanged. The audit found this (`godot/MATERIALS.md`, finding 4).
+
+### Revision 4 — 2026-10-28: line numbers for `hud.gd` and `hud.tscn`
+
+The driver (`bd797945`) added a line to the comment at the top of `game/ui/hud.gd`, and an `ext_resource` line and a `material` line to `game/ui/hud.tscn`, so lines this brief cites moved. In section 2, `Hud/Hearts` is now `hud.tscn` line 11, not 10, and its material is line 18. In rule 8 and short answer 2, the title's `modulate.a = 0.0` is now `hud.gd` line 55, not 54, and the hearts' fade-in is line 62, not 61. The code they point to is unchanged. Claude found this while checking CLAUDE.md's references, which had moved the same way.

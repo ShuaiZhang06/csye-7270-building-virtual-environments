@@ -68,7 +68,7 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **A design value changed by a computation (Claude):** at `tint_strength` 0.6, the heart's outline would fall to 2.1:1 contrast against the sky beside it at full tint. At 0.4 it stays at 3.5:1, above 3:1, so the brief uses 0.4.
 - **Review (me):** I reviewed the brief and found no problems.
 - **One change before the commit (Claude):** the note at the top said I had checked the predicted values by hand as part of my review. Claude replaced it with what is known: I reviewed the brief on 2026-10-24, and section 3 shows the arithmetic, so each value can be checked by hand. The brief was then committed, before either shader exists.
-- **Hand check of the predicted values:** none recorded. The rubric asks for predictions "computed by hand".
+- **Hand check of the predicted values:** none recorded. The rubric asks for predictions "computed by hand". A hand check of two of them, made after the captures, is in the second entry of 2026-10-28.
 - **Still to do:** type the colour line into the shader myself, and record it as Claude's suggestion.
 - **Expected / learned:** none recorded.
 - **Human / AI:** Claude drafted the whole brief, including the colour line, the predicted values and the short answers. I asked for it, reviewed it and approved the commit.
@@ -160,7 +160,7 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Differs from the assignment:**
   - the shader is in `game/shaders/`, because the effect is in the 2D game (the brief, section 2);
   - the probe backs up the reimport check, for the reason above.
-- **Expected / learned:** none recorded.
+- **Expected / learned:** added on 2026-10-28, in my words: "一开始写色彩行之前，还不知道 COLOR 里已经乘了贴图和 modulate" ("Before I first wrote the colour line, I did not yet know that COLOR already has the texture and the modulate multiplied into it").
 - **Human / AI:** I wrote the shader and committed it. Claude wrote the probe and the import check, ran every check, and drafted this entry.
 
 ## 2026-10-27 — The driver and its test: the plan
@@ -215,7 +215,7 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 
 ## 2026-10-27 — The driver and its test: the implementation
 
-*Written on 2026-10-27, from the conversation. Prompt `sessions/prompt-2b.txt`; transcript `sessions/session-2b.jsonl`.*
+*Written on 2026-10-27, from the conversation. Prompt `sessions/prompt-2b.txt`; transcript `sessions/session-2b.jsonl`, in commit `bd797945`. Since 2026-10-28 this folder holds its labelled excerpt instead, `sessions/session-2b-excerpt.jsonl` (`sessions/README.md`).*
 
 - **The run:** 19:38:29 to 19:51:56 EDT: `success`, `is_error` false, `terminal_reason` completed, $3.97. It took 96 turns, more than `--max-turns 80`, without being cut short, so the limit does not count turns the way the result event does.
 - **Permission denials: 4,** none of which stopped the work:
@@ -424,3 +424,40 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **My review:** I reviewed Claude's results and looked at the captures, and found no problems: "我审核了你的结果，截图也看过了，没有问题。" ("I reviewed your results and looked at the screenshots too; there is no problem.") TEST-REPORT.md records this too.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I asked Claude to do these checks, then reviewed its results and the captures. Claude wrote both tools, ran them, judged the captures, made the measurements, and drafted this entry and TEST-REPORT.md.
+
+## 2026-10-28 — Checking the work against the assignment, and closing the documentation gaps
+
+*Written on 2026-10-28, from the conversation.*
+
+- **Attempt (me):** I asked Claude, in Chinese, what is left of Assignment 5 and whether what is done meets the assignment.
+- **The check (Claude):** it reread the Canvas text and checked each part, the "Done means" list and the rubric against the files.
+  - Parts 1 to 3 are done. Ship It and Verify have not started.
+  - Five things fell short of the text: no curl threshold is set; rule 8's fade-in has no check; `sessions/session-2b.jsonl`, at 1.6 MB, is over the "about 1 MB" allowed for a transcript; CLAUDE.md's Unconfirmed section was out of date, and its test commands left out the two new tests; and SOURCES.md still says of the documents, "Will check them against what I did".
+  - Others could cost points. The interface sweep and the two-materials check, which the assignment marks HUMAN CHECK, were done by Claude. The predictions were computed by Claude's script, not by hand. And no entry here records what I expected or learned.
+  - `rudy.gd`, `main.gd`, the existing tests, the outline material, both `project.godot` files, and the `.glb` files and their imports are byte for byte as in Assignments 2 and 3.
+- **Found on the way (Claude):** the driver (`bd797945`) added a line to `hud.gd`'s top comment and two lines to `hud.tscn`. So three of CLAUDE.md's references were one line off, and it still said `Hearts` has no material. The brief cites the same lines; its revision 4 gives the new ones.
+- **The changes (Claude, at my request), not committed:**
+  - CLAUDE.md, from 103 lines to 109. The moved references and the hearts' material are corrected. Added: the driver; two facts the captures settled, that `hint_range` does not clamp and what the hint experiment displays; the sweep's finding; the generated shader; the two new tests' commands and counts; the four new capture tools, with a Headless fact about them. Unconfirmed now lists only what is still open.
+  - The transcript: `sessions/session-2b-excerpt.jsonl`, 874,696 bytes, made by `scripts/excerpt_transcript.py`, replaces `sessions/session-2b.jsonl` in the folder; the full transcript stays in `bd797945`. The excerpt keeps all 664 events and cuts only two fields of the harness's copy of each tool result, which repeat what is kept. `sessions/README.md` labels it and lists every transcript.
+  - The FRICTIONAL entry and the SOURCES rows that cite the transcript now name the excerpt.
+- **Checks (Claude):** putting the 61 cut values back gives the original events exactly; the result event is byte for byte the original; and the script, run on the full transcript from `bd797945`, gives the excerpt byte for byte.
+- **Still mine to do or decide:** the threshold; the fade-in check; the sweep and the two-materials check, by my own eyes; a hand check of some predictions; what I expected and learned; and checking SOURCES.md and this file against what I did.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I asked for the check and the changes. Claude did the check, made the changes and their checks, and drafted this entry.
+
+## 2026-10-28 — The curl threshold, the fade-in and the three edge cases
+
+*Written on 2026-10-28, from the conversation.*
+
+- **The threshold (me):** I chose 0.5, the value Claude had proposed. It lies between Rock 01's 0.1444 in its own convention and the 1 the assignment gives for a map with no surface behind it.
+- **Its checks (Claude):** two more checks in `godot/tests/calibrate_normal_map_check.gd`: each Rock 01 file, read in its own convention, is under 0.5.
+  - Through the wrapper at 60 fps: 4 PASS, exit 0 (`logs/godot_calibrate_normal_map_check_60fps.log`).
+  - With the threshold set to 0.1, below 0.1444, the two new checks failed and the test exited 1 (`logs/godot_calibrate_normal_map_check_60fps_threshold_0.1.log`). Claude restored the script and checked it against its SHA-256 from before the change. The rerun passed 4 of 4.
+- **The fade-in (me):** Claude asked me to run `game/` in the editor, press Enter on the title, and watch whether the hearts fade in as before and whether they look blue. I answered "看过了没问题" ("I looked; no problem").
+- **The three edge cases (me):** asked for a sentence on each, I answered "都没问题" ("none of them had a problem").
+- **What Claude did not write:** I asked Claude to write the remaining points for me to review. It left three as they were, because the assignment asks for them from me: the sweep and the two-materials check by my own eyes, predictions computed by hand, and what I expected and learned. The sweep and the two-materials check stay Claude's checks, as TEST-REPORT.md records.
+- **The hand check (me), after the captures:** from the inputs and formulas Claude gave me, I recomputed two of the brief's predictions by hand: P1 at `tint_amount` 0.5, and quad B's left band in the hint experiment. I said "手算复核完了，没问题" ("I've done the hand check; no problem"). My numbers are not written down here.
+- **My review:** I reviewed the day's changes, and SOURCES.md and this file against what I did: "审核完了，没问题" ("I've finished the review; no problems").
+- **Updated (Claude):** TEST-REPORT.md (the summary, and sections 1, 4, 5, 10 and 14); CLAUDE.md, where the threshold and the fade-in are now facts and Unconfirmed lists two items; and SOURCES.md.
+- **Expected / learned:** about the shader from code, in my words: "一开始写色彩行之前，还不知道 COLOR 里已经乘了贴图和 modulate" ("Before I first wrote the colour line, I did not yet know that COLOR already has the texture and the modulate multiplied into it"). It is in that entry too.
+- **Human / AI:** I chose the threshold, checked the fade-in and the edge cases, did the hand check, said what I learned and reviewed the changes. Claude added the threshold's checks and their mutation, ran them, updated the documents and drafted this entry.

@@ -2,14 +2,14 @@
 
 The actual results of the assignment's Use It checks: what ran, on what, what it showed, and who checked it.
 
-**How this report was made.** Claude Code (Claude Opus 5.5) drafted it on 2026-10-27 from the logs, the captures and our conversation. Three checks were done by Claude, at my request, from in-engine captures: the interface sweep, the two materials and the OS screenshot. Each says so. The captures for the controlled values and the hint experiment were also made by Claude's tools, with my approval. The dated record of every step is [FRICTIONAL.md](FRICTIONAL.md).
+**How this report was made.** Claude Code (Claude Opus 5.5) drafted it on 2026-10-27 from the logs, the captures and our conversation. On 2026-10-28 Claude added the curl threshold I chose, and my answers on the fade-in, the three edge cases and a hand check. Three checks were done by Claude, at my request, from in-engine captures: the interface sweep, the two materials and the OS screenshot. Each says so. The captures for the controlled values and the hint experiment were also made by Claude's tools, with my approval. The dated record of every step is [FRICTIONAL.md](FRICTIONAL.md).
 
-**My review.** On 2026-10-27, before this report was committed, I reviewed Claude's results and looked at the captures. In my words: "我审核了你的结果，截图也看过了，没有问题。" ("I reviewed your results and looked at the screenshots too; there is no problem.")
+**My review.** On 2026-10-27, before this report was committed, I reviewed Claude's results and looked at the captures. In my words: "我审核了你的结果，截图也看过了，没有问题。" ("I reviewed your results and looked at the screenshots too; there is no problem.") On 2026-10-28 I reviewed that day's changes: "审核完了，没问题" ("I've finished the review; no problems").
 
 ## What it ran on
 
 - **Source revision.** Every result below comes from the game source as of `bd797945` and the props source as of `fe795908`. Nothing in `game/` outside `game/tests/`, or in `godot/` outside `godot/tests/` and `godot/tools/`, has changed since. `fe795908` added only `godot/shaders/standard_generated.gdshader`, which nothing uses.
-  - The headless tests were last run at `5db11399`, on 2026-10-27 at 23:12 EDT.
+  - The headless tests were last run at `5db11399`, on 2026-10-27 at 23:12 EDT. The calibration ran again on 2026-10-28, with the threshold's two new checks (section 10).
   - The windowed captures ran at `fe795908` (the hearts and the hint experiment, 22:00) and at `5db11399` (the OS screenshot at 23:06, the sweep and the two materials at 23:19). The last two tools, `godot/tests/capture_sweep.gd` and `godot/tests/capture_hint_vs_os.gd`, were not yet committed.
 - **Engine.** Godot 4.7.2.stable.official.ed1daf0bf, on macOS 15.1 on an Apple M3.
 - **Renderers.**
@@ -25,13 +25,13 @@ The actual results of the assignment's Use It checks: what ran, on what, what it
 | Baseline | `checks.tscn` 141 of 141 and `check_props.gd` 44 of 44 at 60 fps, before and after | the tests |
 | Shaders parse | The uniform lists of all three shaders asserted; no `SHADER ERROR` in any clean run's log; both shader mutations exit 1 | the tests; I made the mutations |
 | Driver | 15 of 15 at 30, 60 and 144 fps, through real input | the test |
-| Controlled values (HUMAN CHECK) | P1 and P2 exactly as predicted at 0.0, 0.5 and 1.0. At 2.0 they are within one step of the unclamped prediction, so `hint_range` does not clamp | Claude's capture tool, run with my approval; Claude looked at the captures |
-| In play (HUMAN CHECK) | The hearts tint on a hit and fade back; the three boundary cases behave as the brief says | me |
+| Controlled values (HUMAN CHECK) | P1 and P2 exactly as predicted at 0.0, 0.5 and 1.0. At 2.0 they are within one step of the unclamped prediction, so `hint_range` does not clamp | Claude's capture tool, run with my approval; Claude looked at the captures. Afterwards I recomputed one prediction by hand |
+| In play (HUMAN CHECK) | The hearts tint on a hit and fade back, and still fade in when play starts; the three boundary cases behave as the brief says | me |
 | Hint experiment (HUMAN CHECK) | All six bands exactly as predicted | Claude's capture tool, run with my approval; I looked at the scene in the editor |
 | Interface sweep (HUMAN CHECK) | `albedo_tint` and `uv_scale` change the look; `normal_strength` and `roughness_offset` change it by about 3 steps, too little to see. `uv_scale` breaks the look at both ends | Claude, at my request; I reviewed the results and the captures |
 | One shader, two materials (HUMAN CHECK) | One line of the shader changes both stones; one value in one material changes only that stone | Claude, at my request; I reviewed the results and the captures |
 | Material wiring | 125 of 125 after a fresh import; the `source_color` mutation exits 1 | the test; I made the mutation |
-| Texture data | `_nor_gl` 0.1444 and 1.8556, `_nor_dx` 1.8556 and 0.1444 | the tests |
+| Texture data | `_nor_gl` 0.1444 and 1.8556, `_nor_dx` 1.8556 and 0.1444. Each, in its own convention, is under the threshold, 0.5, which I chose | the tests |
 | Import settings | No `.import` file was rewritten, so there is no diff to explain | Claude, after each of five editor sessions |
 | OS screenshot | 4 to 11 steps darker than the engine capture, because of the display's colour profile. The engine capture is the one to trust | Claude, at my request; I reviewed the results and the captures |
 
@@ -50,7 +50,7 @@ The tests this assignment added, at the same revision, for Verify to compare aga
 |---|---|---|
 | `game/tests/invulnerable_tint_checks.tscn` | 30, 60, 144 | 15 PASS at each, `all checks passed` |
 | `godot/tests/test_materials.gd` | 60 | 125 PASS, `all checks passed` |
-| `godot/tests/calibrate_normal_map_check.gd` | 60 | 2 PASS, `all checks passed` |
+| `godot/tests/calibrate_normal_map_check.gd` | 60 | 4 PASS, `all checks passed` (2 until the threshold's checks were added on 2026-10-28, section 10) |
 
 - Every wrapper run exited 0, and none of the seven logs has a `SHADER ERROR` or `SCRIPT ERROR` line.
 - **What the rerun changed.** Six of the seven logs came out byte for byte as committed. `logs/game_checks_60fps.log` differs in two lines, neither a check's result:
@@ -124,11 +124,12 @@ Claude wrote it, and it ran with my approval (`logs/capture_tint.log`).
 
 - **`hint_range` does not clamp a value set from code** (the brief's short answer 7). The material reads back 2.0, and P1 and P2 land within one step of the unclamped prediction. The clamped values, `#B58086` and `#996F7B`, are 81 and 88 steps away.
 - **Rule 7, at 0.0.** Against the capture with no material (`evidence/use-it/hearts-no-material.png`), 1 of the 11,200 pixels under the hearts differs: the edge pixel (51, 67), by one step in green. That is within the assignment's "a step or two", so it is not a finding. I have not found out why.
-- **Rule 8, alpha.** P3, inside the empty heart where the texture's alpha is 0, stays the sky's `#C8C6CB` at every value. The fade-in when play starts was not captured.
+- **Rule 8, alpha.** P3, inside the empty heart where the texture's alpha is 0, stays the sky's `#C8C6CB` at every value. The fade-in when play starts was not captured; I checked it by eye on 2026-10-28. Claude asked me to run `game/` in the editor, press Enter on the title, and watch whether the hearts fade in as before and whether they look blue. I answered "看过了没问题" ("I looked; no problem").
 - **Rule 9, at 1.0.** Heart 1's outline at (40, 41) is `#39150C` at 0.0 and `#5F666D` at 1.0. Against B, that is 10.23:1 and 3.65:1, so it stays above 3:1.
   - The brief predicted 9.77:1 and 3.51:1 from the texel. The drawn pixel is slightly darker.
   - Claude computed these from the two captures with Pillow.
 - **B** is `#D0CCC9`. The brief's estimate, from a JPEG, was about `#D1CBC9`.
+- **By hand, after the captures.** Claude's script computed the brief's predictions. On 2026-10-28 I recomputed two of them by hand, from the brief's inputs and formulas: P1 at 0.5, and quad B's left band in the hint experiment (section 6). I said "手算复核完了，没问题" ("I've done the hand check; no problem").
 - Claude looked at the hearts in the captures; the pixel values are the tool's.
 
 ## 5. In play (HUMAN CHECK)
@@ -143,6 +144,8 @@ I said only that I had tried them, so they are recorded as behaving as the brief
 - back on the spikes in the window, no heart is lost, and the tint does not jump back up (rule 5);
 - after the last heart, the respawn starts the tint again from its strongest (rule 5);
 - Esc in the window holds the tint, and it continues on resume (rule 6).
+
+On 2026-10-28 Claude asked me for a sentence on each. I answered "都没问题" ("none of them had a problem").
 
 "Nothing else changed" answers the list Claude gave me before I played: Rudy's flicker and outline, the goblins, the spikes, the title and the rest of the HUD. After the session, `git status` showed no file changed. No one else has played it.
 
@@ -263,7 +266,10 @@ The curl ratio of each normal-map file, read from the source PNG with `godot/tes
 
 - The GL file comes out low with `directx = false` and near 2 with `true`, as the assignment says it should. So the sign convention is not reversed, and `s` was not flipped.
 - Logs: `logs/godot_calibrate_normal_map_check_60fps.log`, and the "Normal maps" part of `logs/godot_test_materials_60fps.log`.
-- **The threshold is not set yet.** Both checks compare the two conventions, and pass when the right one is lower; neither uses a threshold. Claude proposed 0.5, from the pair; I have not decided.
+- **The threshold is 0.5.** Claude proposed it, and I chose it on 2026-10-28. It lies between this pair's 0.1444 and the 1 the assignment gives for a map with no surface behind it. A map's two ratios always sum to 2 (FRICTIONAL.md, "The normal-map check"), so a map under 0.5 in one convention is over 1.5 in the other.
+  - `calibrate_normal_map_check.gd` has two more checks: each file, read in its own convention, is under 0.5 (lines 38–41). It passes 4 of 4 (`logs/godot_calibrate_normal_map_check_60fps.log`).
+  - With the threshold set to 0.1, below 0.1444, those two checks fail and the test exits 1 (`logs/godot_calibrate_normal_map_check_60fps_threshold_0.1.log`). Claude made that change, then restored the script byte for byte.
+  - `rock_01_nor_gl_1k.png` is the map both stone materials bind, so the map in use meets the threshold. `test_materials.gd` checks that this bound map is lower read as OpenGL than as DirectX; it does not use the threshold.
 
 ## 11. Import settings
 
@@ -326,7 +332,6 @@ No assertion was deleted or weakened to make a test pass.
 ## 14. What no headless run shows, and what is open
 
 - **How any shader looks.** The headless renderer draws nothing, so sections 4, 6, 7, 8 and 12 come from windowed captures.
-- **Whose eyes.** The sweep, the two materials and the OS screenshot are Claude's reading of the captures, at my request. I reviewed the results and looked at the captures afterwards, and found no problems. My own eyes were also on the materials and the hint scene in the editor, and on the hearts in play.
-- **Not captured.** The hearts' fade-in with the tint (rule 8).
+- **Whose eyes.** The sweep, the two materials and the OS screenshot are Claude's reading of the captures, at my request. I reviewed the results and looked at the captures afterwards, and found no problems. My own eyes were also on the materials and the hint scene in the editor, and on the hearts in play and their fade-in.
+- **Not captured.** The hearts' fade-in with the tint (rule 8). I checked it by eye (section 4).
 - **Below what can be seen.** Under the scene's lighting, `normal_strength` and `roughness_offset` cannot be judged by eye.
-- **Not decided.** The curl threshold.

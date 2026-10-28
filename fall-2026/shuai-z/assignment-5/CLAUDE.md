@@ -16,9 +16,11 @@ This folder holds two Godot projects, `game/` and `godot/`.
 - Main scene: `res://scenes/props_room.tscn` (`godot/project.godot:15`).
 
 **The object the 2D effect changes: the hearts**
-- `Hud/Hearts` is one `Control` with `hearts.gd`, `texture_filter = 4` and no material (`game/ui/hud.tscn:10-19`).
+- `Hud/Hearts` is one `Control` with `hearts.gd`, `texture_filter = 4` and the material `res://ui/hearts_tint.tres` (`game/ui/hud.tscn:6`, `hud.tscn:11-21`). That `ShaderMaterial` uses `res://shaders/invulnerable_tint.gdshader` and is local to the scene (`game/ui/hearts_tint.tres:3-7`).
 - `Hearts._draw()` draws all the hearts with `draw_texture_rect()`, using `UI-HEART-FULL.png` for the first `shown` and `UI-HEART-EMPTY.png` for the rest, `SPACING` 60 px apart, at 1/`DENSITY` (`game/ui/hearts.gd:6-9`, `game/ui/hearts.gd:21-24`).
-- `hud.gd` sets `max_hearts` and `shown` from Rudy (`game/ui/hud.gd:24-32`). It hides the hearts on the title with `modulate.a = 0.0` (`game/ui/hud.gd:54`) and fades them in with a tween (`game/ui/hud.gd:61`).
+- `hud.gd` sets `max_hearts` and `shown` from Rudy (`game/ui/hud.gd:25-33`). It hides the hearts on the title with `modulate.a = 0.0` (`game/ui/hud.gd:55`) and fades them in with a tween (`game/ui/hud.gd:62`). With the material on, the fade-in still works, checked by eye on 2026-10-28 (`TEST-REPORT.md` section 4).
+- The driver: every frame, `_process()` calls `_tint_hearts()` before the debug line's early return, and `_tint_hearts()` sets only `tint_amount`, to Rudy's `_invulnerable_left / invulnerable_time` (`game/ui/hud.gd:89-94`, `hud.gd:110-111`).
+- `hint_range` does not clamp a value set from code: with `tint_amount` set to 2.0, the material reads back 2.0 and the hearts' pixels land on the unclamped prediction (`logs/capture_tint.log:27-29`).
 
 **Game state that drives the effect: Rudy's invulnerability, owned by `game/content/rudy/rudy.gd`**
 - `invulnerable_time := 1.2` (`rudy.gd:75`); `_invulnerable_left := 0.0` (`rudy.gd:88`).
@@ -44,14 +46,18 @@ This folder holds two Godot projects, `game/` and `godot/`.
 **The textured shader, its textures and the hint experiment** (in `godot/`)
 - `shaders/weathered_stone.gdshader` has the samplers `albedo_tex`, `normal_tex` and `roughness_tex` (lines 3-5) and the groups `surface` and `relief` (lines 7-14). `materials/waystone_stone.tres` and `materials/circle_darkstone.tres` both use it, with the Rock 01 textures.
 - The textures are in `assets/textures/rock_01/`, with `ATTRIBUTION.md`; each one's import settings are in the `.import` file beside it. They import as DXT1 (colour, roughness) and RGTC_RG (OpenGL normal) with 10 mipmap levels, and `_nor_dx`, which no material uses, as RGB8 with none (`logs/probe_textures.log`).
-- The hint experiment is `shaders/hint_experiment.gdshader`, `materials/hint_source_color.tres` and `materials/hint_plain.tres`, and `scenes/hint_experiment.tscn`, built by `tools/build_hint_experiment.gd`. Its strip, `assets/hint_experiment/grey_strip_3x1.png`, is written by `tools/write_grey_strip.gd`. The scene's tonemap, exposure, glow, fog and adjustments are at their defaults, so the file leaves them out (`hint_experiment.tscn:6-8`, `logs/probe_hint_scene.log`).
-- `tests/normal_map_check.gd` is the assignment's curl check, unchanged. Calibrated on Rock 01, `_nor_gl` gives 0.1444 with `directx = false` and 1.8556 with `true`, and `_nor_dx` the reverse (`logs/godot_calibrate_normal_map_check_60fps.log`).
+- The hint experiment is `shaders/hint_experiment.gdshader`, `materials/hint_source_color.tres` and `materials/hint_plain.tres`, and `scenes/hint_experiment.tscn`, built by `tools/build_hint_experiment.gd`. Its strip, `assets/hint_experiment/grey_strip_3x1.png`, is written by `tools/write_grey_strip.gd`. The scene's tonemap, exposure, glow, fog and adjustments are at their defaults, so the file leaves them out (`hint_experiment.tscn:6-8`, `logs/probe_hint_scene.log`). In a window, its bands show 64, 128 and 192 with `source_color` and 137, 188 and 225 without, as the brief predicted (`logs/capture_hint.log:7-12`).
+- `tests/normal_map_check.gd` is the assignment's curl check, unchanged. Calibrated on Rock 01, `_nor_gl` gives 0.1444 with `directx = false` and 1.8556 with `true`, and `_nor_dx` the reverse (`logs/godot_calibrate_normal_map_check_60fps.log`). The threshold is 0.5, the human's choice: each file, read in its own convention, must come out under it (`tests/calibrate_normal_map_check.gd:14-17`, `calibrate_normal_map_check.gd:38-41`).
+- Under the scene's lighting, `normal_strength` and `roughness_offset` move the waystone's pixels by under 3 steps on average across their ranges, a change Claude could not see in the captures (`logs/capture_sweep.log:21-31`, `TEST-REPORT.md` section 7).
+- `shaders/standard_generated.gdshader` is the shader Godot generated from a StandardMaterial3D with Rock 01's textures, annotated by the human, and nothing uses it (`fe795908`). It compiles with 16 uniforms (`logs/probe_standard_generated.log:6`). `LANGUAGE-NOTES.md` cites its line numbers.
 
 **Tests: always run through `scripts/run-test.sh <game|godot> <test-file> <fps>`** (`scripts/run-test.sh:2`)
 - Run from this folder: `scripts/run-test.sh game checks.tscn 60` gives 141 checks and ends `all checks passed` (`logs/game_checks_60fps.log`). `checks.tscn` runs `checks.gd` as the scene (`game/tests/checks.tscn`).
 - `checks.gd` prints one `PASS` or `FAIL` line per check and ends `all checks passed` or `N check(s) FAILED` (`game/tests/checks.gd:1659`, `checks.gd:111`). The 141 is its `PASS` lines.
 - `scripts/run-test.sh godot check_props.gd 60` gives 44 `ok` lines and `PASS: 0 failed check(s)` (`logs/godot_check_props_60fps.log`).
-- `scripts/run-test.sh godot calibrate_normal_map_check.gd 60` prints the four ratios and ends `all checks passed` (`logs/godot_calibrate_normal_map_check_60fps.log`).
+- `scripts/run-test.sh godot calibrate_normal_map_check.gd 60` prints the four ratios, gives 4 `PASS` lines and ends `all checks passed` (`logs/godot_calibrate_normal_map_check_60fps.log`).
+- `scripts/run-test.sh game invulnerable_tint_checks.tscn <fps>`, at 30, 60 and 144, gives 15 `PASS` lines and ends `all checks passed` at each rate (`logs/game_invulnerable_tint_checks_30fps.log`, `_60fps.log`, `_144fps.log`).
+- `scripts/run-test.sh godot test_materials.gd 60` gives 125 `PASS` lines and ends `all checks passed` (`logs/godot_test_materials_60fps.log`).
 - The wrapper does five things (`scripts/run-test.sh:19-38`):
   - it runs a `.tscn` as the scene and a `.gd` with `--script`;
   - it pins `--fixed-fps`;
@@ -59,7 +65,7 @@ This folder holds two Godot projects, `game/` and `godot/`.
   - it writes `logs/<project>_<test>_<fps>fps.log`;
   - it fails on any `SHADER ERROR` or `SCRIPT ERROR` line, whatever the exit code.
 - Exit 0 alone is not a pass. Read the log.
-- `game/tests/capture.tscn` and `godot/tests/capture_props.gd` open a window and save screenshots (`game/tests/capture.gd:1-7`, `godot/tests/capture_props.gd:1-7`). They are not headless tests.
+- `game/tests/capture.tscn` and `capture_tint.tscn`, and `godot/tests/capture_props.gd`, `capture_hint.gd`, `capture_sweep.gd` and `capture_hint_vs_os.gd`, open a window and save screenshots; each script's first comment lines give its command (`game/tests/capture.gd:1-7`, `capture_tint.gd:2-10`, `godot/tests/capture_props.gd:1-7`, `capture_hint.gd:2-8`, `capture_sweep.gd:2-16`, `capture_hint_vs_os.gd:2-8`). They are not headless tests.
 - Checks that guard this change:
   - Rudy's `Look/Sprite` must keep `res://systems/art/outline.gdshader` (`game/tests/checks.gd:871-877`);
   - only `SpikesA`, `SpikesB` and `GoblinA` may carry a material among the placed level sprites (`game/tests/checks.gd:1056-1061`).
@@ -72,6 +78,7 @@ This folder holds two Godot projects, `game/` and `godot/`.
 - `get_shader_uniform_list()` reports a sampler as an `Object` with the hint string `Texture2D`, and none of its hints (`source_color`, `hint_normal`, filters), so a test reads them from the source text (`logs/probe_weathered_stone.log`).
 - An imported texture's format and mipmaps can be read headlessly with `get_image()` (`logs/probe_textures.log`).
 - A headless `--import` compiles only the shaders the main scene uses. A broken shader that nothing uses yet raises no error on import, so a clean import says nothing about it (`logs/probe_import_check.log`, from `evidence/headless-probe/import_check.sh`).
+- A windowed capture waits for `RenderingServer.frame_post_draw`, which a headless run never sends, so the first headless dry runs of the capture tools hung until `timeout` ended them with 124. The four capture tools this assignment added quit with exit 1 when the display server is `headless` (`game/tests/capture_tint.gd:32-34`, `godot/tests/capture_hint.gd:23-25`, `capture_sweep.gd:38-40`, `capture_hint_vs_os.gd:16-18`; `FRICTIONAL.md`, "The windowed captures of the hearts and the hint experiment").
 - Use `--headless` exactly, as the wrapper does. Here, adding `--rendering-driver metal` or `vulkan` to it, in either order, still stayed headless (`logs/probe_headless_rendering_driver.log`). Example 06 saw the long form, `--display-driver headless`, fall back to a window on macOS, and nothing in this folder needs `--rendering-driver`.
 
 ## Current change
@@ -80,7 +87,7 @@ This folder holds two Godot projects, `game/` and `godot/`.
 
 ## Ownership
 
-Every file in `game/shaders/` and `godot/shaders/` is written by hand by the human. An agent never creates, edits, reformats or "fixes" any of them, even to make a test pass. If a shader looks wrong, report it and stop. `game/shaders/` holds `invulnerable_tint.gdshader` (`ae0a3757`), and `godot/shaders/` holds `weathered_stone.gdshader` (`a87a18be`) and `hint_experiment.gdshader` (`9481663a`), each committed on its own.
+Every file in `game/shaders/` and `godot/shaders/` is written by hand by the human. An agent never creates, edits, reformats or "fixes" any of them, even to make a test pass. If a shader looks wrong, report it and stop. `game/shaders/` holds `invulnerable_tint.gdshader` (`ae0a3757`), and `godot/shaders/` holds `weathered_stone.gdshader` (`a87a18be`), `hint_experiment.gdshader` (`9481663a`) and `standard_generated.gdshader`, generated by the editor and annotated by the human (`fe795908`), each committed on its own.
 
 ## Out of scope
 
@@ -96,7 +103,5 @@ Every file in `game/shaders/` and `godot/shaders/` is written by hand by the hum
 
 ## Unconfirmed
 
-- **Files that do not exist yet.** `godot/MATERIALS.md`, `godot/tests/test_materials.gd`, `LANGUAGE-NOTES.md`, `TEST-REPORT.md` and `godot/shaders/standard_generated.gdshader`.
-- **Brief facts no headless run can check.** The hint experiment's displayed values (brief section 4) and the look of the stone materials (section 5).
-- **Missing files.** There is no `AGENTS.md` and no `README.md` in this folder.
-- **Rendering claims.** These come from the brief, not from files here: the Compatibility renderer uploads canvas uniforms without sRGB conversion, and `hint_range` does not clamp values set from code.
+- **Why the hearts need no sRGB step.** The brief computes on the values as written, from Chapter 6's reading of the Compatibility renderer's source, not from a file here. The captures match those predictions exactly at 0.0, 0.5 and 1.0 (`logs/capture_tint.log:10-25`), but the reason itself is not checked in this folder.
+- **Missing files.** There is no `AGENTS.md` in this folder, so this file does not begin with `@AGENTS.md`.
