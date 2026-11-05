@@ -76,7 +76,7 @@ func _check_source_names() -> void:
 func _check_emitter(e: GPUParticles2D) -> void:
 	_check("RunDust z_index is 0", e.z_index == 0, "%d" % e.z_index)
 	# Emission
-	_check("RunDust amount is 20", e.amount == 20, "%d" % e.amount)
+	_check("RunDust amount is 40", e.amount == 40, "%d" % e.amount)
 	_check("RunDust one_shot is false", e.one_shot == false, "%s" % e.one_shot)
 	_check_float("RunDust explosiveness", e.explosiveness, 0.0)
 	_check_float("RunDust randomness", e.randomness, 0.2)

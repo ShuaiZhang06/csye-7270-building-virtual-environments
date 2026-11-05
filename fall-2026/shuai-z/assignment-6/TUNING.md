@@ -123,3 +123,45 @@ The measured targets at frame 25: 612 pixels changed by 20 levels or more, again
 
 **Commits:** `017e8a52` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit of this round with strip r1.
 
+---
+
+## 2026-11-05 — Effect B, revision r2
+
+**What I saw:** my verdict on r1 above: I can see it now, but there is still not enough dust, and it is not obvious enough.
+
+**Claude's reading of r1:** the comparison in revision r1 above. In short: a dark-brown dotted line behind his boots that reads for about 135 px; the puffs stay separate, with grass showing between them, and the older half of the band fades out.
+
+**Change:** `RunDust` `amount` 20 → 40, proposed by Claude and approved by me. The configuration test's expected value moved with it, and the test passes 61 of 61 at 60 fps. At full speed a puff is born every 7 px instead of every 14 px, so the puffs, 11–37 px across, overlap into one band, and where they overlap their opacity adds up. It answers "not enough" directly and "not obvious enough" through the overlap, and it leaves the band's length, height, colour and timing alone. Not proposed: a bigger `scale` (the band would grow above his knees, against the brief) and a harder-edged texture (it would make each puff read as a disc). If kept, the trail peaks at 40 particles, not 20 (section 8 of the brief).
+
+**Claude's prediction for r2** (same seed; with twice as many particles the puffs will not keep r1's exact positions):
+
+| Frame | Predicted |
+|---|---|
+| 10 | At most one or two faint dots at his boots |
+| 13 | 4–8 dark-brown smudges behind his rear boot, overlapping into one short dark streak about 55 px long |
+| 25 | One continuous dark-brown band behind him, readable for 150–200 px from his boots (r1: about 135 px of separate dots), darkest at his boots, with no grass gaps in its first 100 px |
+| 40 | The same as frame 25 |
+| 46 | A pale patch 40–70 px long near where he stopped |
+| 56 | Nothing |
+
+Measured against the no-dust render at frame 25: at least 1,000 pixels changed by 20 levels or more (r1: 612), and a largest change of at least 90 levels (r1: 87; the centres were already opaque, so overlap should mostly add area, not depth).
+
+**Claude's comparison of r2 with its prediction** (the same crops, r1 and r2 side by side, and the same pixel comparison):
+
+| Frame | Predicted | r2 shows (pixels changed; ≥ 20 levels; largest) | Match |
+|---|---|---|---|
+| 10 | At most one or two faint dots | Nothing visible (203; 0; 19) | Yes |
+| 13 | 4–8 smudges overlapping into one short dark streak about 55 px long | One short dark-brown streak behind his rear boot, about 55 px (885; 356; 80) | Yes |
+| 25 | One continuous dark-brown band, readable for 150–200 px, no grass gaps in its first 100 px | A dark-brown band, solid for about 130 px from his boots with only small gaps, and fainter out to about 180 px (2,940; 1,054; 105) | Yes, at the short end of the range |
+| 40 | The same as frame 25 | The same band, about 140 px solid (2,576; 992; 108) | Yes |
+| 46 | A pale patch 40–70 px long near where he stopped | A darker patch about 35 px long at his feet, fading beyond (1,581; 354; 109) | Partly: a little shorter and darker than predicted |
+| 56 | Nothing | Nothing | Yes |
+
+The measured targets at frame 25: 1,054 pixels changed by 20 levels or more, against at least 1,000 predicted (met), and a largest change of 105 levels, against at least 90 (met). Overlap made the band continuous near his boots and darker than r1 everywhere it reaches. Frame 46 is darker than predicted because twice as many young puffs were alive when he stopped.
+
+**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): the dust could rise at a steeper angle; right now it nearly all stays on the ground. [尘土扬起的角度还可以高一些，现在基本都只是在地面上] **Kept** as the base for the next round, r3.
+
+**Strips:** `captures/run_dust/r1/`, `captures/run_dust/r2/` (`logs/capture_run_dust_r2.log`); fixture captures, as above.
+
+**Commits:** the commit of this round with strip r2.
+

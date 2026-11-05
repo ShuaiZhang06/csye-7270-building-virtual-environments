@@ -50,7 +50,7 @@ hue_variation_max = 0.02
 [node name="RunDust" type="GPUParticles2D"]
 z_index = 0
 emitting = false
-amount = 20
+amount = 40
 texture = SubResource("GradientTexture2D_puff")
 lifetime = 0.5
 one_shot = false

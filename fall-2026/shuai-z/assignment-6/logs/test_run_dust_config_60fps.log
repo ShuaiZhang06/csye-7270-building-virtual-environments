@@ -6,7 +6,7 @@ PASS  no process material in the file has a Godot 3 property line
 PASS  root is a GPUParticles2D named RunDust  (GPUParticles2D RunDust)
 PASS  root has no children: one emitter, no layers  (0)
 PASS  RunDust z_index is 0  (0)
-PASS  RunDust amount is 20  (20)
+PASS  RunDust amount is 40  (40)
 PASS  RunDust one_shot is false  (false)
 PASS  RunDust explosiveness is 0.0  (0.0)
 PASS  RunDust randomness is 0.2  (0.20000000298023)
