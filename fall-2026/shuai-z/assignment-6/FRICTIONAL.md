@@ -144,3 +144,14 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Still to do for Step 2:** the two mutations of the effect scene, recorded in TEST-REPORT.md.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I judged the preview twice and approved the change. Claude ran the captures and the plays, read and compared the strips, made the change and drafted the records.
+
+## 2026-11-04 — Step 2: the two mutations of Effect A
+
+*Written on 2026-11-04, from the conversation. The results are in `TEST-REPORT.md`, "Mutations".*
+
+- **Attempt (Claude, at my request):** the assignment's two mutations of `game/effects/slash_sparks.tscn`, one line each, each followed by the configuration test at 60 fps and a `git checkout` of the file.
+- **Results:** the Godot 3 name (`initial_velocity_min` → `initial_velocity`) exited 1 with two failures, the text scan and the value; the changed value (`spread` 30 → 45, brief unchanged) exited 1 with one failure. The file's SHA-1 matched the committed one after each restore, and the test passed again.
+- **The game check:** the effect is not in the game yet, so Claude captured the mutated preview in a window instead. The burst still fired and still read as a spray, with a few slow sparks left near the hitbox.
+- **Logs:** the wrapper writes every run of the test to the same log, so Claude copied each mutation's log to its own name before restoring the file.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude ran the mutations, the capture and the checks, and drafted TEST-REPORT.md; I asked for them.
