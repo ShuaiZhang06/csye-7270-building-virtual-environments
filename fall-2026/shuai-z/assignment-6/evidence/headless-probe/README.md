@@ -55,3 +55,29 @@ is within about 0.001 ms of the empty scene, while the same number of CPU
 particles cost about 0.73 ms; that is the instrument, not the GPU's cost.
 These numbers come from one machine on one evening, for the CLAUDE.md facts;
 Step 7 prices the effects themselves with the course's cost script.
+
+## The Godot 3 names in a scene file (`probe_mutation.gd`)
+
+Run on 2026-11-04 after the review commit, to correct failure 1 in
+CHANGE-BRIEF.md (its Revision 2). From `assignment-6/`:
+
+```bash
+timeout 120 godot --headless --path evidence/headless-probe --script res://probe_mutation.gd > logs/probe_mutation.log 2>&1
+```
+
+`godot3_mutations.tscn` holds four materials written with Godot 3 lines, and
+`godot3_class.tscn` a `Particles2D` node with a `ParticlesMaterial`
+sub-resource. What they load as (`logs/probe_mutation.log`):
+
+| Lines in the scene file | Loads as | Line |
+|---|---|---|
+| (Godot saving a material with `initial_velocity_min` 260 and `_max` 420) | `initial_velocity_min` is written before `initial_velocity_max` | 3 |
+| `initial_velocity = 260.0`, then `initial_velocity_max = 420.0` | velocity 0 to 420 | 4 |
+| `initial_velocity_max = 420.0`, then `initial_velocity = 260.0` | velocity 0 to 0 | 5 |
+| `scale = 0.7`, then `scale_max = 1.0` | scale 0 to 1 | 6 |
+| `flag_disable_z = true`, `flag_align_y = true` | `particle_flag_disable_z` true; `particle_flag_align_y` false, its default | 7 |
+| `[node type="Particles2D"]` with `[sub_resource type="ParticlesMaterial"]` and `initial_velocity_min = 260.0` | a `GPUParticles2D` with a `ParticleProcessMaterial`, `initial_velocity_min` 260 | 8-10 |
+
+None of these printed a warning or an error. So a Godot 3 class name, or
+`flag_disable_z`, changes nothing at all, while `flag_align_y` and the two range names
+tested here change the effect without a message.

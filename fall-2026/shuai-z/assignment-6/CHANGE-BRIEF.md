@@ -326,4 +326,18 @@ Both previews are fixtures, and every capture of them is labelled as one.
 
 ## Revisions
 
-None yet.
+### Revision 2 — 2026-11-04, after the Step 1 review
+
+Probes run during the CLAUDE.md review showed that failure 1 in section 7 predicts the wrong result, and that two references are imprecise. Revision 1 above stays as it was committed; where the two differ, this revision holds. Claude Code drafted it from the probe logs; it was committed on my word.
+
+- **Failure 1, Godot 3 names in a scene file.** Revision 1 predicted that they "sit at their defaults". In Godot 4.7.2 each name does something different (`logs/probe_particles_headless.log:17-22`, `logs/probe_mutation.log:3-10`):
+  - `Particles2D` loads as `GPUParticles2D` and `ParticlesMaterial` as `ParticleProcessMaterial`, with their values kept, and `flag_disable_z` sets `particle_flag_disable_z`. The effect is unchanged, so neither a configuration test nor a strip can see these three. They are still not used.
+  - `flag_align_y` is dropped without a message, so `particle_flag_align_y` stays false and the sparks no longer point along their motion. The configuration test reads `particle_flag_align_y` and catches it.
+  - `initial_velocity`, `scale`, `damping` and `hue_variation` exist only as editor ranges, never saved. A number on an `initial_velocity` or `scale` line (the two tested) sets both ends of the range to 0, and a `_max` line after it sets the top end again. So `scale = 1.0` on its own hides the particles at scale 0; it does not give "puffs at scale 1".
+- **The Step 2 mutation.** Godot saves `initial_velocity_min` before `initial_velocity_max` (`logs/probe_mutation.log:3`). So renaming that line to `initial_velocity` in `Sparks` loads as 0 to 420 px/s, not as speed 0 (`logs/probe_mutation.log:4`). The new prediction:
+  - `test_slash_sparks_config.gd` fails on `initial_velocity_min`, which reads 0 instead of 260;
+  - on screen the burst looks almost the same, with a few slow sparks left near the flash.
+
+  The test is the check for this mutation, not the strip.
+- **Section 3, Effect B's condition.** `absf(velocity.x) > 1.0` is checked at `rudy.gd:306`, and `is_on_floor()` at `rudy.gd:298`. `rudy.gd:215` is where `velocity.x` is set, not where the run test reads it.
+- **Section 1, Pause.** The music keeps running while paused because `game/systems/audio/music.gd:40` sets it to always process. `system_keys.gd:15` covers only `SystemKeys`.
