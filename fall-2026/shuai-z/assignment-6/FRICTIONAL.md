@@ -155,3 +155,34 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Logs:** the wrapper writes every run of the test to the same log, so Claude copied each mutation's log to its own name before restoring the file.
 - **Expected / learned:** none recorded.
 - **Human / AI:** Claude ran the mutations, the capture and the checks, and drafted TEST-REPORT.md; I asked for them.
+
+## 2026-11-04 — Step 3: the plan for wiring Effect A
+
+*Written on 2026-11-04, from the conversation. Prompt `sessions/prompt-3.txt`; transcript `sessions/session-3.jsonl`; plan `sessions/plan-3.md`.*
+
+- **The prompt (Claude):** the course's Step 3 prompt with `game/` paths, run in two invocations as in Assignment 5: this one asks for the plan only and says no file may change.
+- **The command:** `dontAsk`, with Edit, Write and NotebookEdit disallowed, and Bash only for read-only `git` and `ls`.
+- **The run:** 22:31:22 to 22:33:54 EST: `success`, `is_error` false, `terminal_reason` completed, 7 turns, $1.06, no permission denials. Only its transcript is new.
+- **The plan:** a read-only driver after `Rudy` in `main.tscn` that starts a new `SlashSparks` on each tick the sword's hitbox goes live, a state test of 14 checks through the real game loop, and two optional mutations of the driver.
+- **Checks (Claude):** the plan's key claim holds. `Shape.disabled` is written in Rudy's own `_physics_process` (`rudy.gd:223-229`), so only a driver after him sees the edge on the same tick. `checks.gd` only looks for the nodes it lists in `main.tscn` and counts only `FlyingGear` among Main's children, so two new nodes cannot break it.
+- **My decisions:** I approved steps 1 to 4. The session wrote the plan in Chinese, and I asked for `sessions/plan-3.md` to be in English: it is Claude's translation, with a note saying so, and the original is in the transcript.
+- **Expected / learned:** none recorded.
+- **Human / AI:** the scoped session wrote the plan. Claude wrote the prompt, ran the session, checked the plan against the code and translated it. I approved the steps.
+
+## 2026-11-04 — Step 3: the driver, the state test and its mutations
+
+*Written on 2026-11-04, from the conversation. Prompt `sessions/prompt-3b.txt`; transcript `sessions/session-3b.jsonl`; results in `TEST-REPORT.md`, "Step 3".*
+
+- **The prompt (Claude):** approves the plan's steps 1 to 4 unchanged, one step at a time with each diff, the course's rules for this step, and "Write your reports in English".
+- **The command:** `dontAsk`, with writes allowed only to the four files the plan names, the wrapper under four spellings, a headless import, read-only `git` and `ls`, and an absolute deny rule on `game/shaders/`.
+- **The run:** 22:41:43 to 22:48:43 EST: `success`, `is_error` false, `terminal_reason` completed, 49 turns, $2.27. **Permission denials: 2**: the wrapper with commands chained after it, and copying the two files to its scratchpad before the mutations. It restored them with Edit instead.
+- **On the way:** a GDScript type-inference parse error in its test, and a detail line in S14 that printed values read after the resume. It fixed both without changing an assertion.
+- **Checks (Claude, in this conversation):**
+  - Only the four planned files and the logs changed; `game/shaders/` and the wrapper are untouched.
+  - The driver is the plan's code with a doc comment. The test calls no driver function, and writes only Rudy's position and once his velocity, as `checks.gd` does.
+  - After the mutations, both files hash to their step-1 blobs.
+  - Claude's own rerun: the state test 14 of 14 at 60 fps, `checks.tscn` 141, the tint test 15 at 30, 60 and 144, the configuration test 108. A headless import made the two new `.uid` files.
+  - The wrapper reuses one log name, so Claude copied the two mutation runs out of the transcript into `logs/mutation_driver_*_60fps.log`.
+- **Expected / learned:** none recorded.
+- **Human / AI:** the scoped session wrote the driver, the scene change and the test, and ran the mutations. Claude wrote the prompt, ran the session, checked it and drafted the report. I approved the plan.
+- **Afterwards (me):** I played the game with the effect wired in and found no problem. I did not list which eye checks I made; TEST-REPORT.md says so.

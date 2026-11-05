@@ -51,7 +51,7 @@ What it should not change: the flash, the streaks' size and colour, the reach, a
 
 Where it differs, the likely reason: at frame 20 most sparks are still alive, because `lifetime_randomness` 0.4 gives lives between 0.27 s and 0.45 s, but they are drawn at about a third of their size and partly faded. Whether one still shows as a speck depends on its own random life and size. My prediction doubled r0's two visible specks instead of working out how many lives last past 0.33 s, and the 14 new sparks happen to include several long-lived ones that went higher. So the overlap at frame 20 is easier to see than I predicted, but those sparks are still small and faint.
 
-**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): **kept**. I gave no further reason. The effect is not in the game yet (Step 3 wires it in), so this verdict is on the preview, not on play.
+**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): **kept**. I gave no further reason. The effect was not in the game yet, so this verdict was on the preview. After Step 3 wired it in, I played the game with the 28 sparks and found no problem [我已经进到游戏里看过了，没问题].
 
 **Strips** (fixture captures; Movie Maker, 30 fps, 1280 × 720, seeds 1 and 2, started by Claude at my request; only frames 10, 12, 15, 20, 30 and 50 are kept):
 - `captures/slash_sparks/r0/` (`logs/capture_slash_sparks_r0.log`)
