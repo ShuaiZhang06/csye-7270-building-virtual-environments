@@ -103,8 +103,8 @@ func _check_emitter(e: GPUParticles2D) -> void:
 	_check("RunDust particle_flag_align_y is false", m.particle_flag_align_y == false, "%s" % m.particle_flag_align_y)
 	_check("RunDust direction is (0, -1, 0)", m.direction.distance_to(Vector3(0, -1, 0)) < 1e-3, "%s" % m.direction)
 	_check_float("RunDust spread", m.spread, 50.0)
-	_check_float("RunDust initial_velocity_min", m.initial_velocity_min, 40.0)
-	_check_float("RunDust initial_velocity_max", m.initial_velocity_max, 90.0)
+	_check_float("RunDust initial_velocity_min", m.initial_velocity_min, 80.0)
+	_check_float("RunDust initial_velocity_max", m.initial_velocity_max, 160.0)
 	_check("RunDust gravity is (0, 0, 0)", m.gravity.is_equal_approx(Vector3.ZERO), "%s" % m.gravity)
 	# Damping: Effect B's process feature, which Effect A does not use.
 	_check_float("RunDust damping_min", m.damping_min, 120.0)

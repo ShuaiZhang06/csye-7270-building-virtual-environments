@@ -351,3 +351,20 @@ I watched the first strip's preview (r0) in a window and found the sparks too sp
 - **Section 6, the strip:** frame 12 shows about 14–18 streaks that can be told apart, not 14, and frames 20 and 30 show about 7–8 small specks of the earlier burst, 80–140 px forward. That is within the 6–10 Revision 1 predicted; Claude's prediction of 3–5 for r1 was too low (`TUNING.md`). The other frames read as before.
 
 Claude Code drafted this revision; it was committed on my word.
+
+### Revision 4 — 2026-11-05, Effect B tuning r1–r3: a darker ramp, 40 puffs, twice the speed
+
+In the first strip's preview (r0) I could not see the dust at all. Three rounds followed, each one change proposed by Claude and approved by me, each kept after I watched the new strip's preview at real speed (`TUNING.md`, "Effect B, revision r1" to "r3"). Where Revision 1 says otherwise, this revision holds:
+
+- **Section 3, the settings:**
+  - `color_ramp` (r1): `#5C4A35` α 0 at 0 → `#5C4A35` α 1.0 at 0.15 → `#6E5A43` α 0.8 at 0.6 → `#9C8463` α 0 at 1.
+  - `amount` (r2): 40, not 20.
+  - `initial_velocity_min` / `_max` (r3): 80 / 160 px/s, not 40 / 90.
+
+  `game/effects/run_dust.tscn` and `game/tests/test_run_dust_config.gd` say the same.
+- **Section 3, contrast.** Revision 1's figures (2.9:1 against the wheat) assumed opaque dust over the wheat. The puffs are born in the green grass strip above the walk line, at no more than 0.75 opacity with soft edges, and there they nearly vanished. At full opacity the new colour gives about 3.3:1 against the grass strip and 4.5:1 against the wheat.
+- **Section 3, scale and timing.** At full speed a puff is born about every 7 px, so the puffs overlap into one band at his boots. They no longer stop 4–17 px above where they were born: the band rises as it goes back, to about 55–60 px above the walk line at its far end (58 px measured at r3's frame 25), above Revision 1's limit of about 40 px. I chose that after watching r2, where the dust stayed inside the grass.
+- **Section 8:** Effect B peaks at 40 particles, not 20. The GPU-time prediction and the 0.25 ms budget stay as they are.
+- **Section 6, the strip** (as r3 shows it): 10, nothing yet; 13, a short dark streak behind his rear boot; 25 and 40, a dark-brown band low at his boots that rises behind him, its far end a few loose puffs over the lower wheat; 46, pale puffs near where he stopped; 56, nothing.
+
+Claude Code drafted this revision; it was committed on my word.

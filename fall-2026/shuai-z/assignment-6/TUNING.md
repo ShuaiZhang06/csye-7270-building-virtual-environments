@@ -165,3 +165,44 @@ The measured targets at frame 25: 1,054 pixels changed by 20 levels or more, aga
 
 **Commits:** the commit of this round with strip r2.
 
+---
+
+## 2026-11-05 — Effect B, revision r3
+
+**What I saw:** my verdict on r2 above: the dust could rise at a steeper angle; right now it nearly all stays on the ground.
+
+**Claude's reading of r2**, measured: in the comparison with the no-dust render, the pixels the dust changes by 20 levels or more reach at most 21 game px above the walk line at frame 13, 33 px at frame 25, 34 px at frame 40 and 32 px at frame 46. The grass strip is about 40 px tall, so the whole trail stays inside it, as I saw. The reason is in the settings: puffs leave at 40–90 px/s and damping of 120–180 px/s² stops them within a third of a second, so the highest puff centre in a frame sits only about 25 px up (a simple model of those settings; the remaining 8 px is the puff's own size).
+
+**Change:** `RunDust` `initial_velocity_min` / `_max` 40 / 90 → 80 / 160 px/s, proposed by Claude and approved by me. The configuration test's expected values moved with it, and the test passes 61 of 61 at 60 fps. The change is: one setting (the speed range), doubled at both ends. Damping stays as it is, so each puff still slows to a hang, but it gets about twice as high before it does. Direction, spread, colour, number and lifetime are unchanged. Not proposed: less damping (it is the feature this effect is built on) and a narrower spread (it would raise the puffs by under 15 %). If kept, the trail's far end rises above the brief's limit of about 40 px, so the brief's height line changes with it.
+
+**Claude's prediction for r3** (same seed). The same model puts the highest puff centre at about 49 px instead of 25, so with the puff's size the measured top should be about 55 px:
+
+| Frame | Predicted |
+|---|---|
+| 10 | Nothing visible |
+| 13 | A short streak behind his rear boot that already lifts off the grass, its top about 30–35 px above the walk line (r2: 21) |
+| 25 | The band rises as it goes back: low and solid at his boots, and higher and more broken towards its far end, where the oldest puffs hang over the lower wheat; top about 50–62 px above the walk line (r2: 33) |
+| 40 | The same as frame 25 |
+| 46 | The oldest puffs high and pale near where he stopped, top about 55 px (r2: 32) |
+| 56 | Nothing |
+
+Measured at frame 25: the top of the pixels changed by 20 levels or more 50–62 game px above the walk line, and at least 1,000 such pixels (r2: 1,054).
+
+**Claude's comparison of r3 with its prediction** (the same pixel comparison; "top" is the highest pixel changed by 20 levels or more, in game px above the walk line):
+
+| Frame | Predicted | r3 shows (≥ 20 levels; largest; top) | Match |
+|---|---|---|---|
+| 10 | Nothing visible | Nothing visible (1; 20; 10) | Yes |
+| 13 | A short streak lifting off the grass, top 30–35 px | A short streak behind his rear boot, only a little higher than r2 (388; 106; 26) | No: lower than predicted |
+| 25 | The band rising as it goes back, low and solid at his boots, the oldest puffs over the lower wheat; top 50–62 px | Low and dark at his boots, rising behind him; its far end is a few loose puffs over the lower wheat (1,501; 110; 58) | Yes |
+| 40 | The same as frame 25 | The same shape: dark puffs above the grass in the wheat behind him (1,621; 125; 54) | Yes |
+| 46 | The oldest puffs high and pale, top about 55 px | Pale puffs near where he stopped, partly in front of the frozen sword pickup (548; 89; 48) | Partly: a little lower |
+| 56 | Nothing | Nothing: the frame is identical to r0's and r2's | Yes |
+
+The measured targets at frame 25: a top 58 px above the walk line, within the predicted 50–62 (r2: 33), and 1,501 pixels changed by 20 levels or more, against at least 1,000 (met). Frames 13 and 46 came out lower than predicted. The model counted only the highest puff; at frame 13 all puffs are under 0.1 s old and still rising, and at frame 46 the highest of them may already have died, so a single top is noisier in those frames than in the full band.
+
+**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): **kept**. I gave no further reason.
+
+**Strips:** `captures/run_dust/r2/`, `captures/run_dust/r3/` (`logs/capture_run_dust_r3.log`); fixture captures, as above.
+
+**Commits:** the commit of this round with strip r3, which also adds the brief's Revision 4 for all three rounds of Effect B.

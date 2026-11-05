@@ -186,3 +186,20 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Expected / learned:** none recorded.
 - **Human / AI:** the scoped session wrote the driver, the scene change and the test, and ran the mutations. Claude wrote the prompt, ran the session, checked it and drafted the report. I approved the plan.
 - **Afterwards (me):** I played the game with the effect wired in and found no problem. I did not list which eye checks I made; TEST-REPORT.md says so.
+
+## 2026-11-05 — Step 5: Effect B, its first strip, and tuning rounds r1 to r3
+
+*Written on 2026-11-05, from the conversation. Prompt `sessions/prompt-4.txt`; transcript `sessions/session-4.jsonl`; commit `017e8a52`; the rounds are in `TUNING.md`, "Effect B, revision r1" to "r3".*
+
+- **The build (Claude, at my request):** the course's Step 2 prompt with Step 5's changes, in a `dontAsk` session that could write only the four planned files: `success`, 12 turns, $1.13, no permission denials. Claude checked every value against the brief, reran every test, and ran the preview headless (emitting from frame 10 at x 1950 to frame 40 at x 2510). I approved the commit of its files unedited.
+- **The capture and my first look:** Claude ran Movie Maker in a window into `captures/run_dust/r0/`, then played the preview for me six times at real speed. Before Claude opened a frame, I said I could not see the dust trail at all.
+- **How Claude measured something I could not see:** it rendered the same preview with `RunDust` hidden, in a scratch copy of the game outside the repository, and compared each strip frame with it pixel by pixel. In r0 the dust changed only 136 pixels by 20 levels or more at frame 25. That method then gave each round's prediction a number to meet.
+- **Three rounds,** each one change that I approved and kept after watching the new strip at real speed:
+  - r1, a darker, more opaque `color_ramp`: I could see it, but it was not enough and not obvious enough;
+  - r2, `amount` 20 → 40: the puffs joined into a band, but it stayed on the ground;
+  - r3, `initial_velocity` 40/90 → 80/160: the band rises to about 58 px at its far end.
+
+  Claude's predictions met their measured targets in all three rounds except one: r1's largest change was 87 levels against at least 90. Single frames came out shorter or lower than predicted in r1, r2 and r3, and `TUNING.md` says where and why.
+- **After the verdict (Claude):** the brief's Revision 4 records all three changes, the new height and the new peak of 40 particles. Only frames 10, 13, 25, 40, 46 and 56 of each strip are kept.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I judged every preview and approved every change. The scoped session built the effect. Claude ran the captures, the plays and the measurements, proposed and made each change, and drafted the records.
