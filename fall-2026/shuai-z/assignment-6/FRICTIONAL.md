@@ -114,3 +114,33 @@ What I tried, what I expected, what happened, how I checked it, what I did about
   - CLAUDE.md gains one line under "Godot 4 names": the remapped class names and the dropped `flag_align_y`.
 - **Expected / learned:** none recorded.
 - **Human / AI:** Claude wrote and ran the probe and drafted the revision, the CLAUDE.md line and this file; I asked for them and decided the commit.
+
+## 2026-11-04 — Step 2: Effect A, its configuration test and its preview
+
+*Written on 2026-11-04, from the conversation. Prompt `sessions/prompt-2.txt`; transcript `sessions/session-2.jsonl`; commit `ea4419ae`.*
+
+- **The prompt (Claude):** the course's Step 2 prompt with this folder's paths and the effect's name, plus one sentence saying where the session may write.
+- **The command (Claude, at my request):** `dontAsk`, as Assignment 5's implementation runs, with writes allowed only in `game/effects/`, `game/previews/` and `game/tests/test_slash_sparks_config.gd`; the wrapper under four spellings; a headless import; read-only `git`; an absolute deny rule on `game/shaders/`.
+- **The run:** 22:06:55 to 22:10:38 EST: `success`, `is_error` false, `terminal_reason` completed, 19 turns, $1.53. **Permission denials: 3**: a chained read of several files, the wrapper with `; echo` after it (it then ran the wrapper alone), and its own headless run of the preview, which no rule allowed.
+- **What it built:** the effect scene, a configuration test of 108 checks that also scans the scene text for Godot 3 names, and a preview over Level 1 with the bursts fired on frames 10 and 20. Its first test run hit a GDScript type-inference error in its own test, which it fixed.
+- **Checks (Claude, in this conversation):**
+  - Only the four new files, their logs and the transcript appeared; nothing existing changed; `game/shaders/` and the wrapper are untouched.
+  - Every value in the effect scene matches the brief's table.
+  - The configuration test passes at 30, 60 and 144 fps; `checks.tscn` still passes 141 (it now finds 83 `res://` paths, all present) and the tint test 15.
+  - Claude ran the preview headless, which the session could not: Burst1 fired on frame 10 and Burst2 on frame 20.
+- **Noted:** at zoom 1 the preview frames x 1240–3160, wider than the brief's x 1950–2450, so the frozen goblins and the sword pickup are in the picture.
+- **Expected / learned:** none recorded.
+- **Human / AI:** the scoped session wrote the effect, the test and the preview. Claude wrote the prompt, ran the session and checked it. I approved the commit of its files unedited.
+
+## 2026-11-04 — Step 2: the first strip, my first look, and tuning round r1
+
+*Written on 2026-11-04, from the conversation. The record of the round is `TUNING.md`, "Effect A, revision r1".*
+
+- **The capture:** I asked Claude to run it. It ran the course's Movie Maker command in a window on my screen, into `captures/slash_sparks/r0/`. The 60 frames took 14 s to record, so the window played at about a seventh of real speed.
+- **A command that failed:** when I ran the preview myself, Godot said `Invalid project path specified: "game"`. Claude had left the session's shell in `captures/slash_sparks/r0/` after listing the frames. Claude moved it back and played the preview for me three times at real speed instead (`--fixed-fps 30 --max-fps 30`).
+- **My first look,** before Claude opened any frame: the sparks are too sparse, too few. Claude wrote it into `TUNING.md` in English, with my Chinese words beside it.
+- **The round:** Claude read the six frames and agreed with me, proposed `Sparks` `amount` 14 → 28 with a prediction for each frame, and I approved it. Claude made only that change, moved the test's expected value, ran the test at 60, captured r1 and compared it with its prediction. Frames 10–15 matched; frames 20 and 30 showed more of the first burst than it predicted, and it wrote down why. I watched r1 three times at real speed and kept the change.
+- **After the verdict (Claude):** the brief's Revision 3 records the new value and the new peak of 58 particles; only frames 10, 12, 15, 20, 30 and 50 of each strip are kept.
+- **Still to do for Step 2:** the two mutations of the effect scene, recorded in TEST-REPORT.md.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I judged the preview twice and approved the change. Claude ran the captures and the plays, read and compared the strips, made the change and drafted the records.

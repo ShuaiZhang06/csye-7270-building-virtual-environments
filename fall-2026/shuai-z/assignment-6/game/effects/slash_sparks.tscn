@@ -105,7 +105,7 @@ process_material = SubResource("ParticleProcessMaterial_flash")
 
 [node name="Sparks" type="GPUParticles2D" parent="."]
 emitting = false
-amount = 14
+amount = 28
 texture = SubResource("GradientTexture2D_sparks")
 lifetime = 0.45
 one_shot = true

@@ -341,3 +341,13 @@ Probes run during the CLAUDE.md review showed that failure 1 in section 7 predic
   The test is the check for this mutation, not the strip.
 - **Section 3, Effect B's condition.** `absf(velocity.x) > 1.0` is checked at `rudy.gd:306`, and `is_on_floor()` at `rudy.gd:298`. `rudy.gd:215` is where `velocity.x` is set, not where the run test reads it.
 - **Section 1, Pause.** The music keeps running while paused because `game/systems/audio/music.gd:40` sets it to always process. `system_keys.gd:15` covers only `SystemKeys`.
+
+### Revision 3 — 2026-11-04, Effect A tuning r1: `Sparks` `amount` 14 → 28
+
+I watched the first strip's preview (r0) in a window and found the sparks too sparse. Claude proposed one change, I approved it, and after strip r1 I kept it (`TUNING.md`, "Effect A, revision r1"). Where Revision 1 says otherwise, this revision holds:
+
+- **Section 2, the settings:** `Sparks` `amount` is 28, not 14. The layering line reads "`Sparks`: 28 streaks". `game/effects/slash_sparks.tscn` and `game/tests/test_slash_sparks_config.gd` both say 28.
+- **Rule A3, short answer 3 and section 8:** a burst peaks at 29 particles (1 flash and 28 sparks), so two overlapping bursts peak at 58, not 30. The GPU-time prediction (under 0.05 ms) and the budget (0.25 ms of GPU time at 2 bursts alive) stay as they are.
+- **Section 6, the strip:** frame 12 shows about 14–18 streaks that can be told apart, not 14, and frames 20 and 30 show about 7–8 small specks of the earlier burst, 80–140 px forward. That is within the 6–10 Revision 1 predicted; Claude's prediction of 3–5 for r1 was too low (`TUNING.md`). The other frames read as before.
+
+Claude Code drafted this revision; it was committed on my word.

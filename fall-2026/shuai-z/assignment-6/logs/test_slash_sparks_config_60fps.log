@@ -57,7 +57,7 @@ PASS  Flash color_ramp has 2 stops  (2)
 PASS  Flash color_ramp stop 0 is (1.000, 1.000, 1.000, 1.00) at 0.00  ((1.000, 1.000, 1.000, 1.00) at 0.0000)
 PASS  Flash color_ramp stop 1 is (1.000, 1.000, 1.000, 0.00) at 1.00  ((1.000, 1.000, 1.000, 0.00) at 1.0000)
 PASS  Sparks is a GPUParticles2D child of the root
-PASS  Sparks amount is 14  (14)
+PASS  Sparks amount is 28  (28)
 PASS  Sparks one_shot is true  (true)
 PASS  Sparks explosiveness is 1.0  (1.0)
 PASS  Sparks lifetime is 0.45  (0.45)

@@ -35,7 +35,7 @@ const EXPECTED := {
 		"hue_variation": [0.0, 0.0],
 	},
 	"Sparks": {
-		"amount": 14, "one_shot": true, "explosiveness": 1.0, "lifetime": 0.45,
+		"amount": 28, "one_shot": true, "explosiveness": 1.0, "lifetime": 0.45,
 		"texture_size": Vector2i(12, 40),
 		"emission_shape": ParticleProcessMaterial.EMISSION_SHAPE_POINT,
 		"direction": Vector3(0.944, -0.330, 0), "spread": 30.0,
