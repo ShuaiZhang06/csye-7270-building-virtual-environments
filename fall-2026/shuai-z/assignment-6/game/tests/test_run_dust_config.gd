@@ -24,7 +24,7 @@ const TEXTURE_SIZE := Vector2i(32, 32)
 const TEXTURE_OFFSETS := [0.0, 0.6, 1.0]
 const TEXTURE_COLORS := [Color(1, 1, 1, 1), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0)]
 const RAMP_OFFSETS := [0.0, 0.15, 0.6, 1.0]
-const RAMP_COLORS := [Color("#7A6448", 0.0), Color("#7A6448", 0.75), Color("#8A7356", 0.5), Color("#9C8463", 0.0)]
+const RAMP_COLORS := [Color("#5C4A35", 0.0), Color("#5C4A35", 1.0), Color("#6E5A43", 0.8), Color("#9C8463", 0.0)]
 ## The brief's points, then the midpoints of its two straight segments.
 const SCALE_POINTS := [Vector2(0, 0.5), Vector2(0.4, 1.0), Vector2(1, 1.15)]
 const SCALE_MIDPOINTS := [Vector2(0.2, 0.75), Vector2(0.7, 1.075)]

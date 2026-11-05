@@ -58,3 +58,68 @@ Where it differs, the likely reason: at frame 20 most sparks are still alive, be
 - `captures/slash_sparks/r1/` (`logs/capture_slash_sparks_r1.log`)
 
 **Commits:** `ea4419ae` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit that makes this change with strip r1, this entry and the brief's Revision 3.
+
+---
+
+## 2026-11-05 — Effect B, revision r1
+
+**What I saw** (the preview `game/previews/run_dust_preview.tscn`, windowed at the project's 1280 × 720, played six times at real speed, before Claude read any frame): with my own eyes I could not see the dust trail at all. [我肉眼完全没看到尘土拖尾的效果]
+
+**Claude's reading of r0** (frames 10, 13, 25, 40, 46 and 56, read after the verdict above, enlarged 3× behind his feet; sizes in game px). To measure what the eye could not find, Claude also rendered the same preview with `RunDust` hidden, in a scratch copy of the game, and compared each frame pixel by pixel with r0:
+
+| Frame | The brief predicted | r0 shows | Pixels changed by the dust (of 921,600; ≥ 20 of 255 levels; largest change) |
+|---|---|---|---|
+| 10 | At most one or two faint puffs at his boots | Nothing visible | none found |
+| 13 | A line of 3–5 puffs about 55 px long, the oldest fully opaque | Nothing visible enlarged | 596; 8; 26 |
+| 25 | A band about 280 px long behind him, darkest at his boots | Only a faint darker smudge in the grass strip, about 230 px long and 45 px tall | 1,973; 136; 52 |
+| 40 | The same band as frame 25 | The same faint smudge | 2,168; 224; 49 |
+| 46 | The band about 170 px long, paler | Nothing visible | 884; 45; 28 |
+| 56 | Nothing | Nothing | — |
+
+The dust is there and roughly the size the brief planned, but it cannot be seen: in the difference image it is about six small separate puffs, and most of the pixels it touches change by less than 20 levels. The brief's contrast figures (2.9:1 against the wheat) assumed opaque dust over the wheat. In the frames the puffs hang in the green grass strip just above the walk line, at no more than 0.75 opacity, with soft edges, so their colour sits close to the grass behind them. Two smaller things: the puffs stay separate instead of overlapping into one band, and at the stop the frozen sword pickup (x 2500) sits right behind Rudy.
+
+**Change:** `RunDust`'s `color_ramp`, one setting, made darker and more opaque, with the same offsets; proposed by Claude and approved by me. The configuration test's expected ramp moved with it, and the test passes 61 of 61 at 60 fps (`logs/test_run_dust_config_60fps.log`):
+
+| Offset | Old | New |
+|---|---|---|
+| 0 | `#7A6448` α 0 | `#5C4A35` α 0 |
+| 0.15 | `#7A6448` α 0.75 | `#5C4A35` α 1.0 |
+| 0.6 | `#8A7356` α 0.5 | `#6E5A43` α 0.8 |
+| 1 | `#9C8463` α 0 | `#9C8463` α 0 |
+
+At full opacity `#5C4A35` (luminance about 0.07) gives about 3.3:1 against the grass strip and 4.5:1 against the wheat, where the old colour at 0.75 opacity gave about 1.7:1 against the grass at a puff's centre. The size, speed, lifetime and number of puffs stay as they are, so the band keeps the brief's length and height. A bigger `scale` was not proposed: doubling it would make the band about 80 px tall, above his knees, against the brief.
+
+**Claude's prediction for r1** (same seed, so the puffs keep r0's positions and sizes):
+
+| Frame | Predicted |
+|---|---|
+| 10 | At most one small dark dot at his boots, still fading in |
+| 13 | 3–5 small dark-brown puffs behind his boots, clearly darker than the grass, over about 55 px |
+| 25 | A dotted dark-brown line about 230 px long and 45 px tall behind him, darkest at his boots and paler at its far end; still separate puffs rather than one band |
+| 40 | The same as frame 25 |
+| 46 | A shorter, paler line of the oldest puffs, about 90 px long |
+| 56 | Nothing |
+
+Measured the same way as r0 at frame 25: at least 500 pixels changed by 20 levels or more (r0: 136), and a largest change of at least 90 levels (r0: 52).
+
+**Claude's comparison of r1 with its prediction** (the same crops side by side, and the same pixel comparison with the no-dust render):
+
+| Frame | Predicted | r1 shows (pixels changed; ≥ 20 levels; largest) | Match |
+|---|---|---|---|
+| 10 | At most one small dark dot, fading in | Nothing visible (145; 0; 19) | Yes |
+| 13 | 3–5 dark-brown puffs behind his boots, clearly darker than the grass, over about 55 px | 2–3 dark-brown smudges in the grass behind his rear boot, over about that span (625; 187; 51) | Partly: darker and visible, but fewer and softer than "puffs" |
+| 25 | A dotted dark-brown line about 230 px long, darkest at his boots, paler at its far end; separate puffs | A dark-brown dotted line behind him, clearly visible for about 135 px from his boots and fading out beyond that (2,084; 612; 87) | Yes, though the part that reads is shorter than the whole band |
+| 40 | The same as frame 25 | The same line, a little more continuous (2,231; 670; 85) | Yes |
+| 46 | A shorter, paler line of the oldest puffs, about 90 px | One pale patch about 40 px long near where he stopped (917; 152; 52) | Partly: shorter than predicted |
+| 56 | Nothing | Nothing | Yes |
+
+The measured targets at frame 25: 612 pixels changed by 20 levels or more, against at least 500 predicted (met), and a largest change of 87 levels, against at least 90 (just missed). Where it falls short, the likely reason is the same as before: the soft texture keeps each puff's edge transparent, and the oldest puffs fade towards the ground colour, so only the younger half of the band reads as dark. The trail is now visible in the enlarged frames as a dark-brown smudge in the grass behind his boots; whether it reads at real speed in the window is for my verdict.
+
+**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): I can see it now, but there is still not enough dust, and it is not obvious enough. [现在能看到了，但我觉得尘土还不够多，还不够明显] **Kept** as the base for the next round, r2.
+
+**Strips** (fixture captures; Movie Maker, 30 fps, 1280 × 720, seed 1, started by Claude at my request; only frames 10, 13, 25, 40, 46 and 56 are kept):
+- `captures/run_dust/r0/` (`logs/capture_run_dust_r0.log`)
+- `captures/run_dust/r1/`
+
+**Commits:** `017e8a52` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit of this round with strip r1.
+
