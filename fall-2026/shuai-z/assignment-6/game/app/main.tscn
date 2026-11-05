@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://content/rudy/rudy.tscn" id="3_rudy"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="4_hud"]
 [ext_resource type="Script" path="res://app/system_keys.gd" id="5_keys"]
+[ext_resource type="Script" path="res://effects/effects_driver.gd" id="6_effects"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -12,6 +13,11 @@ script = ExtResource("1_main")
 [node name="Level1" parent="." instance=ExtResource("2_level")]
 
 [node name="Rudy" parent="." instance=ExtResource("3_rudy")]
+
+[node name="Effects" type="Node2D" parent="."]
+script = ExtResource("6_effects")
+
+[node name="SlashBursts" type="Node2D" parent="Effects"]
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(960, 540)
