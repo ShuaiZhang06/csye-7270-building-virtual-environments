@@ -201,7 +201,7 @@ Measured at frame 25: the top of the pixels changed by 20 levels or more 50–62
 
 The measured targets at frame 25: a top 58 px above the walk line, within the predicted 50–62 (r2: 33), and 1,501 pixels changed by 20 levels or more, against at least 1,000 (met). Frames 13 and 46 came out lower than predicted. The model counted only the highest puff; at frame 13 all puffs are under 0.1 s old and still rising, and at frame 46 the highest of them may already have died, so a single top is noisier in those frames than in the full band.
 
-**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): **kept**. I gave no further reason.
+**My verdict** (the preview, windowed at 1280 × 720, played three times at real speed after Claude's comparison): **kept**. I gave no further reason. Once Step 5 wired the effect into the game, I played it with these settings and found no problem [检查过了，没问题].
 
 **Strips:** `captures/run_dust/r2/`, `captures/run_dust/r3/` (`logs/capture_run_dust_r3.log`); fixture captures, as above.
 

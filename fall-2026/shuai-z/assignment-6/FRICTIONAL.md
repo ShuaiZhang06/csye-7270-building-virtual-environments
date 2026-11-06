@@ -203,3 +203,16 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **After the verdict (Claude):** the brief's Revision 4 records all three changes, the new height and the new peak of 40 particles. Only frames 10, 13, 25, 40, 46 and 56 of each strip are kept.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I judged every preview and approved every change. The scoped session built the effect. Claude ran the captures, the plays and the measurements, proposed and made each change, and drafted the records.
+
+## 2026-11-05 — Step 5: wiring Effect B, its state test and its mutations
+
+*Written on 2026-11-05, from the conversation. Prompts `sessions/prompt-5.txt` and `prompt-5b.txt`; transcripts `sessions/session-5.jsonl` and `session-5b.jsonl`; plan `sessions/plan-5.md`; results in `TEST-REPORT.md`, "Step 5".*
+
+- **Why I asked:** I opened the game in Godot and found no dust. Claude showed that nothing in `main.tscn` or the driver referred to `RunDust` yet: Effect B had only been built and tuned in its preview, and wiring it in was the step still to do.
+- **The plan (Claude's prompt, a read-only session):** the course's Step 3 prompt with Step 5's four test rules, asking for English: `success`, 8 turns, $1.21, no permission denials, nothing changed. The plan puts `RunDust` in a `DustTrail` node before `Rudy`, so it draws behind him, and lets the existing driver, after Rudy, place it and switch it on the same tick. Claude checked that ordering, and the input actions the test would use, against the code, and added one warning of its own: a teleport while emitting could draw a streak, which only the eye can check. I approved every step, including the optional knockback and respawn checks and the two driver mutations.
+- **The implementation:** `dontAsk`, writes allowed only to the four planned files: `success`, 53 turns, $2.63, two permission denials (a Python edit through Bash, and a `git diff` piped into `sed`). The session fixed two counting mistakes in its own test without weakening an assertion, and said that it had first written two step-3b checks into step 3 before taking them out again.
+- **Checks (Claude, in this conversation):** only the four planned files and the logs changed; the driver and `main.tscn` are as planned; the test calls no driver function and writes only the one planned teleport and the two `visible` flags. Claude reran every test, made the `.uid` with a headless import, and copied the two driver mutation runs out of the transcript into their own logs.
+- **A step that had been missed:** Step 5 repeats Step 2's mutations for Effect B, and they had not been done. Claude ran them after the wiring: a Godot 3 name and a changed value in `run_dust.tscn` each failed the configuration test, and the mutated trail still emitted in a window.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I found the missing dust in the game and approved the plan. The scoped sessions wrote the plan, the driver change, the scene change and the test. Claude wrote the prompts, ran the sessions, checked them, ran B's scene mutations and drafted the report.
+- **Afterwards (me):** I played the game and checked the items Claude listed (Esc while running, running while invulnerable, a respawn while holding a direction, how the dust reads); no problem.

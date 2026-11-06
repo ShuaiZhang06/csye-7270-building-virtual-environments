@@ -70,3 +70,58 @@ The approved plan's step 4. The implementation session made each change, ran the
 **What it cannot establish:** that anything is drawn, since the dummy renderer draws nothing and the 27-tick life is the node's own clock; that the sparks fly the way Rudy faces, since only the node is mirrored (failure 8); that paused sparks really hold still; and real key presses, since the input goes through `Input.action_press`.
 
 **My check in the running game** (2026-11-04, after the effect was wired in): I played the game and found no problem [我已经进到游戏里看过了，没问题]. I did not record which of the eye checks I made one by one: a cut facing left, a cut on a goblin, Esc right after a swing (A5), a cut at the top of a jump and over the pit, both screen edges, and the first frames after loading. Those are still to be recorded item by item.
+
+## Step 5 — Effect B's configuration test, state test and mutations
+
+### The configuration test
+
+`game/tests/test_run_dust_config.gd` (`extends SceneTree`) checks 61 things against the brief as revised (Revision 4): every emission, process, draw and culling setting of `RunDust`, its texture, curve and ramp, and the features Effect A does not use, damping (`damping_min` / `_max` 120 / 180, no damping curve) and the box emission shape (`emission_box_extents` (14, 3, 0)). Like Effect A's, it also scans the scene's text for Godot 3 names. 61 of 61 at 60 fps (`logs/test_run_dust_config_60fps.log`).
+
+| Mutation of `game/effects/run_dust.tscn` | Expected | Result | Log |
+|---|---|---|---|
+| **1. A Godot 3 name**, line 40: `damping_min = 120.0` → `damping = 120.0` | Exit 1: `damping_min` loads as 0, and the `damping_max` line after it keeps 180 | **Exit 1, 2 failures:** the text scan found `damping = 120.0`, and `RunDust damping_min` read 0.0 instead of 120.0. `damping_max` still read 180.0 | `logs/mutation_dust_godot3_name_60fps.log` |
+| **2. A value changed, the brief not**, line 36: `spread = 50.0` → `spread = 70.0` | Exit 1, on the spread check | **Exit 1, 1 failure:** `RunDust spread is 50.0`, read 70.0 | `logs/mutation_dust_value_drift_60fps.log` |
+
+After each one Claude restored the file with `git checkout`; its SHA-1 was `e710ef3513705d3c76c10cc95f4a5ee51458dabf` before and after both, and the test passed 61 of 61 again with a log identical to the committed one.
+
+**Mutation 1 in a window.** Claude captured the preview with the mutated scene (`logs/capture_mutation_dust_godot3_name.log`; frame 25 kept in `captures/run_dust/mutation_godot3_name/`, a fixture capture). The trail still started on frame 10 and still reads as the same band; with some puffs now barely damped it reaches a little higher, its top about 69 px above the walk line against r3's 58, and the frame differs from r3's by at most 37 levels. Nothing in the log or the picture announces the fault.
+
+### The state test
+
+`game/tests/test_run_dust_state.tscn` (with `test_run_dust_state.gd`) runs the real `Main` at 60 fps through the wrapper, not in realtime, because it does not wait on audio. It moves Rudy only with the real `move_left`, `move_right`, `jump`, `pause` and `restart` actions and never calls the driver. It writes game state once, a teleport to x 4200 for D14, the same kind of setup `checks.gd` uses, and it sets `visible` on `RunDust` and `DustTrail`, which are presentation nodes, for B4. `RunDust` sits in `DustTrail` before `Rudy` in `game/app/main.tscn`, so it draws behind him; the driver, after Rudy, places it and switches `emitting` on the tick Rudy's state changes.
+
+| Check | Rule | Result at 60 fps (`logs/test_run_dust_state_60fps.log`) |
+|---|---|---|
+| D1 on load and on the title, `move_right` held 30 ticks: never emitting | B1 | PASS: 30 ticks, 0 emitting, mode WAITING |
+| D2 play started, standing 30 ticks: never emitting | B1 | PASS |
+| D3 `move_right` held: one rising edge of the condition and of `emitting`, on the same tick | B1 | PASS: both on tick 64 |
+| D4 every running tick, the emitter at Rudy + (0, −4) within 1 px | B2 | PASS: 121 ticks, largest error 0.000 px |
+| D5 released: `emitting` falls on the tick the condition falls | B1 | PASS: both on tick 128 |
+| D6 a turn while running: both false through the turn, both true again on the same tick | B1 | PASS: fell on 143, rose on 150 |
+| D7 a jump while running: both false in the air, both true on the landing tick | B1 | PASS: 41 air ticks, 0 emitting |
+| D8 paused while running: `emitting` stays true, the node does not process, the emitter does not move; on resume it processes | B3 (node state) | PASS |
+| D9 `RunDust` hidden while running: `emitting` false on the next tick, true again when shown | B4 | PASS |
+| D10 `DustTrail`, its parent, hidden: the same | B4 | PASS |
+| D11 on every recorded tick, `emitting == (condition and visible in the tree)`; `amount` 40 and `amount_ratio` 1.0 throughout | B1, and the feedback-loop rule's guard | PASS: 380 ticks, 0 mismatches, 13 distinct speeds |
+| D12 `RunDust` under `DustTrail`, before `Rudy`, and under neither Rudy nor `Look` | section 3's draw order, B5 | PASS |
+| D13 a hit on SpikesA while running: condition and `emitting` fall together on the hit tick | B1 (knockback) | PASS: both on tick 229 |
+| D14 off a cliff, out and respawned: no emitting from leaving the floor until control returns, the emitter's jump to the checkpoint on a tick without emitting, emitting again when he runs | B1, B5 | PASS |
+
+Effect B is switched by a condition, not scaled by a game value, so the feedback-loop rule about `amount_ratio` does not apply; D11 checks instead that the driver never changes `amount` or `amount_ratio`.
+
+After Effect B was wired in, Claude reran the other tests: `checks.tscn` 141 of 141 (88 `res://` paths, all present), `invulnerable_tint_checks.tscn` 15 of 15 at 30, 60 and 144, Effect A's configuration test 108 and state test 14, and B's configuration test 61.
+
+### Mutations of the driver
+
+The approved plan's step 5. The implementation session made each change, ran the state test at 60 fps and restored the file; Claude copied the two runs' output out of the session's transcript into the logs below.
+
+| Mutation | Expected | Result | Log |
+|---|---|---|---|
+| **1.** `is_visible_in_tree()` dropped from the driver | D9, D10 and D11 fail | **Exit 1, 3 failures:** D9, D10 and D11 (12 mismatched ticks) | `logs/mutation_dust_visibility_60fps.log` |
+| **2.** `DustTrail` moved after `Effects` in `main.tscn` | D12 fails | **Exit 1, 1 failure:** D12 (DustTrail index 3, Rudy index 1) | `logs/mutation_dust_tree_order_60fps.log` |
+
+**What the state test establishes:** for the paths it drives, `emitting` follows the brief's condition on the same tick through load, title, standing, running, stopping, turning, jumping, landing, a knockback and a fall with its respawn; the emitter is at his feet; a pause leaves the node's state alone and stops it processing; hiding the emitter or its parent stops it emitting; and the emitter sits behind Rudy in the tree, outside `Look`.
+
+**What it cannot establish:** that a puff is drawn, that the puffs form a band, that none is born while paused or hidden, that they freeze visibly, that the dust draws behind him on screen, and the look. Defeat and the teleport circle are covered only by the driver's `mode` check.
+
+**My check in the running game** (2026-11-05, after Effect B was wired in): Claude asked me to check Esc while running (the puffs freeze), running while invulnerable (no flashing), a respawn while holding a direction (no streak) and how the dust reads over the wheat and the ground. I played the game and answered: checked, no problem [检查过了，没问题]. The first frames after loading and both ends of the level were not on that list.
