@@ -216,3 +216,25 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Expected / learned:** none recorded.
 - **Human / AI:** I found the missing dust in the game and approved the plan. The scoped sessions wrote the plan, the driver change, the scene change and the test. Claude wrote the prompts, ran the sessions, checked them, ran B's scene mutations and drafted the report.
 - **Afterwards (me):** I played the game and checked the items Claude listed (Esc while running, running while invulnerable, a respawn while holding a direction, how the dust reads); no problem.
+
+## 2026-11-05 — Step 6: the process shader
+
+*Written on 2026-11-05, from the conversation. Commit `8b795772`; my reading is in `TEST-REPORT.md`, "The process shader".*
+
+- **Attempt (me):** after Claude described the steps, I opened the game in the editor, copied `Sparks`' `ParticleProcessMaterial` from `slash_sparks.tscn` into an unsaved scratch scene, made it unique, converted it to a `ShaderMaterial` and saved the code as `game/shaders/particles_generated.gdshader`. I then wrote the line references and my answer in TEST-REPORT.md.
+- **Checks (Claude):** only the shader and its `.uid` were new, and no effect scene had changed; every test still passed, with no `SHADER ERROR`. Claude printed each line the section cites, with its surrounding code, and found each one says what the section says. It did not edit the shader or the answers.
+- **My question:** I asked whether this assignment had changed anything outside the assignment-6 folder. Claude checked the 22 commits since `a5`, the working tree and every file's modification time: nothing in the repository outside the folder. Outside the repository there are only files that tools write for themselves: Godot's logs and editor settings, one `saved_order.tres` that a probe wrote to its own `user://` folder, Claude's transcripts and memory, and scratch folders.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I generated the shader and wrote the section. Claude described the editor steps and checked the result.
+
+## 2026-11-05 — Step 7: the headless price
+
+*Written on 2026-11-05, from the conversation. Prompt `sessions/prompt-6.txt`; transcript `sessions/session-6.jsonl`; results in `TEST-REPORT.md`, "Step 7".*
+
+- **The prompt (Claude):** the course's Step 7 prompt with `game/` paths, plus where to read the chapter's script (`git show upstream/main:…`), since Example 09 is not in this folder.
+- **The command:** `dontAsk`, with writes allowed only to `game/tests/cost_effects.gd`, the wrapper, a headless import, `git show upstream/main:` and read-only `git` and `ls`, and an absolute deny rule on `game/shaders/`.
+- **The run:** 19:38:02 to 19:41:11 EST: `success`, `is_error` false, `terminal_reason` completed, 19 turns, $1.14, no permission denials. Its first run failed because a `--script` test is compiled before the game's autoloads exist; it then loaded the game's scripts at run time instead.
+- **What it measured:** an empty scene 0.0038 ms per frame; the game with both effects off about 0.05 ms; Effect A at 2 bursts +0.008 ms and Effect B +0.004 ms over their controls, both inside the spread between rounds. It added a fifth case, the game running with the effects off, as B's fair control.
+- **Checks (Claude):** only the script and its log were new. Claude ran it again: the same picture, with differences of +0.006 and +0.002 ms (`logs/cost_effects_60fps_rerun.log`).
+- **Expected / learned:** none recorded.
+- **Human / AI:** the scoped session wrote and ran the script. Claude wrote the prompt, ran the session, reran the script and drafted the report.
