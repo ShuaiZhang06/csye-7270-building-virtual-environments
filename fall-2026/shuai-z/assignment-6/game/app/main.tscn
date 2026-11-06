@@ -6,11 +6,16 @@
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="4_hud"]
 [ext_resource type="Script" path="res://app/system_keys.gd" id="5_keys"]
 [ext_resource type="Script" path="res://effects/effects_driver.gd" id="6_effects"]
+[ext_resource type="PackedScene" path="res://effects/run_dust.tscn" id="7_dust"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
 [node name="Level1" parent="." instance=ExtResource("2_level")]
+
+[node name="DustTrail" type="Node2D" parent="."]
+
+[node name="RunDust" parent="DustTrail" instance=ExtResource("7_dust")]
 
 [node name="Rudy" parent="." instance=ExtResource("3_rudy")]
 
