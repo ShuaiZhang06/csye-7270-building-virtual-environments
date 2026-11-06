@@ -161,3 +161,43 @@ Most settings are uniforms rather than numeric literals in this source. For exam
 | **Effect B − its running control** | **+0.0039** | **+0.0019** |
 
 **Reading it.** The control works: the empty scene and the game with the effects off are about 13 times apart and their round means never overlap, so the script is not measuring itself. Each case reached its state on every timed frame (the log's second table: 2 bursts alive, or `RunDust` emitting on 300 of 300). Both effects cost under 0.01 ms of CPU per frame, as the brief predicted (section 8), and in both runs their round means overlap their controls', so a headless run cannot tell either effect from the game without it. That is the dummy renderer, not a cheap GPU: it runs no particle process and draws nothing (`CLAUDE.md`, "Headless facts"), so this number is only the CPU's share. The budget, 0.25 ms of GPU time per effect, is compared on GPU time in the editor's Visual Profiler (Use It).
+
+## Use It
+
+**Setup.** Measured on 2026-11-06 at source commit `d60fb037`: Godot 4.7.2 (`v4.7.2.stable.official.ed1daf0bf`), GL Compatibility (OpenGL 4.1 on Metal), GPU Apple M3, a 1280 × 720 game window run from the editor.
+
+**Who made the evidence.** At my request, Codex (OpenAI's coding agent) recorded the editor measurements and the captures in `evidence/use-it-code/`. It used a temporary editor plugin in a scratch copy of the game outside this repository; the plugin started the real Visual Profiler, read its and the Monitors' cells, and drove the real `Main` through the game's input actions from fixed starting points (its `README.md` gives the method and its limits). I chose what to measure and reviewed the results. Claude Code checked the folder before this section was written: every file the README cites exists; all 168 files in `game/` still match `source-hashes.json`, so no game file changed; and its three runtime logs have no `SCRIPT ERROR` or `SHADER ERROR`. The main run logged two errors from the instrument itself (`Lambda capture at index 0 was freed`, while it waited for the reloaded `Main`). The screenshots in that folder are half-size copies; the full-size originals stay on this machine, outside git (the folder's README says so). This automated run does not replace my own play; that is recorded separately below.
+
+| Check | Evidence | Result |
+|---|---|---|
+| Baseline | `logs/`; "Step 2", "Step 3" and "Step 5" above | Before this assignment (tag `a5`): `checks.tscn` 141, `invulnerable_tint_checks.tscn` 15 at 30, 60 and 144 fps. After every change, rerun at `d60fb037` through the wrapper: `checks.tscn` 141 at 60 fps (89 `res://` paths, all present); `invulnerable_tint_checks.tscn` 15 at 30, 60 and 144 |
+| Configuration | `logs/test_*_config_60fps.log`, `logs/mutation_*` | Effect A 108 of 108, Effect B 61 of 61, at 60 fps. Effect A's two mutations exited 1, with 2 and 1 failures; so did Effect B's |
+| State | `logs/test_*_state_60fps.log` | Both at a fixed 60 fps, not realtime. Effect A 14 of 14, including two cuts 19 ticks apart with both bursts alive (S7) and the first lasting its full 27 ticks (S8). Effect B 14 of 14 |
+| Frame strips (fixture) | `captures/slash_sparks/r0–r1/`, `captures/run_dust/r0–r3/`; `TUNING.md` | Every revision's strips, labelled as fixture captures |
+| In play (HUMAN CHECK) | My own play; `evidence/use-it-code/20`–`34`, `detail/90`–`91` | **My own play:** after Step 3 I played with Effect A wired in and found no problem; after Step 5 I checked Esc while running, running while invulnerable, a respawn while holding a direction and how the dust reads, and found no problem; on 2026-11-06, after this run, I played myself in the 1280 × 720 window and found the size of both effects and the control feel fine [亲自玩过，大小和手感都没问题]. **Codex's captures** add: repeated slashes with two bursts at once; a cut facing left spraying left; sparks still visible after a cut goblin hides (hiding the burst alone changes 133 pixels); dust starting, stopping, leaving the ground and starting again on landing. Effect B "hidden" has no path in play; the state test covers it (D9, D10) |
+| Against the background (HUMAN CHECK) | `supplement/83_sky_visible.png`, `supplement/88_dark_pit_sparks.png`, `30_dust_running.png` | From the captures: sparks read against the sky at the top of a jump and against the dark pit (a slash while falling into it, since a slash over the pit still has sky behind it); dust reads over the lower wheat and the grass |
+| Edge of screen (HUMAN CHECK) | `40`–`43`, `supplement/85`–`87`, `detail/92`–`94` | From sampled frames at the left start and at the true right edge (Rudy jumped over the portal's trigger to x 7653 without ending the level): no burst disappeared while it should still be visible, and dust stays visible near both sides. Sampled frames, not a continuous check |
+| Scene load (HUMAN CHECK) | `10`–`13`, `70`–`72` | No dust or sparks on the title, in the first frames of play, or after a real level end and restart; the emitter and burst states agree |
+| Pause, invulnerability, respawn | My play after Step 5; `50`–`52`, `supplement/80`–`82`, `60`, `64`–`66` | My play found no problem. In the captures, paused dust frames 0.6 s apart and paused spark frames 0.7 s apart are pixel-identical and change again on resume; the dust does not flash with Rudy; after a respawn with a direction held, no trail joins the pit to the checkpoint |
+| Claude against me | `TUNING.md`, Effect B r2 | Claude read r2 as a continuous band with both measured targets met. My verdict was that the dust should rise at a steeper angle, because it stayed on the ground [尘土扬起的角度还可以高一些，现在基本都只是在地面上]. Round r3 followed from that. In Effect A's r0, Claude and I agreed |
+| Headless CPU price | "Step 7" above | Empty scene 0.0038 ms per frame; Effect A +0.006 to +0.008 ms and Effect B +0.002 to +0.004 ms over their controls, inside the spread between rounds |
+| GPU price (HUMAN CHECK) | `evidence/use-it-code/summary.json`, `editor-profiler.json`, `runtime.log`, the four `*_editor.png` | See below |
+| Process shader | "The process shader" above | The line references from Step 6 |
+
+### The GPU price
+
+The Visual Profiler has a GPU column, and in all four states it read **0.0 ms**, in every row, Update GPUParticles and Render Viewports included; the runtime viewport GPU-time API also returned 0. That is the brief's predicted failure 12. **The 0.25 ms GPU budget per effect cannot be evaluated on this machine. A zero is not evidence of zero cost, and it is not a pass.**
+
+Following the brief's fallback, vsync was turned off with F9 (`VsyncDebug`) for these readings and turned back on afterwards (`VSYNC_RESTORED_MODE 1` in `runtime.log`). Each state had a 1.5 s warm-up and 5 s of readings.
+
+| Reading | A off (idle, with the sword) | A heaviest (a slash about 3 times a second) | B off (idle) | B heaviest (running back and forth, x 2600–2890) |
+|---|---:|---:|---:|---:|
+| Visual Profiler, GPU | 0.0 ms | 0.0 ms | 0.0 ms | 0.0 ms |
+| Monitors → Time → FPS, median (range) | 438 (413–504) | 239 (222–261) | 357 (271–395) | 311 (284–321) |
+| Frames counted by the instrument | 427.1 FPS | 229.2 FPS | 347.8 FPS | 296.9 FPS |
+| Monitors → Time → Process, median | 11.80 ms | 11.69 ms | 10.94 ms | 9.41 ms |
+| Monitors → Raster → Total Draw Calls, median | 9 | 12 | 9 | 10 |
+
+- Every FPS reading was above the display's reported 60 Hz, so the comparison was not capped there.
+- In A's heaviest state two bursts were alive on 112 of 300 timed ticks; in B's, the dust emitted on 251 of 300, the rest being the game's turn holds. Neither is a constant peak.
+- FPS is not GPU time, and Process time is not either; neither is substituted into the budget. The two idle baselines alone differ by about 80 FPS, so the differences between states are not isolated particle costs. Effect A's heaviest state did add 3 draw calls and lower FPS the most, but this machine cannot say how much of that is GPU time.

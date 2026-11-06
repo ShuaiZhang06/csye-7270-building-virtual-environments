@@ -238,3 +238,23 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Checks (Claude):** only the script and its log were new. Claude ran it again: the same picture, with differences of +0.006 and +0.002 ms (`logs/cost_effects_60fps_rerun.log`).
 - **Expected / learned:** none recorded.
 - **Human / AI:** the scoped session wrote and ran the script. Claude wrote the prompt, ran the session, reran the script and drafted the report.
+
+## 2026-11-05 — The F9 vsync key
+
+*Written on 2026-11-06, from the conversation. Commit `d60fb037`; check in `evidence/vsync-check/`.*
+
+- **Attempt (Claude, at my request):** the debug key the brief planned for the GPU price. `game/app/vsync_debug.gd`, on a new `VsyncDebug` node last in `main.tscn`, follows the assignment's example; no project setting, input action or `system_keys.gd` changed, and no action used F9 before.
+- **Checks (Claude):** every test still passed. A headless run has no window, so Claude ran the real `Main` in a window from a scratch copy of the game and pressed F9 with injected key events: about 120 FPS with vsync on, 579 with it off, on again after a second press. The display reported 60 Hz yet vsync held about 120 FPS; that was noted, not explained.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude wrote the node and the check; I asked for them and approved the commit.
+
+## 2026-11-06 — Use It: the GPU price and the checks in play
+
+*Written on 2026-11-06, from the conversation. Results in `TEST-REPORT.md`, "Use It"; evidence in `evidence/use-it-code/`.*
+
+- **Attempt (me, with Codex):** after Claude described each check, I had Codex record them. Codex wrote a temporary editor plugin in a scratch copy of the game that started the real Visual Profiler, read its and the Monitors' cells, drove the real `Main` through the game's input actions, turned vsync off with F9 and saved screenshots and logs. Its first two attempts (an embedded game window, and `--editor --script`) failed and were dropped; its README says so.
+- **What it found:** the Visual Profiler's GPU column read 0.0 ms in all four states, the brief's predicted failure 12, so the 0.25 ms budget cannot be evaluated on this machine. With vsync off, FPS ranged from 239 to 438 and stayed above the reported 60 Hz. The captures showed no fault in the in-play, background, edge, pause, respawn and load checks.
+- **Checks (Claude):** every file the folder's README cites exists; all 168 files in `game/` still match its `source-hashes.json`; its runtime logs have no `SCRIPT ERROR` or `SHADER ERROR`; one profiler screenshot shows the GPU column at 0.0 ms beside non-zero CPU times. The plugin's own `plugin.cfg` names Codex as its author, and Claude asked me who made the evidence before writing it up.
+- **My own play:** the folder's README claims no human judgement, and the course requires my own playtest. Asked, I confirmed that I had played the game myself and found the size of both effects and the control feel fine.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I decided what to measure, had Codex record it, reviewed it, and played the game myself. Codex wrote and ran the instrument. Claude described the checks, checked the evidence and drafted the report.
