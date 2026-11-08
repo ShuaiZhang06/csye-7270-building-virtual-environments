@@ -258,3 +258,15 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **My own play:** the folder's README claims no human judgement, and the course requires my own playtest. Asked, I confirmed that I had played the game myself and found the size of both effects and the control feel fine.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I decided what to measure, had Codex record it, reviewed it, and played the game myself. Codex wrote and ran the instrument. Claude described the checks, checked the evidence and drafted the report.
+
+## 2026-11-07 — Ship It: the film
+
+*Written on 2026-11-07, from the conversation. The film's records are in `youtube/claude-liam-walker-rudy-particles/`.*
+
+- **Attempt (Claude, at my request):** I asked for the film as the assignment requires ("接下来按照作业要求做影片"). Claude followed the course's `godot-gamedev` skill with the `walker` modifier, adapting the Assignment 5 film's tools.
+- **The capture:** a film-only input driver on a scratch copy of `game/` recorded the real `Main` with Movie Maker at 3840 × 2160 and 30 fps: fast cuts, cuts facing left, a cut at the top of a jump, a cut that defeats a goblin, running, jumping, stopping, and Esc during both effects. A headless dry run checked the route first; its first version left Rudy waiting 4.5 s for the second goblin, so the order changed. Claude checked by pixel that the log's frame numbers are the video's.
+- **The film:** 33 beats, 12:22, narrated by Liam (local Kokoro). Every code excerpt is followed by its result; the strips are labelled as fixtures, the replays and enlargements as such, and Codex's captures as Codex's.
+- **Checks (Claude):** the course checker passed (7 code → result pairs); Gate T failed on three code panels' footers and passed after they were shortened; Gate V found no defect; Claude's own frame review found one card whose notes overlapped its captions and that named the wrong commit, both fixed before the final master. Loudness −24.5 LUFS. Claude sampled frames and measured the audio; it did not watch or listen to the whole film.
+- **My check:** I watched the film and found no problem ("影片看过了，没问题"), and uploaded the master to the course media storage: [claude-liam-walker-rudy-particles.mp4 on Google Drive](https://drive.google.com/file/d/1qAWW-L9Z0K5cUQ3Nql18tFhFgYpp4KuR/view?usp=sharing). Its SHA-256 is in the film folder's README.
+- **Expected / learned:** none recorded.
+- **Human / AI:** I asked for the film, watched it and uploaded it. Claude wrote the driver, the beat sheet and narration, the stills and records, and built and checked the film.
