@@ -270,3 +270,12 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **My check:** I watched the film and found no problem ("影片看过了，没问题"), and uploaded the master to the course media storage: [claude-liam-walker-rudy-particles.mp4 on Google Drive](https://drive.google.com/file/d/1qAWW-L9Z0K5cUQ3Nql18tFhFgYpp4KuR/view?usp=sharing). Its SHA-256 is in the film folder's README.
 - **Expected / learned:** none recorded.
 - **Human / AI:** I asked for the film, watched it and uploaded it. Claude wrote the driver, the beat sheet and narration, the stills and records, and built and checked the film.
+
+## 2026-11-07 — A last look at Effect A, and looking back on the tuning
+
+*Retrospective, written on 2026-11-07. The check and the lesson are in my words; Claude translated them and added the pointers.*
+
+- **Why:** checking the work against the assignment, Claude found that Effect A over the sky and the pit, the screen edges and the first frames after loading were recorded only from Codex's captures, not from my own eyes, and asked me to look.
+- **What I said:** when attacking, there are clearly visible sparks [攻击时，有明显的火花]. I did not say which of those places I looked at. TEST-REPORT.md, "Use It", records it with that limit.
+- **What I learned:** an effect needs several rounds of adjustment; there is no way to reach the ideal look at the start [effect需要多轮调整，没有办法在一开始就做到理想的效果]. Effect A took one round after its first strip (`TUNING.md`, "Effect A, revision r1"); Effect B took three, from a first strip in which I could not see the dust at all (`TUNING.md`, "Effect B, revision r1" to "r3").
+- **Human / AI:** the check and the lesson are mine. Claude asked for the check, and wrote both down.
