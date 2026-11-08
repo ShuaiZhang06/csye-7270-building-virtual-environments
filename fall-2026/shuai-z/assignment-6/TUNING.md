@@ -57,7 +57,7 @@ Where it differs, the likely reason: at frame 20 most sparks are still alive, be
 - `captures/slash_sparks/r0/` (`logs/capture_slash_sparks_r0.log`)
 - `captures/slash_sparks/r1/` (`logs/capture_slash_sparks_r1.log`)
 
-**Commits:** `ea4419ae` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit that makes this change with strip r1, this entry and the brief's Revision 3.
+**Commits:** `ea4419ae` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit that makes this change with strip r1, this entry and the brief's Revision 3. *(Hashes added on 2026-11-07, once the commits existed: strip r0 `b348f6d4`; this round `fed848b8`.)*
 
 ---
 
@@ -121,7 +121,7 @@ The measured targets at frame 25: 612 pixels changed by 20 levels or more, again
 - `captures/run_dust/r0/` (`logs/capture_run_dust_r0.log`)
 - `captures/run_dust/r1/`
 
-**Commits:** `017e8a52` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit of this round with strip r1.
+**Commits:** `017e8a52` (the effect as the agent built it, unedited); then the commit of strip r0, and the commit of this round with strip r1. *(Hashes added on 2026-11-07: strip r0 `c69523ca`; this round `0c45ac1e`.)*
 
 ---
 
@@ -163,7 +163,7 @@ The measured targets at frame 25: 1,054 pixels changed by 20 levels or more, aga
 
 **Strips:** `captures/run_dust/r1/`, `captures/run_dust/r2/` (`logs/capture_run_dust_r2.log`); fixture captures, as above.
 
-**Commits:** the commit of this round with strip r2.
+**Commits:** the commit of this round with strip r2. *(Hash added on 2026-11-07: `ed46992c`.)*
 
 ---
 
@@ -205,4 +205,4 @@ The measured targets at frame 25: a top 58 px above the walk line, within the pr
 
 **Strips:** `captures/run_dust/r2/`, `captures/run_dust/r3/` (`logs/capture_run_dust_r3.log`); fixture captures, as above.
 
-**Commits:** the commit of this round with strip r3, which also adds the brief's Revision 4 for all three rounds of Effect B.
+**Commits:** the commit of this round with strip r3, which also adds the brief's Revision 4 for all three rounds of Effect B. *(Hash added on 2026-11-07: `9a3d1c16`.)*
