@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Cannot open file 'res://tests/probe/does_not_exist.tres'.
+   at: load (scene/resources/resource_format_text.cpp:1442)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:4)
+ERROR: Failed loading resource: res://tests/probe/does_not_exist.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:4)
+CASE 1 missing file: <Object#null>
+ERROR: res://tests/probe/broken.tres:5 - Parse Error: Expected value, got 'EOF'.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:5)
+ERROR: Failed loading resource: res://tests/probe/broken.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:5)
+CASE 2 broken tres: <Object#null>
+ERROR: Resource file not found: res://tests/probe/nope.png (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:6)
+ERROR: res://tests/probe/missing_texture.tscn:8 - Parse Error: [ext_resource] referenced non-existent resource at: res://tests/probe/nope.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:6)
+CASE 3 scene with missing texture: (res://tests/probe/missing_texture.tscn):<PackedScene#-9223372009709238822>
+CASE 3 instance: Root:<Node2D#27246200279>
+ERROR: Cannot open file 'res://tests/probe/gone.tscn'.
+   at: load (scene/resources/resource_format_text.cpp:1442)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:9)
+ERROR: Failed loading resource: res://tests/probe/gone.tscn.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:9)
+ERROR: res://tests/probe/missing_subscene.tscn:7 - Parse Error: [ext_resource] referenced non-existent resource at: res://tests/probe/gone.tscn.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:9)
+CASE 4 scene with missing subscene: (res://tests/probe/missing_subscene.tscn):<PackedScene#-9223372009407248930>
+WARNING: Node './Child' was modified from inside an instance, but it has vanished.
+     at: instantiate (scene/resources/packed_scene.cpp:312)
+     GDScript backtrace (most recent call first):
+         [0] _init (res://tests/probe_load.gd:11)
+CASE 4 instance: Root:<Node2D#27548190169>
+ERROR: Resource file not found: res://tests/probe/nope.png (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:12)
+ERROR: Error loading resource: 'res://tests/probe/nope.png'.
+   at: load (core/core_bind.cpp:82)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/probe_load.gd:12)
+CASE 5 preload-style typed load: <Object#null>
+DONE
+WARNING: 3 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

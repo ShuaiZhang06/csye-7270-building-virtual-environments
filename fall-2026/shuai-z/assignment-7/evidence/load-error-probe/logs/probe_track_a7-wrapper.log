@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+WARNING: AnimationMixer: 'bad', couldn't resolve track:  'Nobody:frame'. This warning can be disabled in Project Settings.
+     at: _update_caches (scene/animation/animation_mixer.cpp:725)
+TRACK PROBE DONE

@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Resource file not found: res://tests/probe/nope.png (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+ERROR: res://tests/probe_scene_missing.tscn:10 - Parse Error: [ext_resource] referenced non-existent resource at: res://tests/probe/nope.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+SCENE RAN
