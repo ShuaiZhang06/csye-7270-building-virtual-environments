@@ -1,0 +1,58 @@
+Read CHANGE-BRIEF.md (sections 1, 2.1 and 5), sessions/session-1-answer.md
+(your plan) and sessions/plan-1-review.md (my decision on it). Step 0,
+the pin, is committed. I approve step 1 of the plan: the packing script
+and the 4 x 4 sheet. Implement only that step. No game behaviour changes
+in it: nothing in the game names the sheet yet.
+
+Write these files and nothing else:
+- tools/pack_rudy_sheet.py, in this folder, outside game/;
+- game/content/rudy/sheet/rudy_sheet.png;
+- game/content/rudy/sheet/rudy_sheet.png.import.
+
+The script, run as python3 tools/pack_rudy_sheet.py from this folder:
+- reads the pose order, canvas size and origin from
+  game/content/rudy/frames/frames.json, and the 16 PNGs beside it;
+- asserts there are 16 poses, every PNG is RGBA at the manifest's
+  canvas (410 x 386), and every PNG keeps at least 16 transparent pixels
+  on each side (brief section 1);
+- pastes them row by row, in manifest order, into a 1640 x 1544 RGBA
+  sheet, with no scaling, no padding and no edits (the cell table in
+  section 2.1);
+- saves the sheet, then reopens the saved file and asserts each cell
+  equals its source PNG pixel for pixel, comparing the file on disk, not
+  the image in memory;
+- prints one line per cell (cell, pose, the cell's rectangle, the
+  source PNG's SHA-256), then the sheet's size and SHA-256;
+- exits non-zero, naming the cell, on any failed assertion.
+
+Show that the pixel check can fail. Give the script a --self-test flag
+that writes two damaged copies of the sheet to a temporary directory
+outside the repository (one with cells 1 and 2 swapped, one with cell 12
+shifted one pixel) and runs the same check on each. Each must fail and
+name the cell. The self-test never touches the real sheet.
+
+The import: the sheet imports with mipmaps, like the frames (section
+2.1). Its .import's [params] section must equal
+game/content/rudy/frames/CHAR-IDLE.png.import's. Run
+godot --headless --path game --import
+and save its output to logs/import_sheet.log. Say how the .import got
+its mipmaps setting.
+
+Change no other file: no frame, no frames.json, no scene, no script in
+game/, no test, no document. The wrapper's logs in logs/ will change;
+that is expected. If the import rewrites any other .import file, list
+it under ANOMALIES. Git is read-only for you (CLAUDE.md). If
+anything contradicts what the brief or your plan predicts, keep what
+you measured and list it under a heading ANOMALIES; do not fix it.
+
+Run, and paste the real output of each:
+- python3 tools/pack_rudy_sheet.py, twice: the SHA-256 must match;
+- python3 tools/pack_rudy_sheet.py --self-test;
+- scripts/run-test.sh test_rudy_pin.tscn 60 (its RESULT line);
+- scripts/run-test.sh checks.tscn 60 (its last line, and the res://
+  path count, which should stay 90 because nothing names the sheet).
+
+Then show git status, and tell me what still needs a human to look at.
+Do not commit.
+
+Write your answer in English.
