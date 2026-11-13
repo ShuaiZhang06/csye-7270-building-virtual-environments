@@ -749,5 +749,5 @@ func _report() -> void:
 ## The slash clip, read from the library of the last Rudy's player: the same
 ## resource every Rudy uses.
 func _player_anim() -> Animation:
-	var lib: AnimationLibrary = load("res://content/rudy/rudy_animations.tres")
+	var lib: AnimationLibrary = load("res://animations/rudy_animations.tres")
 	return lib.get_animation(&"slash")

@@ -3070,7 +3070,7 @@ NOT REACHED  hurt -> fall
 == ANOMALIES ==
 ANOMALY  run -> sword_run: walking into the pickup mid-run: section 3 lists no change of form; Revision 4 names the restart this causes; on S5 t8 (tick 1264), S6 t8 (tick 1768), S7 t8 (tick 2406)
 RESULT PASS: 81 checks, 0 failed, 2932 ticks
-WARNING: 21 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 25 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-ERROR: 5 resources still in use at exit (run with --verbose for details).
+ERROR: 7 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:822)

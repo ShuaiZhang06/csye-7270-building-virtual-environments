@@ -17,8 +17,12 @@ extends Node
 ## names _pick_clip() returns; the slash_rig text check now also scans the
 ## library, so no clip of that name remains; and check 9, the pose rule of
 ## section 3, reads RudyLook.pose, frame() and Rudy.pose on a copy whose
-## SlashRig and Sprite visibility the test sets by hand. Run from the
-## assignment folder:
+## SlashRig and Sprite visibility the test sets by hand.
+## Revision 5's library step moves the library to game/animations/ and sets
+## Animation.step on every clip: check 11, every clip's step one frame period
+## (is_equal_approx(clip.step, 1.0 / fps), fps 60 or 8 per Revision 5's
+## table), and check 12, rudy.tscn takes its library from the new path and no
+## file is left at the old one. Run from the assignment folder:
 ##   scripts/run-test.sh test_rudy_clips.tscn 60
 ##
 ## It loads rudy.tscn and reads the AnimationPlayer under Look. It is a scene
@@ -40,7 +44,12 @@ extends Node
 ## any failure.
 
 const RUDY := preload("res://content/rudy/rudy.tscn")
-const LIBRARY_PATH := "res://content/rudy/rudy_animations.tres"
+const LIBRARY_PATH := "res://animations/rudy_animations.tres"
+## Where the library was before Revision 5 moved it, beside rudy.tscn; no file
+## may remain there. Derived, not written out, so that checks.gd's scan of every
+## res:// path named in the project (each must exist) does not read this
+## deliberately absent one.
+var _old_library_path := SCENE_PATH.get_base_dir().path_join(LIBRARY_PATH.get_file())
 const SCENE_PATH := "res://content/rudy/rudy.tscn"
 const SHEET_PATH := "res://content/rudy/sheet/rudy_sheet.png"
 const RUDY_SCRIPT_PATH := "res://content/rudy/rudy.gd"
@@ -74,7 +83,20 @@ const CLIPS := {
 }
 
 ## Key times and lengths must match to within 1 microsecond (section 9, check 2).
+## Revision 5 keeps it, not half a frame period: at the run's 8 cells/s that
+## would pass a key moved from 0.125 to 8/60 s.
 const TIME_TOLERANCE := 0.000001
+
+## Revision 5's Animation.step table: each clip's frame rate, so its step is
+## one frame period, 1.0 / fps. The slash and the ten one-key clips at 60, the
+## physics tick; run and sword_run at 8, their cell rate.
+const STEP_FPS := {
+	&"slash": 60,
+	&"celebrate": 60, &"respawn": 60, &"defeat": 60, &"hurt": 60,
+	&"rise": 60, &"sword_rise": 60, &"fall": 60, &"sword_fall": 60,
+	&"idle": 60, &"sword_idle": 60,
+	&"run": 8, &"sword_run": 8,
+}
 
 ## The two visibility keys every state clip carries from step 4a (section 2.2;
 ## Revision 4): [path, the value keyed at 0.0 s], both discrete.
@@ -199,6 +221,12 @@ func _ready() -> void:
 		scan_problems)
 	_expect_clean("10.9 the scan does not flag the Godot 4 names hframes =, vframes =, loop_mode =, sprite_frames =, speed_scale =",
 		_scan_text("sample", "hframes = 4\nvframes = 4\nloop_mode = 1\nsprite_frames = x\nspeed_scale = 1.0\n"))
+	_expect_clean("11 every clip's step is one frame period, is_equal_approx(clip.step, 1.0 / fps): 1/60 s for slash and the ten one-key clips, 1/8 s for run and sword_run (Revision 5)",
+		_check_steps(player), _step_summary(player))
+	var scene_text := FileAccess.get_file_as_string(SCENE_PATH)
+	_expect_clean("12 the scene's player takes its library from %s, and no file is left at %s (Revision 5)" % [LIBRARY_PATH,
+		_old_library_path], _check_location(player, scene_text), "library %s; old path exists %s" % [
+			player.get_animation_library(&"").resource_path, FileAccess.file_exists(_old_library_path)])
 
 	print("NEGATIVE")
 	var clean := _copy_player()
@@ -207,7 +235,8 @@ func _ready() -> void:
 			_check_loops(clean), _check_state_tracks(clean), _check_frames(clean, limit), _check_sprite(clean),
 			_check_names(clean, rudy_text), _check_rig(clean), _check_rig_parts(clean),
 			_scan_sprite_writes("rudy.gd", rudy_text), _scan_sprite_writes("rudy_look.gd", look_text),
-			_scan_rig_name(rudy_text, look_text, library_text)]:
+			_scan_rig_name(rudy_text, look_text, library_text), _check_steps(clean),
+			_check_location(player, scene_text)]:
 		clean_problems.append_array(list)
 	# Check 9's damage is to rudy_look.gd's text, loaded as a new script on a
 	# copy's Look; the undamaged text, loaded the same way, must pass it.
@@ -216,7 +245,7 @@ func _ready() -> void:
 		clean_problems.append("rudy_look.gd's text did not load as a script")
 	else:
 		clean_problems.append_array(_check_pose_rule(clean_look, null))
-	_expect_clean("control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage",
+	_expect_clean("control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8, 11, 12 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage",
 		clean_problems)
 
 	var p := _copy_player()
@@ -279,7 +308,6 @@ func _ready() -> void:
 		_scan_sprite_writes("rudy_look.gd", look_text + "\n\t_sprite.texture = FRAMES[&\"CHAR-IDLE\"]\n"),
 		"rudy_look.gd: assigns the Sprite's texture")
 
-	var scene_text := FileAccess.get_file_as_string(SCENE_PATH)
 	_expect_failure("10.9 the scene's text with speed_scale written as playback_speed",
 		_scan_text("rudy.tscn", scene_text.replace("speed_scale = 1.0", "playback_speed = 1.0")), "playback_speed")
 	_expect_failure("10.9 the library's text with loop_mode written as loop = true",
@@ -341,6 +369,20 @@ func _ready() -> void:
 		blind_problems = _check_pose_rule(blind_look, null)
 	_expect_failure("9 rudy_look.gd's text with its pose ignoring SlashRig (the SlashRig branch removed)", blind_problems,
 		"SlashRig shown, Sprite hidden on cell 9: pose CHAR-SWORD-IDLE, want CHAR-SWORD-SLASH")
+
+	# Revision 5's library step: steps on duplicated clips, the location on
+	# rudy.tscn's text edited in memory.
+	p = _copy_player()
+	p.get_animation(&"run").step = 1.0 / 30.0
+	_expect_failure("11 run's step left at the default 1/30 s", _check_steps(p), "run step")
+
+	p = _copy_player()
+	p.get_animation(RIG_CLIP).step = 1.0 / 30.0
+	_expect_failure("11 slash's step at 1/30 s", _check_steps(p), "slash step")
+
+	var old_scene_text := scene_text.replace(LIBRARY_PATH, _old_library_path)
+	_expect_failure("12 rudy.tscn's text naming the library at its old path", _check_location(player,
+		old_scene_text if old_scene_text != scene_text else ""), "rudy.tscn names the old path")
 
 	print("RESULT %s: %d checks, %d failed" % ["PASS" if _failures == 0 else "FAIL", _checks, _failures])
 	rudy.free()
@@ -592,6 +634,55 @@ func _check_names(player: AnimationPlayer, rudy_text: String) -> Array[String]:
 	for clip_name in have:
 		if not (String(clip_name) in selector.names):
 			problems.append("%s is in the library but _pick_clip() never returns it" % clip_name)
+	return problems
+
+
+## Check 11 (Revision 5): every clip's step is one frame period at its frame
+## rate in STEP_FPS, compared with is_equal_approx (step is a 32-bit float).
+func _check_steps(player: AnimationPlayer) -> Array[String]:
+	var problems: Array[String] = []
+	for clip_name: StringName in STEP_FPS:
+		if not player.has_animation(clip_name):
+			problems.append("%s missing" % clip_name)
+			continue
+		var fps: int = STEP_FPS[clip_name]
+		var step := player.get_animation(clip_name).step
+		if not is_equal_approx(step, 1.0 / fps):
+			problems.append("%s step %.6f s, want 1/%d = %.6f s" % [clip_name, step, fps, 1.0 / fps])
+	for clip_name in player.get_animation_list():
+		if not STEP_FPS.has(clip_name):
+			problems.append("%s has no frame rate in Revision 5's step table" % clip_name)
+	return problems
+
+
+## Each clip's step, for check 11's PASS line.
+func _step_summary(player: AnimationPlayer) -> String:
+	var parts: Array[String] = []
+	for clip_name in player.get_animation_list():
+		parts.append("%s %.6f" % [clip_name, player.get_animation(clip_name).step])
+	return ", ".join(parts)
+
+
+## Check 12 (Revision 5): the player's library is the resource at LIBRARY_PATH;
+## rudy.tscn's text has exactly one AnimationLibrary ext_resource, at that
+## path, and never names _old_library_path; and no file exists there.
+func _check_location(player: AnimationPlayer, scene_text: String) -> Array[String]:
+	var problems: Array[String] = []
+	if scene_text.is_empty():
+		problems.append("rudy.tscn: no text to scan")
+	var library := player.get_animation_library(&"") if player.has_animation_library(&"") else null
+	if library == null or library.resource_path != LIBRARY_PATH:
+		problems.append("the player's library is %s, want %s" % [library.resource_path if library else "none", LIBRARY_PATH])
+	var ext := RegEx.create_from_string(r'(?m)^\[ext_resource type="AnimationLibrary"[^\]]*\bpath="([^"]+)"')
+	var paths: Array[String] = []
+	for found in ext.search_all(scene_text):
+		paths.append(found.get_string(1))
+	if paths != [LIBRARY_PATH]:
+		problems.append("rudy.tscn's AnimationLibrary ext_resources %s, want only %s" % [paths, LIBRARY_PATH])
+	if scene_text.contains(_old_library_path):
+		problems.append("rudy.tscn names the old path %s" % _old_library_path)
+	if FileAccess.file_exists(_old_library_path):
+		problems.append("a file is left at %s" % _old_library_path)
 	return problems
 
 

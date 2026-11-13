@@ -11,10 +11,10 @@ A scoped Claude Code session drafted this file from `sessions/prompt-11.txt` on 
 - **Viewport** 1920 × 1080, `canvas_items` stretch, 1280 × 720 window (`game/project.godot:25-29`).
 - **State machine:** `game/content/rudy/rudy.gd` owns it. `mode` (`rudy.gd:41-49`, `:83`), `gear`, `_slash_clock` and physics feed `_pick_clip()` (`rudy.gd:296-320`), which returns a clip name every physics tick. `_physics_process` passes it to `RudyLook.play_clip()` (`rudy.gd:241`; `game/content/rudy/rudy_look.gd:78-83`), with a restart on every new swing. The hitbox stays in code: `_swing()` (`rudy.gd:246-258`).
 - **The clips** (one `AnimationPlayer`, `Look/AnimationPlayer`, `rudy.tscn:69-76`; `root_node` `..`, so track paths start at `Look`; `callback_mode_process = 0`, physics):
-  - `run`, `sword_run`, the looping sprite clips. Route: `Sprite2D` with an `AnimationPlayer` frame track. Node: `Look/Sprite`, texture `sheet/rudy_sheet.png`, `hframes` 4, `vframes` 4 (`rudy.tscn:31-38`). Tracks `Sprite:frame`, `Sprite:visible`, `SlashRig:visible`; `length` 0.25, `loop_mode = 1` (`rudy_animations.tres:45-51`, `:449-455`).
-  - `slash`, the committing action. Route: cutout rig keyed as resource text. Node: `Look/SlashRig` with `Lean`, `Lean/Grip/Blade`, `Lean/Body`, `Lean/Arc` (`rudy.tscn:40-67`). Tracks `Sprite:visible`, `SlashRig:visible`, `SlashRig/Lean/Grip:rotation_degrees`, `SlashRig/Lean:rotation_degrees`, `SlashRig/Lean:position`, `SlashRig/Lean/Arc:modulate:a`; `length` 0.283333 (17/60), no `loop_mode` line, so the default `LOOP_NONE` (`rudy_animations.tres:373-446`).
-  - Ten one-key state clips on `Sprite:frame` (`idle`, `rise`, `fall`, `hurt`, `defeat`, `respawn`, `celebrate`, `sword_idle`, `sword_rise`, `sword_fall`), each 1.0 s, `loop_mode = 1` (`rudy_animations.tres`, the two lines after each `resource_name`).
-- **The clip library is today** `game/content/rudy/rudy_animations.tres` (`rudy.tscn:7`, `:70-73`). Revision 5 of the brief moves it to `game/animations/rudy_animations.tres` after this step, with no key changed. `game/animations/` does not exist yet. The move must also update `test_rudy_clips.gd:43` and `test_rudy_states.gd:752`, which load it by path.
+  - `run`, `sword_run`, the looping sprite clips. Route: `Sprite2D` with an `AnimationPlayer` frame track. Node: `Look/Sprite`, texture `sheet/rudy_sheet.png`, `hframes` 4, `vframes` 4 (`rudy.tscn:31-38`). Tracks `Sprite:frame`, `Sprite:visible`, `SlashRig:visible`; `length` 0.25, `loop_mode = 1`, `step` 0.125 (`game/animations/rudy_animations.tres:46-53`, `:459-466`).
+  - `slash`, the committing action. Route: cutout rig keyed as resource text. Node: `Look/SlashRig` with `Lean`, `Lean/Grip/Blade`, `Lean/Body`, `Lean/Arc` (`rudy.tscn:40-67`). Tracks `Sprite:visible`, `SlashRig:visible`, `SlashRig/Lean/Grip:rotation_degrees`, `SlashRig/Lean:rotation_degrees`, `SlashRig/Lean:position`, `SlashRig/Lean/Arc:modulate:a`; `length` 0.283333 (17/60), no `loop_mode` line, so the default `LOOP_NONE`; `step` 1/60 (`rudy_animations.tres:382-456`).
+  - Ten one-key state clips on `Sprite:frame` (`idle`, `rise`, `fall`, `hurt`, `defeat`, `respawn`, `celebrate`, `sword_idle`, `sword_rise`, `sword_fall`), each 1.0 s, `loop_mode = 1`, `step` 1/60 (`rudy_animations.tres`, the three lines after each `resource_name`).
+- **The clip library is** `game/animations/rudy_animations.tres` (`rudy.tscn:7`, `:70-73`), moved there from `game/content/rudy/` by Revision 5 of the brief with no key changed. `test_rudy_clips.gd:47` and `test_rudy_states.gd:752` load it by path.
 - **Scenes the clips appear in:**
   - `game/content/rudy/rudy.tscn`, which owns the player, the Sprite and the rig;
   - `game/app/main.tscn:21`, which instances Rudy in the game;
@@ -31,7 +31,7 @@ A scoped Claude Code session drafted this file from `sessions/prompt-11.txt` on 
 - Exit 0 is not enough: the wrapper fails on `SHADER ERROR`, `SCRIPT ERROR`, resource-load lines and `couldn't resolve track` (`run-test.sh:54-59`). A track to a missing *property* prints nothing (`:25-27`).
 
 ```bash
-scripts/run-test.sh test_rudy_clips.tscn 60       # read-back: 46 PASS (logs/test_rudy_clips_60fps.log:51)
+scripts/run-test.sh test_rudy_clips.tscn 60       # read-back: 51 PASS (logs/test_rudy_clips_60fps.log:56)
 scripts/run-test.sh test_rudy_states.tscn 60      # states: 81 PASS (logs/test_rudy_states_60fps.log:3072)
 scripts/run-test.sh test_rudy_edges.tscn 60       # edges E1-E7: 98 PASS (logs/test_rudy_edges_60fps.log:5371)
 scripts/run-test.sh test_rudy_edges.tscn 30       # E1, E2 at both offsets: 66 PASS (logs/test_rudy_edges_30fps.log:734)
@@ -65,7 +65,7 @@ Confirmed on this machine on 2026-11-13 (`evidence/headless-facts-probe/README.m
 ## Ownership
 
 - Every file in `game/shaders/` (`invulnerable_tint.gdshader`, `particles_generated.gdshader` and their `.uid` files) is written by hand by me and is never edited by an agent.
-- Clips live as resources in `game/animations/` or in the scene that owns them, and are never built in code at runtime. Until the brief's move, the library stays at `game/content/rudy/rudy_animations.tres`.
+- Clips live as resources in `game/animations/` or in the scene that owns them, and are never built in code at runtime. The library is `game/animations/rudy_animations.tres` (`rudy.tscn:7`).
 - `scripts/run-test.sh` stays as committed (`db2f8989`; `CHANGE-BRIEF.md`, Revision 5).
 - The clip rule covers the game's clips. A test may duplicate a clip in memory and damage the copy for a NEGATIVE check, as `test_rudy_clips.gd:34-38` does; it never saves the copy or plays it in the game.
 - Git is read-only for the agent: `status`, `diff`, `log`, `show`. No commit, stage, stash, reset, restore, clean, branch switch or file deletion through git; commits are mine.
@@ -90,7 +90,7 @@ No `AnimationTree`, second `AnimationPlayer`, `AnimatedSprite2D` or RESET clip e
 
 - Use Godot 4 class and property names for 4.7.2, never Godot 3 names: `loop_mode` (`Animation.LOOP_NONE`, `LOOP_LINEAR`, `LOOP_PINGPONG`), not a boolean `loop`; `speed_scale`, not `playback_speed`, which 4.7.2 drops without a message; `AnimatedSprite2D` with `sprite_frames` and `play()`, not `AnimatedSprite`, `frames` or `playing = true` (`evidence/brief-probe/README.md`).
 - `callback_mode_process`: physics is 0, idle is 1 and the default (`evidence/brief-probe/logs/anim_clock_physics_60fps.log:3`).
-- `Animation.step` defaults to 1/30 s, stored as a 32-bit float: compare it with `is_equal_approx`, not `==` (`logs/probe_headless_facts_60fps.log:12`). The brief sets it per clip; no clip sets it yet (`rudy_animations.tres` has no `step` line).
+- `Animation.step` defaults to 1/30 s, stored as a 32-bit float: compare it with `is_equal_approx`, not `==` (`logs/probe_headless_facts_60fps.log:12`). The brief sets it per clip: 1/60 s for `slash` and the one-key clips, 1/8 s for `run` and `sword_run` (a `step` line in each clip of `rudy_animations.tres`; read back by `test_rudy_clips.gd`, check 11).
 - If you are unsure a class, property or constant exists in 4.7.2, say so, then check it (`ClassDB`, or load and read back) instead of guessing.
 
 ## Out of scope

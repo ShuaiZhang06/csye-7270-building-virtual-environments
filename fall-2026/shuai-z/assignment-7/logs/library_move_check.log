@@ -1,0 +1,34 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+save error 0
+celebrate step 0.01666666753590107
+defeat step 0.01666666753590107
+fall step 0.01666666753590107
+hurt step 0.01666666753590107
+idle step 0.01666666753590107
+respawn step 0.01666666753590107
+rise step 0.01666666753590107
+run step 0.12500000000000000
+slash step 0.01666666753590107
+sword_fall step 0.01666666753590107
+sword_idle step 0.01666666753590107
+sword_rise step 0.01666666753590107
+sword_run step 0.12500000000000000
+--- the library against that resave
+compared 13 clips, 60 keys: 0 differences
+--- the library at 799fc127 against the moved one
+DIFF slash step 0.0333333350718 vs 0.0166666675359
+DIFF sword_run step 0.0333333350718 vs 0.125
+DIFF sword_rise step 0.0333333350718 vs 0.0166666675359
+DIFF sword_idle step 0.0333333350718 vs 0.0166666675359
+DIFF sword_fall step 0.0333333350718 vs 0.0166666675359
+DIFF run step 0.0333333350718 vs 0.125
+DIFF rise step 0.0333333350718 vs 0.0166666675359
+DIFF respawn step 0.0333333350718 vs 0.0166666675359
+DIFF idle step 0.0333333350718 vs 0.0166666675359
+DIFF hurt step 0.0333333350718 vs 0.0166666675359
+DIFF fall step 0.0333333350718 vs 0.0166666675359
+DIFF defeat step 0.0333333350718 vs 0.0166666675359
+DIFF celebrate step 0.0333333350718 vs 0.0166666675359
+compared 13 clips, 60 keys: 13 differences
+--- text lines that differ, library against resave: 176

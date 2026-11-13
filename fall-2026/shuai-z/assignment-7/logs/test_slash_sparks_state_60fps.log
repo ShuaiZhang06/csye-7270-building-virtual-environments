@@ -15,7 +15,7 @@ PASS  S12 a stomp with the sword: no burst, no live edge  (goblin dead true, gea
 PASS  S13 slash while paused: no burst then, and none in the 10 ticks after resuming  (paused true, resumed true; bursts while paused 0, after 0)
 PASS  S14 a burst alive at a pause stays in the tree and visible, still emitting, and stops processing until resumed  (while paused: in the tree true, visible true, emitting true, processing false; after resuming: processing true)
 all checks passed
-WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
 ERROR: 5 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:822)

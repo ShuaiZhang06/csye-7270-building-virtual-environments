@@ -1,0 +1,71 @@
+Read CLAUDE.md first. CHANGE-BRIEF.md is the contract for this change,
+and its Revision 5 holds where it differs from the sections above it.
+
+This step does the two things Revision 5 asks of the clip library, and
+nothing else:
+
+1. Move the library. Clips live as resources in game/animations/
+   (CLAUDE.md, "Ownership"). Make the folder and move the file with
+   exactly these two commands, so that its bytes move unchanged:
+     mkdir -p game/animations
+     mv game/content/rudy/rudy_animations.tres game/animations/rudy_animations.tres
+   Then change every res:// path that names it: rudy.tscn's
+   ext_resource, LIBRARY_PATH in test_rudy_clips.gd, and the load() in
+   test_rudy_states.gd. Leave evidence/ and sessions/ as they are: they
+   record what ran then.
+
+2. Set Animation.step on every clip to one frame period at the frame
+   rate in Revision 5's table: 1/60 s for slash and the ten one-key
+   clips, 1/8 s (0.125) for run and sword_run. Write it as a step line
+   in each clip's sub_resource, after loop_mode where the clip has one.
+   Change no key, length, loop mode, transition or update mode.
+
+Then extend the read-back, game/tests/test_rudy_clips.gd:
+- READBACK: every clip's step is its frame period, checked as the
+  text's read-back does, is_equal_approx(clip.step, 1.0 / fps), with
+  fps 60 or 8 per clip from Revision 5's table.
+- READBACK: the scene's player takes its library from
+  res://animations/rudy_animations.tres, and no file is left at
+  res://content/rudy/rudy_animations.tres.
+- NEGATIVE, in the file's existing way (damaged copies in memory or
+  edited text, never a saved file): run's step left at the default
+  1/30 must fail on "run step"; slash's step at 1/30 must fail on
+  "slash step"; rudy.tscn's text naming the old path must fail the
+  location check.
+- Keep the key-time tolerance at 1 us; Revision 5 says why. Keep every
+  other check and its expected values as they are. Add a line for this
+  step to the header comment.
+
+Then update CLAUDE.md where it names the library's path or its line
+numbers, or says that no clip sets step, and nowhere else. Keep it
+under 120 lines, with a file reference for every fact.
+
+Do not change any other file. Git is read-only for you (CLAUDE.md).
+The wrapper's logs in logs/ will change; that is expected.
+
+Run godot --headless --path game --import once after the move. Then
+run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_clips.tscn 60: every READBACK and
+  NEGATIVE line and the RESULT line. I expect 51 checks, 0 failed: the
+  46 of now plus the two READBACK and three NEGATIVE lines above. If
+  your count differs, say why.
+- scripts/run-test.sh test_rudy_pin.tscn 60: its RESULT line, still 16
+  of 19 with T1, T2 and T6 failing as committed in step 2b. Then
+  git diff on its log. step changes nothing at run time, so I expect
+  no line but the leak line to differ.
+- scripts/run-test.sh test_rudy_states.tscn 60, then
+  test_rudy_edges.tscn 60 and test_rudy_edges.tscn 30: their RESULT
+  lines (81, 98 and 66 PASS now), and git diff on their logs, which I
+  expect to differ in no line but the leak lines.
+- scripts/run-test.sh checks.tscn 60: its last lines and the res://
+  path count. It should stay 98, because the library's path is
+  renamed, not added; a stale reference to the old path would show as
+  missing.
+
+If a result differs from what I expect, keep the measured result, list
+it under ANOMALIES, and do not make it pass by changing an expectation.
+
+Then show git status, and list each step line you added with its clip.
+Tell me what still needs a human to check. Do not commit.
+
+Write your answer in English.

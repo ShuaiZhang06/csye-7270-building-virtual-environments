@@ -19,8 +19,10 @@ PASS  9 the pose rule (section 3), on a copy not in the tree, no clip played: Sl
 PASS  text: neither rudy.gd, rudy_look.gd nor rudy_animations.tres names slash_rig, step 4a's name for the rig clip (Revision 4)
 PASS  10.9 no Godot 3 name in rudy.tscn or rudy_animations.tres (playback_speed; loop =, playing =, frames = at a line start)
 PASS  10.9 the scan does not flag the Godot 4 names hframes =, vframes =, loop_mode =, sprite_frames =, speed_scale =
+PASS  11 every clip's step is one frame period, is_equal_approx(clip.step, 1.0 / fps): 1/60 s for slash and the ten one-key clips, 1/8 s for run and sword_run (Revision 5)  (celebrate 0.016667, defeat 0.016667, fall 0.016667, hurt 0.016667, idle 0.016667, respawn 0.016667, rise 0.016667, run 0.125000, slash 0.016667, sword_fall 0.016667, sword_idle 0.016667, sword_rise 0.016667, sword_run 0.125000)
+PASS  12 the scene's player takes its library from res://animations/rudy_animations.tres, and no file is left at res://content/rudy/rudy_animations.tres (Revision 5)  (library res://animations/rudy_animations.tres; old path exists false)
 NEGATIVE
-PASS  control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage
+PASS  control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8, 11, 12 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage
 PASS  1 idle's track to Sprite:frames, a missing property: must fail on "idle track 0"  (idle track 0: Sprite has no property frames)
 PASS  2 run's second key at 8/60 s instead of 0.125 s: must fail on "run key 1"  (run key 1 at 0.133333 s, want 0.125000)
 PASS  3 idle set to LOOP_NONE: must fail on "idle loop_mode"  (idle loop_mode 0, want 1)
@@ -48,4 +50,7 @@ PASS  8 Blade (with its Grip) moved after Body in the tree: must fail on "Blade 
 PASS  8 Grip moved 4 px off the grip point: must fail on "Grip at"  (Grip at (31.12, -102.75), rotation 0.0, scale (1.0, 1.0); want the grip point (27.12, -102.75), 0, 1; Blade at (-27.12, 102.75) does not cancel Grip at (31.12, -102.75))
 PASS  text: rudy_look.gd's text with a line that plays slash_rig: must fail on "rudy_look.gd names slash_rig"  (rudy_look.gd names slash_rig)
 PASS  9 rudy_look.gd's text with its pose ignoring SlashRig (the SlashRig branch removed): must fail on "SlashRig shown, Sprite hidden on cell 9: pose CHAR-SWORD-IDLE, want CHAR-SWORD-SLASH"  (SlashRig shown, Sprite hidden on cell 9: pose CHAR-SWORD-IDLE, want CHAR-SWORD-SLASH; SlashRig shown, Sprite hidden on cell 9: frame() CHAR-SWORD-IDLE.png, want CHAR-SWORD-SLASH.png)
-RESULT PASS: 46 checks, 0 failed
+PASS  11 run's step left at the default 1/30 s: must fail on "run step"  (run step 0.033333 s, want 1/8 = 0.125000 s)
+PASS  11 slash's step at 1/30 s: must fail on "slash step"  (slash step 0.033333 s, want 1/60 = 0.016667 s)
+PASS  12 rudy.tscn's text naming the library at its old path: must fail on "rudy.tscn names the old path"  (rudy.tscn's AnimationLibrary ext_resources ["res://content/rudy/rudy_animations.tres"], want only res://animations/rudy_animations.tres; rudy.tscn names the old path res://content/rudy/rudy_animations.tres)
+RESULT PASS: 51 checks, 0 failed
