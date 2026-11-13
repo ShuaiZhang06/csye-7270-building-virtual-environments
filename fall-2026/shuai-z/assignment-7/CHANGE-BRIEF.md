@@ -460,3 +460,21 @@ The rules below are the ones the assignment states; the source of each is in bra
 - No new image is generated. The rig's parts are cut from an existing frame.
 
 ## Revisions
+
+### Revision 2 — 2026-11-12, what `CLAUDE.md` is for
+
+Revision 1's opening says that every prompt the assignment supplies begins "Read CLAUDE.md first", and that `CLAUDE.md` imports this brief. Neither is right. Revision 1 stays as it was committed; where the two differ, this revision holds.
+
+- **The course text never names `CLAUDE.md`.** Its one prompt, the plan prompt, begins "Read my CHANGE-BRIEF.md and README.md" (`assignments/08-animation-and-state.md`, line 68).
+- **Only the revision note's three draft prompts name it.** The sprite setup, rig clip and tuning prompts begin "Read CLAUDE.md first", and take the Godot version from it ("the version in CLAUDE.md"). They assume that a `CLAUDE.md` exists, but neither text says what it holds.
+- **So `CLAUDE.md` is a short file of stable project facts,** by my decision of 2026-11-12:
+  - the Godot version, the renderer, the tick rate and the project path;
+  - the wrapper, and the earlier tests with their counts;
+  - how new tests press keys;
+  - the Godot 4 names the probes checked;
+  - that git is read-only for the agent.
+
+  It repeats none of this brief's design, and it does not import it: it points to it, and where the two differ, this brief holds. With it in place, the three draft prompts are used as written.
+- **The plan prompt's `README.md`.** The plan prompt also reads `README.md`, which this folder does not have yet. That is settled when the plan prompt is sent, and recorded then.
+
+Claude Code drafted this revision and `CLAUDE.md` at my request.
