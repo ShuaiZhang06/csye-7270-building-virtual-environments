@@ -492,3 +492,27 @@ The accepted plan makes the sprite clips in step 2a and wires them in step 2b (`
   - check 7 compares the library with section 3's state table: 13 clips, counting the stand-in. Its comparison with the names the selector can return starts in step 2b, when the selector returns clip names.
 
 Claude Code drafted this revision, with these values, while preparing step 2a's prompt. It is committed only after my review.
+
+### Revision 4 — 2026-11-12, what steps 2b and 3 found, and step 4a's stages
+
+Where this revision differs from the sections above or from Revision 3, it holds.
+
+**What steps 2b and 3 found:**
+- **The restart calls come in the other order** (section 3, the restart rule). `RudyLook` starts every new swing with `seek(0.0, true)` and then `play("slash")`. With `play()` first, the clip ended a tick early, and the next state's first key came a tick late. That failed T3 and I7 in step 2b's first wiring. `evidence/seek-order-probe/` shows it: with play-then-seek the player stops on tick 16; with seek-then-play, or play alone, it stops on tick 17.
+- **The run restarts in more places than after a slash** (section 2.1). The old code also kept `_run_clock` through a hurt, a defeat and respawn, and a sword pickup mid-run. The rule above ("whenever he enters it from any other state") covers all of these. So "the one intended change to the run's timing" understates it: the run now restarts after each of them. No test sees these restarts. They are played and re-pinned with T1, T2 and T6 in step 6 (`sessions/session-5-answer.md`, A2).
+- **The pommel stays in Body** (section 2.2). `slash_blade.png` is the blade and crossguard only, and the grip and pommel below the fist stay in `slash_body.png`. The pommel is drawn over the sleeve, so it cannot sit in Blade while Blade draws behind Body. So the sword kinks at the fist by Grip's angle. I accept that for now (`sessions/session-6b-answer.md`).
+- **The rig's numbers, from `tools/cut_slash_rig.py`:**
+  - the grip point is texture pixel (259.24, 164.50), which is (27.12, −102.75) game px from his origin;
+  - the drawn angle is −30.89°;
+  - the reach is 50.3 game px.
+
+**Step 4a, the rig and its clip, not wired.** The selector already plays `slash`, the stand-in from Revision 3. Replacing that clip would wire the rig. So in step 4a:
+- the keyed clip of section 2.2 is named `slash_rig`, and the stand-in `slash` stays;
+- `SlashRig` is in the scene, with `visible` false;
+- every other clip gains the visibility keys of section 2.2: `Sprite:visible` true and `SlashRig:visible` false, at 0. Nothing plays `slash_rig`, so these keys change nothing on screen, and the pin's log changes only in its leak count;
+- check 7 expects the selector's names plus `slash_rig`;
+- check 4 expects three tracks on every state clip (`Sprite:frame`, `Sprite:visible`, `SlashRig:visible`).
+
+In step 4b, `slash_rig` replaces `slash`, and check 7 goes back to an exact match. `RudyLook` then reports `CHAR-SWORD-SLASH` as the pose while `SlashRig` shows (section 3).
+
+Claude Code drafted this revision while preparing step 4a's prompt. It is committed only after my review.
