@@ -9,14 +9,24 @@ extends Node
 ## and 16 against section 7; check 1b, every track path with a second subname
 ## resolved with get_indexed(); check 4's two visibility keys on every state
 ## clip; check 7's library as the selector's names plus slash_rig; check 8, the
-## SlashRig nodes; and a text check that no script names slash_rig. Run
-## from the assignment folder:
+## SlashRig nodes; and a text check that no script names slash_rig.
+## Step 4b (Revision 4) wires the rig: the stand-in slash goes and slash_rig is
+## renamed slash. So slash is now the rig clip, checked by the checks that read
+## slash_rig in step 4a with the same expectations; check 4's three-track rule
+## and the stand-in's cell leave it; check 7 is again an exact match with the
+## names _pick_clip() returns; the slash_rig text check now also scans the
+## library, so no clip of that name remains; and check 9, the pose rule of
+## section 3, reads RudyLook.pose, frame() and Rudy.pose on a copy whose
+## SlashRig and Sprite visibility the test sets by hand. Run from the
+## assignment folder:
 ##   scripts/run-test.sh test_rudy_clips.tscn 60
 ##
 ## It loads rudy.tscn and reads the AnimationPlayer under Look. It is a scene
 ## test because rudy.gd names the Sfx autoload (CLAUDE.md). The instance is
 ## never added to the tree, and the test never calls play(), seek() or
-## advance(), so no clip runs and nothing in Rudy moves.
+## advance(), so no clip runs and nothing in Rudy moves. Check 9 writes the
+## visibility and frame of a copy's nodes, and that copy's _look (its @onready
+## var, which stays null out of the tree), never the loaded scene's.
 ##
 ## READBACK only reads: the scene's player, its library, its Sprite, the
 ## sheet's size and .import, frames.json, and the text of rudy.tscn,
@@ -43,17 +53,16 @@ const SHEET_SIZE := Vector2i(1640, 1544)
 ## Section 2.1: the sheet's cell, with no padding.
 const CELL := Vector2i(410, 386)
 
-## Every clip the library must hold, with its length, loop mode and keys as
-## [time in seconds, cell]. Sources: section 2.1's cycle table (run,
-## sword_run), section 3's state table (the cells of the one-key clips),
-## Revision 3 (one-key clips 1.0 s, LOOP_LINEAR; slash a one-key stand-in on
-## cell 10 with section 2.2's length 17/60 s and LOOP_NONE).
+## Every state clip the library must hold besides the slash, with its length,
+## loop mode and keys as [time in seconds, cell]. Sources: section 2.1's cycle
+## table (run, sword_run), section 3's state table (the cells of the one-key
+## clips), Revision 3 (one-key clips 1.0 s, LOOP_LINEAR). The slash is the rig
+## clip, RIG_CLIP (step 4b, Revision 4); the stand-in on cell 10 is gone.
 const CLIPS := {
 	&"celebrate": [1.0, Animation.LOOP_LINEAR, [[0.0, 8]]],
 	&"respawn": [1.0, Animation.LOOP_LINEAR, [[0.0, 7]]],
 	&"defeat": [1.0, Animation.LOOP_LINEAR, [[0.0, 6]]],
 	&"hurt": [1.0, Animation.LOOP_LINEAR, [[0.0, 5]]],
-	&"slash": [17.0 / 60.0, Animation.LOOP_NONE, [[0.0, 10]]],
 	&"rise": [1.0, Animation.LOOP_LINEAR, [[0.0, 3]]],
 	&"sword_rise": [1.0, Animation.LOOP_LINEAR, [[0.0, 14]]],
 	&"fall": [1.0, Animation.LOOP_LINEAR, [[0.0, 4]]],
@@ -74,14 +83,24 @@ const STATE_VISIBILITY := [
 	[^"SlashRig:visible", false],
 ]
 
-## Step 4a's keyed rig clip (Revision 4: named slash_rig while the stand-in
-## slash stays). Section 2.2's key table, in ticks at 60 (a key's time is its
-## tick / 60), 17/60 s long, LOOP_NONE. Each track: [path, update mode,
-## [[tick, value, transition], ...]], in the library's track order. The
-## transitions are this step's choice for the table's words: 2.0 is Godot's
-## ease-in (accelerating), 0.5 its ease-out (settling), 1.0 linear; a key's
-## transition shapes the move from it to the next key.
-const RIG_CLIP := &"slash_rig"
+## The keyed rig clip, slash (step 4a named it slash_rig while the stand-in
+## slash stayed; step 4b renames it, Revision 4). Section 2.2's key table, in
+## ticks at 60 (a key's time is its tick / 60), 17/60 s long, LOOP_NONE. Each
+## track: [path, update mode, [[tick, value, transition], ...]], in the
+## library's track order. The transitions are step 4a's choice for the table's
+## words: 2.0 is Godot's ease-in (accelerating), 0.5 its ease-out (settling),
+## 1.0 linear; a key's transition shapes the move from it to the next key.
+const RIG_CLIP := &"slash"
+## Step 4a's name for the rig clip, which no clip or script may carry now.
+const OLD_RIG_NAME := "slash_rig"
+## Check 9 (section 3): the pose the rig shows, and the cell of the pose the
+## Sprite is left on for both cases (CHAR-SWORD-IDLE), so that a pose read from
+## the cell alone gives CHAR-SWORD-IDLE while the rig shows.
+const RIG_POSE := &"CHAR-SWORD-SLASH"
+const POSE_RULE_CELL := 9
+## The text check 9's NEGATIVE line removes from rudy_look.gd's pose getter,
+## so that its pose ignores SlashRig.
+const POSE_RIG_BRANCH := "\t\tvar rig := get_node_or_null(^\"SlashRig\") as CanvasItem\n\t\tif rig != null and rig.visible:\n\t\t\treturn RIG_POSE\n"
 const RIG_LENGTH := 17.0 / 60.0
 const RIG_TRACKS := [
 	[^"Sprite:visible", Animation.UPDATE_DISCRETE, [[0, false, 1.0]]],
@@ -115,6 +134,7 @@ const RIG_PARTS := [
 var _checks := 0
 var _failures := 0
 var _copies: Array[Node] = []
+var _last_pose_reads := ""
 
 
 func _ready() -> void:
@@ -125,6 +145,7 @@ func _ready() -> void:
 	var sprite := _sprite_of(player)
 	var rudy_text := FileAccess.get_file_as_string(RUDY_SCRIPT_PATH)
 	var look_text := FileAccess.get_file_as_string(LOOK_SCRIPT_PATH)
+	var library_text := FileAccess.get_file_as_string(LIBRARY_PATH)
 
 	print("READBACK")
 	_expect_clean("1 every track resolves to a real node and property (track_problems)",
@@ -132,14 +153,15 @@ func _ready() -> void:
 	_expect_clean("1b every track path with a second subname resolves with get_indexed(), to the type it keys",
 		_check_indexed(player), ", ".join(_indexed_paths(player)))
 	_expect_clean("2 key times and clip lengths match the brief to within 1 us",
-		_check_times(player), "%d clips, %d keys" % [CLIPS.size(), _key_count(player)])
-	_expect_clean("2 slash_rig: 6 tracks in order, key times = section 2.2's ticks / 60 to within 1 us, values, transitions, update modes, length 17/60 s",
+		_check_times(player), "%d state clips besides slash, %d keys in all %d clips" % [CLIPS.size(), _key_count(player),
+			player.get_animation_list().size()])
+	_expect_clean("2 slash (the rig clip): 6 tracks in order, key times = section 2.2's ticks / 60 to within 1 us, values, transitions, update modes, length 17/60 s",
 		_check_rig_clip(player), _rig_key_summary(player))
-	_expect_clean("2 slash_rig: Grip by value_track_interpolate() on tick 3 in [-60, -40] deg and on tick 16 in [+15, +20] deg (section 7)",
+	_expect_clean("2 slash (the rig clip): Grip by value_track_interpolate() on tick 3 in [-60, -40] deg and on tick 16 in [+15, +20] deg (section 7)",
 		_check_rig_samples(player), _grip_trail(player))
-	_expect_clean("3 loop_mode is LOOP_LINEAR for run, sword_run and the one-key clips, LOOP_NONE for slash and slash_rig",
+	_expect_clean("3 loop_mode is LOOP_LINEAR for run, sword_run and the one-key clips, LOOP_NONE for slash",
 		_check_loops(player))
-	_expect_clean("4 every state clip has 3 tracks: Sprite:frame, Sprite:visible true and SlashRig:visible false at 0, all discrete",
+	_expect_clean("4 every state clip except slash has 3 tracks: Sprite:frame, Sprite:visible true and SlashRig:visible false at 0, all discrete",
 		_check_state_tracks(player))
 	_expect_clean("4 every frame track is discrete, every frame key is inside the sheet, below the Sprite's hframes x vframes, and on its cell",
 		_check_frames(player, limit),
@@ -156,7 +178,7 @@ func _ready() -> void:
 			sprite.texture.resource_path.get_file() if sprite.texture else "no texture",
 			sprite.texture.get_width() if sprite.texture else 0, sprite.texture.get_height() if sprite.texture else 0,
 			sprite.offset, sprite.scale, sprite.centered, RudyLook.CELLS.size()])
-	_expect_clean("7 the library holds exactly section 3's 13 clips (counting the slash stand-in) plus slash_rig: the names _pick_clip() can return, plus slash_rig, which it never returns",
+	_expect_clean("7 the library holds exactly section 3's 13 clips (slash the rig clip), and exactly the names _pick_clip() can return",
 		_check_names(player, rudy_text), "%d clips; _pick_clip() returns %s" % [player.get_animation_list().size(),
 			", ".join(_selector_names(rudy_text).names)])
 	_expect_clean("8 the rig: Look/Sprite, SlashRig (hidden), AnimationPlayer; SlashRig/Lean at (0, 0) holds Grip (holding Blade), Body, Arc in that order; Grip at the grip point and Blade cancelling it",
@@ -166,8 +188,11 @@ func _ready() -> void:
 	var write_problems := _scan_sprite_writes("rudy.gd", rudy_text)
 	write_problems.append_array(_scan_sprite_writes("rudy_look.gd", look_text))
 	_expect_clean("text: rudy.gd and rudy_look.gd assign neither the Sprite's texture nor its frame", write_problems)
-	_expect_clean("text: neither rudy.gd nor rudy_look.gd names slash_rig, so nothing plays it (Revision 4)",
-		_scan_rig_name(rudy_text, look_text))
+	var pose_copy := _rudy_copy()
+	_expect_clean("9 the pose rule (section 3), on a copy not in the tree, no clip played: SlashRig shown, Sprite hidden on cell 9 -> pose CHAR-SWORD-SLASH and frame() its PNG; SlashRig hidden, Sprite shown on cell 9 -> CHAR-SWORD-IDLE; RudyLook.pose and Rudy.pose",
+		_check_pose_rule(pose_copy.get_node(^"Look"), pose_copy), _last_pose_reads)
+	_expect_clean("text: neither rudy.gd, rudy_look.gd nor rudy_animations.tres names slash_rig, step 4a's name for the rig clip (Revision 4)",
+		_scan_rig_name(rudy_text, look_text, library_text))
 	var scan_problems := _scan_text("rudy.tscn", FileAccess.get_file_as_string(SCENE_PATH))
 	scan_problems.append_array(_scan_text("rudy_animations.tres", FileAccess.get_file_as_string(LIBRARY_PATH)))
 	_expect_clean("10.9 no Godot 3 name in rudy.tscn or rudy_animations.tres (playback_speed; loop =, playing =, frames = at a line start)",
@@ -182,9 +207,16 @@ func _ready() -> void:
 			_check_loops(clean), _check_state_tracks(clean), _check_frames(clean, limit), _check_sprite(clean),
 			_check_names(clean, rudy_text), _check_rig(clean), _check_rig_parts(clean),
 			_scan_sprite_writes("rudy.gd", rudy_text), _scan_sprite_writes("rudy_look.gd", look_text),
-			_scan_rig_name(rudy_text, look_text)]:
+			_scan_rig_name(rudy_text, look_text, library_text)]:
 		clean_problems.append_array(list)
-	_expect_clean("control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8 and the text checks, so each failure below comes from its damage",
+	# Check 9's damage is to rudy_look.gd's text, loaded as a new script on a
+	# copy's Look; the undamaged text, loaded the same way, must pass it.
+	var clean_look := _look_with_text(look_text)
+	if clean_look == null:
+		clean_problems.append("rudy_look.gd's text did not load as a script")
+	else:
+		clean_problems.append_array(_check_pose_rule(clean_look, null))
+	_expect_clean("control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage",
 		clean_problems)
 
 	var p := _copy_player()
@@ -248,7 +280,6 @@ func _ready() -> void:
 		"rudy_look.gd: assigns the Sprite's texture")
 
 	var scene_text := FileAccess.get_file_as_string(SCENE_PATH)
-	var library_text := FileAccess.get_file_as_string(LIBRARY_PATH)
 	_expect_failure("10.9 the scene's text with speed_scale written as playback_speed",
 		_scan_text("rudy.tscn", scene_text.replace("speed_scale = 1.0", "playback_speed = 1.0")), "playback_speed")
 	_expect_failure("10.9 the library's text with loop_mode written as loop = true",
@@ -258,26 +289,26 @@ func _ready() -> void:
 	_expect_failure("10.9 the scene's text with a line frames = ...",
 		_scan_text("rudy.tscn", scene_text + "frames = SubResource(\"x\")\n"), "frames =")
 
-	# Step 4a's checks (Revision 4).
+	# Step 4a's checks (Revision 4), on slash, the rig clip since step 4b.
 	p = _copy_player()
 	p.get_animation(RIG_CLIP).track_set_path(2, ^"SlashRig/Grip:rotation_degrees")
-	_expect_failure("1 slash_rig's Grip track on SlashRig/Grip, a path that drops Lean", track_problems(p),
-		"slash_rig track 2: no node at SlashRig/Grip")
+	_expect_failure("1 slash's Grip track on SlashRig/Grip, a path that drops Lean", track_problems(p),
+		"slash track 2: no node at SlashRig/Grip")
 
 	p = _copy_player()
 	p.get_animation(RIG_CLIP).track_set_path(5, ^"SlashRig/Lean/Arc:modulate:alpha")
 	_expect_clean("1 (why 1b exists) track_problems() reads only the first subname, so it passes Arc keyed on modulate:alpha",
 		track_problems(p))
-	_expect_failure("1b slash_rig's Arc track keyed on modulate:alpha, which Color does not have", _check_indexed(p),
-		"slash_rig track 5: Arc does not resolve modulate:alpha")
+	_expect_failure("1b slash's Arc track keyed on modulate:alpha, which Color does not have", _check_indexed(p),
+		"slash track 5: Arc does not resolve modulate:alpha")
 
 	p = _copy_player()
 	p.get_animation(RIG_CLIP).track_set_key_time(2, 2, 6.0 / 60.0)
-	_expect_failure("2 slash_rig's 5/60 s Grip key moved to 6/60 s", _check_rig_clip(p), "slash_rig track 2 key 2 at")
+	_expect_failure("2 slash's 5/60 s Grip key moved to 6/60 s", _check_rig_clip(p), "slash track 2 key 2 at")
 
 	p = _copy_player()
 	p.get_animation(RIG_CLIP).loop_mode = Animation.LOOP_LINEAR
-	_expect_failure("3 slash_rig set to LOOP_LINEAR", _check_loops(p), "slash_rig loop_mode")
+	_expect_failure("3 slash set to LOOP_LINEAR", _check_loops(p), "slash loop_mode")
 
 	p = _copy_player()
 	var hurt := p.get_animation(&"hurt")
@@ -294,7 +325,22 @@ func _ready() -> void:
 	_expect_failure("8 Grip moved 4 px off the grip point", _check_rig(p), "Grip at")
 
 	_expect_failure("text: rudy_look.gd's text with a line that plays slash_rig",
-		_scan_rig_name(rudy_text, look_text + "\n\t_player.play(&\"slash_rig\")\n"), "rudy_look.gd names slash_rig")
+		_scan_rig_name(rudy_text, look_text + "\n\t_player.play(&\"slash_rig\")\n", library_text),
+		"rudy_look.gd names slash_rig")
+
+	# Step 4b's check 9, damaged by text: rudy_look.gd's pose getter without its
+	# SlashRig branch, loaded as a new script on a copy's Look.
+	var blind_text := look_text.replace(POSE_RIG_BRANCH, "")
+	var blind_look := _look_with_text(blind_text) if blind_text != look_text else null
+	var blind_problems: Array[String] = []
+	if blind_text == look_text:
+		blind_problems.append("the damage did not apply: rudy_look.gd has no SlashRig branch to remove")
+	elif blind_look == null:
+		blind_problems.append("the damaged text did not load as a script")
+	else:
+		blind_problems = _check_pose_rule(blind_look, null)
+	_expect_failure("9 rudy_look.gd's text with its pose ignoring SlashRig (the SlashRig branch removed)", blind_problems,
+		"SlashRig shown, Sprite hidden on cell 9: pose CHAR-SWORD-IDLE, want CHAR-SWORD-SLASH")
 
 	print("RESULT %s: %d checks, %d failed" % ["PASS" if _failures == 0 else "FAIL", _checks, _failures])
 	rudy.free()
@@ -523,26 +569,28 @@ func _check_sprite(player: AnimationPlayer) -> Array[String]:
 
 ## Check 7: the library against section 3's states (Revision 3) and, from
 ## step 2b, against the names _pick_clip() can return, read from rudy.gd's text.
+## From step 4b both are exact matches again (Revision 4): the 12 clips of
+## CLIPS plus slash, the rig clip, and nothing else.
 func _check_names(player: AnimationPlayer, rudy_text: String) -> Array[String]:
 	var problems: Array[String] = []
 	var have := player.get_animation_list()
+	var want: Array[String] = []
 	for clip_name: StringName in CLIPS:
-		if not (String(clip_name) in have):
+		want.append(String(clip_name))
+	want.append(String(RIG_CLIP))
+	for clip_name in want:
+		if not (clip_name in have):
 			problems.append("missing %s" % clip_name)
-	if not (String(RIG_CLIP) in have):
-		problems.append("missing %s" % RIG_CLIP)
 	for clip_name in have:
-		if not CLIPS.has(StringName(clip_name)) and StringName(clip_name) != RIG_CLIP:
+		if not (String(clip_name) in want):
 			problems.append("extra %s" % clip_name)
 	var selector := _selector_names(rudy_text)
 	problems.append_array(selector.problems)
 	for clip_name: String in selector.names:
 		if not (clip_name in have):
 			problems.append("_pick_clip() returns %s, which has no clip" % clip_name)
-	if String(RIG_CLIP) in selector.names:
-		problems.append("_pick_clip() returns %s, which step 4a leaves unwired" % RIG_CLIP)
 	for clip_name in have:
-		if StringName(clip_name) != RIG_CLIP and not (String(clip_name) in selector.names):
+		if not (String(clip_name) in selector.names):
 			problems.append("%s is in the library but _pick_clip() never returns it" % clip_name)
 	return problems
 
@@ -588,7 +636,7 @@ func _indexed_paths(player: AnimationPlayer) -> Array[String]:
 	return paths
 
 
-## Checks 2 for slash_rig: its length, and every track against RIG_TRACKS in
+## Checks 2 for the rig clip (RIG_CLIP, slash): its length, and every track against RIG_TRACKS in
 ## order: path, value type, update mode, linear interpolation for the
 ## continuous tracks, key count, and each key's time (tick / 60, within 1 us),
 ## value and transition.
@@ -633,7 +681,7 @@ func _check_rig_clip(player: AnimationPlayer) -> Array[String]:
 	return problems
 
 
-## Check 2's sample of slash_rig: Grip's value on the ticks of section 7,
+## Check 2's sample of the rig clip: Grip's value on the ticks of section 7,
 ## by value_track_interpolate() at tick / 60.
 func _check_rig_samples(player: AnimationPlayer) -> Array[String]:
 	var problems: Array[String] = []
@@ -655,7 +703,7 @@ func _check_rig_samples(player: AnimationPlayer) -> Array[String]:
 ## Grip on every tick 0-17, for the sample's PASS line and the key table.
 func _grip_trail(player: AnimationPlayer) -> String:
 	if not player.has_animation(RIG_CLIP):
-		return "no slash_rig"
+		return "no %s" % RIG_CLIP
 	var clip := player.get_animation(RIG_CLIP)
 	var t := clip.find_track(GRIP_TRACK, Animation.TYPE_VALUE)
 	if t < 0:
@@ -666,10 +714,10 @@ func _grip_trail(player: AnimationPlayer) -> String:
 	return "Grip by tick " + " ".join(parts)
 
 
-## slash_rig's tracks and key times, for check 2's PASS line.
+## The rig clip's tracks and key times, for check 2's PASS line.
 func _rig_key_summary(player: AnimationPlayer) -> String:
 	if not player.has_animation(RIG_CLIP):
-		return "no slash_rig"
+		return "no %s" % RIG_CLIP
 	var clip := player.get_animation(RIG_CLIP)
 	var parts: Array[String] = ["length %.6f s, %d tracks" % [clip.length, clip.get_track_count()]]
 	for t in clip.get_track_count():
@@ -800,16 +848,94 @@ func _rig_summary(player: AnimationPlayer) -> String:
 		_child_names(rig.get_node(^"Lean")), grip.position, blade.position]
 
 
-## Revision 4: nothing plays slash_rig in step 4a, so neither script names it.
-func _scan_rig_name(rudy_text: String, look_text: String) -> Array[String]:
+## Revision 4: in step 4a nothing played slash_rig, so neither script named
+## it; from step 4b the rig clip is slash, so no script names slash_rig and
+## the library holds no clip (nor sub-resource) of that name.
+func _scan_rig_name(rudy_text: String, look_text: String, library_text: String) -> Array[String]:
 	var problems: Array[String] = []
-	if rudy_text.is_empty() or look_text.is_empty():
+	if rudy_text.is_empty() or look_text.is_empty() or library_text.is_empty():
 		problems.append("no text to scan")
-	if rudy_text.contains(String(RIG_CLIP)):
-		problems.append("rudy.gd names %s" % RIG_CLIP)
-	if look_text.contains(String(RIG_CLIP)):
-		problems.append("rudy_look.gd names %s" % RIG_CLIP)
+	if rudy_text.contains(OLD_RIG_NAME):
+		problems.append("rudy.gd names %s" % OLD_RIG_NAME)
+	if look_text.contains(OLD_RIG_NAME):
+		problems.append("rudy_look.gd names %s" % OLD_RIG_NAME)
+	if library_text.contains(OLD_RIG_NAME):
+		problems.append("rudy_animations.tres names %s" % OLD_RIG_NAME)
 	return problems
+
+
+## Check 9 (section 3): the pose on screen is computed from what is drawn,
+## SlashRig's visibility or the Sprite's cell, never from a clip name. On
+## `look`, the Look of a copy of rudy.tscn that is not in the tree and has
+## played no clip, it sets by hand:
+##   SlashRig shown, the Sprite hidden on cell 9: pose CHAR-SWORD-SLASH, and
+##     frame() is FRAMES[CHAR-SWORD-SLASH], CHAR-SWORD-SLASH.png;
+##   SlashRig hidden, the Sprite shown on cell 9: pose CHAR-SWORD-IDLE.
+## With `rudy` (that copy's root), Rudy.pose must agree: its _look, an
+## @onready var that stays null out of the tree, is set to `look` first.
+## Every read goes to _last_pose_reads for the PASS line.
+func _check_pose_rule(look: Node, rudy: Node) -> Array[String]:
+	var problems: Array[String] = []
+	var reads: Array[String] = []
+	var rig := look.get_node_or_null(^"SlashRig") as CanvasItem
+	var sprite := look.get_node_or_null(^"Sprite") as Sprite2D
+	var player := look.get_node_or_null(^"AnimationPlayer") as AnimationPlayer
+	if rig == null or sprite == null or player == null:
+		problems.append("the copy's Look lacks SlashRig, Sprite or AnimationPlayer")
+		_last_pose_reads = ""
+		return problems
+	if look.is_inside_tree() or player.is_playing() or player.current_animation != "":
+		problems.append("the copy is in the tree or has played a clip (in tree %s, playing %s, current \"%s\")"
+			% [look.is_inside_tree(), player.is_playing(), player.current_animation])
+	if rudy != null:
+		rudy.set(&"_look", look)
+	var slash_png := RudyLook.FRAMES[RIG_POSE] as Texture2D
+	if slash_png == null or slash_png.resource_path.get_file() != "CHAR-SWORD-SLASH.png":
+		problems.append("FRAMES[%s] is %s, want CHAR-SWORD-SLASH.png" % [RIG_POSE, slash_png.resource_path if slash_png else "none"])
+	# [SlashRig shown, Sprite shown, the pose on screen]
+	for case: Array in [[true, false, RIG_POSE], [false, true, RudyLook.CELLS[POSE_RULE_CELL]]]:
+		rig.visible = case[0]
+		sprite.visible = case[1]
+		sprite.frame = POSE_RULE_CELL
+		var label := "SlashRig %s, Sprite %s on cell %d" % ["shown" if case[0] else "hidden",
+			"shown" if case[1] else "hidden", POSE_RULE_CELL]
+		var want: StringName = case[2]
+		var got: StringName = look.get(&"pose")
+		var shown: Texture2D = look.call(&"frame")
+		var shown_file := shown.resource_path.get_file() if shown else "none"
+		if got != want:
+			problems.append("%s: pose %s, want %s" % [label, got, want])
+		if shown != RudyLook.FRAMES[want]:
+			problems.append("%s: frame() %s, want %s" % [label, shown_file, RudyLook.FRAMES[want].resource_path.get_file()])
+		var read := "%s: pose %s, frame() %s" % [label, got, shown_file]
+		if rudy != null:
+			var rudy_pose: StringName = rudy.get(&"pose")
+			if rudy_pose != want:
+				problems.append("%s: Rudy.pose %s, want %s" % [label, rudy_pose, want])
+			read += ", Rudy.pose %s" % rudy_pose
+		reads.append(read)
+	_last_pose_reads = "; ".join(reads)
+	return problems
+
+
+## A fresh copy of rudy.tscn, kept for freeing at the end, never added to the tree.
+func _rudy_copy() -> Node:
+	var rudy: Node = RUDY.instantiate()
+	_copies.append(rudy)
+	return rudy
+
+
+## The Look of a fresh copy of rudy.tscn with `text` loaded as a new script in
+## place of rudy_look.gd. The class_name line is dropped, as a second script
+## may not take RudyLook's global name. Returns null if the text does not load.
+func _look_with_text(text: String) -> Node:
+	var script := GDScript.new()
+	script.source_code = text.replace("class_name RudyLook\n", "")
+	if script.reload() != OK:
+		return null
+	var look := _rudy_copy().get_node(^"Look")
+	look.set_script(script)
+	return look
 
 
 func _child_names(node: Node) -> Array[String]:

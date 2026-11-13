@@ -16,7 +16,11 @@ extends Node2D
 ## cells, in frames.json's order: CELLS). Its AnimationPlayer is the only
 ## writer of the Sprite's frame: this script plays the clip the controller
 ## picks and never sets the Sprite's texture or frame (CHANGE-BRIEF.md
-## section 5). The pose on screen is read back from the cell the Sprite shows.
+## section 5). The pose on screen is read back from what is drawn: while the
+## slash's cutout rig (SlashRig) shows, it is CHAR-SWORD-SLASH, the frame the
+## rig is cut from; otherwise it is the pose of the cell the Sprite shows. The
+## player is also the only writer of SlashRig's and the Sprite's visibility:
+## this script only reads them (section 3).
 
 const FRAMES: Dictionary[StringName, Texture2D] = {
 	&"CHAR-IDLE": preload("res://content/rudy/frames/CHAR-IDLE.png"),
@@ -46,12 +50,21 @@ const CELLS: Array[StringName] = [
 	&"CHAR-SWORD-RUN-A", &"CHAR-SWORD-RUN-B", &"CHAR-SWORD-RISE", &"CHAR-SWORD-FALL",
 ]
 
-## The asset ID of the pose on screen: the pose of the cell the Sprite shows.
+## The pose the slash rig draws: the frame its parts are cut from (section 2.2).
+const RIG_POSE := &"CHAR-SWORD-SLASH"
+
+## The asset ID of the pose on screen: RIG_POSE while SlashRig shows, else the
+## pose of the cell the Sprite shows. It reads the nodes, not the clip asked
+## for, and finds them by path, so it also reads true on a copy of Rudy that
+## is not in the tree.
 var pose: StringName:
 	get:
-		return CELLS[_sprite.frame] if _sprite else CELLS[0]
+		var rig := get_node_or_null(^"SlashRig") as CanvasItem
+		if rig != null and rig.visible:
+			return RIG_POSE
+		var sprite := get_node_or_null(^"Sprite") as Sprite2D
+		return CELLS[sprite.frame] if sprite else CELLS[0]
 
-@onready var _sprite: Sprite2D = $Sprite
 @onready var _player: AnimationPlayer = $AnimationPlayer
 
 
@@ -70,6 +83,7 @@ func play_clip(clip: StringName, restart := false) -> void:
 	_player.play(clip)
 
 
-## The frame on screen now: the original PNG of the pose the Sprite shows.
+## The frame on screen now: the original PNG of the pose on screen. While the
+## rig shows, that is CHAR-SWORD-SLASH.png, the frame the rig is cut from.
 func frame() -> Texture2D:
 	return FRAMES[pose]

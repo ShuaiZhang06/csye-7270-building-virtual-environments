@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+swing tick  -2  clip sword_idle pos 0.1667  sprite true  rig false  grip    0.00  lean  0.00 x  0.0  arc 1.00  pose CHAR-SWORD-IDLE  live false
+swing tick  -1  clip sword_idle pos 0.1833  sprite true  rig false  grip    0.00  lean  0.00 x  0.0  arc 1.00  pose CHAR-SWORD-IDLE  live false
+swing tick   0  clip slash      pos 0.0000  sprite false rig true   grip  -70.00  lean -2.00 x  0.0  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick   1  clip slash      pos 0.0167  sprite false rig true   grip  -67.50  lean -2.00 x  0.0  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick   2  clip slash      pos 0.0333  sprite false rig true   grip  -60.00  lean -2.00 x -0.0  arc -0.00  pose CHAR-SWORD-SLASH  live true
+swing tick   3  clip slash      pos 0.0500  sprite false rig true   grip  -53.33  lean -0.33 x  2.0  arc 0.50  pose CHAR-SWORD-SLASH  live true
+swing tick   4  clip slash      pos 0.0667  sprite false rig true   grip  -33.33  lean  1.33 x  4.0  arc 1.00  pose CHAR-SWORD-SLASH  live true
+swing tick   5  clip slash      pos 0.0833  sprite false rig true   grip    0.00  lean  3.00 x  6.0  arc 0.86  pose CHAR-SWORD-SLASH  live true
+swing tick   6  clip slash      pos 0.1000  sprite false rig true   grip    1.25  lean  3.00 x  6.0  arc 0.71  pose CHAR-SWORD-SLASH  live true
+swing tick   7  clip slash      pos 0.1167  sprite false rig true   grip    5.00  lean  3.00 x  6.0  arc 0.57  pose CHAR-SWORD-SLASH  live true
+swing tick   8  clip slash      pos 0.1333  sprite false rig true   grip   11.25  lean  3.00 x  6.0  arc 0.43  pose CHAR-SWORD-SLASH  live true
+swing tick   9  clip slash      pos 0.1500  sprite false rig true   grip   20.00  lean  3.00 x  6.0  arc 0.29  pose CHAR-SWORD-SLASH  live true
+swing tick  10  clip slash      pos 0.1667  sprite false rig true   grip   31.25  lean  3.00 x  6.0  arc 0.14  pose CHAR-SWORD-SLASH  live true
+swing tick  11  clip slash      pos 0.1833  sprite false rig true   grip   45.00  lean  3.00 x  6.0  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick  12  clip slash      pos 0.2000  sprite false rig true   grip   35.83  lean  2.08 x  4.2  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick  13  clip slash      pos 0.2167  sprite false rig true   grip   28.33  lean  1.33 x  2.7  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick  14  clip slash      pos 0.2333  sprite false rig true   grip   22.50  lean  0.75 x  1.5  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick  15  clip slash      pos 0.2500  sprite false rig true   grip   18.33  lean  0.33 x  0.7  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick  16  clip slash      pos 0.2667  sprite false rig true   grip   15.83  lean  0.08 x  0.2  arc 0.00  pose CHAR-SWORD-SLASH  live false
+swing tick  17  clip sword_idle pos 0.0000  sprite true  rig false  grip   15.83  lean  0.08 x  0.2  arc 0.00  pose CHAR-SWORD-IDLE  live false
+swing tick  18  clip sword_idle pos 0.0167  sprite true  rig false  grip   15.83  lean  0.08 x  0.2  arc 0.00  pose CHAR-SWORD-IDLE  live false
+swing tick  19  clip sword_idle pos 0.0333  sprite true  rig false  grip   15.83  lean  0.08 x  0.2  arc 0.00  pose CHAR-SWORD-IDLE  live false
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

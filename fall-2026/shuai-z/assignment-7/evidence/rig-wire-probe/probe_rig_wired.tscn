@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tests/probe/probe_rig_wired.gd" id="1_test"]
+[ext_resource type="PackedScene" path="res://content/sword_pickup/sword_pickup.tscn" id="2_pickup"]
+[ext_resource type="PackedScene" path="res://content/level_1/spikes.tscn" id="3_spikes"]
+[ext_resource type="PackedScene" path="res://content/rudy/rudy.tscn" id="4_rudy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(20000, 100)
+
+[node name="ProbeRigWired" type="Node"]
+process_physics_priority = 100
+script = ExtResource("1_test")
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="World"]
+
+[node name="Shape" type="CollisionShape2D" parent="World/Floor"]
+position = Vector2(0, 50)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Pickup" parent="World" instance=ExtResource("2_pickup")]
+position = Vector2(-500, 0)
+
+[node name="Spikes" parent="World" instance=ExtResource("3_spikes")]
+position = Vector2(2500, 0)
+
+[node name="Rudy" parent="World" instance=ExtResource("4_rudy")]

@@ -1,0 +1,76 @@
+Read CLAUDE.md first, then CHANGE-BRIEF.md: sections 2.2, 3, 4, 5, 9
+and 10, and Revisions 3 and 4 at its end, which hold where they differ.
+Read your plan (sessions/session-1-answer.md) and my decision on it
+(sessions/plan-1-review.md). Steps 0 to 4a are committed. I approve
+step 4b: wire the slash rig. Implement only that step.
+
+You may change these files and no others:
+- game/content/rudy/rudy_animations.tres: remove the stand-in slash,
+  and rename slash_rig to slash. Change none of its keys, and no other
+  clip;
+- game/content/rudy/rudy_look.gd: the pose on screen while the rig
+  shows;
+- game/tests/test_rudy_clips.gd: the stages Revision 4 sets for this
+  step.
+rudy.gd and rudy.tscn stay as they are. The selector already returns
+slash, and every new swing already restarts it with seek(0.0, true)
+and then play() (Revision 4).
+
+The pose (section 3). While SlashRig shows, Rudy.pose is
+CHAR-SWORD-SLASH, and RudyLook.frame() returns FRAMES[CHAR-SWORD-SLASH],
+the frame the rig is cut from. Otherwise both come from the Sprite's
+cell, as now. Both are computed from what is drawn, SlashRig's
+visibility or the Sprite's cell, never from the clip name asked for.
+The AnimationPlayer stays the only writer of SlashRig's and the
+Sprite's visibility (section 5).
+
+The read-back, as Revision 4 stages it for this step:
+- Check 7 is again an exact match: the library holds exactly the names
+  _pick_clip() can return.
+- slash is now the rig clip. The checks that read slash_rig in step 4a
+  read slash, with the same expectations. The stand-in's expectations
+  go, and no clip named slash_rig remains.
+- Check 4's three-track rule covers every state clip except slash.
+- Add a check of the pose rule, on a copy of Rudy made in memory, with
+  no clip played:
+  - SlashRig shown and the Sprite hidden: pose is CHAR-SWORD-SLASH, and
+    frame() is its PNG;
+  - SlashRig hidden and the Sprite on cell 9: pose is CHAR-SWORD-IDLE.
+  Give it a NEGATIVE line: a copy of rudy_look.gd's text whose pose
+  ignores SlashRig must fail it, or a damaged copy if text is the wrong
+  tool. Say which you used.
+- Keep every other check and NEGATIVE line. Rename what names
+  slash_rig, and say what you changed.
+
+What the pin should show. Do not change the pin, checks.gd or any other
+earlier test. During a swing the pose is CHAR-SWORD-SLASH, as it was
+with the stand-in. So the pin should behave exactly as in step 2b: 16
+of 19, with T1, T2 and T6 failing, and its log should differ only in
+its leak count. Every INVARIANT line must pass. So must checks.tscn's
+141 checks and the other earlier tests in section 5. Any other FAIL is
+not asked for: report it under ANOMALIES with its log lines, and never
+change a test to make it pass. If the cause is in your own change, you
+may fix it, and say what you changed and why.
+
+If anything contradicts the brief or your plan, keep what you measured
+and list it under ANOMALIES. Git is read-only for you (CLAUDE.md). The
+wrapper's logs in logs/ will change; that is expected. If Godot writes
+any other file, say which.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_clips.tscn 60, every line from READBACK
+  to RESULT;
+- scripts/run-test.sh test_rudy_pin.tscn 60, twice: the TIMING,
+  INVARIANT and RESULT lines, and git diff of its log;
+- scripts/run-test.sh checks.tscn 60: its last line, the PASS and FAIL
+  counts, and the res:// path count, which should stay 96;
+- invulnerable_tint_checks.tscn at 30, 60 and 144, and
+  test_slash_sparks_config.gd, test_slash_sparks_state.tscn,
+  test_run_dust_config.gd and test_run_dust_state.tscn at 60: their
+  counts against section 5.
+
+Then show git status, and git diff of rudy_look.gd and of
+rudy_animations.tres. Tell me what still needs a human to play. Do not
+commit.
+
+Write your answer in English.
