@@ -1,0 +1,37 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ENV display headless, rendering method gl_compatibility, video adapter ''
+FACT1 structure: run has 3 tracks, track 0 Sprite:frame, 2 keys, update mode 1, loop_mode 1, length 0.25
+FACT1 advances: 12 physics ticks of run, Sprite.frame [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2]
+FACT1 advances: clip position 0.0000, 0.0000, 0.0167, 0.0333, 0.0500, 0.0667, 0.0833, 0.1000, 0.1167, 0.1333, 0.1500, 0.1667
+ERROR: Parameter "t" is null.
+   at: texture_2d_get (./servers/rendering/dummy/storage/texture_storage.h:110)
+   GDScript backtrace (most recent call first):
+       [0] _fact_1_headless_clips (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:73)
+FACT1 draws: root viewport get_image() returned null
+FACT2 Animation.new(): step 0.03333333507180214, length 1.00000000000000000; 1.0/30.0 is 0.03333333333333333; step == 1.0/30.0 false, is_equal_approx true
+FACT2 in memory, keys inserted at tick/60: 4 of 4 keys == tick/60; tick 2: 0.03333333333333333 (+0.000 ns); tick 5: 0.08333333333333333 (+0.000 ns); tick 11: 0.18333333333333332 (+0.000 ns); tick 17: 0.28333333333333333 (+0.000 ns)
+FACT2 saved as resource text (error 0): "times": PackedFloat32Array(0.033333335, 0.083333336, 0.18333334, 0.28333333),
+FACT2 saved and loaded back: 0 of 4 keys == tick/60; tick 2: 0.03333333507180214 (+1.738 ns); tick 5: 0.08333333581686020 (+2.484 ns); tick 11: 0.18333333730697632 (+3.974 ns); tick 17: 0.28333333134651184 (-1.987 ns)
+FACT2 rudy_animations.tres slash Grip: 1 of 5 keys == tick/60; tick 0: 0.00000000000000000 (+0.000 ns); tick 2: 0.03333333507180214 (+1.738 ns); tick 5: 0.08333333581686020 (+2.484 ns); tick 11: 0.18333333730697632 (+3.974 ns); tick 17: 0.28333333134651184 (-1.987 ns)
+FACT2 rudy_animations.tres slash length 0.28333333333299998; 17/60 is 0.28333333333333333; == false
+FACT3 UPDATE_CONTINUOUS 0, UPDATE_DISCRETE 1, UPDATE_CAPTURE 2
+FACT3 value track set to discrete: 1
+FACT3 next, a bezier track; an error line here comes from Godot
+ERROR: Condition "t->type != TYPE_VALUE" is true. Returning: UPDATE_CONTINUOUS
+   at: value_track_get_update_mode (scene/resources/animation.cpp:2756)
+   GDScript backtrace (most recent call first):
+       [0] _fact_3_update_mode (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:132)
+       [1] _run (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:25)
+       [2] _fact_1_headless_clips (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:78)
+FACT3 bezier track: 0
+FACT3 next, a method track; an error line here comes from Godot
+ERROR: Condition "t->type != TYPE_VALUE" is true. Returning: UPDATE_CONTINUOUS
+   at: value_track_get_update_mode (scene/resources/animation.cpp:2756)
+   GDScript backtrace (most recent call first):
+       [0] _fact_3_update_mode (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:134)
+       [1] _run (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:25)
+       [2] _fact_1_headless_clips (assignment-7/evidence/headless-facts-probe/probe_headless_facts.gd:78)
+FACT3 method track: 0
+FACT3 rudy_animations.tres track types (TYPE_VALUE is 0): { 0: 42 }
+DONE
