@@ -8,6 +8,12 @@ extends Node
 ## fps) it runs E1-E7; with two (30 fps) it runs E1 and E2, once at each tick
 ## offset. Every edge is checked tick by tick, in physics ticks from the press.
 ##
+## Step 5c (Revision 5, "Edges at every phase boundary"): E1 and E3 also press
+## or hit on swing ticks 3 and 12, so each boundary (2, 11, 17) has an input one
+## tick before it, on it and one tick after it. At 60, swing A takes 3 and 12
+## beside 1, 10 and 16; E3 adds runs k3 and k12. At 30, the first offset adds
+## 12 (slot a) and the second adds 3 (slot b). Nothing else changed.
+##
 ## Rules this test keeps (the state test's, test_rudy_states.gd):
 ## - Each scenario starts a fresh real Main with the title skipped, as
 ##   checks.gd's _start_level() does (Main.title_shown = true before it is
@@ -75,7 +81,7 @@ const JUMP_VY := -1500.0
 
 const SWORD_SPOT := Vector2(2400, 840) ## 100 px before the pickup, as the state test's S5
 const E3_STOP_X := 2945.0 ## E3: short of goblin B's patrol (x 3000-3400), as S6
-const E3_HIT_TICKS: Array[int] = [1, 2, 6, 10, 11, 16] ## startup; active; recovery
+const E3_HIT_TICKS: Array[int] = [1, 2, 3, 6, 10, 11, 12, 16] ## startup; active; recovery
 const E4_SLASH_ST := 20 ## E4: sword_run has played 12 ticks (cell B) when J is read
 const E5_TURN_TICK := 5
 const E6_PAUSE_TICK := 5
@@ -366,14 +372,14 @@ func _slot_of(offset: String) -> int:
 ## the first offset adds swing C, whose own J is read on slot b, and reads a
 ## J on its tick 1 in slot a of the next frame.
 func _e1(offset: String) -> void:
-	var a: Array[int] = [1, 10, 16]
+	var a: Array[int] = [1, 3, 10, 12, 16] # step 5c: 3 and 12; no two presses on adjacent ticks
 	var next := 18
 	var b: Array[int] = [2, 11, 17]
 	if offset == "first":
-		a = [2, 10, 16]
+		a = [2, 10, 12, 16] # step 5c: 12
 		b = []
 	elif offset == "second":
-		a = [11, 17]
+		a = [3, 11, 17] # step 5c: 3
 		next = 19 # tick 18 is a slot-a tick: 19 is the earliest slot-b tick after the swing
 		b = []
 	var sl := _slot_of(offset)

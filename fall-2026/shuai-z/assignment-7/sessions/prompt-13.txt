@@ -1,0 +1,54 @@
+Read CLAUDE.md first. CHANGE-BRIEF.md is the contract for this change,
+and its Revision 5 holds where it differs from the sections above it.
+Read Revision 5's "Edges at every phase boundary", the edge test
+committed in step 5b (game/tests/test_rudy_edges.gd), and that step's
+answer (sessions/session-10-answer.md).
+
+The assignment asks for an input "one frame before the boundary, on
+it, and one frame after" at every phase boundary of the slash. The
+boundaries are swing ticks 2 (startup to active), 11 (active to
+recovery) and 17 (the end), so the ticks are 1, 2, 3; 10, 11, 12; 16,
+17, 18. The edge test lacks ticks 3 and 12. Add them, and change
+nothing else:
+- E1 at 60: presses read on swing ticks 3 and 12 are ignored, with the
+  same checks as the presses on 1, 2, 10, 11, 16 and 17: no new swing,
+  no second sound, the clip position keeps counting, and the hitbox is
+  live on ticks 2-10 only. Spread them over the swings as the test
+  does now.
+- E1 at 30: a slot-a press falls on an even swing tick and a slot-b
+  press on an odd one (the test's header). Add 12 to the first
+  offset's presses and 3 to the second offset's, so that the two
+  offsets together cover all nine ticks.
+- E3 at 60: hits on swing ticks 3 and 12, from behind like the others,
+  with the same checks as its hits on 1, 2, 6, 10, 11 and 16. Keep 6.
+- Keep every other edge, scenario, check and expected value as it is,
+  and the test's rules (its header). Add a line for this step to the
+  header.
+
+Change only game/tests/test_rudy_edges.gd (and its .tscn only if it
+must change), and in CLAUDE.md only the edge test's two command lines:
+their counts and log line references. Git is read-only for you
+(CLAUDE.md). The wrapper's logs in logs/ will change; that is expected.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_edges.tscn 60, twice: the EDGES and
+  RESULT lines of each run. The runs must agree. Every new line should
+  pass, since the brief says each press is ignored and each hit ends
+  the swing on its tick;
+- scripts/run-test.sh test_rudy_edges.tscn 30, twice, the same;
+- scripts/run-test.sh test_rudy_pin.tscn 60: its RESULT line, still 16
+  of 19 with T1, T2 and T6 failing as committed in step 2b;
+- scripts/run-test.sh checks.tscn 60: its last lines and the res://
+  path count, which should stay 98.
+
+If a new check fails, do not change the game or weaken the check:
+classify the failure (the game, the brief or the test), show the log
+lines around it, and list it under ANOMALIES. If the test's own input
+method cannot put a press on a tick, say so, as session 10 did for
+slot b on tick 1, and name the tick left uncovered.
+
+Then show git status, and give a table of every E1 press and E3 hit:
+the frame rate and offset, the swing, the tick it was read on, and its
+phase. Tell me what still needs a human to play. Do not commit.
+
+Write your answer in English.
