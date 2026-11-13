@@ -1,0 +1,104 @@
+Read CLAUDE.md first, then CHANGE-BRIEF.md: sections 1-4, 6, 7 and 9,
+and Revisions 3 and 4 at its end, which hold where they differ. Read
+your plan (sessions/session-1-answer.md), my decision on it
+(sessions/plan-1-review.md), and the state test committed in step 5a
+(game/tests/test_rudy_states.gd), whose rules this test follows. I
+approve step 5b: the edge test. Implement only that step.
+
+Write two new files and nothing else: game/tests/test_rudy_edges.tscn
+and game/tests/test_rudy_edges.gd, the edge test of sections 6 and 9.
+If Godot writes a .uid for the script, say so.
+
+The rules are the state test's:
+- It runs the real Main, which E3's goblins and E6's pause need.
+- Setup may place Rudy on the level before a scenario's first key, and
+  only then. From the first key on, nothing writes his state,
+  velocity, position, gear, hearts or mode. He takes the sword by
+  walking into the pickup.
+- Input is only InputEventKey events for the project's physical keys
+  (D, A, Space, J, and Esc for the pause), sent through
+  Input.parse_input_event.
+- It calls only read-only queries, and never play(), seek(), advance()
+  or a state method.
+- A recorder that runs after Rudy logs every physics tick, at 30 fps as
+  well as at 60. Pausing stops the tree, so the test and its recorder
+  must keep running while the game is paused, and say how they do.
+
+The edges, E1-E7 of section 6, each with the intended behaviour written
+there. Check each one tick by tick, in physics ticks from the press:
+- E1, a slash during a slash: presses read on swing ticks 1, 2, 10,
+  11, 16 and 17 are ignored. There is no new swing and no second
+  sound, the clip position keeps counting, and the hitbox is live on
+  ticks 2-10 only. A press read on tick 18 starts a new swing from clip
+  time 0: Grip travels again from -70 deg to +45 deg, at least 100 deg,
+  and the hitbox is live on its ticks 2-10.
+- E2, a jump during a slash, pressed on swing ticks 1, 5 and 12. He
+  takes off on that tick, and the swing plays to its end in the air
+  with its hitbox ticks unchanged. Landing does not cut it. After tick
+  17 he shows sword_rise or sword_fall.
+- E3, a goblin's hit in startup, active and recovery. In the active
+  phase a goblin in front would be cut first, so that hit comes from
+  behind, as the state test's S6 found. On the hit's tick: the swing
+  ends, he shows hurt, the rig hides and the Sprite shows, and the
+  hitbox is dead. No new spark burst starts after the hit (the bursts
+  are children of the effects driver's SlashBursts).
+- E4, run, slash, run, with D held throughout: the slash shows at
+  once, and after tick 17 sword_run restarts at SWORD-RUN-A for 8 ticks.
+- E5, a turn during the active phase. On the turn's tick, Look and the
+  rig flip, and the hitbox moves to his other side. Neither the clip
+  nor the hitbox window restarts.
+- E6, Esc during the active phase, then Esc again. While paused, the
+  clip position and the swing clock (_slash_clock, read only) both
+  stay put. On resume both go on from where they stopped, with no tick
+  lost or repeated.
+- E7, a tap of the held direction during the run (release D for one
+  tick, then press it again) while he stays in run: the run clip is not
+  restarted, and its position keeps counting.
+
+Frame rates and tick offsets (section 6):
+- At --fixed-fps 60, one frame is one tick, and E1-E7 all run.
+- At --fixed-fps 30, a frame holds two ticks, and E1 and E2 run twice:
+  - once with each press read on the first tick of its frame;
+  - once on the second. To get the second, await one process_frame,
+    then one physics_frame, then send the event and call
+    Input.flush_buffered_events(), as section 6 says.
+  Report which swing tick each press was read on. Between the two
+  offsets, presses must be read on every tick E1 and E2 name, or say
+  which ones cannot be reached at 30.
+- The test works out how many ticks a frame holds, and runs the right
+  set.
+
+Print PASS/FAIL lines in a group EDGES, naming the edge, the frame
+rate and the offset, then a RESULT line, and quit(1) on any failure.
+
+If an edge fails, do not fix the game. Keep the measured value, and
+classify the failure under a heading ANOMALIES, with its log lines: a
+bug in the game, an expectation in the brief that is wrong, or an
+error in the test. Change no other file. That includes the game, the
+pin, checks.gd and every other earlier test.
+
+The mutation check comes next, as step 5m. For each edge, say which
+broken version its checks should fail on. That may be an earlier commit
+on this branch, such as 3908ae80, where the run resumes after a slash,
+or a one-line break to make in a throwaway worktree, such as the
+play()-before-seek() order of Revision 4. Do not run any mutation
+yourself.
+
+Git is read-only for you (CLAUDE.md). The wrapper's logs in logs/ will
+change; that is expected.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_edges.tscn 60, twice: the EDGES and
+  RESULT lines of each run. The runs must agree;
+- scripts/run-test.sh test_rudy_edges.tscn 30, twice, the same;
+- scripts/run-test.sh test_rudy_pin.tscn 60 (its RESULT line: still 16
+  of 19, with T1, T2 and T6 failing as committed in step 2b);
+- scripts/run-test.sh checks.tscn 60 (its last line, and the res://
+  path count. It should become 98, because the new scene names its
+  script. If it differs, name the paths that account for it).
+
+Then show git status, and give a table of every scenario: the edge,
+the frame rate and offset, where it starts, and the keys it presses on
+which ticks. Tell me what still needs a human to play. Do not commit.
+
+Write your answer in English.

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tests/test_rudy_edges.gd" id="1_test"]
+
+[node name="TestRudyEdges" type="Node"]
+process_mode = 3
+process_physics_priority = 100
+script = ExtResource("1_test")
