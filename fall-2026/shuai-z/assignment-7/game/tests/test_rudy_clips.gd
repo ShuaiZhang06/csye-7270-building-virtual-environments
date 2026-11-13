@@ -1,6 +1,10 @@
 extends Node
-## The read-back test for Rudy's clips, step 2a (CHANGE-BRIEF.md section 9 as
-## Revision 3 stages it; section 10, row 9). Run from the assignment folder:
+## The read-back test for Rudy's clips, steps 2a and 2b (CHANGE-BRIEF.md
+## section 9 as Revision 3 stages it; section 10, row 9). Step 2b adds check 6,
+## the Sprite on the sheet; check 4's limit from the Sprite's slicing; check
+## 7's comparison with the names _pick_clip() returns; and the text check that
+## rudy.gd and rudy_look.gd never write the Sprite's texture or frame. Run
+## from the assignment folder:
 ##   scripts/run-test.sh test_rudy_clips.tscn 60
 ##
 ## It loads rudy.tscn and reads the AnimationPlayer under Look. It is a scene
@@ -8,8 +12,9 @@ extends Node
 ## never added to the tree, and the test never calls play(), seek() or
 ## advance(), so no clip runs and nothing in Rudy moves.
 ##
-## READBACK only reads: the scene's player, its library, the sheet's size and
-## the text of rudy.tscn and rudy_animations.tres.
+## READBACK only reads: the scene's player, its library, its Sprite, the
+## sheet's size and .import, frames.json, and the text of rudy.tscn,
+## rudy_animations.tres, rudy.gd and rudy_look.gd.
 ## NEGATIVE runs the same checks on damaged copies made in memory: each copy
 ## is a fresh instance of rudy.tscn whose player gets a new library of
 ## duplicated clips, so the library READBACK read is never touched and no file
@@ -22,6 +27,12 @@ const RUDY := preload("res://content/rudy/rudy.tscn")
 const LIBRARY_PATH := "res://content/rudy/rudy_animations.tres"
 const SCENE_PATH := "res://content/rudy/rudy.tscn"
 const SHEET_PATH := "res://content/rudy/sheet/rudy_sheet.png"
+const RUDY_SCRIPT_PATH := "res://content/rudy/rudy.gd"
+const LOOK_SCRIPT_PATH := "res://content/rudy/rudy_look.gd"
+const MANIFEST_PATH := "res://content/rudy/frames/frames.json"
+const OUTLINE_PATH := "res://systems/art/outline.tres"
+## Section 2.1: the sheet's size in px.
+const SHEET_SIZE := Vector2i(1640, 1544)
 
 ## Section 2.1: the sheet's cell, with no padding.
 const CELL := Vector2i(410, 386)
@@ -60,6 +71,9 @@ func _ready() -> void:
 	var player: AnimationPlayer = rudy.get_node("Look/AnimationPlayer")
 	var sheet: Texture2D = load(SHEET_PATH)
 	var limit := _sheet_cells(sheet)
+	var sprite := _sprite_of(player)
+	var rudy_text := FileAccess.get_file_as_string(RUDY_SCRIPT_PATH)
+	var look_text := FileAccess.get_file_as_string(LOOK_SCRIPT_PATH)
 
 	print("READBACK")
 	_expect_clean("1 every track resolves to a real node and property (track_problems)",
@@ -68,16 +82,27 @@ func _ready() -> void:
 		_check_times(player), "%d clips, %d keys" % [CLIPS.size(), _key_count(player)])
 	_expect_clean("3 loop_mode is LOOP_LINEAR for run, sword_run and the one-key clips, LOOP_NONE for slash",
 		_check_loops(player))
-	_expect_clean("4 every frame track is discrete, every frame key is inside the sheet and on its cell",
+	_expect_clean("4 every frame track is discrete, every frame key is inside the sheet, below the Sprite's hframes x vframes, and on its cell",
 		_check_frames(player, limit),
-		"sheet %dx%d px / cell %dx%d = %dx%d = %d cells" % [sheet.get_width(), sheet.get_height(),
-			CELL.x, CELL.y, sheet.get_width() / CELL.x, sheet.get_height() / CELL.y, limit])
+		"sheet %dx%d px / cell %dx%d = %dx%d = %d cells; Sprite %d x %d = %d cells" % [sheet.get_width(), sheet.get_height(),
+			CELL.x, CELL.y, sheet.get_width() / CELL.x, sheet.get_height() / CELL.y, limit,
+			sprite.hframes, sprite.vframes, sprite.hframes * sprite.vframes])
 	_expect_clean("5 the player: callback_mode_process physics, autoplay empty, speed_scale 1.0, root_node .., the library as its default",
 		_check_player(player),
 		"callback %d, autoplay \"%s\", speed_scale %s, root_node %s" % [player.callback_mode_process,
 			player.autoplay, player.speed_scale, player.root_node])
-	_expect_clean("7 the library holds exactly section 3's 13 clips, counting the slash stand-in",
-		_check_names(player), "%d clips" % player.get_animation_list().size())
+	_expect_clean("6 the Sprite: 4 x 4 on the 1640 x 1544 sheet with mipmaps, offset, scale, centring, material and filter as today, RudyLook's cell table in frames.json's order",
+		_check_sprite(player),
+		"%d x %d, %s %dx%d, offset %s, scale %s, centered %s, %d cells" % [sprite.hframes, sprite.vframes,
+			sprite.texture.resource_path.get_file() if sprite.texture else "no texture",
+			sprite.texture.get_width() if sprite.texture else 0, sprite.texture.get_height() if sprite.texture else 0,
+			sprite.offset, sprite.scale, sprite.centered, RudyLook.CELLS.size()])
+	_expect_clean("7 the library holds exactly section 3's 13 clips, counting the slash stand-in, and exactly the names _pick_clip() can return",
+		_check_names(player, rudy_text), "%d clips; _pick_clip() returns %s" % [player.get_animation_list().size(),
+			", ".join(_selector_names(rudy_text).names)])
+	var write_problems := _scan_sprite_writes("rudy.gd", rudy_text)
+	write_problems.append_array(_scan_sprite_writes("rudy_look.gd", look_text))
+	_expect_clean("text: rudy.gd and rudy_look.gd assign neither the Sprite's texture nor its frame", write_problems)
 	var scan_problems := _scan_text("rudy.tscn", FileAccess.get_file_as_string(SCENE_PATH))
 	scan_problems.append_array(_scan_text("rudy_animations.tres", FileAccess.get_file_as_string(LIBRARY_PATH)))
 	_expect_clean("10.9 no Godot 3 name in rudy.tscn or rudy_animations.tres (playback_speed; loop =, playing =, frames = at a line start)",
@@ -88,9 +113,10 @@ func _ready() -> void:
 	print("NEGATIVE")
 	var clean := _copy_player()
 	var clean_problems := track_problems(clean)
-	for list in [_check_times(clean), _check_loops(clean), _check_frames(clean, limit), _check_names(clean)]:
+	for list in [_check_times(clean), _check_loops(clean), _check_frames(clean, limit), _check_sprite(clean),
+			_check_names(clean, rudy_text), _scan_sprite_writes("rudy.gd", rudy_text), _scan_sprite_writes("rudy_look.gd", look_text)]:
 		clean_problems.append_array(list)
-	_expect_clean("control: an undamaged copy passes checks 1, 2, 3, 4 and 7, so each failure below comes from its damage",
+	_expect_clean("control: an undamaged copy passes checks 1, 2, 3, 4, 6, 7 and the text check, so each failure below comes from its damage",
 		clean_problems)
 
 	var p := _copy_player()
@@ -125,7 +151,33 @@ func _ready() -> void:
 
 	p = _copy_player()
 	p.get_animation_library(&"").remove_animation(&"hurt")
-	_expect_failure("7 hurt removed from the library", _check_names(p), "missing hurt")
+	_expect_failure("7 hurt removed from the library", _check_names(p, rudy_text), "missing hurt")
+
+	# Step 2b's checks. Damage to the Sprite is to a fresh instance's node, so
+	# the loaded library is kept.
+	p = _copy_player(false)
+	_sprite_of(p).hframes = 2
+	_sprite_of(p).vframes = 2
+	_expect_failure("4 the Sprite sliced 2 x 2, so cells 4 to 15 lie outside it", _check_frames(p, limit),
+		"outside the Sprite's 4 cells")
+
+	p = _copy_player(false)
+	_sprite_of(p).hframes = 16
+	_sprite_of(p).vframes = 1
+	_expect_failure("6 the Sprite sliced 16 x 1", _check_sprite(p), "sliced 16 x 1")
+
+	p = _copy_player(false)
+	_sprite_of(p).texture = RudyLook.FRAMES[&"CHAR-IDLE"]
+	_expect_failure("6 the Sprite's texture a whole PNG (CHAR-IDLE.png)", _check_sprite(p), "want the sheet")
+
+	p = _copy_player()
+	p.get_animation_library(&"").add_animation(&"wave", p.get_animation(&"idle").duplicate(true))
+	_expect_failure("7 a clip the selector never returns (wave) added to the library", _check_names(p, rudy_text),
+		"wave is in the library but _pick_clip() never returns it")
+
+	_expect_failure("text: rudy_look.gd's text with a line that sets the Sprite's texture",
+		_scan_sprite_writes("rudy_look.gd", look_text + "\n\t_sprite.texture = FRAMES[&\"CHAR-IDLE\"]\n"),
+		"rudy_look.gd: assigns the Sprite's texture")
 
 	var scene_text := FileAccess.get_file_as_string(SCENE_PATH)
 	var library_text := FileAccess.get_file_as_string(LIBRARY_PATH)
@@ -215,11 +267,16 @@ func _check_loops(player: AnimationPlayer) -> Array[String]:
 
 ## Check 4: every clip has one track, a value track on Sprite:frame
 ## (Revision 3), on UPDATE_DISCRETE, and every key is a cell inside the sheet
-## (below `limit`) and the cell of the brief's table for that clip and key.
+## (below `limit`), below the Sprite's hframes x vframes (step 2b), and the
+## cell of the brief's table for that clip and key.
 func _check_frames(player: AnimationPlayer, limit: int) -> Array[String]:
 	var problems: Array[String] = []
 	if limit != 16:
 		problems.append("the sheet holds %d cells, want 16" % limit)
+	var sprite := _sprite_of(player)
+	var sprite_cells := sprite.hframes * sprite.vframes if sprite else 0
+	if sprite == null:
+		problems.append("no Sprite beside the player")
 	for clip_name: StringName in CLIPS:
 		if not player.has_animation(clip_name):
 			problems.append("%s missing" % clip_name)
@@ -243,6 +300,9 @@ func _check_frames(player: AnimationPlayer, limit: int) -> Array[String]:
 					continue
 				if value < 0 or value >= limit:
 					problems.append("%s key %d cell %d is outside the sheet's %d cells" % [clip_name, k, value, limit])
+				if value < 0 or value >= sprite_cells:
+					problems.append("%s key %d cell %d is outside the Sprite's %d cells (hframes x vframes)"
+						% [clip_name, k, value, sprite_cells])
 				if k < keys.size() and value != keys[k][1]:
 					problems.append("%s key %d cell %d, want %d" % [clip_name, k, value, keys[k][1]])
 	return problems
@@ -270,8 +330,51 @@ func _check_player(player: AnimationPlayer) -> Array[String]:
 	return problems
 
 
-## Check 7, as Revision 3 stages it: the library against section 3's states.
-func _check_names(player: AnimationPlayer) -> Array[String]:
+## Check 6 (section 9; Revision 3 starts it in step 2b): the Sprite on the
+## sheet, drawn as today, and RudyLook's cell table in frames.json's order.
+func _check_sprite(player: AnimationPlayer) -> Array[String]:
+	var problems: Array[String] = []
+	var sprite := _sprite_of(player)
+	if sprite == null:
+		problems.append("no Sprite beside the player")
+		return problems
+	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST_PATH))
+	var origin := Vector2(manifest.origin[0], manifest.origin[1])
+	var density: float = manifest.density
+	if sprite.hframes != 4 or sprite.vframes != 4:
+		problems.append("the Sprite sliced %d x %d, want 4 x 4" % [sprite.hframes, sprite.vframes])
+	var texture := sprite.texture
+	if texture == null or texture.resource_path != SHEET_PATH or Vector2i(texture.get_size()) != SHEET_SIZE:
+		problems.append("the Sprite's texture is %s at %s, want the sheet %s at %s" % [
+			texture.resource_path if texture else "none", Vector2i(texture.get_size()) if texture else Vector2i.ZERO,
+			SHEET_PATH, SHEET_SIZE])
+	if not FileAccess.get_file_as_string(SHEET_PATH + ".import").contains("mipmaps/generate=true"):
+		problems.append("the sheet's .import does not generate mipmaps")
+	if sprite.centered or sprite.position != Vector2.ZERO or sprite.offset != -origin or sprite.scale != Vector2.ONE / density:
+		problems.append("centered %s, position %s, offset %s, scale %s; want not centered, (0, 0), %s, %s"
+			% [sprite.centered, sprite.position, sprite.offset, sprite.scale, -origin, Vector2.ONE / density])
+	if sprite.material == null or sprite.material.resource_path != OUTLINE_PATH:
+		problems.append("material %s, want %s" % [sprite.material.resource_path if sprite.material else "none", OUTLINE_PATH])
+	var look := sprite.get_parent() as CanvasItem
+	if sprite.texture_filter != CanvasItem.TEXTURE_FILTER_PARENT_NODE or look == null \
+			or look.texture_filter != CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS:
+		problems.append("filter: Sprite %d, Look %s; want the parent's (%d) under linear with mipmaps (%d)"
+			% [sprite.texture_filter, look.texture_filter if look else "none",
+				CanvasItem.TEXTURE_FILTER_PARENT_NODE, CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS])
+	var order: Array[String] = []
+	for id in manifest.frames:
+		order.append(String(id))
+	var cells: Array[String] = []
+	for id in RudyLook.CELLS:
+		cells.append(String(id))
+	if cells != order:
+		problems.append("RudyLook.CELLS %s, want frames.json's order %s" % [cells, order])
+	return problems
+
+
+## Check 7: the library against section 3's states (Revision 3) and, from
+## step 2b, against the names _pick_clip() can return, read from rudy.gd's text.
+func _check_names(player: AnimationPlayer, rudy_text: String) -> Array[String]:
 	var problems: Array[String] = []
 	var have := player.get_animation_list()
 	for clip_name: StringName in CLIPS:
@@ -280,7 +383,72 @@ func _check_names(player: AnimationPlayer) -> Array[String]:
 	for clip_name in have:
 		if not CLIPS.has(StringName(clip_name)):
 			problems.append("extra %s" % clip_name)
+	var selector := _selector_names(rudy_text)
+	problems.append_array(selector.problems)
+	for clip_name: String in selector.names:
+		if not (clip_name in have):
+			problems.append("_pick_clip() returns %s, which has no clip" % clip_name)
+	for clip_name in have:
+		if not (String(clip_name) in selector.names):
+			problems.append("%s is in the library but _pick_clip() never returns it" % clip_name)
 	return problems
+
+
+## The clip names _pick_clip() can return, read from the text of rudy.gd:
+## every return in its body must be a StringName literal, or two joined by
+## `if ... else`. Returns {names, problems}.
+func _selector_names(text: String) -> Dictionary:
+	var names: Array[String] = []
+	var problems: Array[String] = []
+	var start := text.find("func _pick_clip(")
+	if start < 0:
+		problems.append("rudy.gd has no func _pick_clip(")
+		return {"names": names, "problems": problems}
+	var end := text.find("\nfunc ", start + 1)
+	var body := text.substr(start, (end if end >= 0 else text.length()) - start)
+	var literal_return := RegEx.create_from_string(r'^&"\w+"(\s+if\s+.+\s+else\s+&"\w+")?$')
+	var literal := RegEx.create_from_string(r'&"(\w+)"')
+	var returns := RegEx.create_from_string(r"(?m)^\s*return\b(.*)$")
+	for found in returns.search_all(body):
+		var expression := found.get_string(1).strip_edges()
+		if literal_return.search(expression) == null:
+			problems.append("_pick_clip() returns \"%s\", not a StringName literal" % expression)
+			continue
+		for m in literal.search_all(expression):
+			if not (m.get_string(1) in names):
+				names.append(m.get_string(1))
+	if names.is_empty():
+		problems.append("_pick_clip() returns no name")
+	return {"names": names, "problems": problems}
+
+
+## The one-authority rule in text (section 5): no assignment to a texture or
+## frame (or frame_coords), and no set() or setter call for one, in code
+## outside comments.
+func _scan_sprite_writes(label: String, text: String) -> Array[String]:
+	var problems: Array[String] = []
+	if text.is_empty():
+		problems.append("%s: no text to scan" % label)
+	var assignment := RegEx.create_from_string(r"(^|[^\w])(texture|frame|frame_coords)\s*=(?!=)")
+	var setter := RegEx.create_from_string(r"\b(set|set_deferred)\(\s*[&^]?\"(texture|frame|frame_coords)\"|\bset_(texture|frame|frame_coords)\(")
+	var lines := text.split("\n")
+	for i in lines.size():
+		var code := lines[i]
+		var comment_at := code.find("#")
+		if comment_at >= 0:
+			code = code.substr(0, comment_at)
+		var found := assignment.search(code)
+		if found == null:
+			found = setter.search(code)
+		if found != null:
+			var property := found.get_string(2) if found.get_string(2) != "" else found.get_string(3)
+			problems.append("%s: assigns the Sprite's %s on line %d: %s" % [label, property, i + 1, lines[i].strip_edges()])
+	return problems
+
+
+## The Sprite the player draws on: Look/Sprite, beside it.
+func _sprite_of(player: AnimationPlayer) -> Sprite2D:
+	return player.get_node_or_null(^"../Sprite") as Sprite2D
 
 
 ## Section 10, row 9: Godot 3 names in resource text.

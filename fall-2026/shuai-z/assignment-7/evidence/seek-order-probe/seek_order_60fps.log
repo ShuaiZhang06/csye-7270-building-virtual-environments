@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+play then seek (first try)   slash cell on 19 ticks; player stopped on tick 16; ticks 15-18: [10, 10, 10, 10]
+seek then play (the fix)     slash cell on 19 ticks; player stopped on tick 17; ticks 15-18: [10, 10, 10, 10]
+play only                    slash cell on 19 ticks; player stopped on tick 17; ticks 15-18: [10, 10, 10, 10]

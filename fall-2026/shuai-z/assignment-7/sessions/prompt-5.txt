@@ -1,0 +1,108 @@
+Read CLAUDE.md first, then CHANGE-BRIEF.md: sections 1-5, 7, 9 and 10,
+and Revision 3 at its end, which holds where it differs from them. Read
+your plan (sessions/session-1-answer.md) and my decision on it
+(sessions/plan-1-review.md). Steps 0, 1 and 2a are committed. I approve
+step 2b: wire the sprite clips into Rudy's state machine. Implement
+only that step.
+
+You may change these files and no others:
+- game/content/rudy/rudy.tscn: the Sprite's texture becomes the sheet,
+  with hframes 4 and vframes 4. Its offset, scale, centring, material
+  and filter stay as they are (section 5). Drop the CHAR-IDLE.png
+  resource if nothing in the scene uses it any more.
+- game/content/rudy/rudy_look.gd: it plays clips instead of setting
+  textures (section 5). It keeps FRAMES and frame(), and gains a table
+  from cell to asset ID in frames.json's order (section 2.1).
+- game/content/rudy/rudy.gd: the selector becomes _pick_clip(), and it
+  keeps today's priorities (section 3). run_frame_time and _run_clock
+  go.
+- game/tests/test_rudy_clips.gd: the stages that Revision 3 starts in
+  this step, below.
+
+Rules for the wiring:
+- One authority (section 5). The AnimationPlayer is the only writer of
+  the Sprite's frame. No code sets the Sprite's texture or frame.
+  rudy.gd is the only caller of clip changes, through RudyLook.
+  autoplay stays empty.
+- _pick_clip() returns only StringName literals, such as &"sword_run",
+  never a name built from strings, so that check 7 can read every name
+  it can return from rudy.gd's text.
+- RudyLook plays the picked clip only when it differs from the clip
+  playing. Every new swing restarts slash with play() and
+  seek(0.0, true) (section 3, the restart rule).
+- The player must never be stopped when a state starts: a play() on a
+  stopped player shows its first key a tick late (section 3). So
+  rudy.gd's _ready starts it on idle through RudyLook. idle is cell 0,
+  the Sprite's frame before the first tick.
+- Rudy.pose and RudyLook.frame() keep their meaning (section 3). Both
+  are computed from what the Sprite shows, through the cell table:
+  never from the clip name rudy.gd asked for. Otherwise the pin's I5
+  and checks.gd's frame check would compare the request with itself
+  and test nothing.
+- Change no movement, timing, collision, input, audio or effect
+  (section 5).
+
+The read-back, as Revision 3 stages it:
+- Check 4 also asserts that every frame key is below the Sprite's
+  hframes x vframes.
+- Add check 6 (section 9). It also asserts that RudyLook's cell table
+  equals frames.json's order.
+- Check 7 also compares the library with the names _pick_clip() can
+  return, read from rudy.gd's text.
+- Add a text check that rudy.gd and rudy_look.gd assign neither the
+  Sprite's texture nor its frame.
+- Give each new check a NEGATIVE line, run on a damaged copy made in
+  memory:
+  - the Sprite sliced 16 x 1;
+  - the Sprite's texture a whole PNG;
+  - a clip the selector never returns, added to the library;
+  - a line that sets the Sprite's texture, added to rudy_look.gd's
+    text.
+- Change nothing else in the test.
+
+What the pin should show. Do not change the pin, checks.gd or any
+other earlier test. Three TIMING lines should fail, because the change
+asks for them:
+- T1 and T2: the first run cell now lasts 8 ticks, not 7 (section 7).
+  Later cells last 7 or 8;
+- T6: the run restarts from its first cell after a slash, instead of
+  resuming its phase (section 2.1).
+Every other TIMING line, and every INVARIANT line, must pass. So must
+checks.tscn's 141 checks and the other earlier tests in section 5.
+
+Classify every FAIL. For each of T1, T2 and T6, give the measured value
+and say whether it is the one predicted. Any other FAIL is not asked
+for: report it under ANOMALIES with its log lines. Never change a test
+to make it pass. If the cause is in your own change to rudy.gd,
+rudy_look.gd or rudy.tscn, you may fix that, and say what you changed
+and why.
+
+Other restarts. The code shows that the run also keeps its phase today
+through other states: _pick_pose() returns before the run branch
+without resetting _run_clock while he is hurt, defeated, respawning or
+celebrating. The clock also carries across a change of form, when he
+picks up the sword mid-run. With clips, each of these now restarts
+from the first cell. List each case you can confirm under ANOMALIES,
+and say whether any test sees it. Do not add code to keep the old
+phase.
+
+Git is read-only for you (CLAUDE.md). The wrapper's logs in logs/ will
+change; that is expected. If Godot writes any other file, say which.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_clips.tscn 60, every line from
+  READBACK to RESULT;
+- scripts/run-test.sh test_rudy_pin.tscn 60, three times: the TIMING,
+  INVARIANT and RESULT lines of each run. Its RESULT is FAIL, with
+  T1, T2 and T6;
+- scripts/run-test.sh checks.tscn 60: its last line, the PASS and FAIL
+  counts, and the res:// path count, which should stay 93;
+- invulnerable_tint_checks.tscn at 30, 60 and 144, and
+  test_slash_sparks_config.gd, test_slash_sparks_state.tscn,
+  test_run_dust_config.gd and test_run_dust_state.tscn at 60: their
+  counts against section 5.
+
+Then show git status, and git diff of rudy.tscn, rudy_look.gd and
+rudy.gd. Tell me what still needs a human to play. Do not commit.
+
+Write your answer in English.

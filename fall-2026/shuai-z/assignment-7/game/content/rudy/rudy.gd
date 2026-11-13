@@ -1,8 +1,9 @@
 class_name Rudy
 extends CharacterBody2D
-## Rudy's controller. It moves him and picks the pose that shows his state,
-## named by the pose's asset ID in CHARACTER-SHEET.md; his Look shows that ID's
-## generated frame. The origin is at his soles.
+## Rudy's controller. It moves him and picks the clip that shows his state
+## (_pick_clip); his Look plays that clip on its AnimationPlayer, which draws
+## the pose's frame from the sheet. `pose` is the asset ID in
+## CHARACTER-SHEET.md of the pose on screen. The origin is at his soles.
 ##
 ## In the air he shows the rising pose, and the falling pose only if he was
 ## moving sideways when the fall began. The falling pose leaps forward, so a
@@ -58,7 +59,6 @@ const ENEMY_LAYER := 4 ## the Enemy physics layer, for the sword's hitbox
 @export var gravity := 4000.0 ## px/s² on the way up
 @export var fall_gravity := 6400.0 ## px/s² on the way down, so the fall is quicker than the rise
 @export var jump_velocity := 1500.0 ## px/s; at 60 physics ticks/s the apex is 294 px, the rise takes 0.38 s and the fall 0.32 s
-@export var run_frame_time := 0.125 ## seconds per run frame (RUN-A, then RUN-B)
 @export var respawn_time := 0.7 ## s in CHAR-RESPAWN before control returns
 @export var stomp_bounce := 600.0 ## px/s upward after he lands on an enemy
 
@@ -76,12 +76,14 @@ const ENEMY_LAYER := 4 ## the Enemy physics layer, for the sword's hitbox
 @export var flash_period := 0.12 ## s; he is see-through for half of each period while invulnerable
 
 var facing := 1 ## 1 faces right, -1 faces left
-var pose: StringName = &"CHAR-IDLE"
+## The asset ID of the pose on screen, read from the cell his Look's Sprite shows.
+var pose: StringName:
+	get:
+		return _look.pose if _look else &"CHAR-IDLE"
 var mode := Mode.PLAY ## the level sets WAITING while the title shows
 var hearts := 3
 var gear := Gear.NONE
 
-var _run_clock := 0.0
 var _turn_time_left := 0.0
 var _respawn_time_left := 0.0
 var _hurt_time_left := 0.0
@@ -102,6 +104,9 @@ func _ready() -> void:
 	_slash_query.collision_mask = ENEMY_LAYER
 	_slash_query.collide_with_areas = true
 	_slash_query.collide_with_bodies = false
+	# The player is never stopped when a state starts: it plays idle (cell 0,
+	# the Sprite's frame before the first tick) from the start.
+	_look.play_clip(&"idle")
 
 
 ## True while enemies and hazards can touch him: in play, or knocked back.
@@ -220,9 +225,11 @@ func _physics_process(delta: float) -> void:
 		# A fresh press with ground underfoot: holding the key cannot jump again.
 		velocity.y = -jump_velocity
 		Sfx.play(&"jump")
+	var new_swing := false
 	if in_control and gear == Gear.SWORD and not is_slashing() and Input.is_action_just_pressed(&"slash"):
 		# A fresh press, and not while a swing is under way: one sound per swing.
 		_slash_clock = 0.0
+		new_swing = true
 		Sfx.play(&"slash")
 	move_and_slide()
 
@@ -230,8 +237,8 @@ func _physics_process(delta: float) -> void:
 	_count_down(delta)
 	_look.scale.x = facing
 	_look.modulate.a = 0.35 if is_invulnerable() and fmod(_invulnerable_left, flash_period) < flash_period / 2.0 else 1.0
-	pose = _pick_pose(delta)
-	_look.show_pose(pose)
+	# Every new swing starts the slash clip over from its first key.
+	_look.play_clip(_pick_clip(), new_swing)
 
 
 ## Moves the swing on and, while its hitbox is live, defeats every goblin in it.
@@ -282,30 +289,32 @@ func _input_direction() -> int:
 	return 0
 
 
-func _pick_pose(delta: float) -> StringName:
+## The clip for his state, by today's priorities (CHANGE-BRIEF.md section 3):
+## higher in the list wins. Every name it returns is a StringName literal, so
+## the read-back test can read them all from this file's text. The run's
+## timing lives in the run clips' keys.
+func _pick_clip() -> StringName:
 	match mode:
 		Mode.CELEBRATING:
-			return &"CHAR-CELEBRATE"
+			return &"celebrate"
 		Mode.RESPAWNING:
-			return &"CHAR-RESPAWN"
+			return &"respawn"
 		Mode.DEFEATED:
-			return &"CHAR-DEFEAT"
+			return &"defeat"
 		Mode.HURT:
-			return &"CHAR-HURT"
+			return &"hurt"
 	if is_slashing():
-		return &"CHAR-SWORD-SLASH"
-	var form := "CHAR-SWORD-" if gear == Gear.SWORD else "CHAR-"
+		return &"slash"
+	var sword := gear == Gear.SWORD
 	if not is_on_floor():
-		_run_clock = 0.0
 		var falling := velocity.y >= 0.0
 		if falling and not _was_falling:
 			_falls_sideways = absf(velocity.x) > 1.0
 		_was_falling = falling
-		return StringName(form + ("FALL" if falling and _falls_sideways else "RISE"))
+		if falling and _falls_sideways:
+			return &"sword_fall" if sword else &"fall"
+		return &"sword_rise" if sword else &"rise"
 	_was_falling = false
 	if absf(velocity.x) > 1.0:
-		_run_clock += delta
-		var second_frame := fmod(_run_clock, run_frame_time * 2.0) >= run_frame_time
-		return StringName(form + ("RUN-B" if second_frame else "RUN-A"))
-	_run_clock = 0.0
-	return StringName(form + "IDLE")
+		return &"sword_run" if sword else &"run"
+	return &"sword_idle" if sword else &"idle"
