@@ -1,0 +1,24 @@
+Read my CHANGE-BRIEF.md and README.md, then the player scene and script,
+every AnimationPlayer and AnimationTree in the project, and my existing
+tests. Use Walker's brief → build → playtest → inspect → revise workflow.
+Inspect first and change nothing. Tell me, with file and line references,
+where the character's gameplay state lives now, which code or animation
+keys decide each state and transition, and the physics ticks per second.
+
+Then propose, without editing: (1) one headless test that pins
+the CURRENT behavior before any animation change. It is a test scene,
+not a --script SceneTree script, because rudy.gd names the Sfx autoload
+(CLAUDE.md). It drives the game only with input events sent through
+Input.parse_input_event, never Input.action_press, which does not reach
+_input or _unhandled_input; it never calls
+state methods, travel() or AnimationPlayer methods and never writes
+velocity, position or tree parameters; it steps one frame at a time and
+prints PASS/FAIL lines in two groups, TIMING (numbers I may change on
+purpose) and INVARIANT (facts that must survive any change). (2) The
+smallest plan for my animation set and state machine. If a measurement
+contradicts what the code suggests, keep the measured value and list it
+under ANOMALIES; do not fix it. After I approve a step, implement only
+that step, run the checks, paste the real output, and tell me what still
+needs a human to play.
+
+Write your answer in English.
