@@ -1,0 +1,72 @@
+Read CLAUDE.md first, then CHANGE-BRIEF.md: sections 1-4, 6 and 9, and
+Revisions 3 and 4 at its end, which hold where they differ. Read your
+plan (sessions/session-1-answer.md) and my decision on it
+(sessions/plan-1-review.md). Steps 0 to 4b are committed, so both
+clips are wired. Step 5 has two tests, and I split it into two steps:
+5a, the state test, now; 5b, the edge test, next. Implement only 5a.
+
+Write two new files and nothing else: game/tests/test_rudy_states.tscn
+and game/tests/test_rudy_states.gd, the state test of section 9. If
+Godot writes a .uid for the script, say so.
+
+What it does: it enters every state of section 3's table from its real
+action under scripted input, at 60 fps, with a per-tick log.
+- It runs the real Main, as checks.tscn does, since defeat, respawn,
+  celebrate and the level's goblins, spikes and pickup need it. Read
+  checks.gd's _start_level() for how it skips the title.
+- Input is only InputEventKey events for the project's physical keys,
+  sent through Input.parse_input_event. Never use Input.action_press.
+- Setup is allowed before a scenario's first input, and only then. It
+  may start the level, and it may place Rudy at a spot on the level,
+  such as just short of the teleport circle. Every scenario says where
+  it starts. From its first input on, nothing writes his state,
+  velocity, position, gear, hearts or mode. He takes the sword by
+  walking into the pickup, and he loses hearts to real hits or falls.
+- Read-only queries are allowed: is_on_floor(), RudyLook.frame(), and
+  the AnimationPlayer's current_animation and current_animation_position.
+  The test never calls play(), seek(), advance() or a state method.
+- It steps one tick per frame, with a recorder that runs after Rudy.
+
+The per-tick log line: tick, mode, the clip playing and its position,
+pose, Sprite.visible, SlashRig.visible, Grip's rotation, Lean's
+rotation and x, Arc's alpha, the hitbox's disabled, velocity,
+is_on_floor(), gear and hearts.
+
+Checks, printed as PASS/FAIL lines in a group STATES, then a RESULT
+line, with quit(1) on any failure:
+- For each of the 13 clips: the tick its state is entered, that its
+  clip plays from 0 on that tick, and that its pose and the two
+  visibilities are right on that tick. Run and sword_run show their
+  first cell for 8 ticks (section 7).
+- Every transition out of a state that the scenarios reach, against
+  section 3's transition table. List the ones no scenario reaches.
+- On every tick of every swing in the test: the clip position is
+  (ticks since the press)/60, and Grip, Lean and Arc equal the slash
+  clip sampled at that time with value_track_interpolate(), to within
+  0.01. The rig shows on ticks 0-16, and the Sprite shows again on
+  tick 17.
+- The hitbox is live on swing ticks 2-10 only, whatever state follows.
+
+This test pins the wired behaviour as it is now. If a check disagrees
+with the brief, Revisions 3 and 4, or your plan, keep what you
+measured, and list it under a heading ANOMALIES with its log lines. Do
+not change any other file to make a check pass. That includes the
+game, the pin, checks.gd and every other earlier test.
+
+Git is read-only for you (CLAUDE.md). The wrapper's logs in logs/ will
+change; that is expected.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_states.tscn 60, twice: the STATES and
+  RESULT lines of each run. The two runs must agree;
+- scripts/run-test.sh test_rudy_pin.tscn 60 (its RESULT line: still 16
+  of 19, with T1, T2 and T6 failing as committed in step 2b);
+- scripts/run-test.sh checks.tscn 60 (its last line, and the res://
+  path count. It should become 97, because the new scene names its
+  script. If it differs, name the paths that account for it).
+
+Then show git status, and give a table of every scenario: where it
+starts, the keys it presses on which ticks, and the states it reaches.
+Tell me what still needs a human to play. Do not commit.
+
+Write your answer in English.
