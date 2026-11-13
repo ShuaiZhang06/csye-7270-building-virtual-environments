@@ -516,3 +516,151 @@ Where this revision differs from the sections above or from Revision 3, it holds
 In step 4b, `slash_rig` replaces `slash`, and check 7 goes back to an exact match. `RudyLook` then reports `CHAR-SWORD-SLASH` as the pose while `SlashRig` shows (section 3).
 
 Claude Code drafted this revision while preparing step 4a's prompt. It is committed only after my review.
+
+### Revision 5 — 2026-11-13, the full Canvas text becomes the base
+
+**The base text.** On 2026-11-13 Canvas showed the full text of Assignment 7, and I decided that it alone holds. It replaces the base that Revision 1 set (the course repository's `assignments/08-animation-and-state.md`, changed by the revision note). Where the sections above or Revisions 2–4 differ from that text, this revision holds. The work before it stays as committed, in the order it happened. The text's commands say `godot/`, and here they say `game/`, as the text allows ("change --path if it doesn't").
+
+**Who writes what.** The text says the student writes the brief, the phase table, the cycle spec, every prediction and every verdict. By my decision of 2026-11-13, Claude Code keeps drafting the brief and its predictions, as in Revisions 1–4, and I review and approve them before they are committed. Every verdict and every human check is mine, from my own play, and records only what I saw.
+
+#### What each clip tells the player
+
+- **`run` and `sword_run`, on Rudy's Sprite** (`game/content/rudy/rudy.tscn`, `Look/Sprite`). They show that he is moving on the ground, and in which form. Without them he would slide in a standing pose, and a player could not tell a run from a knockback or a stop. The two cells alternate at 8 cells/s, in step with his `run_speed` of 560 px/s. The sword form's run shows that he carries the sword, and so can cut.
+- **`slash`, on Rudy's rig** (`Look/SlashRig`). It shows when the cut can hit and when he is committed:
+  - the raised blade is the wind-up (ticks 0–1);
+  - the sweep is drawn on the hitbox's ticks (2–10);
+  - the settle is the recovery (11–16), in which no new swing starts.
+  
+  So the player learns from the blade, not from a number, when a goblin in reach will fall and when the next press will count (tick 18).
+- **The authority over both** is the one `AnimationPlayer`, `Look/AnimationPlayer`. It is the only writer of the Sprite's `frame` and `visible`, `SlashRig`'s `visible`, and the rig's keyed properties. The only thing that tells it what to play is `rudy.gd`'s `_pick_clip()` (`game/content/rudy/rudy.gd:296`), through `RudyLook.play_clip()` (`game/content/rudy/rudy_look.gd:78`), every physics tick (`rudy.gd:241`). `_pick_clip()` reads:
+  - `mode`;
+  - `is_slashing()`, that is, `_slash_clock`;
+  - `is_on_floor()`;
+  - `velocity`;
+  - `gear`.
+
+  `rudy.gd` also writes `Look`'s own `scale.x` (facing) and `modulate.a` (the invulnerability flash) (`rudy.gd:238-239`). No clip keys `Look` itself, so each node keeps one writer.
+
+#### `Animation.step`
+
+The text: "State the frame rate and the Animation.step you will set, which is one frame period." No clip sets it yet, so all of them have the default, 1/30 s.
+
+| Clips | Frame rate | `step` |
+|---|---|---|
+| `slash` | 60, the physics tick: the phase table's frames | 1/60 s |
+| `run`, `sword_run` | 8 cells/s, the cycle's frame rate | 1/8 s (0.125). Both keys, at 0 and 0.125, land on it |
+| the ten one-key state clips | 60 | 1/60 s. Their one key, at 0, lands on any step |
+
+- The read-back pins `step` on every clip, with `is_equal_approx(clip.step, 1.0 / fps)`.
+- **The key-time tolerance stays 1 µs.** The text's prompt asks for half a frame period. At the run's 8 cells/s that is 62.5 ms, so a key moved from 0.125 to 8/60 s would pass. The read-back's NEGATIVE line for exactly that damage depends on the narrower tolerance. 1 µs is a tolerance, not `==`, and it is far wider than a 32-bit float's error at these times.
+
+#### Where things live, and `CLAUDE.md`
+
+- **The clip library moves** from `game/content/rudy/rudy_animations.tres` to `game/animations/rudy_animations.tres`, because the text says "clips live as resources in godot/animations/ or in the scene that owns them". No key changes in the move.
+- **Revision 2 is withdrawn.** `CLAUDE.md` imports this brief with a line reading `@CHANGE-BRIEF.md`, and it is rewritten by the text's Step 1:
+  - an agent session writes the draft;
+  - the draft is committed unedited;
+  - my review is committed apart from it.
+- **Sprite credits.** `game/content/rudy/sheet/ATTRIBUTION.md` and `game/content/rudy/rig/ATTRIBUTION.md` give:
+  - the source of the frames (my Assignment 2 generated art, `../assignment-2/SOURCES.md`);
+  - the model and its terms;
+  - where the prompts are logged;
+  - the date checked.
+  
+  The originals as generated, `../assignment-2/generated/accepted/`, are committed on this branch.
+- **The wrapper stays as committed** (`db2f8989`). It does everything the text's wrapper does, including failing a run on `Failed loading resource`. It also runs `.tscn` tests, which the text's wrapper cannot. They have to be scenes, because `rudy.gd` names the `Sfx` autoload, which a `--script` run cannot compile (`evidence/brief-probe/README.md`).
+- **After every agent session** I now read the result event, and run `git diff --stat game/shaders/` and `git diff scripts/run-test.sh`. Both must print nothing. Before this revision the reviews read `git status`, which never listed either. `game/shaders/` is still byte-identical to Assignment 6's.
+
+#### The frame strip
+
+The text: "The preview's background: a representative stretch of your real level. The trigger frame, the frames to read, and what each should show … at 30 fps." I run the captures, since they need a window.
+
+- **The slash preview**, `game/previews/slash_preview.tscn`:
+  - **Setup.** `Level1`'s stretch at the sword pickup, x 2300–2700. It is ordinary ground, backdrop and sky, and the slash is first used there. Rudy stands with the sword, facing right.
+  - **Input.** One J, sent through `Input.parse_input_event` and read on the first tick of frame F.
+  - **The capture.** At 30 fps, so each PNG shows the state after its frame's second tick. With `--debug-collisions` on, so the hitbox shows.
+- **The frames to read, and what each should show:**
+
+| Frame | Tick shown | Phase | What it should show |
+|---|---|---|---|
+| F−1 | before the press | — | the sword-idle Sprite |
+| F, the trigger | 1 | startup | the rig: blade raised back over his shoulder, Grip −67.5°, Lean −2°; no arc; hitbox dead |
+| F+1 | 3 | active, the first frame shown | blade starting forward, Grip −53.3°; arc half on (α 0.5); hitbox live |
+| F+2 | 5 | active | blade at its drawn angle (0°); Lean +3°, 6 px forward; arc α 0.86 |
+| F+3 | 7 | active | blade at +5°: **almost where F+2 left it**, the stall of Revision 4 |
+| F+5 | 11 | recovery, the first frame | blade forward and down at +45°; arc gone; hitbox dead |
+| F+8 | 17 | the swing is over | the sword-idle Sprite again |
+
+- **Tick 2**, the startup-to-active boundary, falls on the first tick of frame F+1, so no PNG shows it. The other offset shows it, with the press read on a frame's second tick. That needs a second capture.
+- **The run strip, for registration.** `game/previews/run_preview.tscn`, on the same stretch, captures 12 frames of a run at 30 fps, more than one wrap. Every frame should show his soles on the walk line, and RUN-A and RUN-B alternating about every 3.75 frames.
+- **Housekeeping.** Captures go in `captures/slash/r<N>/` and `captures/run/r<N>/`. The read frames are committed and the rest deleted. They are labelled as fixture captures wherever they appear.
+
+#### Edges at every phase boundary
+
+The text asks for "an input arriving one frame before the boundary, on it, and one frame after". The boundaries are tick 2 (startup to active), 11 (active to recovery) and 17 (the end).
+
+| Interrupt | Ticks | What each does |
+|---|---|---|
+| E1, a re-press of J | 1, 2, 3; 10, 11, 12; 16, 17, 18 | Ignored on ticks 1–17. Tick 18 starts a new swing |
+| E3, a hit | 1, 2, 3; 10, 11, 12; 16 | Ends the swing on its tick, in every phase. Tick 17 has no swing left to end |
+
+Ticks 3 and 12 are new.
+
+#### Mutations
+
+The text's four mutations replace the mutation plan in sections 6 and 12. Each runs in a `git worktree`, and its test must exit 1:
+1. break one track's subname;
+2. set the run's `loop_mode` to `LOOP_NONE`;
+3. key one frame to `hframes * vframes` (16);
+4. delete `game/.godot`, run `--import`, and run the read-back.
+
+My prediction:
+- 1–3 fail the read-back.
+- 4 passes, because the rig is keyed as resource text, not imported, so the cache holds nothing the clips need. That is recorded as the reason it does not fail.
+
+#### The transition table (section 3), corrected
+
+From `sessions/session-9-answer.md`.
+
+- **Removed, since the code cannot do them:**
+  - `slash → respawn`: a fall out ends the swing first.
+  - `hurt → run`: no direction is read while he is hurt, and the knockback has stopped him by the time it ends, so he shows `idle` first.
+- **Added, a change of form:**
+  - walking into the pickup turns `run` into `sword_run` on that tick, from its first cell;
+  - if he reaches the pickup in the air, `rise` or `fall` turns into `sword_rise` or `sword_fall`.
+- **The state test covers every transition the code can reach,** and lists any it cannot reach on this level, with the reason.
+
+#### The pin's state order
+
+Step 2 of the text asks the pins to cover "the player's states and the transitions between them, in order, for one scripted run". The pin committed before the change logs every tick, but it does not assert the order. So the re-pin adds one INVARIANT line: the order of poses in the pin's scripted run.
+- **Its expected order** is taken from the baseline log committed with the pin (`logs/test_rudy_pin_60fps.log` at `3908ae80`).
+- **It is checked against the baseline too.** It is run on `3908ae80` in a `git worktree`, to show that it passed before the change.
+- **The record says so.** It was written after the change.
+
+#### The text's questions, answered
+
+1. **The routes.**
+   - `run`/`sword_run` use a `Sprite2D` with an `AnimationPlayer` frame track. `slash` is a cutout rig keyed as resource text. One `AnimationPlayer` holds both, so one read-back sees both.
+   - **Against `AnimatedSprite2D`.** The frame track's read-back sees the run's key times, its discrete update mode and its frame range against `hframes` × `vframes`. A `SpriteFrames` animation sits outside the player, so the player's read-back would see none of that.
+   - **Against an imported rig.** The keyed rig's keys are readable text, checked track by track, including the sub-property `modulate:a` (`get_indexed()`). An imported rig would need the bone branch of `track_problems()` and an empty-cache check.
+2. **A frame track left on continuous updates.** `frame` is an integer, so between two keys the interpolated value is truncated. The sprite steps early into the cells between the keys, and in general sweeps through them. Our two run cells are neighbours, so the probe showed a shift rather than a sweep: RUN-B 4 ticks early, and RUN-A back 4 ticks early (`evidence/brief-probe/logs/anim_run_continuous_60fps.log:11-20`).
+3. **`Animation.step` and its default.** The slash's `step` is 1/60 s and the run's 1/8 s, as the table above sets.
+   - **Left at 1/30 s,** any key placed or nudged in the editor snaps to an even tick. The keys at 5/60, 11/60 and 17/60 would move a tick, and a 17/60 length could become 18/60, outlasting the swing.
+   - **Keys written as resource text** do not snap, which is why the read-back pins the times and the step separately.
+4. **The authority, and what else could write.**
+   - `Look/AnimationPlayer` is the one authority over the Sprite's `frame` and `visible`, `SlashRig`'s `visible`, and Grip, Lean and Arc.
+   - **What else could write to them:**
+     - any code that sets the Sprite's texture or frame (the read-back's text check forbids it);
+     - an `autoplay` (empty);
+     - a second `AnimationPlayer` or an `AnimationTree` on the same nodes (none);
+     - a RESET clip (none).
+   - `rudy.gd` writes only `Look`'s `scale.x` and `modulate.a`, which no clip keys.
+5. **The clocks.**
+   - **Both clips** advance on the physics tick (`callback_mode_process` 0, `rudy.tscn:76`).
+   - **The active window** is read from `_slash_clock` in `rudy.gd`'s `_physics_process` (`rudy.gd:248`), the same tick. No key decides a gameplay fact.
+   - **The largest disagreement is 0 s.** The state test found the clip position equal to ticks/60 on every swing tick, and the edge test found the same at 30 fps.
+   - **On the idle callback** it would have trailed by a tick at 60 (16.7 ms), and by up to a rendered frame at 30 (33.3 ms) (`evidence/brief-probe/logs/anim_clock_idle_30fps.log:7-13`).
+6. **The seam.** For a frame track: no duplicate across the wrap, and the gap from the last key to `length` (0.25 − 0.125) equals the key interval. A duplicated frame at the wrap would hold RUN-A twice as long once per cycle: a limp every quarter second.
+7. **An imported rig.** Not used. The rig is keyed in text, so nothing lives in an `.import` file except the parts' texture settings. The empty-cache mutation still runs, to show that.
+
+Claude Code drafted this revision on 2026-11-13. I review it before it is committed.
