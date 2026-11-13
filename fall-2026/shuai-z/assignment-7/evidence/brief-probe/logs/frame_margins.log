@@ -1,0 +1,17 @@
+CHAR-CELEBRATE.png       410x386 margins L151 T72 R132 B16
+CHAR-DEFEAT.png          410x386 margins L156 T142 R86 B16
+CHAR-FALL.png            410x386 margins L94 T40 R75 B16
+CHAR-HURT.png            410x386 margins L46 T106 R29 B16
+CHAR-IDLE.png            410x386 margins L154 T50 R158 B16
+CHAR-RESPAWN.png         410x386 margins L94 T127 R133 B16
+CHAR-RISE.png            410x386 margins L144 T52 R139 B16
+CHAR-RUN-A.png           410x386 margins L57 T17 R81 B16
+CHAR-RUN-B.png           410x386 margins L106 T45 R106 B16
+CHAR-SWORD-BLOCK.png     410x386 margins L73 T47 R121 B16
+CHAR-SWORD-FALL.png      410x386 margins L35 T41 R71 B16
+CHAR-SWORD-IDLE.png      410x386 margins L143 T42 R113 B16
+CHAR-SWORD-RISE.png      410x386 margins L64 T50 R121 B16
+CHAR-SWORD-RUN-A.png     410x386 margins L65 T17 R47 B16
+CHAR-SWORD-RUN-B.png     410x386 margins L115 T44 R81 B16
+CHAR-SWORD-SLASH.png     410x386 margins L16 T43 R64 B16
+smallest margin 16

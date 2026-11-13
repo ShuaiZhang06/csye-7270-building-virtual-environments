@@ -1,0 +1,21 @@
+== img8252.480p.vp9.webm
+b331e5acf10b4f783ffb4c9f50a2a9e1a44330dfca6f7f69ac61ddac3bb729f7
+codec_name=vp9
+width=270
+height=480
+avg_frame_rate=30000/1001
+nb_read_frames=539
+== pone.0115637.s003.ogv
+373b886e2b401295e67f0e449af60bea39077f67429f403f7c241528097483d5
+codec_name=theora
+width=854
+height=480
+avg_frame_rate=30000/1001
+nb_read_frames=299
+== pone.0115637.s005.ogv
+cfd07d802c5922852ca53a74abcb368e95a32c94f4854f778249e8c43440f524
+codec_name=theora
+width=854
+height=480
+avg_frame_rate=30000/1001
+nb_read_frames=295

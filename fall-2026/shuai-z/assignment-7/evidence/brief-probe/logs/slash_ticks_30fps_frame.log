@@ -1,0 +1,38 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MODE frame fixed_fps 0 ticks/s 60
+tick 0 frame 20 pose CHAR-SWORD-SLASH clock 0.0167 live false just_pressed true
+tick 1 frame 20 pose CHAR-SWORD-SLASH clock 0.0333 live false just_pressed false
+tick 2 frame 21 pose CHAR-SWORD-SLASH clock 0.0500 live true just_pressed false
+tick 3 frame 21 pose CHAR-SWORD-SLASH clock 0.0667 live true just_pressed false
+tick 4 frame 22 pose CHAR-SWORD-SLASH clock 0.0833 live true just_pressed false
+tick 5 frame 22 pose CHAR-SWORD-SLASH clock 0.1000 live true just_pressed false
+tick 6 frame 23 pose CHAR-SWORD-SLASH clock 0.1167 live true just_pressed false
+tick 7 frame 23 pose CHAR-SWORD-SLASH clock 0.1333 live true just_pressed false
+tick 8 frame 24 pose CHAR-SWORD-SLASH clock 0.1500 live true just_pressed false
+tick 9 frame 24 pose CHAR-SWORD-SLASH clock 0.1667 live true just_pressed false
+tick 10 frame 25 pose CHAR-SWORD-SLASH clock 0.1833 live true just_pressed false
+tick 11 frame 25 pose CHAR-SWORD-SLASH clock 0.2000 live false just_pressed false
+tick 12 frame 26 pose CHAR-SWORD-SLASH clock 0.2167 live false just_pressed false
+tick 13 frame 26 pose CHAR-SWORD-SLASH clock 0.2333 live false just_pressed false
+tick 14 frame 27 pose CHAR-SWORD-SLASH clock 0.2500 live false just_pressed false
+tick 15 frame 27 pose CHAR-SWORD-SLASH clock 0.2667 live false just_pressed false
+tick 16 frame 28 pose CHAR-SWORD-SLASH clock 0.2833 live false just_pressed false
+tick 17 frame 28 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 18 frame 29 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 19 frame 29 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 20 frame 30 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 21 frame 30 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 22 frame 31 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 23 frame 31 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 24 frame 32 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 25 frame 32 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 26 frame 33 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 27 frame 33 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 28 frame 34 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 29 frame 34 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+tick 30 frame 35 pose CHAR-SWORD-IDLE clock -1.0000 live false just_pressed false
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

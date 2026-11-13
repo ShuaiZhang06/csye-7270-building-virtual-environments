@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+default callback_mode_process 1 (0 physics, 1 idle, 2 manual); default callback_mode_method 0
+MODE physics callback_mode_process 0
+tick  0 frame 1 anim        pos -1.0000 cell 0 rot    0.00
+tick  1 frame 2 anim        pos -1.0000 cell 0 rot    0.00
+tick  2 frame 3 anim slash  pos 0.0000 cell 0 rot    0.00
+tick  3 frame 4 anim slash  pos 0.0000 cell 10 rot  -70.00
+tick  4 frame 5 anim slash  pos 0.0167 cell 10 rot  -65.00
+tick  5 frame 6 anim slash  pos 0.0333 cell 10 rot  -60.00
+tick  6 frame 7 anim slash  pos 0.0500 cell 10 rot  -47.22
+tick  7 frame 8 anim slash  pos 0.0667 cell 10 rot  -34.44
+tick  8 frame 9 anim slash  pos 0.0833 cell 10 rot  -21.67
+tick  9 frame 10 anim slash  pos 0.1000 cell 10 rot   -8.89
+tick 10 frame 11 anim slash  pos 0.1167 cell 10 rot    3.89
+tick 11 frame 12 anim slash  pos 0.1333 cell 10 rot   16.67
+tick 12 frame 13 anim slash  pos 0.1500 cell 10 rot   29.44
+tick 13 frame 14 anim slash  pos 0.1667 cell 10 rot   42.22
+tick 14 frame 15 anim slash  pos 0.1833 cell 10 rot   55.00
+tick 15 frame 16 anim slash  pos 0.2000 cell 10 rot   48.57
+tick 16 frame 17 anim slash  pos 0.2167 cell 10 rot   42.14
+tick 17 frame 18 anim slash  pos 0.2333 cell 10 rot   35.71
+tick 18 frame 19 anim slash  pos 0.2500 cell 10 rot   29.29
+tick 19 frame 20 anim slash  pos 0.2667 cell 10 rot   22.86
+tick 20 frame 21 anim slash  pos 0.2833 cell 10 rot   16.43
+tick 21 frame 22 anim        pos -1.0000 cell 10 rot   10.00
+tick 22 frame 23 anim idle   pos 0.0000 cell 10 rot   10.00
+tick 23 frame 24 anim slash  pos 0.0000 cell 10 rot  -70.00
+tick 24 frame 25 anim slash  pos 0.0167 cell 10 rot  -65.00
+tick 25 frame 26 anim slash  pos 0.0333 cell 10 rot  -60.00
+tick 26 frame 27 anim slash  pos 0.0500 cell 10 rot  -47.22
+tick 27 frame 28 anim slash  pos 0.0667 cell 10 rot  -34.44
+tick 28 frame 29 anim slash  pos 0.0833 cell 10 rot  -21.67
+tick 29 frame 30 anim slash  pos 0.1000 cell 10 rot   -8.89
+tick 30 frame 31 anim slash  pos 0.1167 cell 10 rot    3.89
+tick 31 frame 32 anim slash  pos 0.1333 cell 10 rot   16.67
+tick 32 frame 33 anim slash  pos 0.1500 cell 10 rot   29.44
+tick 33 frame 34 anim slash  pos 0.1667 cell 10 rot   42.22
+tick 34 frame 35 anim slash  pos 0.1833 cell 10 rot   55.00

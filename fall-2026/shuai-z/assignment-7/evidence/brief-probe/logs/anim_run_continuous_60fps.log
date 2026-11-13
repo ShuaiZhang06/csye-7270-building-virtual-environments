@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+default callback_mode_process 1 (0 physics, 1 idle, 2 manual); default callback_mode_method 0
+MODE continuous callback_mode_process 0
+tick  0 frame 1 anim        pos -1.0000 cell 0 rot    0.00
+tick  1 frame 2 anim        pos -1.0000 cell 0 rot    0.00
+tick  2 frame 3 anim run    pos 0.0000 cell 0 rot    0.00
+tick  3 frame 4 anim run    pos 0.0000 cell 1 rot    0.00
+tick  4 frame 5 anim run    pos 0.0167 cell 1 rot    0.00
+tick  5 frame 6 anim run    pos 0.0333 cell 1 rot    0.00
+tick  6 frame 7 anim run    pos 0.0500 cell 1 rot    0.00
+tick  7 frame 8 anim run    pos 0.0667 cell 2 rot    0.00
+tick  8 frame 9 anim run    pos 0.0833 cell 2 rot    0.00
+tick  9 frame 10 anim run    pos 0.1000 cell 2 rot    0.00
+tick 10 frame 11 anim run    pos 0.1167 cell 2 rot    0.00
+tick 11 frame 12 anim run    pos 0.1333 cell 2 rot    0.00
+tick 12 frame 13 anim run    pos 0.1500 cell 2 rot    0.00
+tick 13 frame 14 anim run    pos 0.1667 cell 2 rot    0.00
+tick 14 frame 15 anim run    pos 0.1833 cell 2 rot    0.00
+tick 15 frame 16 anim run    pos 0.2000 cell 1 rot    0.00
+tick 16 frame 17 anim run    pos 0.2167 cell 1 rot    0.00
+tick 17 frame 18 anim run    pos 0.2333 cell 1 rot    0.00
+tick 18 frame 19 anim run    pos 0.2500 cell 1 rot    0.00
+tick 19 frame 20 anim run    pos 0.0167 cell 1 rot    0.00
+tick 20 frame 21 anim run    pos 0.0333 cell 1 rot    0.00
+tick 21 frame 22 anim run    pos 0.0500 cell 1 rot    0.00
+tick 22 frame 23 anim run    pos 0.0667 cell 2 rot    0.00
+tick 23 frame 24 anim run    pos 0.0833 cell 2 rot    0.00
+tick 24 frame 25 anim run    pos 0.1000 cell 2 rot    0.00
+tick 25 frame 26 anim run    pos 0.1167 cell 2 rot    0.00
+tick 26 frame 27 anim run    pos 0.1333 cell 2 rot    0.00
+tick 27 frame 28 anim run    pos 0.1500 cell 2 rot    0.00
+tick 28 frame 29 anim run    pos 0.1667 cell 2 rot    0.00
+tick 29 frame 30 anim run    pos 0.1833 cell 2 rot    0.00
+tick 30 frame 31 anim run    pos 0.2000 cell 1 rot    0.00
+tick 31 frame 32 anim run    pos 0.2167 cell 1 rot    0.00
+tick 32 frame 33 anim run    pos 0.2333 cell 1 rot    0.00
+tick 33 frame 34 anim run    pos 0.2500 cell 1 rot    0.00
+tick 34 frame 35 anim run    pos 0.0167 cell 1 rot    0.00

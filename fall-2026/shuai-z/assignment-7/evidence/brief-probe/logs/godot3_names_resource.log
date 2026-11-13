@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G3 'loop = true' -> loop_mode 1 ; G4 'loop_mode = 1' -> loop_mode 1 (0 none, 1 linear, 2 pingpong)
+G3 'playback_speed = 2.0' -> speed_scale 1.0
+root_node ..
+PROBLEM probe track 1: no node at Nobody:frame
+PROBLEM probe track 2: Sprite has no property no_such_prop
