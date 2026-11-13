@@ -1,0 +1,38 @@
+Read CHANGE-BRIEF.md, sessions/session-1-answer.md (your plan) and
+sessions/plan-1-review.md (my decision on it). I approve step 0 of the
+plan, as corrected there: the pin. Implement only that step.
+
+Write two new files and nothing else: game/tests/test_rudy_pin.tscn and
+game/tests/test_rudy_pin.gd, as section 5 of your answer proposes: the
+test's own scene (a floor, the sword pickup, spikes and Rudy, with no
+Main), with the script steps 1-8 of your answer. Rules:
+- Drive Rudy only with InputEventKey events for the project's physical
+  keys (D, A, Space, J), sent through Input.parse_input_event. Never use
+  Input.action_press, never call Rudy's or RudyLook's methods, and never
+  write velocity, position or game state.
+- Step one frame at a time with await get_tree().process_frame. The test
+  runs at --fixed-fps 60 and the project runs 60 physics ticks per
+  second, so one frame is one tick.
+- Every tick, record what section 5 of your answer lists, from a
+  recorder that runs after Rudy.
+
+Print PASS/FAIL lines in two labelled groups: TIMING (T1-T9 of your
+answer, numbers I may change on purpose later) and INVARIANT (I1-I8,
+facts that must survive any change). Measure first (a print-only run of
+the same test is fine), then write the measured numbers into the test as
+named constants with the comment "measured on baseline 2026-11-12". If a
+measurement contradicts what the code, the brief or your answer
+predicts, keep the measured value and list it under a heading ANOMALIES
+in your final message; do not fix it. End the test with a RESULT line
+and quit(1) on any failure.
+
+Change no other file: no game file, no earlier test, no document. The
+wrapper's logs in logs/ will change; that is expected. Run the test
+three times with
+scripts/run-test.sh test_rudy_pin.tscn 60
+and the earlier checks once with
+scripts/run-test.sh checks.tscn 60
+and paste the real output of each run. Tell me what still needs a human
+to play. Do not commit.
+
+Write your answer in English.

@@ -1,0 +1,22 @@
+One correction to the pin before I commit it. I5 reads the Sprite's
+texture and RudyLook's internal pose variable. Both belong to today's
+implementation. CHANGE-BRIEF.md changes the Sprite's texture to the
+sheet (section 5) and keeps only this contract (section 3): Rudy.pose is
+the asset ID of the pose on screen, and RudyLook.frame() returns that
+pose's original PNG from RudyLook.FRAMES. So I5 as written would fail
+after step 2b even if the change were right.
+
+My prompt caused this by forbidding RudyLook's methods. Read-only
+queries are allowed: RudyLook.frame(), like is_on_floor(), changes
+nothing.
+
+Change only I5 in game/tests/test_rudy_pin.gd: on every tick,
+RudyLook.frame() equals RudyLook.FRAMES[Rudy.pose]. Drop the comparison
+with RudyLook's internal pose variable, and stop reading the Sprite's
+texture. Change nothing else, in that file or anywhere else. Run the
+test three times with
+scripts/run-test.sh test_rudy_pin.tscn 60
+and paste the real TIMING, INVARIANT and RESULT lines of each run. Show
+me the diff of the test file. Do not commit.
+
+Write your answer in English.
