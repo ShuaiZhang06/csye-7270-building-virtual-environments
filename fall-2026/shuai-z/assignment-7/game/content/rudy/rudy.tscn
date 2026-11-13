@@ -5,6 +5,9 @@
 [ext_resource type="Texture2D" path="res://content/rudy/sheet/rudy_sheet.png" id="3_sheet"]
 [ext_resource type="Material" path="res://systems/art/outline.tres" id="4_outline"]
 [ext_resource type="AnimationLibrary" path="res://content/rudy/rudy_animations.tres" id="5_anims"]
+[ext_resource type="Texture2D" path="res://content/rudy/rig/slash_blade.png" id="6_blade"]
+[ext_resource type="Texture2D" path="res://content/rudy/rig/slash_body.png" id="7_body"]
+[ext_resource type="Texture2D" path="res://content/rudy/rig/slash_arc.png" id="8_arc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 20.0
@@ -33,6 +36,35 @@ centered = false
 offset = Vector2(-205, -370)
 hframes = 4
 vframes = 4
+
+[node name="SlashRig" type="Node2D" parent="Look"]
+visible = false
+
+[node name="Lean" type="Node2D" parent="Look/SlashRig"]
+
+[node name="Grip" type="Node2D" parent="Look/SlashRig/Lean"]
+position = Vector2(27.12, -102.75)
+
+[node name="Blade" type="Sprite2D" parent="Look/SlashRig/Lean/Grip"]
+material = ExtResource("4_outline")
+position = Vector2(-27.12, 102.75)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_blade")
+centered = false
+offset = Vector2(-205, -370)
+
+[node name="Body" type="Sprite2D" parent="Look/SlashRig/Lean"]
+material = ExtResource("4_outline")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_body")
+centered = false
+offset = Vector2(-205, -370)
+
+[node name="Arc" type="Sprite2D" parent="Look/SlashRig/Lean"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_arc")
+centered = false
+offset = Vector2(-205, -370)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Look"]
 root_node = NodePath("..")

@@ -1,0 +1,112 @@
+Read CLAUDE.md first. The rig is SlashRig under Look in
+game/content/rudy/rudy.tscn, and its route is keyed cutout. The phase
+table for slash is in CHANGE-BRIEF.md, section 2.2, in frames at 60.
+
+For a keyed cutout rig: write the slash clip for the AnimationPlayer in
+game/content/rudy/rudy.tscn, using Godot 4 Animation properties for the
+version in CLAUDE.md (loop_mode, not loop). Put a key at every phase
+boundary in the table, and list each key's time beside the frame it
+comes from.
+
+Add a read-back test that asserts every track resolves to a real node
+and property, the key times and clip length match the brief, and the
+loop mode is as stated. Run it through ./scripts/run-test.sh and show
+the real output. Do not wire the clip into the state machine yet. Do
+not commit.
+
+This is step 4a of your plan (sessions/session-1-answer.md, as
+corrected in sessions/plan-1-review.md). Steps 0 to 3 are committed.
+Read the brief's sections 2.2, 3, 4, 5, 7, 9 and 10, and Revisions 3
+and 4 at its end. Revision 4 holds where they differ. As Revision 4
+says, the keyed clip is named slash_rig in this step, and the stand-in
+slash stays, so that nothing plays the rig yet.
+
+You may change these files and no others:
+- game/content/rudy/rudy.tscn: add the SlashRig nodes of section 2.2
+  under Look, with SlashRig.visible false. Change nothing else in the
+  scene;
+- game/content/rudy/rudy_animations.tres: add slash_rig, and add the
+  visibility keys of Revision 4 to the other 13 clips. Change no
+  existing key;
+- game/tests/test_rudy_clips.gd.
+
+The rig nodes (section 2.2):
+- Lean pivots at his soles, (0, 0). Grip pivots at the grip point,
+  (27.12, -102.75) game px (Revision 4).
+- Blade, Body and Arc are Sprite2Ds on the rig parts in
+  game/content/rudy/rig/. Each keeps the Sprite's scale 0.5,
+  centred off and offset (-205, -370), so its canvas origin sits on his
+  origin. Blade's position cancels Grip's, so at Grip 0 it sits where it
+  was drawn.
+- Blade comes before Body in the tree, so it draws behind him.
+- Body and Blade use the outline material; Arc uses none. All three
+  inherit Look's filter.
+- Track paths are relative to the player's root_node, "..", which is
+  Look. So the table's "Look/" prefix is dropped:
+  SlashRig/Lean/Grip:rotation_degrees, SlashRig/Lean/Arc:modulate:a,
+  and so on.
+
+The keys: section 2.2's table, at 0, 2/60, 5/60, 11/60 and 17/60, with
+Arc's at 4/60. The length is 17/60, and the loop mode LOOP_NONE.
+- The table names the transitions in words. Choose values that meet
+  section 7's two predictions: Grip between -60 and -40 deg at tick 3,
+  and between +15 and +20 deg at tick 16. Give the value of each key's
+  transition.
+- The two visibility tracks are discrete. In slash_rig, they key
+  Sprite:visible false and SlashRig:visible true at 0.
+
+The read-back, as Revision 4 stages it:
+- Checks 1-3 cover slash_rig: its key times and values, its length and
+  its loop mode. Also sample Grip at ticks 3 and 16 with
+  value_track_interpolate() against section 7.
+- Check 1's track_problems() reads only a path's first subname, so it
+  would pass "modulate:alpha". Add a check that every track with a
+  second subname resolves with get_indexed().
+- Check 4: every state clip has its frame track and the two visibility
+  keys, all discrete.
+- Check 7: the library is the selector's names plus slash_rig.
+- A new check of the rig nodes:
+  - the tree and draw order above, and SlashRig hidden;
+  - the textures, scales, offsets and materials;
+  - Grip at the grip point, with Blade's position cancelling it;
+  - each part's .import with mipmaps.
+- A NEGATIVE line for each new check, on a damaged copy made in memory:
+  - a Grip track whose path drops Lean;
+  - Arc keyed on modulate:alpha;
+  - the 5/60 Grip key moved to 6/60;
+  - slash_rig set to LOOP_LINEAR;
+  - a state clip missing its SlashRig:visible key;
+  - Blade moved after Body in the tree;
+  - Grip moved off the grip point.
+
+Nothing plays slash_rig, so the game must look and behave as it does
+now. The pin's log must differ only in its leak count: still 16 of 19,
+with T1, T2 and T6 failing as committed in step 2b. If anything else in
+an earlier test changes, it is not asked for: report it under
+ANOMALIES with its log lines, and never change a test to make it pass.
+
+If anything contradicts the brief or your plan, keep what you measured
+and list it under ANOMALIES. Git is read-only for you (CLAUDE.md). The
+wrapper's logs in logs/ will change; that is expected. If Godot writes
+any other file, say which.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_clips.tscn 60, every line from READBACK
+  to RESULT;
+- scripts/run-test.sh test_rudy_pin.tscn 60: its RESULT line, and git
+  diff of its log;
+- scripts/run-test.sh checks.tscn 60: its last line, the PASS and FAIL
+  counts, and the res:// path count. It should become 96, because
+  rudy.tscn now names the three rig PNGs. If it differs, name the
+  paths that account for it;
+- invulnerable_tint_checks.tscn at 30, 60 and 144, and
+  test_slash_sparks_config.gd, test_slash_sparks_state.tscn,
+  test_run_dust_config.gd and test_run_dust_state.tscn at 60: their
+  counts against section 5.
+
+Then show git status and git diff of rudy.tscn. Give a table of
+slash_rig's keys: track, time, the tick it comes from, value and
+transition. Tell me what still needs a human to look at. Do not
+commit.
+
+Write your answer in English.
