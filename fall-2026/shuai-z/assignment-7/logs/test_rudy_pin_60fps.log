@@ -977,7 +977,7 @@ PASS  I7 jump read on swing tick 5: takes off on that tick, the swing keeps the 
 PASS  I7 jump read on swing tick 12: takes off on that tick, the swing keeps the floor swing's pose and live ticks, then a sword air pose  (takeoff: true, swing 17 ticks, pose 17 ticks, live 2-10 (9 ticks), then CHAR-SWORD-RISE)
 PASS  I8 a slash press without the sword: no swing, no sound, hitbox never live  (press read: true, gear 0, swing: false, live: false, sounds 0)
 RESULT PASS: 19 checks, 0 failed, 953 ticks
-WARNING: 18 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 16 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
 ERROR: 4 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:822)

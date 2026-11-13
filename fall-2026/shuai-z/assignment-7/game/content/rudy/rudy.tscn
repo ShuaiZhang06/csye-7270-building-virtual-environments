@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://content/rudy/rudy_look.gd" id="2_look"]
 [ext_resource type="Texture2D" path="res://content/rudy/frames/CHAR-IDLE.png" id="3_idle"]
 [ext_resource type="Material" path="res://systems/art/outline.tres" id="4_outline"]
+[ext_resource type="AnimationLibrary" path="res://content/rudy/rudy_animations.tres" id="5_anims"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 20.0
@@ -30,6 +31,15 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_idle")
 centered = false
 offset = Vector2(-205, -370)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Look"]
+root_node = NodePath("..")
+libraries = {
+&"": ExtResource("5_anims")
+}
+autoplay = ""
+speed_scale = 1.0
+callback_mode_process = 0
 
 [node name="SwordHitbox" type="Area2D" parent="."]
 collision_layer = 0

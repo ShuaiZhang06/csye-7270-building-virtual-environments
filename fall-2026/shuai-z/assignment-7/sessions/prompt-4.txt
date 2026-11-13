@@ -1,0 +1,91 @@
+Read CLAUDE.md first. The sprite sheet is
+game/content/rudy/sheet/rudy_sheet.png. Its source, license, cell size,
+grid and frame order are in CHANGE-BRIEF.md, with the frame count, frame
+rate and loop rule for run and sword_run (section 2.1).
+
+Set up run and sword_run on Look/Sprite in game/content/rudy/rudy.tscn
+as Sprite2D with an AnimationPlayer frame track, using Godot 4
+properties for the version in CLAUDE.md. Slice the sheet from the brief,
+not by guessing from the image. Add a read-back test. For a frame track,
+assert every frame key is inside the sheet, the track uses discrete
+updates, and key times and loop mode match the brief. Run it through
+./scripts/run-test.sh and show the real output. Do not wire the clip
+into the state machine yet. Do not commit.
+
+This is step 2a of your plan (sessions/session-1-answer.md, as corrected
+in sessions/plan-1-review.md). Steps 0 and 1 are committed. Read the
+brief's sections 2, 2.1, 3, 5, 9 and 10, and Revision 3 at its end,
+which holds where it differs from them. In this step, slicing from the
+brief means that every key's cell and the 4 x 4 grid come from the
+brief's tables; the Sprite itself goes on the sheet in step 2b.
+
+Write these files and nothing else:
+- game/content/rudy/rudy_animations.tres: one AnimationLibrary, as
+  resource text. It holds 13 clips: run and sword_run (section 2.1),
+  the ten one-key clips of section 3, and the slash stand-in
+  (Revision 3). Each clip has one value track, Sprite:frame, with
+  discrete updates, keyed to the cells in section 3's table.
+- game/content/rudy/rudy.tscn: add one AnimationPlayer as a child of
+  Look, with the library as its default library, root_node "..",
+  callback_mode_process physics, autoplay empty and speed_scale 1.0
+  (section 2). Change nothing else in the scene. The Sprite keeps its
+  PNG texture, with hframes 1 and vframes 1, until step 2b
+  (Revision 3).
+- game/tests/test_rudy_clips.tscn and .gd: a scene test (CLAUDE.md). It
+  loads rudy.tscn and reads its AnimationPlayer. It never calls play(),
+  seek() or advance(). The READBACK group only reads; the NEGATIVE
+  group damages its own copies, never the instance READBACK reads.
+
+The read-back test:
+- Run checks 1-5 and 7 of section 9, as Revision 3 stages them. Check 1
+  is track_problems(), copied unchanged from
+  evidence/brief-probe/tests/probe_g3_names.gd, lines 2-28, which is
+  the revision note's function as written.
+- Add the text scan in section 10, row 9. Scan rudy.tscn and
+  rudy_animations.tres for playback_speed, and for "loop =",
+  "playing =" and "frames =" at the start of a line, so that
+  "hframes =" and "loop_mode =" do not match.
+- Show that each check can fail. For each check, add a NEGATIVE line
+  that runs the same check on a damaged copy made in memory, never in a
+  file, and must see it fail:
+  - idle's track to Sprite:frames, a missing property Godot reports
+    nowhere;
+  - run's second key at 8/60 instead of 0.125;
+  - idle set to LOOP_NONE;
+  - sword_run on continuous updates;
+  - fall keyed to cell 16;
+  - rise keyed to cell 4 instead of 3;
+  - the player on the idle callback;
+  - hurt removed from the library.
+- Print PASS/FAIL lines in two groups, READBACK and NEGATIVE, then a
+  RESULT line, and quit(1) on any failure.
+
+In your answer, give a table of every clip: each key's time, its cell,
+and the pose in that cell.
+
+If anything contradicts what the brief, Revision 3 or your plan
+predicts, keep what you measured and list it under a heading ANOMALIES.
+Do not fix it. Git is read-only for you (CLAUDE.md). The wrapper's logs
+in logs/ will change; that is expected. If Godot writes any other file,
+such as a .uid, say which.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_clips.tscn 60 (every line from READBACK
+  to RESULT);
+- scripts/run-test.sh test_rudy_pin.tscn 60 (its RESULT line). Nothing
+  is wired, so it must pass 19 checks. Show git diff of its log: only
+  the leak count should differ;
+- scripts/run-test.sh checks.tscn 60 (its last line, and the res://
+  path count, which should become 92: rudy.tscn now names the library,
+  and the new test scene names its script. If it differs, name the
+  paths that account for it);
+- the other earlier tests, because rudy.tscn changed:
+  invulnerable_tint_checks.tscn at 30, 60 and 144,
+  test_slash_sparks_config.gd, test_slash_sparks_state.tscn,
+  test_run_dust_config.gd and test_run_dust_state.tscn at 60. Give
+  their counts against section 5.
+
+Then show git status and git diff of rudy.tscn. Tell me what still needs
+a human to look at. Do not commit.
+
+Write your answer in English.
