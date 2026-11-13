@@ -1,0 +1,57 @@
+You are working in my game repository (Godot 4, GDScript, project in
+game/). This folder, fall-2026/shuai-z/assignment-7/ in my course
+repository, plays the part of the repository root. Do not change any
+file except CLAUDE.md in this folder.
+
+Read CLAUDE.md, AGENTS.md if it exists, README.md, CHANGE-BRIEF.md,
+game/project.godot, scripts/run-test.sh, the scripts that own the
+player's state machine, the scenes and nodes the two clips play on,
+and the test scripts in game/tests/.
+
+Revise CLAUDE.md, keeping it under 120 lines, in this order:
+1. If AGENTS.md exists, the first line stays exactly: @AGENTS.md
+2. "Project context": update it for this change. Give the exact Godot
+   version, the renderer, the route and node for each clip named in
+   the brief, the script that owns the player's state machine, the
+   scenes the clips appear in, and the exact test commands, all
+   through scripts/run-test.sh, including its realtime mode. Give a
+   file reference for every fact. Do not guess.
+3. "Current change": a heading followed by exactly this line:
+   @CHANGE-BRIEF.md
+4. "Ownership": every file in game/shaders/ is written by hand by me
+   and is never edited by an agent. Add: clips live as resources in
+   game/animations/ or in the scene that owns them, and are never
+   built in code at runtime.
+5. "One authority": exactly one node writes to each animated node. Say
+   which, for each. Never add a second writer to a node that already
+   has one.
+6. "Godot 4 names": use Godot 4 class and property names for the
+   pinned version, never Godot 3 names such as a boolean loop,
+   playback_speed, or AnimatedSprite. If you are unsure a property
+   exists in this version, say so instead of guessing.
+7. "Out of scope": what this change must not touch, in your own words,
+   consistent with the brief.
+8. "Unconfirmed": anything you could not confirm from the files.
+
+Do not set up a clip and do not edit any script. Stop after CLAUDE.md.
+
+Where this folder differs from what the list above assumes:
+- The current CLAUDE.md has no "Current change" heading and no rule
+  for game/shaders/. Revision 2 of the brief left them out, and
+  Revision 5 withdraws Revision 2, so items 3 and 4 add them.
+- CHANGE-BRIEF.md is the original with dated revisions below it.
+  Where they differ, the latest revision holds; Revision 5, at the
+  end, says so.
+- Both clips already exist and are wired, and their tests exist, so
+  describe the project as it is now. Revision 5 moves the clip library
+  from game/content/rudy/ to game/animations/ after this step: give
+  its current path, and say that the brief moves it.
+- Keep a line near the top saying that a scoped Claude Code session
+  drafted this file from sessions/prompt-11.txt, with today's date,
+  and that I review it.
+- Git is read-only for you.
+
+When you finish, reply with the file's line count, what you changed
+from the old CLAUDE.md and why, and each fact you could not confirm.
+
+Write the file and your answer in English.
