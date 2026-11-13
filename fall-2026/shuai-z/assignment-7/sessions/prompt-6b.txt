@@ -1,0 +1,38 @@
+Two corrections before I commit step 3. Both come from your ANOMALIES,
+and the first is my prompt's fault.
+
+1. The pommel. My prompt put the pommel in slash_blade.png and also
+   kept the sword behind Body. As you found, both cannot hold. Put the
+   pommel, and the grip between it and the fist, back in
+   slash_body.png, unrepaired, as section 2.2's own wording has it ("the
+   blade and crossguard, from the fist outwards"). slash_blade.png is
+   then the blade and the crossguard only. The pommel will not turn with
+   the blade; I accept that for now.
+2. The dark Arc pixels (anomaly 3). Keep every Arc pixel's colour
+   within the arc's own colours, as measured over the background. Where
+   that leaves the composite at rest unequal to the source, the pixel is
+   inside the band. Report the count and the largest difference there,
+   as before.
+
+Leave the band's repair as it is. Whether its traces show in the game
+is judged on the frame strip after step 4b (brief section 10, row 12).
+
+The import log: the parts change, so the import runs again. Make the
+log with
+godot --headless --path game --import 2>&1 | tee logs/import_rig.log
+
+Change only tools/cut_slash_rig.py, the three parts and
+evidence/rig-cut/ (its images and README). The .import files may only
+gain what Godot writes. Rerun, and paste the real output of each:
+- python3 tools/cut_slash_rig.py, twice: the parts' SHA-256 must match
+  between the runs;
+- python3 tools/cut_slash_rig.py --self-test;
+- the import above (its reimport lines);
+- scripts/run-test.sh test_rudy_clips.tscn 60, test_rudy_pin.tscn 60
+  and checks.tscn 60: their RESULT or last lines, and checks' res://
+  path count.
+
+Remake the review images, and say again what you see at the fist and
+the pommel at the five key times. Show git status. Do not commit.
+
+Write your answer in English.

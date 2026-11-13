@@ -1,0 +1,102 @@
+Read CLAUDE.md first, then CHANGE-BRIEF.md: sections 1, 2.2, 5, 10
+(rows 11-13) and 13, and the revisions at its end. Read your plan
+(sessions/session-1-answer.md) and my decision on it
+(sessions/plan-1-review.md). Steps 0 to 2b are committed. I approve
+step 3: tools/cut_slash_rig.py and the three rig parts. Implement only
+that step. It changes no game behaviour: nothing in the game names the
+parts yet.
+
+Write these files and nothing else:
+- tools/cut_slash_rig.py, in this folder, outside game/;
+- game/content/rudy/rig/slash_body.png, slash_blade.png and
+  slash_arc.png, and their three .import files;
+- review images in evidence/rig-cut/, with a short README.md that says
+  what each image shows.
+
+The source is game/content/rudy/frames/CHAR-SWORD-SLASH.png. It stays
+unchanged. Generate no new art (section 13): every part pixel comes
+from that frame, or from repairing it with its own pixels. Use only the
+installed Python packages (Pillow, numpy, scipy, scikit-image), and
+install nothing.
+
+The parts, each RGBA on the frame's 410 x 386 canvas, with the same
+origin (section 2.2):
+- slash_blade.png is the whole sword outside the fist: the blade, the
+  crossguard, and the pommel that shows below and left of the fist,
+  near (241, 177). All three turn together about the grip. Section 2.2
+  says "from the fist outwards", which I read as both ends of the
+  sword: a pommel left in the body would stay put while the blade
+  turns.
+- slash_arc.png is the translucent arc alone. Over the background the
+  arc is already translucent in the frame. Over the robe and the
+  shield it is baked into opaque pixels, so it has to be separated
+  from them.
+- slash_body.png is the frame without the sword and without the arc.
+  Wherever the arc or the removed pommel covered him, repair the robe,
+  the shield and the sleeve from the surrounding pixels. Those
+  repaired pixels are the band.
+
+The script, run as python3 tools/cut_slash_rig.py from this folder:
+- asserts that the source's SHA-256 is
+  65f4da7132c98146aa7d250575ec7df18acd70ff5e07c4484e5ba8ffb81fbdfc, the
+  value logged in step 1, before and after it runs;
+- defines the sword and arc regions as data it prints, such as
+  polygons or colour rules with their thresholds, never by hand edits
+  to an image;
+- measures and prints the grip point, the centre of the fist around
+  the hilt, near (258, 165), and says how it measured it. It also
+  prints the sword's drawn angle and its reach from the grip to the
+  tip;
+- composites the parts at rest in the rig's draw order (Blade, then
+  Body, then Arc, section 2.2), and asserts that the result equals the
+  source pixel for pixel outside the band. Inside the band, it prints
+  the pixel count, the bounding box, and the mean and the largest
+  channel difference;
+- asserts that no pixel is opaque in both Blade and Body;
+- prints each part's SHA-256, and exits non-zero on any failed
+  assertion.
+
+Show that the composite check can fail. Add a --self-test flag that
+runs the same check on damaged copies made in a temporary directory
+outside the repository: Blade shifted one pixel, and one sword pixel
+left in Body. Each must fail. The self-test never touches the real
+parts.
+
+The import: the parts import like the frames, with mipmaps. Each
+.import's [params] section must equal CHAR-IDLE.png.import's, as in
+step 1. Run
+godot --headless --path game --import
+and save its output to logs/import_rig.log.
+
+Review images, in evidence/rig-cut/. These are previews from Python,
+without the game's outline shader, and the README says so:
+- the three parts side by side on grey, with the band marked;
+- the parts composited at rest, beside the source;
+- the rig at section 2.2's five key times (0, 2/60, 5/60, 11/60 and
+  17/60 s), with Grip and Lean set to those keys and the arc hidden.
+  Blade turns about the grip, and Lean about his soles, the origin at
+  (205, 370). Positive angles turn clockwise on screen. Lean's x is in
+  game px, at 2 texture px per game px.
+Then look at the images and say what you see at the seams: where the
+blade meets the fist, the pommel, and the band on the robe and the
+shield. That reading is a claim; I will look as well.
+
+If anything contradicts the brief or your plan, keep what you found
+and list it under a heading ANOMALIES; do not work around it silently.
+Git is read-only for you (CLAUDE.md). The wrapper's logs in logs/ will
+change; that is expected. If Godot writes any other file, say which.
+
+Run, and paste the real output of each:
+- python3 tools/cut_slash_rig.py, twice: the parts' SHA-256 must match
+  between the runs;
+- python3 tools/cut_slash_rig.py --self-test;
+- scripts/run-test.sh test_rudy_clips.tscn 60 (its RESULT line);
+- scripts/run-test.sh test_rudy_pin.tscn 60 (its RESULT line: still
+  16 of 19, with T1, T2 and T6 failing as committed in step 2b);
+- scripts/run-test.sh checks.tscn 60 (its last line, and the res://
+  path count, which should stay 93, since nothing names the parts).
+
+Then show git status, and tell me what still needs a human to look at.
+Do not commit.
+
+Write your answer in English.
