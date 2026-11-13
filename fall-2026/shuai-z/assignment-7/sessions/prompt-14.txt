@@ -1,0 +1,63 @@
+Read CLAUDE.md first. CHANGE-BRIEF.md is the contract for this change,
+and its Revision 5 holds where it differs from the sections above it.
+Read Revision 5's "The transition table (section 3), corrected", the
+state test committed in step 5a (game/tests/test_rudy_states.gd), and
+that step's answer (sessions/session-9-answer.md).
+
+The assignment's structure test must show that "every transition in
+the brief is present". The state machine is rudy.gd's selector, not an
+AnimationTree, so there is no transition resource to read: the state
+test shows each transition by driving it through real input. Revision
+5 asks it to cover every transition the code can reach, and to list
+any it cannot reach on this level, with the reason.
+
+Do this, and change nothing else:
+1. Correct TABLE to Revision 5: remove slash -> respawn and hurt ->
+   run; add run -> sword_run, rise -> sword_rise and fall -> sword_fall
+   (the pickup reached on the ground or in the air). run -> sword_run
+   then leaves MEASURED_OFF_TABLE. The table then has 58 transitions.
+2. Add scenarios, in the existing scenarios' way, that reach the
+   transitions step 5a did not (its log's NOT REACHED list). Session 9
+   judged these reachable: idle -> hurt and idle -> defeat; rise ->
+   hurt, rise -> defeat and fall -> defeat; sword_idle, sword_run,
+   sword_rise and sword_fall -> hurt; sword_idle, sword_run and slash
+   -> celebrate; sword_rise -> respawn. Reach rise -> sword_rise and
+   fall -> sword_fall too.
+   - A defeat needs his last heart: he loses the others to real hits
+     first.
+   - He gets the sword only by walking or jumping into the pickup (x
+     2500). So a sword-form transition into celebrate needs a real
+     route from the pickup to the portal (x 7200) without a hit: past
+     goblin B, the spikes at x 5180 and goblin C. checks.gd drives a
+     route from the opening (its route check); you may borrow its
+     timing, sent through Input.parse_input_event.
+3. Keep each transition still not reached in the NOT REACHED list,
+   with its reason in the log and in your answer: it cannot happen in
+   this code (name the line), or this level cannot produce it (say
+   what the level lacks). Session 9 put hurt -> rise, hurt -> fall and
+   idle -> celebrate there. Check each of them again before you keep
+   it.
+Keep the test's rules (its header), and every existing scenario, check
+and expected value. Add a line for this step to the header.
+
+Change only game/tests/test_rudy_states.gd (and its .tscn only if it
+must change), and in CLAUDE.md only the state test's command line: its
+count and log line reference. Git is read-only for you (CLAUDE.md).
+The wrapper's logs in logs/ will change; that is expected.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_states.tscn 60, twice: the STATES, NOT
+  REACHED and RESULT lines of each run. The runs must agree, and every
+  check must pass;
+- scripts/run-test.sh test_rudy_pin.tscn 60: its RESULT line, still 16
+  of 19 with T1, T2 and T6 failing as committed in step 2b;
+- scripts/run-test.sh checks.tscn 60: its last lines and the res://
+  path count, which should stay 98.
+
+If a measurement contradicts the brief, keep the measured value, list
+it under ANOMALIES, and do not change the game. Then show git status,
+and a table of the 58 transitions: each reached (by which scenario, on
+which tick) or not, with the reason. Tell me what still needs a human
+to play. Do not commit.
+
+Write your answer in English.

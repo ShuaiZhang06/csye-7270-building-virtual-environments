@@ -32,7 +32,7 @@ A scoped Claude Code session drafted this file from `sessions/prompt-11.txt` on 
 
 ```bash
 scripts/run-test.sh test_rudy_clips.tscn 60       # read-back: 51 PASS (logs/test_rudy_clips_60fps.log:56)
-scripts/run-test.sh test_rudy_states.tscn 60      # states: 81 PASS (logs/test_rudy_states_60fps.log:3072)
+scripts/run-test.sh test_rudy_states.tscn 60      # states: 99 PASS (logs/test_rudy_states_60fps.log:7125)
 scripts/run-test.sh test_rudy_edges.tscn 60       # edges E1-E7: 108 PASS (logs/test_rudy_edges_60fps.log:6679)
 scripts/run-test.sh test_rudy_edges.tscn 30       # E1, E2 at both offsets: 66 PASS (logs/test_rudy_edges_30fps.log:734)
 scripts/run-test.sh test_rudy_pin.tscn 60         # pin: 19 checks, T1, T2, T6 FAIL as asked (logs/test_rudy_pin_60fps.log:959-979)

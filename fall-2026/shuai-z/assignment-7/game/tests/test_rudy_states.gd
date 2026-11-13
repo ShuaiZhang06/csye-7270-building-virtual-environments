@@ -7,6 +7,12 @@ extends Node
 ## real Main (the level, its goblins, spikes, pickup, pits and teleport
 ## circle), and pins the wired behaviour as it is now.
 ##
+## Step 5c (Revision 5, "The transition table (section 3), corrected"): the
+## table drops slash -> respawn and hurt -> run and gains the change of form
+## (run -> sword_run, rise -> sword_rise, fall -> sword_fall); scenarios S9-S20
+## reach the transitions step 5a did not; every transition still not reached
+## is listed with its reason (NOT_REACHABLE), and a check holds the table to it.
+##
 ## Rules this test keeps:
 ## - Each scenario starts a fresh Main with the title skipped, as checks.gd's
 ##   _start_level() does (Main.title_shown = true before it is instanced).
@@ -68,30 +74,43 @@ const RUN_SECOND_CELL: Dictionary[StringName, StringName] = {
 	&"sword_run": &"CHAR-SWORD-RUN-B",
 }
 
-## Section 3's transition table, every row out of every state. States 6-9
-## take the sword form's clip while he has the sword (section 3, "Forms"), so
-## their rows are written out for both forms: a slash needs the sword, and a
-## defeat cannot happen with it (a hit takes the sword, not a heart).
+## Section 3's transition table, every row out of every state, as Revision 5
+## corrects it (58 transitions). States 6-9 take the sword form's clip while
+## he has the sword (section 3, "Forms"), so their rows are written out for
+## both forms: a slash needs the sword, and a defeat cannot happen with it (a
+## hit takes the sword, not a heart). Revision 5 removes slash -> respawn and
+## hurt -> run, and adds the change of form at the pickup: run -> sword_run on
+## the ground, rise -> sword_rise and fall -> sword_fall in the air.
 const TABLE: Array = [
 	["idle", ["run", "rise", "hurt", "defeat", "celebrate"]],
-	["run", ["idle", "rise", "fall", "hurt", "defeat", "celebrate"]],
-	["rise", ["fall", "idle", "run", "hurt", "defeat", "respawn"]],
-	["fall", ["idle", "run", "hurt", "defeat", "respawn"]],
+	["run", ["idle", "rise", "fall", "hurt", "defeat", "celebrate", "sword_run"]],
+	["rise", ["fall", "idle", "run", "hurt", "defeat", "respawn", "sword_rise"]],
+	["fall", ["idle", "run", "hurt", "defeat", "respawn", "sword_fall"]],
 	["sword_idle", ["sword_run", "sword_rise", "slash", "hurt", "celebrate"]],
 	["sword_run", ["sword_idle", "sword_rise", "sword_fall", "slash", "hurt", "celebrate"]],
 	["sword_rise", ["sword_fall", "sword_idle", "sword_run", "slash", "hurt", "respawn"]],
 	["sword_fall", ["sword_idle", "sword_run", "slash", "hurt", "respawn"]],
-	["slash", ["sword_idle", "sword_run", "sword_rise", "sword_fall", "hurt", "respawn", "celebrate"]],
-	["hurt", ["idle", "run", "rise", "fall"]],
+	["slash", ["sword_idle", "sword_run", "sword_rise", "sword_fall", "hurt", "celebrate"]],
+	["hurt", ["idle", "rise", "fall"]],
 	["defeat", ["respawn"]],
 	["respawn", ["idle"]],
 	["celebrate", []],
 ]
 
 ## Transitions this test measured that section 3's table does not list. The
-## check keeps what was measured; each is listed under ANOMALIES.
-const MEASURED_OFF_TABLE: Dictionary[String, String] = {
-	"run>sword_run": "walking into the pickup mid-run: section 3 lists no change of form; Revision 4 names the restart this causes",
+## check keeps what was measured; each is listed under ANOMALIES. Empty since
+## Revision 5 put run -> sword_run in the table.
+const MEASURED_OFF_TABLE: Dictionary[String, String] = {}
+
+## Table transitions no scenario reaches, each with its reason: the code
+## cannot do it (the line named), or this level cannot produce it (what the
+## level lacks). A check fails if any other table transition goes unreached,
+## or if one of these is reached.
+const NOT_REACHABLE: Dictionary[String, String] = {
+	"idle>celebrate": "cannot happen in this code on this level. The circle (Portal: a 160 x 60 px box standing on the ground, portal.tscn:7, :24; main.gd:184-188) is entered only by moving into it, and the clip of the tick he enters it is the one that leaves. On the floor he moves only with |velocity.x| > 1, which picks run (rudy.gd:318-319): velocity.x changes in steps of run_accel/60 = 93.3 px/s from 0, 560 or the 350 px/s knockback (rudy.gd:57, :158, :220), so it is never between 0 and 1. Dropping in from above, he crosses the box's top 60 px above the ground while still in the air, since the fastest fall on this level (from the 294 px apex, rudy.gd:60-61) covers about 32 px a tick, which picks rise or fall (rudy.gd:309-316)",
+	"sword_idle>celebrate": "cannot happen in this code on this level, for idle -> celebrate's reason: entering the circle moving on the floor picks sword_run, or slash during a swing (rudy.gd:306-307, :318-319); dropping into its 60 px box from above, he is still in the air, which picks sword_rise or sword_fall (rudy.gd:309-316)",
+	"hurt>rise": "this level cannot produce it. hurt lasts 21 ticks (hurt_time 0.35 s, rudy.gd:74, :272-275), and on flat ground a hit leaves him in the air for at most about 18 (a goblin's box reaches his soles only below 118 px, goblin.tscn:8, and the knockback adds 17 px up, rudy.gd:73; spikes reach 52 px, spikes.tscn:8). So hurt ends in the air, or he falls out during it, only if the knockback carries him over a ledge, and every hazard on Level1 is at least 378 px from one (goblin C's patrol ends at x 6020, the cliff at x 6400), while a knockback travels at most about 113 px. The longest time in the air after a hit is measured below",
+	"hurt>fall": "this level cannot produce it, for hurt -> rise's reason: no hazard on Level1 stands within a knockback's reach of a ledge, and on flat ground he lands before hurt_time ends",
 }
 
 const KEY_NAME: Dictionary[Key, String] = {KEY_D: "D", KEY_A: "A", KEY_SPACE: "Space", KEY_J: "J"}
@@ -261,6 +280,18 @@ func _run() -> void:
 	await _s6_hit_in_swing()
 	await _s7_sword_ledge()
 	await _s8_celebrate()
+	await _s9_spikes_rise_idle_defeat()
+	await _s10_spikes_rise_defeat()
+	await _s11_spikes_fall_defeat()
+	await _s12_sword_run_into_goblin()
+	await _s13_sword_idle_goblin()
+	await _s14_sword_rise_goblin()
+	await _s15_sword_fall_goblin()
+	await _s16_sword_rise_pit()
+	await _s17_sword_route_run()
+	await _s18_sword_route_slash()
+	await _s19_jump_into_pickup_rising()
+	await _s20_jump_into_pickup_falling()
 	_report()
 
 
@@ -472,6 +503,308 @@ func _s8_celebrate() -> void:
 	await _end()
 
 
+# --- Step 5c: helpers for S9-S20 ---
+
+const SPIKES_A_X := 1065.0 ## Level1/Hazards/SpikesA
+const PORTAL_SLASH_FROM_X := 7000.0 ## S18 swings here, about 11 ticks before the circle (x 7100)
+## checks.gd's route (its CLIFF_LEAD, SPIKES_LEAD and GOBLIN_LEAD): it jumps
+## when an obstacle starts this close ahead.
+const ROUTE_CLIFF_LEAD := 100.0
+const ROUTE_SPIKES_LEAD := 100.0
+const ROUTE_GOBLIN_LEAD := 220.0
+
+
+## The key that moves him toward x.
+func _toward(x: float) -> Key:
+	return KEY_D if _last().x < x else KEY_A
+
+
+## While he is still invulnerable from a hit, walks onto spikes A and stops
+## there, so the spikes hit him standing once the invulnerability ends.
+func _stand_on_spikes_a(label: String) -> void:
+	var key := _toward(SPIKES_A_X)
+	_down(key)
+	await _wait_for("walks onto spikes A (%s)" % label, 60, func(s): return absf(s.x - SPIKES_A_X) <= 40.0)
+	_up(key)
+	await _wait_for("stops on spikes A (%s)" % label, 20, func(s): return s.vx == 0.0)
+	await _wait_for("spikes A hit him standing (%s)" % label, 90, func(s): return s.mode != "PLAY")
+
+
+## A jump in place beside spikes A, steered onto them: held toward them from
+## 28 ticks after the press, after the top, he keeps the rising pose (as S1's
+## "lands running"); held from 23 ticks, the tick the fall begins, for 6
+## ticks, he takes the falling pose (as S2's hit from the air).
+func _jump_onto_spikes_a(rising: bool, label: String) -> void:
+	var key := _toward(SPIKES_A_X)
+	var jump := await _tap(KEY_SPACE)
+	await _until(jump + (28 if rising else 23))
+	_down(key)
+	if not rising:
+		await _step(6)
+		_up(key)
+	await _wait_for("spikes A hit him in the air (%s)" % label, 40, func(s): return s.mode != "PLAY")
+	if rising:
+		_up(key)
+
+
+## From x 2400: walks into the pickup, turns back and stops at goblin A's
+## turning point (x 1900), facing it while it walks toward him.
+func _sword_back_to_goblin_a() -> void:
+	_down(KEY_D)
+	await _wait_for("walks into the pickup", 40, func(s): return s.gear == Rudy.Gear.SWORD)
+	_up(KEY_D)
+	_down(KEY_A) # turns him on the ground; he runs left after the turn hold
+	await _wait_for("runs back to x 1955", 120, func(s): return s.x <= 1955.0)
+	_up(KEY_A)
+	await _wait_for("stops at goblin A's turning point", 20, func(s): return s.vx == 0.0)
+
+
+## Rudy's x minus the goblin's: how far it is to his left.
+func _gap_left(gob: Goblin, s: Dictionary) -> float:
+	return s.x - gob.global_position.x
+
+
+## S7's opening: from x 2400, the pickup and a running jump over goblin B.
+func _sword_past_goblin_b() -> void:
+	_down(KEY_D)
+	await _wait_for("walks into the pickup", 40, func(s): return s.gear == Rudy.Gear.SWORD)
+	var gob := _goblin("GoblinB")
+	await _wait_for("goblin B 160 px ahead", 200, func(s): return gob.global_position.x - s.x < 160.0)
+	await _tap(KEY_SPACE)
+	await _wait_for("lands past goblin B", 90, func(s): return s.floor)
+
+
+## True when a cliff, a row of spikes or a live goblin starts close enough
+## ahead that the route should jump now (checks.gd's _obstacle_ahead()).
+func _obstacle_ahead(x: float) -> bool:
+	var level := _main.get_node("Level1")
+	var segments: Array[GroundSegment] = []
+	for child in level.get_node("Ground").get_children():
+		if child is GroundSegment:
+			segments.append(child)
+	segments.sort_custom(func(a: GroundSegment, b: GroundSegment) -> bool: return a.position.x < b.position.x)
+	for i in range(1, segments.size()):
+		var edge := segments[i - 1].global_position.x + segments[i - 1].size.x
+		if segments[i].global_position.x > edge and x >= edge - ROUTE_CLIFF_LEAD and x < edge:
+			return true
+	for spikes in level.get_node("Hazards").get_children():
+		var left := (spikes as Node2D).global_position.x - Spikes.WIDTH / 2.0
+		if x >= left - ROUTE_SPIKES_LEAD and x < left:
+			return true
+	for goblin in level.get_node("Enemies").get_children():
+		if not (goblin as Goblin).dead:
+			var left := (goblin as Node2D).global_position.x - Goblin.WIDTH / 2.0
+			if x >= left - ROUTE_GOBLIN_LEAD and x < left:
+				return true
+	return false
+
+
+## checks.gd's route (_run_route()), sent as key events: holds D and jumps
+## (Space held 3 ticks) over each cliff, row of spikes and live goblin ahead,
+## until he reaches the circle. With slash_from_x set, he swings once there.
+func _route_to_circle(slash_from_x: float) -> void:
+	_down(KEY_D)
+	var space_up_at := -1
+	var j_up_at := -1
+	var slashed := false
+	for i in 900:
+		await _step(1)
+		var s := _last()
+		if _tick == space_up_at:
+			_up(KEY_SPACE)
+		if _tick == j_up_at:
+			_up(KEY_J)
+		if s.mode == "CELEBRATING":
+			_up(KEY_D)
+			return
+		if s.mode != "PLAY":
+			break
+		if space_up_at < _tick and s.floor and _obstacle_ahead(s.x):
+			_down(KEY_SPACE)
+			space_up_at = _tick + 3
+		if slash_from_x > 0.0 and not slashed and s.floor and s.x >= slash_from_x:
+			_down(KEY_J)
+			j_up_at = _tick + 1
+			slashed = true
+	_up(KEY_D)
+	_waits_failed.append("%s: the route reaches the circle unhurt (mode %s at x %.0f)" % [_sc, _last().mode, _last().x])
+
+
+# --- Step 5c: scenarios ---
+
+## Spikes A: a jump in place steered onto them in the rising pose; then twice
+## he walks onto them while invulnerable and stands there until they hit him:
+## a hurt, then the defeat.
+func _s9_spikes_rise_idle_defeat() -> void:
+	await _start("S9", "spikes A: hit rising, hit standing, defeated standing", Vector2(960, 840))
+	await _jump_onto_spikes_a(true, "the first hit")
+	await _wait_for("the first hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _stand_on_spikes_a("the second hit")
+	await _wait_for("the second hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _stand_on_spikes_a("the defeat")
+	await _wait_for("the respawn", 200, func(s): return s.mode == "RESPAWNING")
+	await _wait_for("control back after the respawn", 80, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## Spikes A: runs into them, stands on them while invulnerable until they hit
+## him again, then a jump in place steered onto them in the rising pose takes
+## his last heart.
+func _s10_spikes_rise_defeat() -> void:
+	await _start("S10", "spikes A: hit running, hit standing, defeated rising", Vector2(900, 840))
+	_down(KEY_D)
+	await _wait_for("runs into spikes A", 40, func(s): return s.mode == "HURT")
+	_up(KEY_D)
+	await _wait_for("the first hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _stand_on_spikes_a("the second hit")
+	await _wait_for("the second hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _step(60) # invulnerability (1.2 s from the hit) is over
+	await _jump_onto_spikes_a(true, "the defeat")
+	await _wait_for("the respawn", 200, func(s): return s.mode == "RESPAWNING")
+	await _wait_for("control back after the respawn", 80, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## As S10, but the last jump takes the falling pose.
+func _s11_spikes_fall_defeat() -> void:
+	await _start("S11", "spikes A: hit running, hit standing, defeated falling", Vector2(900, 840))
+	_down(KEY_D)
+	await _wait_for("runs into spikes A", 40, func(s): return s.mode == "HURT")
+	_up(KEY_D)
+	await _wait_for("the first hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _stand_on_spikes_a("the second hit")
+	await _wait_for("the second hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _step(60)
+	await _jump_onto_spikes_a(false, "the defeat")
+	await _wait_for("the respawn", 200, func(s): return s.mode == "RESPAWNING")
+	await _wait_for("control back after the respawn", 80, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## The pickup mid-run, then on into goblin B's back: the hit takes the sword.
+func _s12_sword_run_into_goblin() -> void:
+	await _start("S12", "sword: runs into goblin B", Vector2(2400, 840))
+	_down(KEY_D)
+	await _wait_for("walks into the pickup", 40, func(s): return s.gear == Rudy.Gear.SWORD)
+	await _wait_for("goblin B's hit", 200, func(s): return s.mode == "HURT")
+	_up(KEY_D)
+	await _wait_for("the hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## The pickup, back to goblin A's turning point, and he stands there with the
+## sword until goblin A walks into him.
+func _s13_sword_idle_goblin() -> void:
+	await _start("S13", "sword: stands until goblin A walks into him", Vector2(2400, 840))
+	await _sword_back_to_goblin_a()
+	await _wait_for("goblin A's hit", 300, func(s): return s.mode == "HURT")
+	await _wait_for("the hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## As S13, but he jumps in place as goblin A comes within 44 px, so it meets
+## him low in the rise.
+func _s14_sword_rise_goblin() -> void:
+	await _start("S14", "sword: jumps in place as goblin A reaches him", Vector2(2400, 840))
+	await _sword_back_to_goblin_a()
+	var gob := _goblin("GoblinA")
+	await _wait_for("goblin A within 44 px", 300, func(s): return _gap_left(gob, s) <= 44.0)
+	await _tap(KEY_SPACE)
+	await _wait_for("goblin A's hit", 30, func(s): return s.mode == "HURT")
+	await _wait_for("the hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## As S13, but he jumps in place as goblin A comes within 109 px and taps A
+## on the tick the fall begins, which gives the falling pose with almost no
+## drift: goblin A reaches him on the 39th or 40th tick after the press, low
+## in the fall (soles below 104 px before his last move, so not a stomp).
+func _s15_sword_fall_goblin() -> void:
+	await _start("S15", "sword: jumps in place, comes down falling onto goblin A", Vector2(2400, 840))
+	await _sword_back_to_goblin_a()
+	var gob := _goblin("GoblinA")
+	await _wait_for("goblin A within 109 px", 300, func(s): return _gap_left(gob, s) <= 109.0)
+	var jump := await _tap(KEY_SPACE)
+	await _until(jump + 23)
+	await _tap(KEY_A)
+	await _wait_for("goblin A's hit", 30, func(s): return s.mode == "HURT")
+	await _wait_for("the hurt ends", 40, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## S7's opening, then he stops at the ledge's lip and makes S4's jump into
+## the pit straight down, keeping the rising pose with the sword until he
+## falls out; he respawns at the waystone.
+func _s16_sword_rise_pit() -> void:
+	await _start("S16", "sword: jump goblin B, jump into the pit straight down, respawn", Vector2(2400, 840))
+	await _sword_past_goblin_b()
+	await _wait_for("reaches x 4250", 200, func(s): return s.x >= 4250.0)
+	_up(KEY_D)
+	await _wait_for("stops at the ledge's lip", 20, func(s): return s.vx == 0.0)
+	_down(KEY_SPACE)
+	_down(KEY_D)
+	await _step(1)
+	_up(KEY_SPACE)
+	await _step(11)
+	_up(KEY_D)
+	await _wait_for("falls out", 200, func(s): return s.mode == "FALLEN")
+	await _wait_for("the respawn", 120, func(s): return s.mode == "RESPAWNING")
+	await _wait_for("control back after the respawn", 80, func(s): return s.mode == "PLAY")
+	await _step(20)
+	await _end()
+
+
+## The pickup, then checks.gd's route to the circle, running onto it.
+func _s17_sword_route_run() -> void:
+	await _start("S17", "sword: the route from the pickup, running onto the circle", Vector2(2400, 840))
+	await _route_to_circle(0.0)
+	await _step(170)
+	await _end()
+
+
+## As S17, with a swing at x 7000 that is under way when he reaches the circle.
+func _s18_sword_route_slash() -> void:
+	await _start("S18", "sword: the route from the pickup, onto the circle in a swing", Vector2(2400, 840))
+	await _route_to_circle(PORTAL_SLASH_FROM_X)
+	await _step(170)
+	await _end()
+
+
+## A running jump from x 2415 meets the pickup (centre 76 px up, radius 45)
+## one or two ticks into the rise.
+func _s19_jump_into_pickup_rising() -> void:
+	await _start("S19", "running jump into the pickup, rising", Vector2(2200, 840))
+	_down(KEY_D)
+	await _wait_for("reaches x 2415", 60, func(s): return s.x >= 2415.0)
+	await _tap(KEY_SPACE)
+	await _wait_for("takes the sword", 20, func(s): return s.gear == Rudy.Gear.SWORD)
+	await _wait_for("lands", 90, func(s): return s.floor)
+	_up(KEY_D)
+	await _step(20)
+	await _end()
+
+
+## A running jump from x 2090 comes down onto the pickup low in the fall,
+## about 38 ticks after the press.
+func _s20_jump_into_pickup_falling() -> void:
+	await _start("S20", "running jump into the pickup, falling", Vector2(2000, 840))
+	_down(KEY_D)
+	await _wait_for("reaches x 2090", 60, func(s): return s.x >= 2090.0)
+	await _tap(KEY_SPACE)
+	await _wait_for("takes the sword", 60, func(s): return s.gear == Rudy.Gear.SWORD)
+	await _wait_for("lands", 30, func(s): return s.floor)
+	_up(KEY_D)
+	await _step(20)
+	await _end()
+
+
 # --- Analysis ---
 
 func _st(s: Dictionary) -> int:
@@ -522,7 +855,7 @@ func _cause(p: Dictionary, c: Dictionary, swing_tick: int) -> Array:
 		"respawn":
 			return [p.mode == "RESPAWNING" and c.mode == "PLAY", "respawn_time ends"]
 	if p.gear == Rudy.Gear.NONE and c.gear == Rudy.Gear.SWORD:
-		return [true, "walked into the pickup"]
+		return [true, "walked into the pickup" if p.floor else "jumped into the pickup"]
 	var air_from := from.ends_with("rise") or from.ends_with("fall")
 	if to.ends_with("rise"):
 		if p.floor:
@@ -724,15 +1057,56 @@ func _report() -> void:
 			stray.append(_at(_samples[i]))
 	_check("the hitbox is never live outside a swing's ticks", stray.is_empty(), "%d swings; stray live ticks: [%s]" % [swings.size(), ", ".join(stray)])
 
+	# 5. Every table transition is reached, or listed with its reason (step 5c).
+	var no_reason: PackedStringArray = []
+	var reached_anyway: PackedStringArray = []
+	var reached_count := 0
+	for pair in table:
+		if seen.has(pair):
+			reached_count += 1
+			if NOT_REACHABLE.has(pair):
+				reached_anyway.append(pair.replace(">", " -> "))
+		elif not NOT_REACHABLE.has(pair):
+			no_reason.append(pair.replace(">", " -> "))
+	var listed_off: PackedStringArray = []
+	for pair in NOT_REACHABLE:
+		if not table.has(pair):
+			listed_off.append(pair.replace(">", " -> "))
+	_check("every transition in the table (%d) is reached, or listed as not reachable with its reason" % table.size(),
+		no_reason.is_empty() and reached_anyway.is_empty() and listed_off.is_empty(),
+		"%d reached, %d listed; unreached without a reason: [%s]; listed but reached: [%s]; listed but not in the table: [%s]" % [
+			reached_count, NOT_REACHABLE.size(), ", ".join(no_reason), ", ".join(reached_anyway), ", ".join(listed_off)])
+
 	# Transitions no scenario reached.
 	print("== NOT REACHED ==")
 	var unreached := 0
 	for row in TABLE:
 		for to in row[1]:
-			if not seen.has("%s>%s" % [row[0], to]):
+			var pair := "%s>%s" % [row[0], to]
+			if not seen.has(pair):
 				unreached += 1
-				print("NOT REACHED  %s -> %s" % [row[0], to])
+				print("NOT REACHED  %s -> %s: %s" % [row[0], to, NOT_REACHABLE.get(pair, "NO REASON RECORDED")])
 	print("%d of %d table transitions not reached" % [unreached, table.size()])
+	# For hurt -> rise and hurt -> fall: how long each hit left him in the air.
+	var airtimes: PackedStringArray = []
+	var longest := 0
+	var hurt_ticks: Array[int] = []
+	for e in entries:
+		if e.to != "hurt":
+			continue
+		var i: int = e.i
+		var n := 0
+		while i + n < _samples.size() and _samples[i + n].sc == _samples[e.i].sc and not _samples[i + n].floor:
+			n += 1
+		var h := 0
+		while i + h < _samples.size() and _samples[i + h].sc == _samples[e.i].sc and _samples[i + h].mode == "HURT":
+			h += 1
+		if not hurt_ticks.has(h):
+			hurt_ticks.append(h)
+		longest = maxi(longest, n)
+		airtimes.append("%s from %s: %d" % [_at(_samples[e.i]), e.from, n])
+	print("measured for hurt -> rise and hurt -> fall: ticks in HURT per hit %s; ticks in the air from each hit, longest %d: %s" % [
+		str(hurt_ticks), longest, "; ".join(airtimes)])
 
 	print("== ANOMALIES ==")
 	for pair in MEASURED_OFF_TABLE:
