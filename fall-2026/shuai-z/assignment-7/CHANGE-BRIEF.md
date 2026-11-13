@@ -478,3 +478,17 @@ Revision 1's opening says that every prompt the assignment supplies begins "Read
 - **The plan prompt's `README.md`.** The plan prompt also reads `README.md`, which this folder does not have yet. That is settled when the plan prompt is sent, and recorded then.
 
 Claude Code drafted this revision and `CLAUDE.md` at my request.
+
+### Revision 3 — 2026-11-12, what step 2a needs that the brief left open
+
+The accepted plan makes the sprite clips in step 2a and wires them in step 2b (`sessions/plan-1-review.md`, correction 2). Step 2a needs four things that the sections above do not state. Where they differ from those sections, this revision holds.
+
+- **The one-key clips are 1.0 s long,** which is Godot's default for a new `Animation`. Each has one key at 0.0 and is `LOOP_LINEAR` (section 3). The length changes nothing on screen, since the one key holds; it is stated so that read-back check 2 has a value to check.
+- **`slash` is a stand-in until step 4.** The plan keeps the slash as one key on cell 10 (`CHAR-SWORD-SLASH`) until the rig replaces it (`sessions/session-1-answer.md`, step 2). The stand-in takes the rig clip's name, `length` (17/60 s) and `LOOP_NONE` from section 2.2, so step 4a changes only its tracks. Until then, the read-back checks `slash` against the stand-in.
+- **One track per clip until the rig exists.** Until step 4a adds `SlashRig`, each clip has one track, `Sprite:frame`. The visibility keys of section 2.2 (`Sprite:visible`, `SlashRig:visible`) come with the rig, because a track to a node that does not exist fails read-back check 1.
+- **The read-back in stages.** In step 2a the Sprite still shows whole PNGs. The sheet goes on it in step 2b, because `hframes` 4 on a whole PNG would cut that PNG into sixteen. So in step 2a:
+  - check 4's limit comes from the sheet and section 2.1, not from the Sprite: the sheet's size divided by the cell, 1640/410 × 1544/386 = 4 × 4 = 16;
+  - check 6, the Sprite on the sheet, starts in step 2b, and check 4 then also reads the Sprite's `hframes` × `vframes`;
+  - check 7 compares the library with section 3's state table: 13 clips, counting the stand-in. Its comparison with the names the selector can return starts in step 2b, when the selector returns clip names.
+
+Claude Code drafted this revision, with these values, while preparing step 2a's prompt. It is committed only after my review.
