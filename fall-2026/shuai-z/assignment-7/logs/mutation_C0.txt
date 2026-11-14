@@ -1,0 +1,7 @@
+mutation C0, worktree a7-mutate at f1680bfb, 2026-11-13 18:32:00 EST
+import (fresh worktree): exit 0
+control: no change
+--- git diff in the worktree
+--- scripts/run-test.sh test_rudy_clips.tscn 60
+exit 0
+RESULT PASS: 51 checks, 0 failed

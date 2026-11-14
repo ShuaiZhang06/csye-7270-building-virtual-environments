@@ -1,0 +1,16 @@
+mutation M3, worktree a7-mutate at f1680bfb, 2026-11-13 18:32:15 EST
+import (fresh worktree): exit 0
+M3: run's first frame key 1 -> 16 (hframes * vframes)
+--- git diff in the worktree
+ fall-2026/shuai-z/assignment-7/game/animations/rudy_animations.tres | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+@@ -59,3 +59,3 @@ tracks/0/keys = {
+ "update": 1,
+-"values": [1, 2]
++"values": [16, 2]
+ }
+--- scripts/run-test.sh test_rudy_clips.tscn 60
+exit 1
+FAIL  4 every frame track is discrete, every frame key is inside the sheet, below the Sprite's hframes x vframes, and on its cell  (run key 0 cell 16 is outside the sheet's 16 cells; run key 0 cell 16 is outside the Sprite's 16 cells (hframes x vframes); run key 0 cell 16, want 1)
+FAIL  control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8, 11, 12 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage  (run key 0 cell 16 is outside the sheet's 16 cells; run key 0 cell 16 is outside the Sprite's 16 cells (hframes x vframes); run key 0 cell 16, want 1)
+RESULT FAIL: 51 checks, 2 failed

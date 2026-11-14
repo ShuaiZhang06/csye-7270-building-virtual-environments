@@ -1,0 +1,8 @@
+mutation M4, worktree a7-mutate at f1680bfb, 2026-11-13 18:32:20 EST
+import (fresh worktree): exit 0
+M4: game/.godot deleted: yes
+import from the empty cache: exit 0
+--- git diff in the worktree
+--- scripts/run-test.sh test_rudy_clips.tscn 60
+exit 0
+RESULT PASS: 51 checks, 0 failed

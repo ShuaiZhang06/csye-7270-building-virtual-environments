@@ -1,0 +1,20 @@
+mutation M1, worktree a7-mutate at f1680bfb, 2026-11-13 18:32:06 EST
+import (fresh worktree): exit 0
+M1: slash track 2's subname rotation_degrees -> rotation_degree, in the clip only
+--- git diff in the worktree
+ fall-2026/shuai-z/assignment-7/game/animations/rudy_animations.tres | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+@@ -411,3 +411,3 @@ tracks/2/imported = false
+ tracks/2/enabled = true
+-tracks/2/path = NodePath("SlashRig/Lean/Grip:rotation_degrees")
++tracks/2/path = NodePath("SlashRig/Lean/Grip:rotation_degree")
+ tracks/2/interp = 1
+--- scripts/run-test.sh test_rudy_clips.tscn 60
+exit 1
+FAIL  1 every track resolves to a real node and property (track_problems)  (slash track 2: Grip has no property rotation_degree)
+FAIL  2 slash (the rig clip): 6 tracks in order, key times = section 2.2's ticks / 60 to within 1 us, values, transitions, update modes, length 17/60 s  (slash track 2 is type 0 on SlashRig/Lean/Grip:rotation_degree, want a value track on SlashRig/Lean/Grip:rotation_degrees)
+FAIL  2 slash (the rig clip): Grip by value_track_interpolate() on tick 3 in [-60, -40] deg and on tick 16 in [+15, +20] deg (section 7)  (slash has no value track on SlashRig/Lean/Grip:rotation_degrees)
+FAIL  control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8, 11, 12 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage  (slash track 2: Grip has no property rotation_degree; slash track 2 is type 0 on SlashRig/Lean/Grip:rotation_degree, want a value track on SlashRig/Lean/Grip:rotation_degrees; slash has no value track on SlashRig/Lean/Grip:rotation_degrees)
+FAIL  1 (why 1b exists) track_problems() reads only the first subname, so it passes Arc keyed on modulate:alpha  (slash track 2: Grip has no property rotation_degree)
+FAIL  2 slash's 5/60 s Grip key moved to 6/60 s: must fail on "slash track 2 key 2 at"  (slash track 2 is type 0 on SlashRig/Lean/Grip:rotation_degree, want a value track on SlashRig/Lean/Grip:rotation_degrees)
+RESULT FAIL: 51 checks, 6 failed

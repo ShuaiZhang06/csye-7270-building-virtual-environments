@@ -1,0 +1,16 @@
+mutation M2, worktree a7-mutate at f1680bfb, 2026-11-13 18:32:10 EST
+import (fresh worktree): exit 0
+M2: run's loop_mode 1 (LOOP_LINEAR) -> 0 (LOOP_NONE)
+--- git diff in the worktree
+ fall-2026/shuai-z/assignment-7/game/animations/rudy_animations.tres | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+@@ -47,3 +47,3 @@ resource_name = "run"
+ length = 0.25
+-loop_mode = 1
++loop_mode = 0
+ step = 0.125
+--- scripts/run-test.sh test_rudy_clips.tscn 60
+exit 1
+FAIL  3 loop_mode is LOOP_LINEAR for run, sword_run and the one-key clips, LOOP_NONE for slash  (run loop_mode 0, want 1)
+FAIL  control: an undamaged copy passes checks 1, 1b, 2, 3, 4, 6, 7, 8, 11, 12 and the text checks, and rudy_look.gd's undamaged text loaded as a new script passes check 9, so each failure below comes from its damage  (run loop_mode 0, want 1)
+RESULT FAIL: 51 checks, 2 failed
