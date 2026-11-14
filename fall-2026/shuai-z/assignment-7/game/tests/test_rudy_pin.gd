@@ -28,6 +28,10 @@ extends Node
 ## number in the TIMING constants below was measured on this baseline.
 ## Prints a per-tick trail, then the two groups, then a RESULT line; quits 1
 ## on any failure.
+##
+## 2026-11-13, after the change (CHANGE-BRIEF.md Revision 5, "The pin's state
+## order"): INVARIANT I9 added, the order of states over the whole scripted
+## run. Nothing else in this file changed.
 
 # --- TIMING: measured on baseline 2026-11-12 ---
 ## T1: cell lengths in ticks over the first 60 ticks of a run from a
@@ -70,6 +74,63 @@ const RUN_BEFORE_SLASH := 20
 const SPIKE_SLASH_X := 2390.0
 
 const PLAIN_POSES: Array[StringName] = [&"CHAR-IDLE", &"CHAR-RUN-A", &"CHAR-RUN-B", &"CHAR-RISE", &"CHAR-FALL"]
+
+## I9: a tick's state is its pose (Rudy.pose), mapped by this table. Any
+## other pose fails I9. Added after the change (Revision 5).
+const POSE_STATES := {
+	&"CHAR-IDLE": "idle",
+	&"CHAR-RUN-A": "run",
+	&"CHAR-RUN-B": "run",
+	&"CHAR-RISE": "rise",
+	&"CHAR-FALL": "fall",
+	&"CHAR-HURT": "hurt",
+	&"CHAR-SWORD-IDLE": "sword_idle",
+	&"CHAR-SWORD-RUN-A": "sword_run",
+	&"CHAR-SWORD-RUN-B": "sword_run",
+	&"CHAR-SWORD-RISE": "sword_rise",
+	&"CHAR-SWORD-FALL": "sword_fall",
+	&"CHAR-SWORD-SLASH": "slash",
+}
+## I9: the states of the whole scripted run, consecutive ticks of one state
+## collapsed into one entry. Written out from the trail lines of the baseline
+## log committed with this pin (git show 3908ae80:./logs/test_rudy_pin_60fps.log),
+## mapped by POSE_STATES. The line was added after the change (Revision 5);
+## the comment after each entry is the baseline tick on which that state begins.
+const STATE_ORDER: Array[String] = [
+	"idle",        # 0
+	"run",         # 16
+	"idle",        # 81
+	"rise",        # 92
+	"idle",        # 133
+	"run",         # 172
+	"sword_run",   # 283
+	"sword_idle",  # 289
+	"slash",       # 311
+	"sword_idle",  # 328
+	"slash",       # 347
+	"sword_idle",  # 364
+	"slash",       # 365
+	"sword_idle",  # 382
+	"slash",       # 398
+	"sword_rise",  # 415
+	"sword_idle",  # 440
+	"slash",       # 451
+	"sword_rise",  # 468
+	"sword_idle",  # 497
+	"slash",       # 508
+	"sword_rise",  # 525
+	"sword_idle",  # 561
+	"sword_run",   # 572
+	"sword_idle",  # 637
+	"sword_run",   # 648
+	"slash",       # 668
+	"sword_run",   # 685
+	"sword_idle",  # 733
+	"sword_run",   # 744
+	"slash",       # 915
+	"hurt",        # 921
+	"idle",        # 942
+]
 
 var _samples: Array[Dictionary] = []
 var _mark: Dictionary = {} ## named ticks the script records as it goes
@@ -580,6 +641,36 @@ func _check_all() -> void:
 		_check(_invariant, "I8", _samples[q].jp_slash and _samples[q].gear == Rudy.Gear.NONE and not swung and not live and sounds == 0,
 			"a slash press without the sword: no swing, no sound, hitbox never live",
 			"press read: %s, gear %d, swing: %s, live: %s, sounds %d" % [_samples[q].jp_slash, _samples[q].gear, swung, live, sounds])
+
+	# I9: the order of states over the whole scripted run (Revision 5).
+	var order: Array[String] = []
+	var order_ticks: Array[int] = []
+	var unknown: Array[String] = []
+	for x in _samples:
+		var st: String = POSE_STATES.get(x.pose, "?%s" % x.pose)
+		if not POSE_STATES.has(x.pose) and unknown.size() < 5:
+			unknown.append("%s on tick %d" % [x.pose, x.t])
+		if order.is_empty() or order[-1] != st:
+			order.append(st)
+			order_ticks.append(x.t)
+	var order_text := "%d states, the same as the baseline's" % order.size()
+	if order != STATE_ORDER:
+		var n := mini(order.size(), STATE_ORDER.size())
+		var part := n
+		for i in n:
+			if order[i] != STATE_ORDER[i]:
+				part = i
+				break
+		var lo := maxi(part - 3, 0)
+		var at_tick: String = str(order_ticks[part]) if part < order_ticks.size() else "none"
+		order_text = "%d states against the baseline's %d; they part at index %d (measured state begins on tick %s): measured %s, baseline %s" % [
+			order.size(), STATE_ORDER.size(), part, at_tick,
+			order.slice(lo, part + 4), STATE_ORDER.slice(lo, part + 4)]
+	if not unknown.is_empty():
+		order_text += "; poses outside the table: %s" % [unknown]
+	_check(_invariant, "I9", order == STATE_ORDER and unknown.is_empty(),
+		"the states of the scripted run, consecutive ticks collapsed, are the %d of the baseline log, in order" % STATE_ORDER.size(),
+		order_text)
 
 	print("== TIMING ==")
 	for line in _timing:

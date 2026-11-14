@@ -35,7 +35,7 @@ scripts/run-test.sh test_rudy_clips.tscn 60       # read-back: 51 PASS (logs/tes
 scripts/run-test.sh test_rudy_states.tscn 60      # states: 99 PASS (logs/test_rudy_states_60fps.log:7125)
 scripts/run-test.sh test_rudy_edges.tscn 60       # edges E1-E7: 108 PASS (logs/test_rudy_edges_60fps.log:6679)
 scripts/run-test.sh test_rudy_edges.tscn 30       # E1, E2 at both offsets: 66 PASS (logs/test_rudy_edges_30fps.log:734)
-scripts/run-test.sh test_rudy_pin.tscn 60         # pin: 19 checks, T1, T2, T6 FAIL as asked (logs/test_rudy_pin_60fps.log:959-979)
+scripts/run-test.sh test_rudy_pin.tscn 60         # pin: 20 checks, T1, T2, T6 FAIL as asked (logs/test_rudy_pin_60fps.log:959-980)
 scripts/run-test.sh checks.tscn 60                # 141 PASS (logs/checks_60fps.log:3-144)
 scripts/run-test.sh invulnerable_tint_checks.tscn 30   # also 60 and 144: 15 PASS each (logs/invulnerable_tint_checks_*fps.log:3-20)
 scripts/run-test.sh test_slash_sparks_config.gd 60     # 108 checks, then a summary PASS (logs/test_slash_sparks_config_60fps.log:3-111)

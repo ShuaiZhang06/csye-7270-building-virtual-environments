@@ -1,0 +1,51 @@
+Read CLAUDE.md first. CHANGE-BRIEF.md is the contract for this change,
+and its Revision 5 holds where it differs from the sections above it.
+Read Revision 5's "The pin's state order", the pin test committed in
+step 0 (game/tests/test_rudy_pin.gd), and its baseline log as it was
+committed with it: git show 3908ae80:./logs/test_rudy_pin_60fps.log
+
+The assignment's Step 2 asks the pins to cover "the player's states and
+the transitions between them, in order, for one scripted run". The pin
+logs every tick, but it does not assert that order. Add one INVARIANT
+line, I9, that does, and change nothing else:
+- A tick's state is its pose, mapped by a fixed table written in the
+  test: CHAR-IDLE idle; CHAR-RUN-A and CHAR-RUN-B run; CHAR-RISE rise;
+  CHAR-FALL fall; CHAR-HURT hurt; CHAR-SWORD-IDLE sword_idle;
+  CHAR-SWORD-RUN-A and CHAR-SWORD-RUN-B sword_run; CHAR-SWORD-RISE
+  sword_rise; CHAR-SWORD-FALL sword_fall; CHAR-SWORD-SLASH slash. Any
+  other pose fails the check. Read the pose from Rudy.pose, as the test
+  does now, not from the AnimationPlayer: the line must also run on
+  3908ae80, which has none.
+- I9 collapses consecutive ticks of the same state, and compares the
+  sequence for the whole scripted run with a constant written out from
+  the baseline log of 3908ae80 (its trail lines, mapped the same way).
+  Say in a comment that the constant comes from that log, and that the
+  line was added after the change (Revision 5).
+- On a mismatch it prints the first index where the two sequences part,
+  with a few states either side.
+- Keep every other check, constant and expected value as it is. T1, T2
+  and T6 keep failing until their own re-pin; do not touch them. Add a
+  line for this step to the header.
+
+I computed the sequence from both logs: 33 states, the same at
+3908ae80 and now. So I expect I9 to pass on both.
+
+Change only game/tests/test_rudy_pin.gd, and in CLAUDE.md only the
+pin's command line: its count and log line references. Git is read-only
+for you (CLAUDE.md). The wrapper's logs in logs/ will change; that is
+expected.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_pin.tscn 60, twice: the TIMING,
+  INVARIANT and RESULT lines of each run. I expect 20 checks with only
+  T1, T2 and T6 failing. The test drives Rudy as before, so git diff on
+  its log should show only the new I9 line, the RESULT line and the
+  leak line;
+- scripts/run-test.sh checks.tscn 60: its last lines and the res://
+  path count, which should stay 98.
+
+I will run the new test on 3908ae80 in a worktree myself; do not.
+Then show git status, and the new constant beside the baseline log's
+tick on which each of its states begins. Do not commit.
+
+Write your answer in English.
