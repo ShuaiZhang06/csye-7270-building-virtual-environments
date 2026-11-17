@@ -664,3 +664,63 @@ Step 2 of the text asks the pins to cover "the player's states and the transitio
 7. **An imported rig.** Not used. The rig is keyed in text, so nothing lives in an `.import` file except the parts' texture settings. The empty-cache mutation still runs, to show that.
 
 Claude Code drafted this revision on 2026-11-13. I review it before it is committed.
+
+### Revision 6 — 2026-11-16, the kept tuning change r1, and corrections
+
+Where this revision differs from the sections above or from Revisions 2–5, it holds.
+
+#### The kept change: Grip eases out from 5/60
+
+Round r1 of the tuning (`TUNING.md`, r1; commits `c9ccab9b` and `66103310`) changed one key's transition, and I kept it after playing at `--time-scale 0.25`.
+- **Section 2.2's key table, the Grip row.** The transitions are now ease-in (2.0) from the keys at 0 and 2/60, and ease-out (0.5) from the keys at 5/60 and 11/60. Before, the key at 5/60 eased in too. Key times, values, phases, the hitbox and every gameplay timing are unchanged.
+- **The phase table's Active row now reads:** the blade sweeps forward and down, accelerating to 0° (the drawn angle) at tick 5, then easing out to +45° at tick 11.
+- **Why.**
+  - Claude's reading of strip r0 (a claim) found that the blade nearly stopped at tick 5. Both keys around it eased in, so it reached 0° at full speed and restarted from rest: 1.25° on tick 6. My own verdict on r0 saw no catch, so this round was driven by Claude's reading, not by my observation.
+  - With the change, the blade is horizontal (Grip about +30.9°) at tick 7.64 instead of 9.97, close to the motion reference's tick 8 (section 8).
+- **Where it is pinned.** The read-back pins the new transition (`game/tests/test_rudy_clips.gd:132`). The state and edge tests sample the clip itself, so they pass unchanged.
+
+#### The frame strip, corrected
+
+Revision 5's table under "The frame strip" changes in three ways. The other rows stay.
+- **The trigger frame is 30.** The previews send the J at the end of frame 29, so it is read on the first tick of frame 30, tick 59. At `--fixed-fps 30`, frame 0 runs one tick, and frame N ≥ 1 runs ticks 2N−1 and 2N (`logs/slash_preview_headless.log:18-19`), in a window too (`logs/slash_preview_r0.log`). So section 4's "two ticks per frame" holds from frame 1 on.
+- **F+3 (frame 33, tick 7)** shows Grip +25°: the blade well past F+2, about level on screen. This replaces "+5°: almost where F+2 left it, the stall of Revision 4".
+  - That citation was wrong: Revision 4 says nothing about a stall.
+  - The stall was found in step 4a's session (`sessions/session-7-answer.md:191`, anomaly 1).
+- **F+5 (frame 35, tick 11)** shows Grip +45°, which is only about 14° below horizontal on screen. "Forward and down" overstated it.
+
+**The second offset.** With the J read on a frame's second tick (`slash_preview -- second-tick`), frame N shows swing tick 2N − 60. Its table was derived from the phase table and printed in the preview's header, and is now part of the brief:
+
+| Frame | Tick | Phase | What it should show |
+|---|---|---|---|
+| F−1 = 29 | before the press | — | the sword-idle Sprite |
+| F = 30 | 0 | startup, the trigger | the rig: Grip −70°, Lean −2°; no arc; hitbox dead |
+| F+1 = 31 | 2 | the first active key | Grip −60°; hitbox live, the blade still above his head |
+| F+2 = 32 | 4 | active | Grip −33.33°; arc α 1 |
+| F+3 = 33 | 6 | active | Grip +13.75° |
+| F+4 = 34 | 8 | active | Grip +33.75°, about level |
+| F+5 = 35 | 10 | the last live tick | Grip +43.75°; arc α 0.14 |
+| F+6 = 36 | 12 | recovery, the first frame shown | Grip +35.83°, a small move back; hitbox dead |
+| F+8 = 38 | 16 | the last slash frame | Grip +15.83° |
+| F+9 = 39 | 18 | the swing is over | the sword-idle Sprite again |
+
+Ticks 11 (active to recovery) and 17 (the end) fall on the first ticks of frames F+6 and F+9, so no PNG of this offset shows them. The first offset shows both.
+
+#### Who ran the captures
+
+Revision 5 says "I run the captures, since they need a window", and the text says the student runs every capture. On 2026-11-16 I asked Claude Code to run them instead: strips r0 and r1 were captured by Claude, windowed, with the text's command. `TUNING.md` records it for each capture.
+
+#### Section 7, the run's cells
+
+Section 7's sentence "Cells then last 7 and 8 ticks in turn" is loose. Its own evidence (`evidence/brief-probe/logs/anim_run_discrete_60fps.log:8-31`) and the re-pinned T1 show the order:
+- RUN-A 8 ticks, RUN-B 8, then 7 and 8 in turn: 8, 8, 7, 8, 7, 8, 7, 7 over 60 ticks (`game/tests/test_rudy_pin.gd`, `RUN_CELLS_PLAIN`).
+- The second cell lasts 8 because RUN-B still shows on the tick the clip reaches its length, 0.25 s, and wraps to RUN-A after it.
+
+#### Transitions not reachable on this level
+
+The state test reached 54 of section 3's 58 transitions and lists the other 4 with their reasons (`game/tests/test_rudy_states.gd:109-114`):
+- `idle → celebrate` and `sword_idle → celebrate`: he enters the circle only moving or in the air;
+- `hurt → rise` and `hurt → fall`: no hazard on Level 1 is within a knockback's reach of a ledge.
+
+The code allows all four, so they stay in section 3's table, marked as not reachable on Level 1.
+
+Claude Code drafted this revision on 2026-11-16. I review it before it is committed.
