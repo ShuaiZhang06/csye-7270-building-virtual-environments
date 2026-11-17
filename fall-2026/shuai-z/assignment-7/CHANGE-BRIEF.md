@@ -682,7 +682,7 @@ Round r1 of the tuning (`TUNING.md`, r1; commits `c9ccab9b` and `66103310`) chan
 #### The frame strip, corrected
 
 Revision 5's table under "The frame strip" changes in three ways. The other rows stay.
-- **The trigger frame is 30.** The previews send the J at the end of frame 29, so it is read on the first tick of frame 30, tick 59. At `--fixed-fps 30`, frame 0 runs one tick, and frame N ≥ 1 runs ticks 2N−1 and 2N (`logs/slash_preview_headless.log:18-19`), in a window too (`logs/slash_preview_r0.log`). So section 4's "two ticks per frame" holds from frame 1 on.
+- **The trigger frame is 30.** The previews send the J at the end of frame 29, so it is read on the first tick of frame 30, tick 59. At `--fixed-fps 30`, frame 0 runs one tick, and frame N ≥ 1 runs ticks 2N−1 and 2N (`logs/slash_preview_headless.log:20-21`), in a window too (`logs/slash_preview_r0.log:23-24`). So section 4's "two ticks per frame" holds from frame 1 on.
 - **F+3 (frame 33, tick 7)** shows Grip +25°: the blade well past F+2, about level on screen. This replaces "+5°: almost where F+2 left it, the stall of Revision 4".
   - That citation was wrong: Revision 4 says nothing about a stall.
   - The stall was found in step 4a's session (`sessions/session-7-answer.md:191`, anomaly 1).

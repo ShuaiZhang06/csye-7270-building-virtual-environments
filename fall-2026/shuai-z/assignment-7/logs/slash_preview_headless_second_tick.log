@@ -7,15 +7,17 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 # later J's every 120 ticks after it, on the same slot; the "# J read" lines say where each was read
 # trigger frame F = 30
 # frames to read:
-#   DERIVED, not the brief's: the brief has no table for this offset. Derived from the phase table
+#   (CHANGE-BRIEF.md, Revision 6, "The second offset"), derived from the phase table
 #   (section 2.2: startup 0-1, active 2-10, recovery 11-16, end 17) and the slash clip's keys and
-#   transitions (Grip ease 2 into tick 11, 0.5 from it; Lean ease 0.5 from tick 11; Arc linear).
+#   transitions (Grip ease-in 2 into tick 5, ease-out 0.5 from it and from tick 11; Lean ease 0.5 from tick 11; Arc linear).
 #   Frame N shows swing tick 2N - 60.
 #   F-1 = 29  before the press: the sword-idle Sprite
 #   F   = 30  tick 0, startup, the trigger: the rig; Grip -70, Lean -2, Lean (0, 0); arc a 0; hitbox dead
 #   F+1 = 31  tick 2, the startup-to-active boundary, the first active key: Grip -60, Lean -2, Lean (0, 0); arc a 0; hitbox live
 #   F+2 = 32  tick 4, active: Grip -33.33, Lean +1.33, Lean (4, 0); arc a 1.0; hitbox live
-#   F+5 = 35  tick 10, the last live tick: session 18's prediction for r1: Grip +43.75 (replaces +31.25), Lean +3, Lean (6, 0); arc a 0.14; hitbox live
+#   F+3 = 33  tick 6, active: Grip +13.75
+#   F+4 = 34  tick 8, active: Grip +33.75, about level
+#   F+5 = 35  tick 10, the last live tick: Grip +43.75, Lean +3, Lean (6, 0); arc a 0.14; hitbox live
 #   F+6 = 36  tick 12, recovery, the first frame shown: Grip +35.83, Lean +2.08, Lean (4.17, 0); arc a 0; hitbox dead
 #   F+8 = 38  tick 16, the last slash frame: Grip +15.83, Lean +0.08, Lean (0.17, 0); arc a 0; hitbox dead
 #   F+9 = 39  tick 18, the first frame after the swing: the sword-idle Sprite again

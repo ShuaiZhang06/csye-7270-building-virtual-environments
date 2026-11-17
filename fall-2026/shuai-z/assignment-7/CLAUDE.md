@@ -56,7 +56,7 @@ Confirmed on this machine on 2026-11-13 (`evidence/headless-facts-probe/README.m
 - A headless run advances clips and reads their structure. It draws nothing, so whether the motion reads is not observable here (`logs/probe_headless_facts_60fps.log:3-11`).
 - Key times are 32-bit floats; compare them with a tolerance. Resource text stores them as `PackedFloat32Array`, so a key loaded at 17/60 is not `== 17.0 / 60.0`; only a key at 0 comes back exact. A key inserted from code stays 64-bit until saved (`logs/probe_headless_facts_60fps.log:13-17`).
 - `value_track_get_update_mode` applies only to value tracks. On any other track it prints an error and returns 0, `UPDATE_CONTINUOUS`, and the wrapper does not fail on that error (`logs/probe_headless_facts_60fps.log:18-36`).
-- Frame strips come from a windowed Movie Maker run, which I start. Under `--headless`, Movie Maker crashed with signal 11 and wrote no frame (`logs/probe_movie_headless.log:3-8`; in a window: `logs/probe_movie_window.log:4-7`).
+- Frame strips come from a windowed Movie Maker run, which I start. Under `--headless`, Movie Maker crashed with signal 11 and wrote no frame (`logs/probe_movie_headless.log:3-8`; in a window: `logs/probe_movie_window.log:4-7`). Strips r0 and r1 were run by Claude at my request instead (`TUNING.md`; `CHANGE-BRIEF.md`, Revision 6). At `--fixed-fps 30`, frame 0 runs one tick (`logs/slash_preview_r0.log:23-24`).
 
 ## Current change
 

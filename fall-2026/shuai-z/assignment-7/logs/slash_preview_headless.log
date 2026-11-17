@@ -7,13 +7,13 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 # later J's every 120 ticks after it, on the same slot; the "# J read" lines say where each was read
 # trigger frame F = 30
 # frames to read:
-#   (CHANGE-BRIEF.md, Revision 5, "The frame strip")
+#   (CHANGE-BRIEF.md, Revision 5, "The frame strip", as Revision 6 corrects it)
 #   F-1 = 29  before the press: the sword-idle Sprite
 #   F   = 30  tick 1, startup: the rig: blade raised back over his shoulder, Grip -67.5, Lean -2; no arc; hitbox dead
 #   F+1 = 31  tick 3, active, the first frame shown: blade starting forward, Grip -53.3; arc half on (a 0.5); hitbox live
 #   F+2 = 32  tick 5, active: blade at its drawn angle (0); Lean +3, 6 px forward; arc a 0.86
-#   F+3 = 33  tick 7, active: session 18's prediction for r1, not the brief's: Grip +25, well past F+2 (replaces Revision 5's "+5, the stall")
-#   F+5 = 35  tick 11, recovery, the first frame: blade forward and down at +45; arc gone; hitbox dead
+#   F+3 = 33  tick 7, active: Grip +25, the blade well past F+2, about level (Revision 6; Revision 5 had +5)
+#   F+5 = 35  tick 11, recovery, the first frame: Grip +45, forward and about 14 deg below horizontal; arc gone; hitbox dead
 #   F+8 = 38  tick 17, the swing is over: the sword-idle Sprite again
 #   tick 2, the startup-to-active boundary, falls on the first tick of frame F+1: no PNG shows it
 # columns: the ticks run in the frame, then the state after its last tick; swing = ticks since the J was read
@@ -108,7 +108,3 @@ frame  86 ticks 171-172 mode PLAY        pose CHAR-SWORD-IDLE  gear SWORD facing
 frame  87 ticks 173-174 mode PLAY        pose CHAR-SWORD-IDLE  gear SWORD facing +1 x  2500.00 y  840.00 vel (    0.00,     0.00) floor true  clip sword_idle pos 0.6333 cell  9 sprite true  rig false grip   15.83 lean   0.08 lean_pos ( 0.17,  0.00) arc 0.000 live false swing  - screen ( 960.00,  840.00)
 frame  88 ticks 175-176 mode PLAY        pose CHAR-SWORD-IDLE  gear SWORD facing +1 x  2500.00 y  840.00 vel (    0.00,     0.00) floor true  clip sword_idle pos 0.6667 cell  9 sprite true  rig false grip   15.83 lean   0.08 lean_pos ( 0.17,  0.00) arc 0.000 live false swing  - screen ( 960.00,  840.00)
 frame  89 ticks 177-178 mode PLAY        pose CHAR-SWORD-IDLE  gear SWORD facing +1 x  2500.00 y  840.00 vel (    0.00,     0.00) floor true  clip sword_idle pos 0.7000 cell  9 sprite true  rig false grip   15.83 lean   0.08 lean_pos ( 0.17,  0.00) arc 0.000 live false swing  - screen ( 960.00,  840.00)
-WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2536)
-ERROR: 2 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:822)
