@@ -1,0 +1,58 @@
+The four files are written, but the permission rules I gave you for the
+headless runs were wrong, so you could not run them. They are fixed now.
+In our conversation, Claude ran the five runs and the checks you listed,
+with exactly the commands you gave. The logs are in
+logs/slash_preview_headless.log, logs/slash_preview_headless_second_tick.log,
+logs/run_preview_headless.log, logs/run_preview_headless_sword.log and
+logs/slash_preview_headless_rerun.log:
+- all five exit 0, and the rerun is identical to the first run;
+- no line matches the wrapper's error patterns;
+- checks.tscn: 141 PASS, 102 res:// paths, as you predicted. Keep the
+  res:// paths in the headers.
+
+The logs show one bug, in both scripts. At --fixed-fps 30, frame 0
+runs one tick (tick 0), and frame N >= 1 runs ticks 2N-1 and 2N
+(logs/slash_preview_headless.log:18-19). The headers say frame N runs
+2N and 2N+1. So the first J is read on tick 61, the first tick of
+frame 31, not of frame 30 (with second-tick, on tick 62), and
+run_preview's D is read on tick 61 too. Every value in the frames is
+what the tables say, but one frame later: frame 31 shows tick 1, Grip
+-67.50 (:49), and frame 39 is the first sword-idle frame (:57).
+run_preview's derived cell frames are off for the same reason.
+
+Fix it in the four files only:
+- The trigger frame is 30, whatever frame 0 runs: send the first J (or
+  D) at the end of frame 29's _process, so it is read on the first tick
+  of frame 30. With second-tick, keep the edge test's method from
+  there, so it is read on frame 30's second tick.
+- Release keys by ticks, not frames: J after the tick it is read on,
+  and D after 24 ticks. A windowed run at --time-scale 0.25 has frames
+  with no tick, and a press released before a tick runs is never read.
+- slash_preview's later swings follow every 120 ticks after the first
+  J's read tick, on the same slot of their frame, so a 90-frame capture
+  still holds one swing.
+- When a J or D is read, print a line "# J read on tick T, the first
+  (or second) tick of frame F", taken from what happened, not from the
+  plan.
+- Make each header's sentence on frames and ticks say what the log
+  shows, and derive run_preview's cell frames again from the fixed
+  timing.
+- Print 0.00, not -0.00 (add 0.0).
+
+Then run each of these as its own command, with no other command
+joined to it:
+  godot --headless --path game --fixed-fps 30 --quit-after 90 res://previews/slash_preview.tscn 2>&1 | tee logs/slash_preview_headless.log
+  the same with -- second-tick, into logs/slash_preview_headless_second_tick.log
+  the same for run_preview.tscn, into logs/run_preview_headless.log
+  the same for run_preview.tscn -- sword, into logs/run_preview_headless_sword.log
+  slash_preview.tscn again, into logs/slash_preview_headless_rerun.log
+  diff logs/slash_preview_headless.log logs/slash_preview_headless_rerun.log
+  scripts/run-test.sh checks.tscn 60
+
+Report what the first prompt asked: each log's header, its "read"
+lines, and the lines of the frames to read, with whether each frame
+shows what the brief (or the derived table) says, with numbers. Say
+whether any line matches the wrapper's error patterns. Then show git
+status. Do not commit.
+
+Write your answer in English.

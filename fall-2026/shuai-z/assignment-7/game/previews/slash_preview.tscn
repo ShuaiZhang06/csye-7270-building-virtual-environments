@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://previews/slash_preview.gd" id="1_preview"]
+[ext_resource type="PackedScene" path="res://content/level_1/level_1.tscn" id="2_level"]
+[ext_resource type="PackedScene" path="res://content/rudy/rudy.tscn" id="3_rudy"]
+
+[node name="SlashPreview" type="Node2D"]
+script = ExtResource("1_preview")
+
+[node name="Level1" parent="." instance=ExtResource("2_level")]
+
+[node name="Rudy" parent="." instance=ExtResource("3_rudy")]
+position = Vector2(2500, 840)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(2500, 540)
+limit_left = 0
+limit_top = -400
+limit_bottom = 1080
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Label" type="Label" parent="Overlay"]
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 624.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 24
+text = "FIXTURE slash_preview frame 0"
