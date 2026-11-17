@@ -112,6 +112,7 @@ const STATE_VISIBILITY := [
 ## library's track order. The transitions are step 4a's choice for the table's
 ## words: 2.0 is Godot's ease-in (accelerating), 0.5 its ease-out (settling),
 ## 1.0 linear; a key's transition shapes the move from it to the next key.
+## Grip's key at 5/60 is 0.5, not 2.0, since tuning round r1 (TUNING.md, r1): the blade stopped at tick 5 and reached horizontal at tick 10, not the reference's 8.
 const RIG_CLIP := &"slash"
 ## Step 4a's name for the rig clip, which no clip or script may carry now.
 const OLD_RIG_NAME := "slash_rig"
@@ -128,7 +129,7 @@ const RIG_TRACKS := [
 	[^"Sprite:visible", Animation.UPDATE_DISCRETE, [[0, false, 1.0]]],
 	[^"SlashRig:visible", Animation.UPDATE_DISCRETE, [[0, true, 1.0]]],
 	[^"SlashRig/Lean/Grip:rotation_degrees", Animation.UPDATE_CONTINUOUS,
-		[[0, -70.0, 2.0], [2, -60.0, 2.0], [5, 0.0, 2.0], [11, 45.0, 0.5], [17, 15.0, 1.0]]],
+		[[0, -70.0, 2.0], [2, -60.0, 2.0], [5, 0.0, 0.5], [11, 45.0, 0.5], [17, 15.0, 1.0]]],
 	[^"SlashRig/Lean:rotation_degrees", Animation.UPDATE_CONTINUOUS,
 		[[0, -2.0, 1.0], [2, -2.0, 1.0], [5, 3.0, 1.0], [11, 3.0, 0.5], [17, 0.0, 1.0]]],
 	[^"SlashRig/Lean:position", Animation.UPDATE_CONTINUOUS,

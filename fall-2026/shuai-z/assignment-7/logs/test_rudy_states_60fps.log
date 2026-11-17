@@ -1287,11 +1287,11 @@ tick  1287 S5 st   31 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  1288 S5 st   32 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(  560.0, -633.3) floor 0 gear 1 hearts 3 at  2684.7 in -
 tick  1289 S5 st   33 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(  560.0, -566.7) floor 0 gear 1 hearts 3 at  2694.0 in -
 tick  1290 S5 st   34 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(  560.0, -500.0) floor 0 gear 1 hearts 3 at  2703.4 in -
-tick  1291 S5 st   35 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(  560.0, -433.3) floor 0 gear 1 hearts 3 at  2712.7 in -
-tick  1292 S5 st   36 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(  560.0, -366.7) floor 0 gear 1 hearts 3 at  2722.0 in -
-tick  1293 S5 st   37 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(  560.0, -300.0) floor 0 gear 1 hearts 3 at  2731.4 in -
-tick  1294 S5 st   38 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(  560.0, -233.3) floor 0 gear 1 hearts 3 at  2740.7 in -
-tick  1295 S5 st   39 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(  560.0, -166.7) floor 0 gear 1 hearts 3 at  2750.0 in -
+tick  1291 S5 st   35 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(  560.0, -433.3) floor 0 gear 1 hearts 3 at  2712.7 in -
+tick  1292 S5 st   36 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(  560.0, -366.7) floor 0 gear 1 hearts 3 at  2722.0 in -
+tick  1293 S5 st   37 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(  560.0, -300.0) floor 0 gear 1 hearts 3 at  2731.4 in -
+tick  1294 S5 st   38 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(  560.0, -233.3) floor 0 gear 1 hearts 3 at  2740.7 in -
+tick  1295 S5 st   39 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(  560.0, -166.7) floor 0 gear 1 hearts 3 at  2750.0 in -
 tick  1296 S5 st   40 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(  560.0, -100.0) floor 0 gear 1 hearts 3 at  2759.4 in -
 tick  1297 S5 st   41 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v(  560.0,  -33.3) floor 0 gear 1 hearts 3 at  2768.7 in -
 tick  1298 S5 st   42 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v(  560.0,   33.3) floor 0 gear 1 hearts 3 at  2778.0 in -
@@ -1368,11 +1368,11 @@ tick  1368 S5 st  112 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  1369 S5 st  113 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2936.7 in -
 tick  1370 S5 st  114 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2927.4 in -
 tick  1371 S5 st  115 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2918.0 in -
-tick  1372 S5 st  116 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2908.7 in -
-tick  1373 S5 st  117 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2899.4 in -
-tick  1374 S5 st  118 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2890.0 in -
-tick  1375 S5 st  119 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2880.7 in -
-tick  1376 S5 st  120 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2871.4 in -
+tick  1372 S5 st  116 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2908.7 in -
+tick  1373 S5 st  117 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2899.4 in -
+tick  1374 S5 st  118 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2890.0 in -
+tick  1375 S5 st  119 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2880.7 in -
+tick  1376 S5 st  120 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2871.4 in -
 tick  1377 S5 st  121 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2862.0 in -
 tick  1378 S5 st  122 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2852.7 in -
 tick  1379 S5 st  123 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v( -560.0,    0.0) floor 1 gear 1 hearts 3 at  2843.4 in -
@@ -1414,11 +1414,11 @@ tick  1414 S5 st  158 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  1415 S5 st  159 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1416 S5 st  160 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1417 S5 st  161 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
-tick  1418 S5 st  162 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
-tick  1419 S5 st  163 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
-tick  1420 S5 st  164 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
-tick  1421 S5 st  165 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
-tick  1422 S5 st  166 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
+tick  1418 S5 st  162 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
+tick  1419 S5 st  163 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
+tick  1420 S5 st  164 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
+tick  1421 S5 st  165 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
+tick  1422 S5 st  166 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1423 S5 st  167 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1424 S5 st  168 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1425 S5 st  169 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
@@ -1497,11 +1497,11 @@ tick  1497 S5 st  241 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  1498 S5 st  242 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1499 S5 st  243 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2708.0 in -
 tick  1500 S5 st  244 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(    0.0,-1500.0) floor 0 gear 1 hearts 3 at  2708.0 in Space+
-tick  1501 S5 st  245 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,-1433.3) floor 0 gear 1 hearts 3 at  2708.0 in Space-
-tick  1502 S5 st  246 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,-1366.7) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1503 S5 st  247 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,-1300.0) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1504 S5 st  248 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,-1233.3) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1505 S5 st  249 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,-1166.7) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1501 S5 st  245 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,-1433.3) floor 0 gear 1 hearts 3 at  2708.0 in Space-
+tick  1502 S5 st  246 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,-1366.7) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1503 S5 st  247 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,-1300.0) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1504 S5 st  248 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,-1233.3) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1505 S5 st  249 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,-1166.7) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1506 S5 st  250 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(    0.0,-1100.0) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1507 S5 st  251 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v(    0.0,-1033.3) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1508 S5 st  252 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v(    0.0, -966.7) floor 0 gear 1 hearts 3 at  2708.0 in -
@@ -1584,11 +1584,11 @@ tick  1584 S5 st  328 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  1585 S5 st  329 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(    0.0,  566.7) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1586 S5 st  330 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(    0.0,  673.3) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1587 S5 st  331 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(    0.0,  780.0) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1588 S5 st  332 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,  886.7) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1589 S5 st  333 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,  993.3) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1590 S5 st  334 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0, 1100.0) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1591 S5 st  335 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0, 1206.7) floor 0 gear 1 hearts 3 at  2708.0 in -
-tick  1592 S5 st  336 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0, 1313.3) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1588 S5 st  332 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,  886.7) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1589 S5 st  333 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,  993.3) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1590 S5 st  334 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0, 1100.0) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1591 S5 st  335 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0, 1206.7) floor 0 gear 1 hearts 3 at  2708.0 in -
+tick  1592 S5 st  336 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0, 1313.3) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1593 S5 st  337 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(    0.0, 1420.0) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1594 S5 st  338 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v(    0.0, 1526.7) floor 0 gear 1 hearts 3 at  2708.0 in -
 tick  1595 S5 st  339 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v(    0.0, 1633.3) floor 0 gear 1 hearts 3 at  2708.0 in -
@@ -2305,11 +2305,11 @@ tick  2306 S6 st  546 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  2307 S6 st  547 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2308 S6 st  548 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2309 S6 st  549 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2310 S6 st  550 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2311 S6 st  551 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2312 S6 st  552 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2313 S6 st  553 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2314 S6 st  554 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2310 S6 st  550 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2311 S6 st  551 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2312 S6 st  552 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2313 S6 st  553 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2314 S6 st  554 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2315 S6 st  555 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2316 S6 st  556 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2317 S6 st  557 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
@@ -2323,11 +2323,11 @@ tick  2324 S6 st  564 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  2325 S6 st  565 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2326 S6 st  566 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2327 S6 st  567 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2328 S6 st  568 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2329 S6 st  569 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2330 S6 st  570 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2331 S6 st  571 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
-tick  2332 S6 st  572 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2328 S6 st  568 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2329 S6 st  569 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2330 S6 st  570 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2331 S6 st  571 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
+tick  2332 S6 st  572 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2333 S6 st  573 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(    0.0,    0.0) floor 1 gear 1 hearts 3 at  2969.3 in -
 tick  2334 S6 st  574 HURT        hurt       pos 0.0000 CHAR-HURT        spr 1 rig 0 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v( -256.7, -400.0) floor 0 gear 0 hearts 3 at  2965.0 in -
 tick  2335 S6 st  575 HURT        hurt       pos 0.0167 CHAR-HURT        spr 1 rig 0 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v( -256.7, -333.3) floor 0 gear 0 hearts 3 at  2960.7 in -
@@ -2613,11 +2613,11 @@ tick  2615 S7 st  217 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 r
 tick  2616 S7 st  218 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(  560.0, 1280.0) floor 0 gear 1 hearts 3 at  4420.7 in -
 tick  2617 S7 st  219 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(  560.0, 1386.7) floor 0 gear 1 hearts 3 at  4430.0 in -
 tick  2618 S7 st  220 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(  560.0, 1493.3) floor 0 gear 1 hearts 3 at  4439.3 in -
-tick  2619 S7 st  221 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(  560.0, 1600.0) floor 0 gear 1 hearts 3 at  4448.7 in -
-tick  2620 S7 st  222 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(  560.0, 1706.7) floor 0 gear 1 hearts 3 at  4458.0 in -
-tick  2621 S7 st  223 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(  560.0, 1813.3) floor 0 gear 1 hearts 3 at  4467.3 in -
-tick  2622 S7 st  224 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(  560.0, 1920.0) floor 0 gear 1 hearts 3 at  4476.7 in -
-tick  2623 S7 st  225 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(  560.0, 2026.7) floor 0 gear 1 hearts 3 at  4486.0 in -
+tick  2619 S7 st  221 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(  560.0, 1600.0) floor 0 gear 1 hearts 3 at  4448.7 in -
+tick  2620 S7 st  222 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(  560.0, 1706.7) floor 0 gear 1 hearts 3 at  4458.0 in -
+tick  2621 S7 st  223 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(  560.0, 1813.3) floor 0 gear 1 hearts 3 at  4467.3 in -
+tick  2622 S7 st  224 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(  560.0, 1920.0) floor 0 gear 1 hearts 3 at  4476.7 in -
+tick  2623 S7 st  225 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(  560.0, 2026.7) floor 0 gear 1 hearts 3 at  4486.0 in -
 tick  2624 S7 st  226 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(    0.0, 2133.3) floor 0 gear 1 hearts 3 at  4489.9 in -
 tick  2625 S7 st  227 PLAY        slash      pos 0.2000 CHAR-SWORD-SLASH spr 0 rig 1 grip   35.83 lean   2.08 x  4.17 arc 0.000 hb_dis 1 v(   93.3, 2240.0) floor 0 gear 1 hearts 3 at  4491.5 in -
 tick  2626 S7 st  228 PLAY        slash      pos 0.2167 CHAR-SWORD-SLASH spr 0 rig 1 grip   28.33 lean   1.33 x  2.67 arc 0.000 hb_dis 1 v(  186.7, 2346.7) floor 0 gear 1 hearts 3 at  4494.6 in -
@@ -6571,11 +6571,11 @@ tick  6584 S18 st  498 PLAY        slash      pos 0.0333 CHAR-SWORD-SLASH spr 0 
 tick  6585 S18 st  499 PLAY        slash      pos 0.0500 CHAR-SWORD-SLASH spr 0 rig 1 grip  -53.33 lean  -0.33 x  2.00 arc 0.500 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7043.4 in -
 tick  6586 S18 st  500 PLAY        slash      pos 0.0667 CHAR-SWORD-SLASH spr 0 rig 1 grip  -33.33 lean   1.33 x  4.00 arc 1.000 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7052.7 in -
 tick  6587 S18 st  501 PLAY        slash      pos 0.0833 CHAR-SWORD-SLASH spr 0 rig 1 grip    0.00 lean   3.00 x  6.00 arc 0.857 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7062.1 in -
-tick  6588 S18 st  502 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip    1.25 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7071.4 in -
-tick  6589 S18 st  503 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip    5.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7080.7 in -
-tick  6590 S18 st  504 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   11.25 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7090.1 in -
-tick  6591 S18 st  505 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   20.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7099.4 in -
-tick  6592 S18 st  506 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   31.25 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7108.7 in -
+tick  6588 S18 st  502 PLAY        slash      pos 0.1000 CHAR-SWORD-SLASH spr 0 rig 1 grip   13.75 lean   3.00 x  6.00 arc 0.714 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7071.4 in -
+tick  6589 S18 st  503 PLAY        slash      pos 0.1167 CHAR-SWORD-SLASH spr 0 rig 1 grip   25.00 lean   3.00 x  6.00 arc 0.571 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7080.7 in -
+tick  6590 S18 st  504 PLAY        slash      pos 0.1333 CHAR-SWORD-SLASH spr 0 rig 1 grip   33.75 lean   3.00 x  6.00 arc 0.429 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7090.1 in -
+tick  6591 S18 st  505 PLAY        slash      pos 0.1500 CHAR-SWORD-SLASH spr 0 rig 1 grip   40.00 lean   3.00 x  6.00 arc 0.286 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7099.4 in -
+tick  6592 S18 st  506 PLAY        slash      pos 0.1667 CHAR-SWORD-SLASH spr 0 rig 1 grip   43.75 lean   3.00 x  6.00 arc 0.143 hb_dis 0 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7108.7 in -
 tick  6593 S18 st  507 PLAY        slash      pos 0.1833 CHAR-SWORD-SLASH spr 0 rig 1 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(  560.0,    0.0) floor 1 gear 1 hearts 3 at  7118.1 in -
 tick  6594 S18 st  508 CELEBRATING celebrate  pos 0.0000 CHAR-CELEBRATE   spr 1 rig 0 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(  466.7,    0.0) floor 1 gear 1 hearts 3 at  7125.8 in -
 tick  6595 S18 st  509 CELEBRATING celebrate  pos 0.0167 CHAR-CELEBRATE   spr 1 rig 0 grip   45.00 lean   3.00 x  6.00 arc 0.000 hb_dis 1 v(  373.3,    0.0) floor 1 gear 1 hearts 3 at  7132.1 in D-
@@ -7123,3 +7123,7 @@ NOT REACHED  hurt -> fall: this level cannot produce it, for hurt -> rise's reas
 measured for hurt -> rise and hurt -> fall: ticks in HURT per hit [21]; ticks in the air from each hit, longest 14: S2 t80 from run: 12; S2 t233 from fall: 11; S6 t574 from slash: 12; S9 t41 from rise: 11; S9 t113 from idle: 12; S10 t15 from run: 12; S10 t87 from idle: 12; S11 t15 from run: 12; S11 t87 from idle: 12; S12 t81 from sword_run: 12; S13 t213 from sword_idle: 12; S14 t213 from sword_rise: 14; S15 t212 from sword_fall: 14
 == ANOMALIES ==
 RESULT PASS: 99 checks, 0 failed, 6933 ticks
+WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 7 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

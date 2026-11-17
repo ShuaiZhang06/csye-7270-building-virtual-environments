@@ -1,0 +1,36 @@
+Approved, on 2026-11-16: make only that change. On the Grip track, the
+key at 5/60 changes its transition from 2.0 to 0.5
+(game/animations/rudy_animations.tres:417). The read-back's expected
+value follows it (game/tests/test_rudy_clips.gd:131). Add one line to
+the comment at :112-114 saying why, citing this tuning round (TUNING.md,
+r1).
+
+The approval also covers the two stale lines in the preview's header,
+game/previews/slash_preview.gd:206 and :219. Make each print your
+prediction for r1, labelled as session 18's prediction for r1, not the
+brief's, with the value it replaces (for :206, Revision 5's "+5, the
+stall"). Revision 5's table in CHANGE-BRIEF.md stays as it is: a brief
+revision follows only after I have recaptured and played.
+
+Change nothing else. You may edit only those three files. Git is
+read-only for you (CLAUDE.md).
+
+Then run each of these as its own command, with no other command
+joined to it:
+  scripts/run-test.sh test_rudy_clips.tscn 60
+  scripts/run-test.sh test_rudy_states.tscn 60
+  scripts/run-test.sh test_rudy_edges.tscn 60
+  scripts/run-test.sh test_rudy_edges.tscn 30
+  scripts/run-test.sh test_rudy_pin.tscn 60
+  scripts/run-test.sh checks.tscn 60
+  godot --headless --path game --fixed-fps 30 --quit-after 90 res://previews/slash_preview.tscn 2>&1 | tee logs/slash_preview_headless.log
+  godot --headless --path game --fixed-fps 30 --quit-after 90 res://previews/slash_preview.tscn -- second-tick 2>&1 | tee logs/slash_preview_headless_second_tick.log
+
+Paste each test's count and RESULT lines. I expect clips 51 PASS,
+states 99, edges 108 and 66, the pin 20 PASS, and checks 141 with 102
+res:// paths. From the two preview logs, paste the header and the
+lines of frames 29 to 39, with your prediction beside each. Show
+git diff --stat and git diff of the three files. Then stop, so I can
+recapture and play. Do not commit.
+
+Write your answer in English.

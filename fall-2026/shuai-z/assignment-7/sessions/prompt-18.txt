@@ -1,0 +1,36 @@
+Read CLAUDE.md first. The current capture is in captures/slash/r0/
+and its per-frame log is in logs/slash_preview_r0.log. A second
+capture, with each J read one tick later, is in
+captures/slash/r0-second-tick/, with logs/slash_preview_r0_second_tick.log.
+What I saw, my first verdict in TUNING.md, which does not say at which
+speed I watched: "起手、出招、收招，三段分得开；剑扫过去没有卡一下；其余的肉眼没看出明显问题"
+(the startup, active and recovery phases are distinct; the sword does
+not catch as it sweeps across; beyond that I saw no obvious problem
+with my eyes).
+
+Read the frames at each phase boundary in CHANGE-BRIEF.md, with the
+log lines for the same frames, and say where the motion and the table
+disagree. Then propose one change, to the phase table or to one key's
+transition. Before editing, say what the capture should show
+afterward. After I approve, make only that change, update the
+read-back test's expected values, and stop so I can recapture and
+play. Do not commit.
+
+Notes for this session:
+- This session reads and proposes only. You cannot edit, and nothing
+  is approved yet. Stop after the proposal and its prediction.
+- Both captures are fixture captures of game/previews/slash_preview.tscn,
+  at 30 fps with --debug-collisions, 1280 x 720. Only the frames to
+  read were kept. frameNNNNNNNN.png is frame N, its log's line
+  "frame N" describes it, and the label in its corner names it.
+- The frames to read, and what each should show, are Revision 5's
+  table under "The frame strip" for captures/slash/r0/, and the
+  second log's header for captures/slash/r0-second-tick/. That second
+  table is derived from the phase table, not the brief's.
+- For each frame, first say what you see in it, in visual terms, and
+  only then compare it with the table and the log.
+- Your reading of the frames is a claim, not a check. Keep it apart
+  from my verdict, and say where the two differ.
+- Git is read-only for you (CLAUDE.md).
+
+Write your answer in English.
