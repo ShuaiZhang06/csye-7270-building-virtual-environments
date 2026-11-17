@@ -67,7 +67,7 @@ Claude Code, either in our conversation or in a `claude -p` session it prepared 
 - **`CLAUDE.md`.** Session 11 drafted it unedited, and Claude reviewed it in the conversation.
 - **The strip readings.** Session 18 read r0 and proposed the r1 change. Its resume (18c) compared r1 with the prediction. They are claims, kept apart from my verdicts in `TUNING.md`.
 - **The captures.** Claude ran the r0 and r1 captures at my request. The text says I run every capture.
-- **The documents.** Claude drafted `TUNING.md` and `TEST-REPORT.md` around my words, and this file, `FRICTIONAL.md`, `README.md` and the credits files.
+- **The documents.** Claude drafted `TUNING.md` and `TEST-REPORT.md` around my words, and this file, `FRICTIONAL.md`, `README.md` and the credits files. It wrote `tools/redact_transcripts.py`, which makes the committed copies of the transcripts.
 - **Checking each session.** After each one, Claude checked the writes against a hash snapshot and reran its tests. It also fixed small errors found in review: line references, a header's derived frames, and the header labels after Revision 6.
 
 ## What I did

@@ -130,4 +130,4 @@ godot --path game res://previews/slash_preview.tscn --write-movie "$PWD/captures
 - [TEST-REPORT.md](TEST-REPORT.md): every check of "Use It".
 - [FRICTIONAL.md](FRICTIONAL.md): the dated log of what was tried, what happened, and who did what.
 - [SOURCES.md](SOURCES.md): credits, tools, and the human and AI contributions.
-- `sessions/`: every prompt and every session's answer.
+- `sessions/`: every prompt and every session's answer. `sessions/transcripts/` holds each `claude -p` stream, redacted: in full when it is under 1 MB, and as a labelled excerpt when it is over (`tools/redact_transcripts.py`).

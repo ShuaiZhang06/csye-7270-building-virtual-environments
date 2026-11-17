@@ -5,6 +5,7 @@
 # names them (A2 force-added them)
 !game/systems/audio/sfx/*.wav
 # The agent sessions' raw streams hold local paths and session IDs; the
-# prompts and the answers are committed instead
+# prompts, the answers and redacted copies or excerpts of the streams
+# (sessions/transcripts/, made by tools/redact_transcripts.py) are committed instead
 sessions/*.jsonl
 sessions/*.stderr
