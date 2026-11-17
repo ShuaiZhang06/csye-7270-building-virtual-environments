@@ -101,6 +101,49 @@ Claude's reading of r0, not something I observed: my verdict saw no catch. So th
   - The headless preview logs show Grip 25.00 on frame 33 and 40.00 on frame 34.
 - **The check.** Claude reran all of these itself, and its logs equal the session's.
 
-### The capture, Claude's comparison, my verdict
+### The capture (fixture)
 
-Not yet.
+**Who ran it.** Claude Code ran it on 2026-11-16, at my request again ("还是你来跑"), with r0's command and `r1` in place of `r0`. Like r0, this does not follow the text, which has me run every capture. Only the slash was recaptured, since the change touches nothing in the run.
+
+| Folder | Scene and argument | Log | Frames kept |
+|---|---|---|---|
+| `captures/slash/r1/` | `slash_preview` | `logs/slash_preview_r1.log` | 29, 30, 31, 32, 33, **34**, 35, 38 |
+| `captures/slash/r1-second-tick/` | `slash_preview -- second-tick` | `logs/slash_preview_r1_second_tick.log` | 29, 30, 31, 32, **33, 34**, 35, 36, 38, 39 |
+
+- **The frames kept.** They are r0's frames to read, plus the frames in bold. Claude's prediction names those extra frames (the slow pair 34–35, and the second capture's ticks 6 and 8), so they are kept to check it. The other PNGs and both `frame.wav` files were deleted.
+- **The logs.** Each wrote 90 PNGs of 1280 × 720. The `frame` and `#` lines of each log equal those of the headless run after the change (`logs/slash_preview_headless.log`, `logs/slash_preview_headless_second_tick.log`).
+  - The J lines read: "J read on tick 59, the first tick of frame 30"; with `second-tick`, "on tick 60, the second tick of frame 30".
+  - No line matches the wrapper's error patterns.
+  - The path line is shortened as in r0.
+
+### Claude's comparison (a claim, not a check)
+
+Session 18 was resumed to compare r1 with its prediction (`sessions/prompt-18c.txt`, `sessions/session-18c-answer.md`; success, 22 turns, USD 3.12). It read all 18 kept frames and changed nothing. Its comparison:
+- **Every logged number matches its prediction**:
+  - Grip 25.00 and 40.00 on frames 33 and 34;
+  - 13.75, 33.75 and 43.75 on the second capture's frames 33–35.
+
+  Lean, the arc, the hitbox and the clip position are r0's on every frame. Claude checked these numbers against both logs.
+- **In the pictures, the stop after frame 32 is gone.** Frame 33 shows the blade about level, clearly turned down since frame 32, where r0's frame 33 looked almost like its frame 32. The turn per frame over frames 31–35 is now 53°, 25°, 15°, 5°, slowing steadily (r0: 53°, 5°, 15°, 25°).
+- **Frames 34 and 35 read as a settle, not a new catch.** The slow pair comes at the end of the forward motion, after a steady slowdown, and nothing speeds up again in that direction. The second capture shows the same: 20°, then 10°, then 8° back on frame 36.
+- **Its own correction.** It had predicted frame 33 "about 6° above horizontal". At this size the blade just reads as level.
+- **What these frames cannot show.**
+  - The first capture keeps no frame 36, so the first move back (45 → 28.33) is not in it.
+  - The second capture never draws the farthest point (+45 on tick 11).
+- **What to watch for in play.**
+  - In the second capture, frames 34–36 all show the blade within about 10° of level: a near-hold of about 100 ms. At normal speed, it says, that could read as a hold at the end of the cut, or as the blade hanging in front of him.
+  - The hitbox switches off between nearly identical pictures, so the blade now arrives early and rests while the window closes.
+
+Its angles are rough, perhaps ±10°: it could not enlarge the frames, and its byte-for-byte comparison with r0 was refused.
+
+### My verdict, in the running game
+
+2026-11-16, after Claude's comparison, in the game itself (`godot --path game --time-scale 0.25`), my words:
+
+> 我用0.25倍速看的，保留这处改动，就这样了，没什么大问题
+
+Claude's translation: "I watched it at 0.25 speed. Keep this change. That's it; no big problem."
+
+- **Kept.** The change stays.
+- **Speed.** I watched at 0.25 speed only, not at normal speed.
+- **Not said.** The verdict does not say whether I saw the catch, the settle or the near-hold that Claude's comparison names.

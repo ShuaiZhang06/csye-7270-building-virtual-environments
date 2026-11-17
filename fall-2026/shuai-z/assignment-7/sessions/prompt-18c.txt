@@ -1,0 +1,21 @@
+I recaptured after your change. The new strip is captures/slash/r1/,
+with logs/slash_preview_r1.log, and captures/slash/r1-second-tick/,
+with logs/slash_preview_r1_second_tick.log. Claude ran both captures
+windowed, at my request, with r0's commands. Kept in r1: frames 29, 30,
+31, 32, 33, 34, 35 and 38. Kept in r1-second-tick: 29 to 36, 38 and 39.
+r0's frames are still in captures/slash/r0/ and
+captures/slash/r0-second-tick/.
+
+Compare the new strip with your prediction, frame by frame. For each
+frame, first say what you see in it, in visual terms. Then compare it
+with your prediction, with its log line, and with the same frame in r0
+where r0 kept it. Say where the strip matches your prediction and
+where it does not, with numbers from the log. Say in particular
+whether frames 34 and 35 read as a settle or as a new catch.
+
+That is your reading, a claim. My verdict in the running game decides,
+and I give it after this. Read only: change nothing, and do not
+propose a new change yet. Git is read-only for you (CLAUDE.md). Do not
+commit.
+
+Write your answer in English.
