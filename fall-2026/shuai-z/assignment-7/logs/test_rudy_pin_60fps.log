@@ -956,12 +956,12 @@ tick  951 PLAY    CHAR-IDLE          v(    0.0,    0.0) floor 1 clock -1.0000 li
 tick  952 PLAY    CHAR-IDLE          v(    0.0,    0.0) floor 1 clock -1.0000 live 0 facing  1 gear 0 x  2390.4 jp -- snd 8
 marks { &"run_plain": 16, &"release_plain": 76, &"jump_plain": 92, &"slash_no_sword": 139, &"turn_left": 165, &"turn_right": 295, &"slash_single": 311, &"slash_repress": 347, "slash_jump_1": 398, "slash_jump_5": 451, "slash_jump_12": 508, &"run_sword": 572, &"run_slash_run": 648, &"run_slash": 668, &"run_slash_release": 728, &"spike_slash": 915, &"hit": 921 }
 == TIMING ==
-FAIL  T1 run from a standstill: moves on the press tick, CHAR-RUN-A first, cells [7, 8, 7, 8, 7, 7, 8, 7, 1]  (moves on press tick: true, first CHAR-RUN-A, cells [8, 8, 7, 8, 7, 8, 7, 7])
-FAIL  T2 run from a standstill: moves on the press tick, CHAR-SWORD-RUN-A first, cells [7, 8, 7, 8, 7, 7, 8, 7, 1]  (moves on press tick: true, first CHAR-SWORD-RUN-A, cells [8, 8, 7, 8, 7, 8, 7, 7])
+PASS  T1 run from a standstill: moves on the press tick, CHAR-RUN-A first, cells [8, 8, 7, 8, 7, 8, 7, 7]  (moves on press tick: true, first CHAR-RUN-A, cells [8, 8, 7, 8, 7, 8, 7, 7])
+PASS  T2 run from a standstill: moves on the press tick, CHAR-SWORD-RUN-A first, cells [8, 8, 7, 8, 7, 8, 7, 7]  (moves on press tick: true, first CHAR-SWORD-RUN-A, cells [8, 8, 7, 8, 7, 8, 7, 7])
 PASS  T3 slash pose on ticks 0-16, swing ends on tick 17 with CHAR-SWORD-IDLE  (slash pose 17 ticks, ends on tick 17, then CHAR-SWORD-IDLE)
 PASS  T4 hitbox live on ticks 2-10  (live on ticks 2-10 (9 ticks))
 PASS  T5 a press read on swing tick 17 is ignored; one on tick 18 starts a swing  (presses read: true, tick 17 starts a swing: false, tick 18 starts a swing: true)
-FAIL  T6 the run resumes after a slash  (restarts: CHAR-SWORD-RUN-A for 4 ticks before the swing, CHAR-SWORD-RUN-A for 8 ticks after it)
+PASS  T6 the run restarts after a slash  (restarts: CHAR-SWORD-RUN-A for 4 ticks before the swing, CHAR-SWORD-RUN-A for 8 ticks after it)
 PASS  T7 CHAR-IDLE 5 ticks after the release is read  (5 ticks)
 PASS  T8 a turn faces left on its tick and moves 7 ticks later  (faces left at once: true, moves after 7 ticks)
 PASS  T9 HURT lasts 21 ticks  (21 ticks)
@@ -977,8 +977,8 @@ PASS  I7 jump read on swing tick 5: takes off on that tick, the swing keeps the 
 PASS  I7 jump read on swing tick 12: takes off on that tick, the swing keeps the floor swing's pose and live ticks, then a sword air pose  (takeoff: true, swing 17 ticks, pose 17 ticks, live 2-10 (9 ticks), then CHAR-SWORD-RISE)
 PASS  I8 a slash press without the sword: no swing, no sound, hitbox never live  (press read: true, gear 0, swing: false, live: false, sounds 0)
 PASS  I9 the states of the scripted run, consecutive ticks collapsed, are the 33 of the baseline log, in order  (33 states, the same as the baseline's)
-RESULT FAIL: 20 checks, 3 failed, 953 ticks
-WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+RESULT PASS: 20 checks, 0 failed, 953 ticks
+WARNING: 18 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
 ERROR: 4 resources still in use at exit (run with --verbose for details).
    at: clear (core/io/resource.cpp:822)

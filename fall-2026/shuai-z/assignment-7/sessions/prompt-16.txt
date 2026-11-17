@@ -1,0 +1,72 @@
+Read CLAUDE.md first. CHANGE-BRIEF.md is the contract for this change,
+and its Revision 5 holds where it differs from the sections above it.
+
+This step is the assignment's re-pin (Step 6): "Re-run the Step 2 pins.
+Everything passes, except what the brief said would change. A pin that
+changed for a reason the brief did not predict is a finding ... Updating
+a pin is its own commit, with the reason." The pin,
+game/tests/test_rudy_pin.gd, now fails exactly T1, T2 and T6
+(logs/test_rudy_pin_60fps.log:959-964). The brief predicted all three:
+- T1 and T2, the run's cells: section 7, "The run's first RUN-B": the
+  first cell lasts 8 ticks, then cells last 7 and 8 ticks in turn
+  (evidence/brief-probe/logs/anim_run_discrete_60fps.log), where today's
+  code showed 7 first;
+- T6, the run after a slash: section 2.1, "Restart", section 6's E4 and
+  section 10's row 14: the run restarts from its first cell instead of
+  resuming its phase.
+I looked at the run in the game on 2026-11-16 and saw no problem, so
+the three are re-pinned now.
+
+Change only these, in game/tests/test_rudy_pin.gd:
+- RUN_CELLS_PLAIN, RUN_CELLS_SWORD and RUN_AFTER_SLASH take the values
+  the test measures now. Take them from the test's own output, not from
+  this prompt. I expect [8, 8, 7, 8, 7, 8, 7, 7] for both cell lists,
+  and "restarts".
+- In each one's comment, keep the baseline value with "Measured on
+  baseline 2026-11-12", and add the new value's line: re-pinned
+  2026-11-16 after the change, with the brief references above, after
+  the user looked at the run in the game. T1's comment says the last
+  entry is the cell the 60-tick window cuts off. That still holds (the
+  last RUN-B goes on at tick 76, the last SWORD-RUN-B at tick 632), so
+  keep the sentence.
+- The header says every number in the TIMING constants was measured on
+  the baseline (lines 27-28), and so does the TIMING heading (line 36).
+  Make both say that T1, T2 and T6 were re-pinned, and add a dated line
+  for this step under the I9 one.
+- Change no check's code, no other constant or comment, and no driving.
+  The trail must not change.
+
+In CLAUDE.md change only two lines: the pin's command line (its count
+and log line references), and the line on the pin's three FAILs
+(line 50), which now says when they were re-pinned and why, with a file
+reference. Git is read-only for you (CLAUDE.md). The wrapper's logs in
+logs/ will change; that is expected.
+
+Before this prompt, the pin's trail at 3908ae80
+(git show 3908ae80:./logs/test_rudy_pin_60fps.log) was compared with
+the one now (logs/test_rudy_pin_60fps.log). All 953 ticks match in
+every field but the pose, and the pose differs only between the two
+cells of one run:
+- one-tick shifts at the cell edges of every run, from the first
+  cell's 8 ticks;
+- ticks 284-288, the sword pickup mid-run in the script's step 4: the
+  sword run starts at SWORD-RUN-A (Revision 4). No TIMING line covers
+  it;
+- ticks 687-732, after the slash in run, slash, run: the restart (T6).
+You need not repeat that comparison.
+
+Run, and paste the real output of each:
+- scripts/run-test.sh test_rudy_pin.tscn 60, twice: the TIMING,
+  INVARIANT and RESULT lines of each run. I expect 20 PASS. git diff on
+  its log should show only the T1, T2, T6 and RESULT lines and the
+  leak line;
+- scripts/run-test.sh checks.tscn 60: its last lines and the res://
+  path count, which should stay 98.
+
+Then show git status and git diff game/tests/test_rudy_pin.gd. For each
+of T1, T2 and T6, say whether the new value is what the brief
+predicted, citing the brief's line. If one is not, that is a finding:
+report it, and change neither the brief nor the expected value to hide
+it. Do not commit.
+
+Write your answer in English.

@@ -35,7 +35,7 @@ scripts/run-test.sh test_rudy_clips.tscn 60       # read-back: 51 PASS (logs/tes
 scripts/run-test.sh test_rudy_states.tscn 60      # states: 99 PASS (logs/test_rudy_states_60fps.log:7125)
 scripts/run-test.sh test_rudy_edges.tscn 60       # edges E1-E7: 108 PASS (logs/test_rudy_edges_60fps.log:6679)
 scripts/run-test.sh test_rudy_edges.tscn 30       # E1, E2 at both offsets: 66 PASS (logs/test_rudy_edges_30fps.log:734)
-scripts/run-test.sh test_rudy_pin.tscn 60         # pin: 20 checks, T1, T2, T6 FAIL as asked (logs/test_rudy_pin_60fps.log:959-980)
+scripts/run-test.sh test_rudy_pin.tscn 60         # pin: 20 PASS, T1, T2, T6 re-pinned (logs/test_rudy_pin_60fps.log:959-980)
 scripts/run-test.sh checks.tscn 60                # 141 PASS (logs/checks_60fps.log:3-144)
 scripts/run-test.sh invulnerable_tint_checks.tscn 30   # also 60 and 144: 15 PASS each (logs/invulnerable_tint_checks_*fps.log:3-20)
 scripts/run-test.sh test_slash_sparks_config.gd 60     # 108 checks, then a summary PASS (logs/test_slash_sparks_config_60fps.log:3-111)
@@ -47,7 +47,7 @@ scripts/run-test.sh test_run_dust_config.gd realtime   # the realtime mode: the 
 
 No current test needs the realtime mode.
 
-- The pin's three FAILs are the run's intended restart; they are re-pinned after I play it (`CHANGE-BRIEF.md`, Revision 4). Earlier tests must keep their counts with 0 FAIL (`CHANGE-BRIEF.md` section 5).
+- The pin's T1, T2 and T6 were re-pinned on 2026-11-16, after I looked at the run in the game: the run's first cell now lasts 8 ticks, and the run restarts from its first cell after a slash, as `CHANGE-BRIEF.md` predicted (section 7; section 2.1, "Restart"; Revision 4). The baseline values stay in the constants' comments (`game/tests/test_rudy_pin.gd:43-72`). Earlier tests must keep their counts with 0 FAIL (`CHANGE-BRIEF.md` section 5).
 - New tests press keys with `Input.parse_input_event`, physical keys D, A, Space, J (Esc to pause) (`game/project.godot:33-73`). `checks.gd` uses `Input.action_press`; leave it.
 
 ### Headless facts

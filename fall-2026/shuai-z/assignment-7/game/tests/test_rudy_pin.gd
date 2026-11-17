@@ -25,21 +25,35 @@ extends Node
 ## Tick numbers inside a swing count from the tick its press is read (tick 0).
 ## TIMING lines pin numbers that may change on purpose (the brief's re-pin
 ## step); INVARIANT lines pin facts that must survive any change. Every
-## number in the TIMING constants below was measured on this baseline.
+## number in the TIMING constants below was measured on this baseline,
+## except T1, T2 and T6, which were re-pinned after the change (below).
 ## Prints a per-tick trail, then the two groups, then a RESULT line; quits 1
 ## on any failure.
 ##
 ## 2026-11-13, after the change (CHANGE-BRIEF.md Revision 5, "The pin's state
 ## order"): INVARIANT I9 added, the order of states over the whole scripted
 ## run. Nothing else in this file changed.
+##
+## 2026-11-16, the re-pin (the assignment's Step 6): T1, T2 and T6 take the
+## values measured after the change, which CHANGE-BRIEF.md predicted
+## (section 7, "The run's first RUN-B"; section 2.1, "Restart"; section 6,
+## E4; section 10, row 14), after the user looked at the run in the game.
+## No check's code, no other constant and no driving changed.
 
-# --- TIMING: measured on baseline 2026-11-12 ---
+# --- TIMING: measured on baseline 2026-11-12; T1, T2 and T6 re-pinned 2026-11-16 ---
 ## T1: cell lengths in ticks over the first 60 ticks of a run from a
 ## standstill, without the sword; the first cell is RUN-A. The last entry is
-## the cell the 60-tick window cuts off. Measured on baseline 2026-11-12.
-const RUN_CELLS_PLAIN: Array[int] = [7, 8, 7, 8, 7, 7, 8, 7, 1]
-## T2: the same with the sword (SWORD-RUN-A first). Measured on baseline 2026-11-12.
-const RUN_CELLS_SWORD: Array[int] = [7, 8, 7, 8, 7, 7, 8, 7, 1]
+## the cell the 60-tick window cuts off. Measured on baseline 2026-11-12:
+## [7, 8, 7, 8, 7, 7, 8, 7, 1]. Re-pinned 2026-11-16 after the change, after
+## the user looked at the run in the game: the clip's first cell lasts 8 ticks
+## (CHANGE-BRIEF.md section 7, "The run's first RUN-B";
+## evidence/brief-probe/logs/anim_run_discrete_60fps.log).
+const RUN_CELLS_PLAIN: Array[int] = [8, 8, 7, 8, 7, 8, 7, 7]
+## T2: the same with the sword (SWORD-RUN-A first). Measured on baseline 2026-11-12:
+## [7, 8, 7, 8, 7, 7, 8, 7, 1]. Re-pinned 2026-11-16 after the change, after
+## the user looked at the run in the game, for T1's reason (CHANGE-BRIEF.md
+## section 7, "The run's first RUN-B").
+const RUN_CELLS_SWORD: Array[int] = [8, 8, 7, 8, 7, 8, 7, 7]
 ## T3: ticks the slash pose shows (ticks 0 to this minus 1), and the tick the
 ## swing ends and the sword form's next pose shows. Measured on baseline 2026-11-12.
 const SLASH_POSE_TICKS := 17
@@ -51,8 +65,11 @@ const LIVE_LAST_TICK := 10
 ## swing. Measured on baseline 2026-11-12.
 const LAST_IGNORED_PRESS_TICK := 17
 ## T6: what the run does after a slash: "resumes" (its cell clock was frozen
-## during the swing) or "restarts" (from the first cell). Measured on baseline 2026-11-12.
-const RUN_AFTER_SLASH := "resumes"
+## during the swing) or "restarts" (from the first cell). Measured on baseline 2026-11-12:
+## "resumes". Re-pinned 2026-11-16 after the change, after the user looked at
+## the run in the game: the run restarts from its first cell (CHANGE-BRIEF.md
+## section 2.1, "Restart"; section 6, E4; section 10, row 14).
+const RUN_AFTER_SLASH := "restarts"
 ## T7: ticks from the tick a release of D is read to the first CHAR-IDLE tick,
 ## from full speed. Measured on baseline 2026-11-12.
 const STOP_TICKS := 5
