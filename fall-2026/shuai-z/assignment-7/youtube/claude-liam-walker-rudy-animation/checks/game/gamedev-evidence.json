@@ -1,0 +1,990 @@
+{
+ "schema_version": 1,
+ "teaching_contract": "code-then-result-v1",
+ "game": {
+  "name": "walker-rudy assignment-7/game",
+  "revision": "775c14c3d3f60d82d12a32264ba565683c9fb0da",
+  "folder": "assignment-7/game"
+ },
+ "files": [
+  {
+   "path": "animations/rudy_animations.tres",
+   "sha256": "6bd583f5db3f4e1a3e8576622d49b08af3188437faa3374ad74521322dd8e548",
+   "role": "tres",
+   "component_ids": [
+    "run-cycle",
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/ATTRIBUTION.md",
+   "sha256": "2cd550cff2957e3ea048c597008fc1b1ace64302a7939eac7e4f283b8187cc6b",
+   "role": "md",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/slash_arc.png",
+   "sha256": "816b0964b12d953a950012c20d8b9c366ce34b568afe130edfcd4b1e07f939ca",
+   "role": "png",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/slash_arc.png.import",
+   "sha256": "595e7f416bbcbb759f642125432768dc377819b36892013ad7c7875d940d31b5",
+   "role": "import settings",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/slash_blade.png",
+   "sha256": "fffb95c5f733d4e0c50f142ef9c90ed4d9a00f6195f68fba2970d79eabd77d55",
+   "role": "png",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/slash_blade.png.import",
+   "sha256": "f382f5e52e9adf0bce8cbf0bcccbc512abf575bb961872d977ae13feb02cba05",
+   "role": "import settings",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/slash_body.png",
+   "sha256": "f7056aed1f779493610a790e68248011f59b7f0675026dc15409088aa6d71826",
+   "role": "png",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rig/slash_body.png.import",
+   "sha256": "1fd4380dfbfccc0bb39e01739c385fc7b3f8138633959399b5f7940934d6e480",
+   "role": "import settings",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "content/rudy/rudy.gd",
+   "sha256": "77851381e840c442f68d596ce2dd89cb83eaf84ad8f09cb3da23b0ee17b20dae",
+   "role": "gd",
+   "component_ids": [
+    "state-machine"
+   ]
+  },
+  {
+   "path": "content/rudy/rudy.tscn",
+   "sha256": "1158dcd92f467e3f069c4ac0a6a38acfdc65eb2439cbe7ed751838e487b2af7d",
+   "role": "tscn",
+   "component_ids": [
+    "run-cycle",
+    "slash-rig",
+    "state-machine"
+   ]
+  },
+  {
+   "path": "content/rudy/rudy_look.gd",
+   "sha256": "4dfe6b2bf7625b3592152707a20527434fa4f664ee45104ee046d24a940e0299",
+   "role": "gd",
+   "component_ids": [
+    "state-machine"
+   ]
+  },
+  {
+   "path": "content/rudy/sheet/ATTRIBUTION.md",
+   "sha256": "b2cf4ce6dc740ef836af65a1a7e9cc0e64ef7cd2ab0029c0e2529150a87e9fcc",
+   "role": "md",
+   "component_ids": [
+    "run-cycle"
+   ]
+  },
+  {
+   "path": "content/rudy/sheet/rudy_sheet.png",
+   "sha256": "4eba0d1ed8d0ce8e63ca554a9a8fc2c560208f4eac59aeeba38ed9520a432ff7",
+   "role": "png",
+   "component_ids": [
+    "run-cycle"
+   ]
+  },
+  {
+   "path": "content/rudy/sheet/rudy_sheet.png.import",
+   "sha256": "5c70956dde1581f7b58420d728ec2a7191310862676fdcf0be239ff180587112",
+   "role": "import settings",
+   "component_ids": [
+    "run-cycle"
+   ]
+  },
+  {
+   "path": "previews/run_preview.gd",
+   "sha256": "997ebfbfbba5354c4ed64ec80c96e8e2ad3d3b2d386c8b2cb3b33d81a9a9cf8f",
+   "role": "gd",
+   "component_ids": [
+    "run-cycle"
+   ]
+  },
+  {
+   "path": "previews/run_preview.tscn",
+   "sha256": "1b69e0d8e18ceb653322910b18c69e720f3608693185e85f6e319bcbb1842fb5",
+   "role": "tscn",
+   "component_ids": [
+    "run-cycle"
+   ]
+  },
+  {
+   "path": "previews/slash_preview.gd",
+   "sha256": "a9c005f6a66c52144aeb957f5f4d5cd9c569c6cb93cecacc8ac24db2cf79cbe5",
+   "role": "gd",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "previews/slash_preview.tscn",
+   "sha256": "a11761dc245c2407d51f8eb91d52ef16df7e475810f1f0bc035f5caa772c14e6",
+   "role": "tscn",
+   "component_ids": [
+    "slash-rig"
+   ]
+  },
+  {
+   "path": "project.godot",
+   "sha256": "add5852420cb77572b7a1b92e2bb5c2e9064e1c965cee1eda8fea768e2145116",
+   "role": "godot",
+   "component_ids": [
+    "state-machine"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_clips.gd",
+   "sha256": "726b0e3554e2e5b319c3b7a3d6a4410f88440cfe264534e9265aeeef395d2d9c",
+   "role": "gd",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_clips.tscn",
+   "sha256": "8e1656c1bc31d2a11f4d3edf2616c5edd6eef7891fd08fb3c9cee3915d08226a",
+   "role": "tscn",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_edges.gd",
+   "sha256": "5d8557c860e76d3dd47323a2fe5c282c7b43fb87061485f0b6e63551a596a44b",
+   "role": "gd",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_edges.tscn",
+   "sha256": "926e133c67e468b15d5ac3e1e052f41af1141855b7ac9b3ce97cd264317f0c30",
+   "role": "tscn",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_pin.gd",
+   "sha256": "9b643ccff67695189c142ea50a205e255eb0e929105afc70361d5b6b58ca76b3",
+   "role": "gd",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_pin.tscn",
+   "sha256": "a3167c84160666989a39363b37e96c208e4479bc588d7dd6e5a80be10e5feaa2",
+   "role": "tscn",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_states.gd",
+   "sha256": "e70fdb819a13f71827e97f29cc8aaf47ca31f50e2cdffe5fc95f8d0c0e02894c",
+   "role": "gd",
+   "component_ids": [
+    "animation-tests"
+   ]
+  },
+  {
+   "path": "tests/test_rudy_states.tscn",
+   "sha256": "704dea123b1a8bafde563371f5b8155fbad814c8dfdbc1c997adf963d7ceac7f",
+   "role": "tscn",
+   "component_ids": [
+    "animation-tests"
+   ]
+  }
+ ],
+ "components": [
+  {
+   "id": "run-cycle",
+   "explanation": "The looping sprite clip: content/rudy/sheet/rudy_sheet.png, a 4 × 4 sheet of Rudy's 16 Assignment 2 frames (410 × 386 cells, packed by tools/pack_rudy_sheet.py outside game/), with its .import (mipmaps) and ATTRIBUTION.md; Look/Sprite slices it with hframes 4 and vframes 4 (content/rudy/rudy.tscn); the run and sword_run clips in animations/rudy_animations.tres key Sprite:frame on cells 1, 2 and 12, 13 at 0 and 0.125 s, discrete, length 0.25 s, LOOP_LINEAR, step 0.125. previews/run_preview.gd/.tscn is the fixture the run strips were captured from.",
+   "beat_ids": [
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07"
+   ],
+   "files": [
+    "animations/rudy_animations.tres",
+    "content/rudy/rudy.tscn",
+    "content/rudy/sheet/ATTRIBUTION.md",
+    "content/rudy/sheet/rudy_sheet.png",
+    "content/rudy/sheet/rudy_sheet.png.import",
+    "previews/run_preview.gd",
+    "previews/run_preview.tscn"
+   ]
+  },
+  {
+   "id": "slash-rig",
+   "explanation": "The committing action on a cutout rig: content/rudy/rig/ holds the body, blade and arc parts cut by tools/cut_slash_rig.py from CHAR-SWORD-SLASH.png, with their .import files and ATTRIBUTION.md; Look/SlashRig/Lean/Grip/Blade, Lean/Body and Lean/Arc in content/rudy/rudy.tscn; the slash clip in animations/rudy_animations.tres keys Grip, Lean and Arc at ticks 0, 2, 5, 11 and 17 of the phase table (17/60 s, LOOP_NONE, step 1/60). previews/slash_preview.gd/.tscn is the fixture the slash strips were captured from.",
+   "beat_ids": [
+    "B02",
+    "B08",
+    "B09",
+    "B12",
+    "B14",
+    "B15",
+    "B16",
+    "B17",
+    "B18",
+    "B20",
+    "B22"
+   ],
+   "files": [
+    "animations/rudy_animations.tres",
+    "content/rudy/rig/ATTRIBUTION.md",
+    "content/rudy/rig/slash_arc.png",
+    "content/rudy/rig/slash_arc.png.import",
+    "content/rudy/rig/slash_blade.png",
+    "content/rudy/rig/slash_blade.png.import",
+    "content/rudy/rig/slash_body.png",
+    "content/rudy/rig/slash_body.png.import",
+    "content/rudy/rudy.tscn",
+    "previews/slash_preview.gd",
+    "previews/slash_preview.tscn"
+   ]
+  },
+  {
+   "id": "state-machine",
+   "explanation": "The one authority: Look/AnimationPlayer (content/rudy/rudy.tscn, callback_mode_process physics, autoplay empty) is the only writer of the Sprite's frame and visibility, SlashRig's visibility and the rig's keyed properties; content/rudy/rudy.gd's _pick_clip() is the state machine, a priority list that returns a clip name every physics tick, which _physics_process passes to RudyLook.play_clip() (content/rudy/rudy_look.gd), restarting the slash on every new swing; take_hit() ends a swing in any phase. project.godot names GL Compatibility and the input actions.",
+   "beat_ids": [
+    "B02",
+    "B06",
+    "B09",
+    "B11",
+    "B12",
+    "B13",
+    "B14",
+    "B19",
+    "B20",
+    "B21",
+    "B22"
+   ],
+   "files": [
+    "content/rudy/rudy.gd",
+    "content/rudy/rudy.tscn",
+    "content/rudy/rudy_look.gd",
+    "project.godot"
+   ]
+  },
+  {
+   "id": "animation-tests",
+   "explanation": "The headless tests of this layer: tests/test_rudy_clips.gd/.tscn, the read-back (51 checks: tracks resolve, key times, step, loop and update modes, frame range, the structure check, 30 NEGATIVE copies); tests/test_rudy_states.gd/.tscn (99, the real Main, every reachable transition); tests/test_rudy_edges.gd/.tscn (108 at 60 fps, 66 at 30: interrupts before, on and after each phase boundary); tests/test_rudy_pin.gd/.tscn (20, the behaviour pin, re-pinned).",
+   "beat_ids": [
+    "B10",
+    "B16",
+    "B23",
+    "B24",
+    "B25",
+    "BVD1"
+   ],
+   "files": [
+    "tests/test_rudy_clips.gd",
+    "tests/test_rudy_clips.tscn",
+    "tests/test_rudy_edges.gd",
+    "tests/test_rudy_edges.tscn",
+    "tests/test_rudy_pin.gd",
+    "tests/test_rudy_pin.tscn",
+    "tests/test_rudy_states.gd",
+    "tests/test_rudy_states.tscn"
+   ]
+  }
+ ],
+ "excerpts": [
+  {
+   "beat_id": "B03",
+   "path": "content/rudy/rudy.tscn",
+   "start_line": 31,
+   "end_line": 38,
+   "text": "[node name=\"Sprite\" type=\"Sprite2D\" parent=\"Look\"]\nmaterial = ExtResource(\"4_outline\")\nscale = Vector2(0.5, 0.5)\ntexture = ExtResource(\"3_sheet\")\ncentered = false\noffset = Vector2(-205, -370)\nhframes = 4\nvframes = 4"
+  },
+  {
+   "beat_id": "B05",
+   "path": "animations/rudy_animations.tres",
+   "start_line": 47,
+   "end_line": 60,
+   "text": "length = 0.25\nloop_mode = 1\nstep = 0.125\ntracks/0/type = \"value\"\ntracks/0/imported = false\ntracks/0/enabled = true\ntracks/0/path = NodePath(\"Sprite:frame\")\ntracks/0/interp = 1\ntracks/0/loop_wrap = true\ntracks/0/keys = {\n\"times\": PackedFloat32Array(0, 0.125),\n\"transitions\": PackedFloat32Array(1, 1),\n\"update\": 1,\n\"values\": [1, 2]"
+  },
+  {
+   "beat_id": "B08",
+   "path": "animations/rudy_animations.tres",
+   "start_line": 409,
+   "end_line": 420,
+   "text": "tracks/2/type = \"value\"\ntracks/2/imported = false\ntracks/2/enabled = true\ntracks/2/path = NodePath(\"SlashRig/Lean/Grip:rotation_degrees\")\ntracks/2/interp = 1\ntracks/2/loop_wrap = true\ntracks/2/keys = {\n\"times\": PackedFloat32Array(0, 0.033333335, 0.083333336, 0.18333334, 0.28333333),\n\"transitions\": PackedFloat32Array(2, 2, 0.5, 0.5, 1),\n\"update\": 0,\n\"values\": [-70.0, -60.0, 0.0, 45.0, 15.0]\n}"
+  },
+  {
+   "beat_id": "B11",
+   "path": "content/rudy/rudy.gd",
+   "start_line": 231,
+   "end_line": 241,
+   "text": "\t\t_slash_clock = 0.0\n\t\tnew_swing = true\n\t\tSfx.play(&\"slash\")\n\tmove_and_slide()\n\n\t_swing(delta)\n\t_count_down(delta)\n\t_look.scale.x = facing\n\t_look.modulate.a = 0.35 if is_invulnerable() and fmod(_invulnerable_left, flash_period) < flash_period / 2.0 else 1.0\n\t# Every new swing starts the slash clip over from its first key.\n\t_look.play_clip(_pick_clip(), new_swing)"
+  },
+  {
+   "beat_id": "B13",
+   "path": "content/rudy/rudy.tscn",
+   "start_line": 69,
+   "end_line": 76,
+   "text": "[node name=\"AnimationPlayer\" type=\"AnimationPlayer\" parent=\"Look\"]\nroot_node = NodePath(\"..\")\nlibraries = {\n&\"\": ExtResource(\"5_anims\")\n}\nautoplay = \"\"\nspeed_scale = 1.0\ncallback_mode_process = 0"
+  },
+  {
+   "beat_id": "B16",
+   "path": "tests/test_rudy_clips.gd",
+   "start_line": 131,
+   "end_line": 139,
+   "text": "\t[^\"SlashRig/Lean/Grip:rotation_degrees\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, -70.0, 2.0], [2, -60.0, 2.0], [5, 0.0, 0.5], [11, 45.0, 0.5], [17, 15.0, 1.0]]],\n\t[^\"SlashRig/Lean:rotation_degrees\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, -2.0, 1.0], [2, -2.0, 1.0], [5, 3.0, 1.0], [11, 3.0, 0.5], [17, 0.0, 1.0]]],\n\t[^\"SlashRig/Lean:position\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, Vector2(0, 0), 1.0], [2, Vector2(0, 0), 1.0], [5, Vector2(6, 0), 1.0], [11, Vector2(6, 0), 0.5],\n\t\t\t[17, Vector2(0, 0), 1.0]]],\n\t[^\"SlashRig/Lean/Arc:modulate:a\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, 0.0, 1.0], [2, 0.0, 1.0], [4, 1.0, 1.0], [11, 0.0, 1.0], [17, 0.0, 1.0]]],"
+  },
+  {
+   "beat_id": "B19",
+   "path": "content/rudy/rudy.gd",
+   "start_line": 307,
+   "end_line": 320,
+   "text": "\t\treturn &\"slash\"\n\tvar sword := gear == Gear.SWORD\n\tif not is_on_floor():\n\t\tvar falling := velocity.y >= 0.0\n\t\tif falling and not _was_falling:\n\t\t\t_falls_sideways = absf(velocity.x) > 1.0\n\t\t_was_falling = falling\n\t\tif falling and _falls_sideways:\n\t\t\treturn &\"sword_fall\" if sword else &\"fall\"\n\t\treturn &\"sword_rise\" if sword else &\"rise\"\n\t_was_falling = false\n\tif absf(velocity.x) > 1.0:\n\t\treturn &\"sword_run\" if sword else &\"run\"\n\treturn &\"sword_idle\" if sword else &\"idle\""
+  },
+  {
+   "beat_id": "B21",
+   "path": "content/rudy/rudy.gd",
+   "start_line": 145,
+   "end_line": 158,
+   "text": "\tSfx.play(&\"hurt\")\n\tfacing = -int(away) # he turns toward the hit\n\t_turn_time_left = 0.0\n\t_slash_clock = -1.0\n\t_invulnerable_left = invulnerable_time\n\thit.emit()\n\tif not lost_gear and hearts <= 0:\n\t\tmode = Mode.DEFEATED\n\t\tvelocity.x = 0.0\n\t\tdefeated.emit()\n\telse:\n\t\tmode = Mode.HURT\n\t\t_hurt_time_left = hurt_time\n\t\tvelocity = Vector2(away * knockback.x, -knockback.y)"
+  }
+ ],
+ "exclusions": [
+  {
+   "path": "app/main.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "app/main.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "app/system_keys.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "app/vsync_debug.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/frames/ENEMY-GOBLIN-SQUASH.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/frames/ENEMY-GOBLIN-SQUASH.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/frames/ENEMY-GOBLIN-WALK-A.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/frames/ENEMY-GOBLIN-WALK-A.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/frames/ENEMY-GOBLIN-WALK-B.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/frames/ENEMY-GOBLIN-WALK-B.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/goblin.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/goblin/goblin.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-PORTAL.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-PORTAL.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-SPIKES.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-SPIKES.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-WAYSTONE-LIT.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-WAYSTONE-LIT.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-WAYSTONE.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ENV-WAYSTONE.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/PROP-SWORDSHIELD.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/PROP-SWORDSHIELD.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/endcard.jpg",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/endcard.jpg.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/env.json",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/fields.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/fields.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ground_cliff_left.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ground_cliff_left.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ground_cliff_right.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ground_cliff_right.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ground_tile.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/ground_tile.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/props.json",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/sky_castle.jpg",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/art/sky_castle.jpg.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/backdrop.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/ground_segment.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/level_1.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/portal.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/portal.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/spikes.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/spikes.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/waystone.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/level_1/waystone.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-CELEBRATE.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-CELEBRATE.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-DEFEAT.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-DEFEAT.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-FALL.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-FALL.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-HURT.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-HURT.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-IDLE.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-IDLE.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RESPAWN.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RESPAWN.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RISE.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RISE.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RUN-A.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RUN-A.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RUN-B.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-RUN-B.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-BLOCK.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-BLOCK.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-FALL.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-FALL.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-IDLE.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-IDLE.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-RISE.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-RISE.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-RUN-A.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-RUN-A.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-RUN-B.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-RUN-B.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-SLASH.png",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/CHAR-SWORD-SLASH.png.import",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/rudy/frames/frames.json",
+   "reason": "Rudy's 16 Assignment 2 frames and frames.json, unchanged since Assignment 2: the source the sheet is packed from (outside game/, by tools/pack_rudy_sheet.py) and RudyLook.FRAMES. The film shows them packed in the sheet (B04), not file by file."
+  },
+  {
+   "path": "content/sword_pickup/flying_gear.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/sword_pickup/sword_pickup.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "content/sword_pickup/sword_pickup.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "default_bus_layout.tres",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "effects/effects_driver.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "effects/run_dust.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "effects/slash_sparks.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "previews/run_dust_preview.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "previews/run_dust_preview.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "previews/slash_sparks_preview.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "previews/slash_sparks_preview.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "shaders/invulnerable_tint.gdshader",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "shaders/particles_generated.gdshader",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/art/outline.gdshader",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/art/outline.tres",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/music.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/music/MUS-LOOP.ogg",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/music/MUS-LOOP.ogg.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-HURT.wav",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-HURT.wav.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-JUMP.wav",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-JUMP.wav.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-PICKUP.wav",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-PICKUP.wav.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-PORTAL.wav",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-PORTAL.wav.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-SLASH.wav",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-SLASH.wav.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-STOMP.wav",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "systems/audio/sfx/SFX-STOMP.wav.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/capture.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/capture.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/capture_tint.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/capture_tint.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/checks.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/checks.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/cost_effects.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/invulnerable_tint_checks.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/invulnerable_tint_checks.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/test_run_dust_config.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/test_run_dust_state.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/test_run_dust_state.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/test_slash_sparks_config.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/test_slash_sparks_state.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "tests/test_slash_sparks_state.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/art/UI-HEART-EMPTY.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/art/UI-HEART-EMPTY.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/art/UI-HEART-FULL.png",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/art/UI-HEART-FULL.png.import",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/hearts.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/hearts_tint.tres",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/hud.gd",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  },
+  {
+   "path": "ui/hud.tscn",
+   "reason": "The 2D game as Assignment 6 left it (tag a6, 8cc03ed6), copied unchanged into assignment-7/game; Assignment 7 changed none of it, and this film covers the layer Assignment 7 added. The earlier tests (checks.gd 141, invulnerable_tint_checks 15, the four particle tests) guard it and keep their counts."
+  }
+ ],
+ "code_result_pairs": [
+  {
+   "code_beat": "B03",
+   "result_beat": "B04",
+   "observation": "The sheet game/content/rudy/sheet/rudy_sheet.png with the 4 × 4 grid and cell numbers drawn over it by the film's script; beside it, fixture-capture crops of run_preview frames in which Godot drew cells 1, 2, 12 and 13 (captures/run/r0/, r0-sword/).",
+   "media": {
+    "path": "stills/sheet-slicing.png",
+    "sha256": "dee109ad07d97b9ae3c395a94b63fb00749d5fa8839911bb34b766bb27a3db2a"
+   }
+  },
+  {
+   "code_beat": "B05",
+   "result_beat": "B06",
+   "observation": "The real Main in Godot 4.7.2 Compatibility, Movie Maker at 3840×2160 and 30 fps, scripted input (play-01): Enter on the title, the run from frame 51 (cells 1 and 2), rise and fall over the first spikes and the first goblin, the sword picked up mid-run on frame 168 (sword_run from cell 12), the stop on frame 180; then labelled replays, enlarged 2.5×: frames 108–127 at ¼× and 110–123 at ⅛× (cells 1, 1, 2, 2, 2, 2, 1 …: no frame between, none doubled at the wrap), frames 158–189 at ¼× and 164–175 at ⅛× (cell 2 on frame 167, sword_run from cell 12 on 168).",
+   "media": {
+    "path": "media/B06.mp4",
+    "sha256": "3641727578cc76f13cad587c7f8cd63d18e35d2e253e03293adfd8004c6d4a72"
+   }
+  },
+  {
+   "code_beat": "B08",
+   "result_beat": "B09",
+   "observation": "The same capture: one slash standing, the rig shown on frames 198–205 (swing ticks 1 to 15, two ticks a frame; Grip −67.5, −53.3, 0, 25, 40, 45, 28.3, 18.3 in the run log), sword_idle again on frame 206; then labelled replays, enlarged 2.5×, at ¼× and ⅛×, and frame by frame (each game frame held 0.8 s) from frame 197 to 206.",
+   "media": {
+    "path": "media/B09.mp4",
+    "sha256": "ce1f1b92118def89a785089a5f8e38fd854a0152a6b23d1d495022fcb8265aae"
+   }
+  },
+  {
+   "code_beat": "B11",
+   "result_beat": "B12",
+   "observation": "The same capture: he turns left on frame 298 (Look flips), runs from frame 301 (sword_run), slashes while running on frames 315–323 and runs on in sword_run from cell 12 on frame 324, stopping on frame 338; then labelled replays, enlarged 2.5×: ¼×, ⅛× of the slash while running, frame by frame from 314 to 324 (each game frame held 0.8 s), and ½×.",
+   "media": {
+    "path": "media/B12.mp4",
+    "sha256": "782d86886115c1e7a7bb67c29bbd443ab31533053ff42ac122436ec89cbf0c00"
+   }
+  },
+  {
+   "code_beat": "B13",
+   "result_beat": "B14",
+   "observation": "Fixture captures r1 (first-tick offset), frames 29–35 and 38 of captures/slash/r1/, enlarged 2× nearest, drawn with --debug-collisions so the hitbox shows; each frame's swing tick, Grip and hitbox state read from logs/slash_preview_r1.log; and the state test's per-swing line from logs/test_rudy_states_60fps.log.",
+   "media": {
+    "path": "stills/clock-strip.png",
+    "sha256": "99e4e3e099fdd195294b961a16c5df5ebf06e8fa35ae8d1abf53ce80047467aa"
+   }
+  },
+  {
+   "code_beat": "B16",
+   "result_beat": "B17",
+   "observation": "Fixture captures r1 at both tick offsets (captures/slash/r1/ and r1-second-tick/), enlarged 2× nearest, ordered by swing tick: 1 and 2 (startup into active), 10 and 11 (active into recovery), 16 and 17 (the end); each frame's tick, Grip and hitbox read from logs/slash_preview_r1*.log beside CHANGE-BRIEF.md Revision 6's table.",
+   "media": {
+    "path": "stills/boundary-strip.png",
+    "sha256": "ada20a021ce4aa17b5c83db13cf49dd15cbd6fe774cad60095760b67c8ead045"
+   }
+  },
+  {
+   "code_beat": "B19",
+   "result_beat": "B20",
+   "observation": "The same capture: rise (frame 87) and fall (99) over the first spikes and the first goblin, the run between; a slash from frame 221 with the slash key pressed again on swing ticks 1, 5 and 13 (each read, each ignored: one swing, sword_idle on frame 230); a slash from frame 254 with a jump read on swing tick 5 (airborne on frame 257, sword_rise on 263 after the swing ends, landing on 277); with labelled replays: the air at ½×, each swing at ¼× and ⅛×, enlarged.",
+   "media": {
+    "path": "media/B20.mp4",
+    "sha256": "b62df9b2b5d12261a693831742c7d84f14390c3feb53c4be61806e6c0aba2aa7"
+   }
+  },
+  {
+   "code_beat": "B21",
+   "result_beat": "B22",
+   "observation": "Three Movie Maker takes of the real Main, each a fresh boot with scripted input that times the slash against goblin B walking into Rudy's back: play-01 (slash read on the second tick of frame 718, hit on swing tick 1, hurt on frame 719), play-02 (hit on swing tick 5, hurt on frame 371), play-03 (hit on swing tick 13, hurt on frame 371), each at 1.0×, as a labelled quarter-speed replay, and frame by frame around the hit (each game frame held 0.53 s), enlarged 2.5×.",
+   "media": {
+    "path": "media/B22.mp4",
+    "sha256": "218a8a86ed3ec1e69b97c50f3fbf5b4d79a050b61c3cabfab5194fedaba2bf41"
+   }
+  }
+ ]
+}

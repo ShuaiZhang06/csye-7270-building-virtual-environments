@@ -1,0 +1,2433 @@
+{
+  "metadata": {
+    "title": "A Run and a Slash for Walker Rudy.",
+    "slug": "claude-liam-walker-rudy-animation",
+    "topic": "WALKER-RUDY · ANIMATION IN GODOT 4.7",
+    "register": "Teardown",
+    "audience": "Claude",
+    "brand": "claude-liam",
+    "persona": "Liam (in for Bear)",
+    "voice": "am_onyx",
+    "engine": "kokoro",
+    "voice_kokoro": "am_onyx",
+    "palette": "claude",
+    "style_preset": "claude",
+    "ground": "#FAF9F5",
+    "greeting": "Jambo, Liam",
+    "folderLabel": "@NikBearBrown",
+    "in_for_bear": true,
+    "aspect_ratio": "16:9",
+    "fps": 30,
+    "skill": "godot-gamedev (walker modifier)",
+    "student": "shuai-z",
+    "game": {
+      "name": "walker-rudy (assignment-7: game/)",
+      "revision": "775c14c3d3f60d82d12a32264ba565683c9fb0da",
+      "short_revision": "775c14c",
+      "engine": "4.7.2.stable.official.ed1daf0bf",
+      "folders": [
+        "assignment-7/game"
+      ]
+    },
+    "build": {
+      "at": "2026-11-17T19:37:59",
+      "cut": "master",
+      "filled": 31,
+      "of": 31,
+      "slates": [],
+      "skin_warnings": []
+    }
+  },
+  "beats": [
+    {
+      "beat_id": "B00",
+      "act": "cold open — the Walker ask",
+      "components": [],
+      "role_note": "walker modifier B00. Reconstructed prompt, said out loud; not a transcript.",
+      "narration_text": "Jambo, this is Liam, in for Bear. That prompt is an illustrative reconstruction, not something anyone typed. What is real is underneath it: walker-rudy, the 2D game shuai-z started in Assignment 2, now animated. A run cycle sliced from a sprite sheet of Rudy's own frames, and a sword slash on a cutout rig.",
+      "shot": {
+        "type": "REMOTION",
+        "lane": "bookend",
+        "remotion": {
+          "pattern": "ClaudeComposerAsk",
+          "props": {
+            "greeting": "Jambo, Liam",
+            "topic": "WALKER-RUDY · ANIMATION IN GODOT 4.7",
+            "segment": "A Run and a Slash for Walker Rudy.",
+            "command": "Please use Walker to convert my game design document about Walker Rudy — a chibi boy who crosses the Harvest Fields with a sword — into two animations: a looping run cycle sliced from a sprite sheet of his own frames, and a sword slash on a cutout rig whose startup, active and recovery frames come from a phase table, each clip read back by a test, driven by one state machine, and judged in a frame strip and in play.",
+            "runningText": "reconstructed prompt — illustrative, not a transcript…",
+            "output": [
+              "Repo walker-rudy · assignment-7/game at 775c14c · Godot 4.7.2 · GL Compatibility · one 2D game.",
+              "Built: run and sword_run (a 4 × 4 sheet, a frame track) and slash (a cutout rig keyed as resource text), one AnimationPlayer.",
+              "Clips and tests: scoped claude -p sessions · every verdict and approval: shuai-z · captures: Claude, at shuai-z's request."
+            ],
+            "folderLabel": "@NikBearBrown",
+            "modelLabel": "Opus 5.5",
+            "effortLabel": "High",
+            "durationSeconds": 17.5667
+          },
+          "rendered": {
+            "out": "media/B00.mp4",
+            "at": "2026-11-17T23:06:20.951597+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B00.wav",
+      "actual_duration_s": 17.566667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B00.mp4",
+        "filled_by": "remotion:ClaudeComposerAsk",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 17.6
+    },
+    {
+      "beat_id": "B01",
+      "act": "BLUF — what was actually built",
+      "components": [],
+      "lead_silence_s": 0.8,
+      "role_note": "EXECUTIVE-SUMMARY LAW. The correction is the misconception: feel is designed in frames, not seconds.",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "BrutalistHesitantWriter types the overview token by token; mid-beat frames are mostly cream by design."
+      },
+      "narration_text": "A run and a slash for Walker Rudy, keyed from a table, and designed in frames, not seconds. The slash is seventeen physics ticks: two to wind up, nine that can hit, six to recover. Every key time comes from that table, a test reads every key back, and shuai-z's eyes, not a test, judged whether it reads.",
+      "shot": {
+        "type": "REMOTION",
+        "lane": "bookend",
+        "remotion": {
+          "pattern": "BrutalistHesitantWriter",
+          "props": {
+            "text": "A run and a slash for Walker Rudy,\nkeyed from a table,\ndesigned in seconds.",
+            "triggerWords": "seconds",
+            "replacementWords": "frames",
+            "seed": "walker-rudy-animation-bluf-2026-11-16",
+            "face": "serif",
+            "fontSize": 112,
+            "lineSpacing": 1.4,
+            "align": "center",
+            "charMs": 24,
+            "jitter": 6,
+            "mistakeRate": 3,
+            "hesitateWithin": 1,
+            "hesitateBetween": 4,
+            "banner": "",
+            "durationSeconds": 18.0667
+          },
+          "rendered": {
+            "out": "media/B01.mp4",
+            "at": "2026-11-17T23:07:15.452094+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B01.wav",
+      "actual_duration_s": 18.066667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B01.mp4",
+        "filled_by": "remotion:BrutalistHesitantWriter",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 18.1
+    },
+    {
+      "beat_id": "B02",
+      "act": "the game, both clips, their routes",
+      "narration_text": "Walker Rudy is a 2D side-scroller in Godot four point seven, on the Compatibility renderer. This assignment adds two clips. Run, with its sword form, is the loop: a Sprite 2D whose frame an Animation Player keys, cut from a sheet of Rudy's own frames. Slash is the committing action: a cutout rig keyed as resource text, with startup, active and recovery. One Animation Player plays both, and only Rudy's state machine tells it what to play.",
+      "components": [
+        "run-cycle",
+        "slash-rig",
+        "state-machine"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/game-card.png",
+        "still_plan": {
+          "image": "stills/game-card.png"
+        },
+        "observation": "Two crops of the film's own Movie Maker capture of the real Main at 775c14c (play-01): Rudy running on cell 2 of the sheet, and Rudy mid-slash on the cutout rig; beside them the two clips, their routes, nodes, which loops and which commits, and the one authority."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B02.wav",
+      "actual_duration_s": 24.233333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B02.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 24.233333333333334
+    },
+    {
+      "beat_id": "B03",
+      "act": "the sheet and its slicing",
+      "narration_text": "The sheet first. This is the Sprite 2D under Look, in Rudy's scene. Its texture is the whole sheet: sixteen frames in one image. Two numbers slice it: h-frames four, v-frames four. That makes a grid of sixteen cells, numbered row by row from zero, and which cell is frame three is decided here, by the slicing, not by the picture. Scale one half, and the same offset every frame had, so his soles land on the origin in every cell.",
+      "components": [
+        "run-cycle"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "The Sheet, Sliced by Two Numbers",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://content/rudy/rudy.tscn",
+            "source": "Source: assignment-7/game/content/rudy/rudy.tscn, lines 31–38 (verbatim). Godot editor reconstruction.",
+            "code": "[node name=\"Sprite\" type=\"Sprite2D\" parent=\"Look\"]\nmaterial = ExtResource(\"4_outline\")\nscale = Vector2(0.5, 0.5)\ntexture = ExtResource(\"3_sheet\")\ncentered = false\noffset = Vector2(-205, -370)\nhframes = 4\nvframes = 4",
+            "startLine": 31,
+            "codeFontSize": 30,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Sheet",
+                "value": "rudy_sheet.png, 1640 × 1544"
+              },
+              {
+                "label": "Cells",
+                "value": "16; the last is 15"
+              },
+              {
+                "label": "Built by",
+                "value": "claude -p sessions 3, 5"
+              }
+            ],
+            "output": [
+              "game/content/rudy/rudy.tscn · Look/Sprite"
+            ],
+            "durationSeconds": 22.5667,
+            "cues": [
+              {
+                "at": 3.69,
+                "line": 34,
+                "label": "texture = rudy_sheet.png, 1640 × 1544"
+              },
+              {
+                "at": 7.75,
+                "line": 37,
+                "label": "hframes = 4: four columns"
+              },
+              {
+                "at": 8.52,
+                "line": 38,
+                "label": "vframes = 4: four rows → cells 0–15"
+              },
+              {
+                "at": 16.98,
+                "line": 33,
+                "label": "scale 0.5: 2 texture px per game px"
+              },
+              {
+                "at": 18.21,
+                "line": 36,
+                "label": "offset (−205, −370): his soles on the origin"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B03.mp4",
+            "at": "2026-11-17T23:08:21.338829+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "texture is the whole sheet",
+            "line": 34,
+            "label": "texture = rudy_sheet.png, 1640 × 1544"
+          },
+          {
+            "phrase": "h-frames four",
+            "line": 37,
+            "label": "hframes = 4: four columns"
+          },
+          {
+            "phrase": "v-frames four",
+            "line": 38,
+            "label": "vframes = 4: four rows → cells 0–15"
+          },
+          {
+            "phrase": "Scale one half",
+            "line": 33,
+            "label": "scale 0.5: 2 texture px per game px"
+          },
+          {
+            "phrase": "same offset",
+            "line": 36,
+            "label": "offset (−205, −370): his soles on the origin"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "content/rudy/rudy.tscn",
+        "start_line": 31,
+        "end_line": 38
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B03.wav",
+      "actual_duration_s": 22.566667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B03.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 22.6
+    },
+    {
+      "beat_id": "B04",
+      "act": "result — the sheet, and what Godot drew from it",
+      "narration_text": "Here is that sheet, with the grid drawn over it for the film. Sixteen cells of four hundred and ten by three hundred and eighty-six pixels: Rudy's sixteen Assignment 2 frames, packed by a script with no scaling and no edits, every cell checked against its source pixel for pixel. Run uses cells one and two, the sword run twelve and thirteen. On the right is what Godot actually drew from those cells: crops of the run preview, a fixture capture.",
+      "components": [
+        "run-cycle"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/sheet-slicing.png",
+        "still_plan": {
+          "image": "stills/sheet-slicing.png"
+        },
+        "observation": "The sheet game/content/rudy/sheet/rudy_sheet.png with the 4 × 4 grid and cell numbers drawn over it by the film's script; beside it, fixture-capture crops of run_preview frames in which Godot drew cells 1, 2, 12 and 13 (captures/run/r0/, r0-sword/)."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B04.wav",
+      "actual_duration_s": 23.133333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B04.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 23.133333333333333
+    },
+    {
+      "beat_id": "B05",
+      "act": "the frame track that reads it",
+      "narration_text": "And this is the frame track that reads the sheet: the run clip. One value track on Sprite, colon, frame. Two keys: cell one at zero, cell two at point one two five seconds. Update one is discrete, so the frame jumps from cell to cell and never sweeps through the cells between. Length point two five, and loop mode one, linear. That is the seam rule for a frame track: no duplicate across the wrap. The last key is cell two, the first is cell one, and the gap from the last key to the end equals the key interval. Step, point one two five: one frame period, at eight cells a second.",
+      "components": [
+        "run-cycle"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "The Frame Track That Reads It",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://animations/rudy_animations.tres",
+            "source": "Source: assignment-7/game/animations/rudy_animations.tres, lines 47–60 (verbatim). Godot editor reconstruction.",
+            "code": "length = 0.25\nloop_mode = 1\nstep = 0.125\ntracks/0/type = \"value\"\ntracks/0/imported = false\ntracks/0/enabled = true\ntracks/0/path = NodePath(\"Sprite:frame\")\ntracks/0/interp = 1\ntracks/0/loop_wrap = true\ntracks/0/keys = {\n\"times\": PackedFloat32Array(0, 0.125),\n\"transitions\": PackedFloat32Array(1, 1),\n\"update\": 1,\n\"values\": [1, 2]",
+            "startLine": 47,
+            "codeFontSize": 23,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Seam",
+                "value": "no duplicate at the wrap"
+              },
+              {
+                "label": "sword_run",
+                "value": "cells 12 and 13"
+              },
+              {
+                "label": "Built by",
+                "value": "claude -p sessions 4, 12"
+              }
+            ],
+            "output": [
+              "game/animations/rudy_animations.tres · run"
+            ],
+            "durationSeconds": 32.1,
+            "cues": [
+              {
+                "at": 4.5,
+                "line": 53,
+                "label": "Sprite:frame — a value track on one integer"
+              },
+              {
+                "at": 6.24,
+                "line": 57,
+                "label": "times 0 and 0.125 s"
+              },
+              {
+                "at": 9.38,
+                "line": 59,
+                "label": "update 1: UPDATE_DISCRETE"
+              },
+              {
+                "at": 12.91,
+                "line": 60,
+                "label": "values [1, 2]: cells 1 and 2"
+              },
+              {
+                "at": 15.08,
+                "line": 47,
+                "label": "length 0.25 s"
+              },
+              {
+                "at": 16.54,
+                "line": 48,
+                "label": "loop_mode 1: LOOP_LINEAR"
+              },
+              {
+                "at": 27.88,
+                "line": 49,
+                "label": "step 0.125 s: one frame period at 8 cells/s"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B05.mp4",
+            "at": "2026-11-18T00:19:20.266816+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "Sprite, colon, frame",
+            "line": 53,
+            "label": "Sprite:frame — a value track on one integer"
+          },
+          {
+            "phrase": "cell one at zero",
+            "line": 57,
+            "label": "times 0 and 0.125 s"
+          },
+          {
+            "phrase": "Update one",
+            "line": 59,
+            "label": "update 1: UPDATE_DISCRETE"
+          },
+          {
+            "phrase": "never sweeps",
+            "line": 60,
+            "label": "values [1, 2]: cells 1 and 2"
+          },
+          {
+            "phrase": "Length point two five",
+            "line": 47,
+            "label": "length 0.25 s"
+          },
+          {
+            "phrase": "loop mode one",
+            "line": 48,
+            "label": "loop_mode 1: LOOP_LINEAR"
+          },
+          {
+            "phrase": "Step, point one two five",
+            "line": 49,
+            "label": "step 0.125 s: one frame period at 8 cells/s"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "animations/rudy_animations.tres",
+        "start_line": 47,
+        "end_line": 60
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B05.wav",
+      "actual_duration_s": 32.1,
+      "render_duration_s": 32.1,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B05.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      }
+    },
+    {
+      "beat_id": "B06",
+      "act": "result — the run in play",
+      "components": [
+        "run-cycle",
+        "state-machine"
+      ],
+      "narration_text": "In the game, real engine output. Enter, and he runs: cell one, cell two, eight cells a second. He jumps the spikes, rise then fall, and jumps the first goblin. At a quarter speed: the frame jumps between two cells, nothing in between, and the cycle wraps with no doubled frame. He reaches the sword mid-run, and the sword run starts from its own first cell, twelve. A clip restarts whenever he enters it.",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "gameplay",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "media/B06.mp4",
+        "capture_plan": {
+          "segments": [
+            {
+              "capture": "play-01",
+              "from": 28,
+              "to": 182,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 108,
+              "to": 128,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · the run: cell 1, cell 2, 8 cells a second",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 110,
+              "to": 124,
+              "speed": 0.125,
+              "label": "REPLAY ⅛× · ENLARGED 2.5× · the seam: cell 2 wraps to cell 1, no frame doubled",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 158,
+              "to": 190,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · the sword, mid-run: sword_run starts on cell 12",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 164,
+              "to": 176,
+              "speed": 0.125,
+              "label": "REPLAY ⅛× · ENLARGED 2.5× · cell 2 on frame 167, then sword_run from cell 12",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            }
+          ],
+          "chips": [
+            "SCRIPTED INPUT · a film-only driver on a copy presses Enter, move, jump and slash",
+            "CAPTURED BY CLAUDE AT SHUAI-Z'S REQUEST"
+          ],
+          "action_frames": 570,
+          "held_final_frames": 78,
+          "total_frames": 648,
+          "captures": [
+            "play-01"
+          ]
+        },
+        "observation": "The real Main in Godot 4.7.2 Compatibility, Movie Maker at 3840×2160 and 30 fps, scripted input (play-01): Enter on the title, the run from frame 51 (cells 1 and 2), rise and fall over the first spikes and the first goblin, the sword picked up mid-run on frame 168 (sword_run from cell 12), the stop on frame 180; then labelled replays, enlarged 2.5×: frames 108–127 at ¼× and 110–123 at ⅛× (cells 1, 1, 2, 2, 2, 2, 1 …: no frame between, none doubled at the wrap), frames 158–189 at ¼× and 164–175 at ⅛× (cell 2 on frame 167, sword_run from cell 12 on 168)."
+      },
+      "qc": {
+        "full_bleed": true,
+        "full_bleed_reason": "Engine capture renders edge to edge at 3840x2160; the film's chips sit inside the title-safe inset. Only the edge-bleed check is waived.",
+        "contrast_regions": [
+          {
+            "label": "provenance chip",
+            "box": [
+              0.5664,
+              0.8671,
+              0.9458,
+              0.8954
+            ]
+          }
+        ],
+        "contrast_reason": "Engine capture: the whole-frame ink average measures the game's art, not text. The film's own essential text is its chips; the provenance chip is on every frame and is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B06.wav",
+      "actual_duration_s": 21.6,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B06.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 21.6
+    },
+    {
+      "beat_id": "B07",
+      "act": "registration and the seam, in the run strip",
+      "narration_text": "Registration and the seam, in the run strip: a fixture, the preview scene over the real level. Twelve frames of each form, with the walk line drawn across. His soles sit on it in every cell, and the two cells do not jump against each other. The log puts his origin on the same screen point every frame, but a log is not a look. shuai-z's human checks: the seam, no problem; registration, normal. How many wraps, and which form, those words do not say.",
+      "components": [
+        "run-cycle"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/registration.png",
+        "still_plan": {
+          "image": "stills/registration.png"
+        },
+        "observation": "Fixture captures of game/previews/run_preview.tscn, frames 30–41 of captures/run/r0/ and r0-sword/, cropped around Rudy and enlarged 2× nearest, with the walk line drawn; each frame's cell read from logs/run_preview_r0*.log; shuai-z's human checks quoted from TEST-REPORT.md."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B07.wav",
+      "actual_duration_s": 23.2,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B07.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 23.2
+    },
+    {
+      "beat_id": "B08",
+      "act": "question 1 — what a clip is",
+      "narration_text": "The first question: what is a clip? This one, the slash's Grip track, is the whole answer. A track names a node path and a property: Slash Rig, Lean, Grip, colon, rotation degrees. Then keys: five times, five values, five transitions. Update zero is continuous, so the angle is interpolated between keys. Playing the clip means setting that property to those values at those times. Nothing in it knows about the sword, the goblin or the hitbox.",
+      "components": [
+        "slash-rig"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "A Clip Is a List of Keys",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://animations/rudy_animations.tres",
+            "source": "Source: assignment-7/game/animations/rudy_animations.tres, lines 409–420 (verbatim). Godot editor reconstruction.",
+            "code": "tracks/2/type = \"value\"\ntracks/2/imported = false\ntracks/2/enabled = true\ntracks/2/path = NodePath(\"SlashRig/Lean/Grip:rotation_degrees\")\ntracks/2/interp = 1\ntracks/2/loop_wrap = true\ntracks/2/keys = {\n\"times\": PackedFloat32Array(0, 0.033333335, 0.083333336, 0.18333334, 0.28333333),\n\"transitions\": PackedFloat32Array(2, 2, 0.5, 0.5, 1),\n\"update\": 0,\n\"values\": [-70.0, -60.0, 0.0, 45.0, 15.0]\n}",
+            "startLine": 409,
+            "codeFontSize": 27,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Clip",
+                "value": "slash: 6 tracks, 17/60 s"
+              },
+              {
+                "label": "Loop",
+                "value": "LOOP_NONE (no line)"
+              },
+              {
+                "label": "Keyed by",
+                "value": "claude -p sessions 7, 8"
+              }
+            ],
+            "output": [
+              "game/animations/rudy_animations.tres · slash, track 2"
+            ],
+            "durationSeconds": 23.5667,
+            "cues": [
+              {
+                "at": 5.56,
+                "line": 412,
+                "label": "SlashRig/Lean/Grip : rotation_degrees"
+              },
+              {
+                "at": 9.97,
+                "line": 416,
+                "label": "times 0, 2/60, 5/60, 11/60, 17/60 s"
+              },
+              {
+                "at": 10.6,
+                "line": 419,
+                "label": "values −70, −60, 0, 45, 15 degrees"
+              },
+              {
+                "at": 11.27,
+                "line": 417,
+                "label": "2 ease-in · 0.5 ease-out · 1 linear"
+              },
+              {
+                "at": 12.21,
+                "line": 418,
+                "label": "update 0: UPDATE_CONTINUOUS"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B08.mp4",
+            "at": "2026-11-17T23:11:02.820358+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "node path and a property",
+            "line": 412,
+            "label": "SlashRig/Lean/Grip : rotation_degrees"
+          },
+          {
+            "phrase": "five times",
+            "line": 416,
+            "label": "times 0, 2/60, 5/60, 11/60, 17/60 s"
+          },
+          {
+            "phrase": "five values",
+            "line": 419,
+            "label": "values −70, −60, 0, 45, 15 degrees"
+          },
+          {
+            "phrase": "five transitions",
+            "line": 417,
+            "label": "2 ease-in · 0.5 ease-out · 1 linear"
+          },
+          {
+            "phrase": "Update zero",
+            "line": 418,
+            "label": "update 0: UPDATE_CONTINUOUS"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "animations/rudy_animations.tres",
+        "start_line": 409,
+        "end_line": 420
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B08.wav",
+      "actual_duration_s": 23.566667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B08.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 23.6
+    },
+    {
+      "beat_id": "B09",
+      "act": "result — the keys played, in the game",
+      "components": [
+        "slash-rig",
+        "state-machine"
+      ],
+      "narration_text": "Played, in the game: one swing, standing. At a quarter speed the keys come out as motion. The first drawn frame is tick one, the blade back over his shoulder. By tick five it is at zero, the angle it was drawn at. Forty-five on tick eleven, then it settles back, and on tick seventeen the sword idle frame returns.",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "gameplay",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "media/B09.mp4",
+        "capture_plan": {
+          "segments": [
+            {
+              "capture": "play-01",
+              "from": 190,
+              "to": 212,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 196,
+              "to": 208,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · one slash: swing ticks 1, 3, 5 … 15, two a frame",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 196,
+              "to": 208,
+              "speed": 0.125,
+              "label": "REPLAY ⅛× · ENLARGED 2.5× · one slash",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 197,
+              "to": 207,
+              "speed": 0.041666666666666664,
+              "label": "FRAME BY FRAME 1/24× · ENLARGED 2.5× · frames 197–206: sword_idle, ticks 1, 3 … 15, sword_idle",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            }
+          ],
+          "chips": [
+            "SCRIPTED INPUT · a film-only driver on a copy presses Enter, move, jump and slash",
+            "CAPTURED BY CLAUDE AT SHUAI-Z'S REQUEST"
+          ],
+          "action_frames": 406,
+          "held_final_frames": 119,
+          "total_frames": 525,
+          "captures": [
+            "play-01"
+          ]
+        },
+        "observation": "The same capture: one slash standing, the rig shown on frames 198–205 (swing ticks 1 to 15, two ticks a frame; Grip −67.5, −53.3, 0, 25, 40, 45, 28.3, 18.3 in the run log), sword_idle again on frame 206; then labelled replays, enlarged 2.5×, at ¼× and ⅛×, and frame by frame (each game frame held 0.8 s) from frame 197 to 206."
+      },
+      "qc": {
+        "full_bleed": true,
+        "full_bleed_reason": "Engine capture renders edge to edge at 3840x2160; the film's chips sit inside the title-safe inset. Only the edge-bleed check is waived.",
+        "contrast_regions": [
+          {
+            "label": "provenance chip",
+            "box": [
+              0.5622,
+              0.8671,
+              0.9458,
+              0.8954
+            ]
+          }
+        ],
+        "contrast_reason": "Engine capture: the whole-frame ink average measures the game's art, not text. The film's own essential text is its chips; the provenance chip is on every frame and is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B09.wav",
+      "actual_duration_s": 17.5,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B09.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 17.5
+    },
+    {
+      "beat_id": "B10",
+      "act": "why a missing property fails silently",
+      "narration_text": "Why does a track that names a property that does not exist fail silently? Because a path is only text until the clip plays. A probe gave one clip a track to a missing node and one to a missing property. The missing node printed one warning, which the wrapper now fails on. The missing property printed nothing at all: that part simply does not move. So the read-back asks each node whether the property is in it. Mutation one dropped one letter, rotation degree. The game would load without a word; the read-back failed.",
+      "components": [
+        "animation-tests"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/missing-property.png",
+        "still_plan": {
+          "image": "stills/missing-property.png"
+        },
+        "observation": "A card of recorded evidence: the load-error probe's track row and log line (evidence/load-error-probe/), test_rudy_clips.gd lines 419–421 verbatim, and mutation M1's diff and first FAIL line (logs/mutation_M1.txt). Labelled HEADLESS TEST OUTPUT."
+      },
+      "qc": {
+        "full_bleed": false
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B10.wav",
+      "actual_duration_s": 28.9,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B10.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 28.9
+    },
+    {
+      "beat_id": "B11",
+      "act": "question 2 — one authority",
+      "narration_text": "The second question: what does one authority mean? Exactly one thing writes to an animated node. Here that is the Animation Player under Look. It alone keys the Sprite's frame and visibility, the rig's visibility, and Grip, Lean and the arc. Rudy's script writes only Look itself: its scale, for facing, and its alpha, for the flash, which no clip keys. And it tells the player what to play in one place, line two forty-one, every physics tick, restarting the slash on every new swing. With two writers on one node, the one that runs last in the frame wins, and that depends on node order, not on any design.",
+      "components": [
+        "state-machine"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "One Authority, One Call",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://content/rudy/rudy.gd",
+            "source": "Source: assignment-7/game/content/rudy/rudy.gd, lines 231–241 (verbatim). Godot editor reconstruction.",
+            "code": "\t\t_slash_clock = 0.0\n\t\tnew_swing = true\n\t\tSfx.play(&\"slash\")\n\tmove_and_slide()\n\n\t_swing(delta)\n\t_count_down(delta)\n\t_look.scale.x = facing\n\t_look.modulate.a = 0.35 if is_invulnerable() and fmod(_invulnerable_left, flash_period) < flash_period / 2.0 else 1.0\n\t# Every new swing starts the slash clip over from its first key.\n\t_look.play_clip(_pick_clip(), new_swing)",
+            "startLine": 231,
+            "codeFontSize": 23,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Player writes",
+                "value": "Sprite, SlashRig, the rig"
+              },
+              {
+                "label": "Rudy writes",
+                "value": "Look scale.x, modulate.a"
+              },
+              {
+                "label": "Never added",
+                "value": "a second writer"
+              }
+            ],
+            "output": [
+              "game/content/rudy/rudy.gd · _physics_process"
+            ],
+            "durationSeconds": 32.6667,
+            "cues": [
+              {
+                "at": 14.86,
+                "line": 238,
+                "label": "Look.scale.x = facing: Rudy's own write"
+              },
+              {
+                "at": 16.28,
+                "line": 239,
+                "label": "Look.modulate.a: the flash"
+              },
+              {
+                "at": 21.41,
+                "line": 241,
+                "label": "play_clip(_pick_clip(), new_swing): the one call"
+              },
+              {
+                "at": 23.53,
+                "line": 232,
+                "label": "new_swing: a fresh press, no swing under way"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B11.mp4",
+            "at": "2026-11-18T00:20:54.844154+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "its scale",
+            "line": 238,
+            "label": "Look.scale.x = facing: Rudy's own write"
+          },
+          {
+            "phrase": "its alpha",
+            "line": 239,
+            "label": "Look.modulate.a: the flash"
+          },
+          {
+            "phrase": "line two forty-one",
+            "line": 241,
+            "label": "play_clip(_pick_clip(), new_swing): the one call"
+          },
+          {
+            "phrase": "restarting the slash",
+            "line": 232,
+            "label": "new_swing: a fresh press, no swing under way"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "content/rudy/rudy.gd",
+        "start_line": 231,
+        "end_line": 241
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B11.wav",
+      "actual_duration_s": 32.666667,
+      "render_duration_s": 32.7,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B11.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      }
+    },
+    {
+      "beat_id": "B12",
+      "act": "result — one authority in play",
+      "components": [
+        "state-machine",
+        "slash-rig"
+      ],
+      "narration_text": "In play. He turns and runs left, and the Sprite flips with Look, because Rudy's script flips Look and the player owns everything under it. He slashes while running: the selector switches to slash on the tick of the press, and back to the sword run on tick seventeen, starting over from cell twelve, and the rig is mirrored with him. The brief predicted what a second authority would look like: a flicker between a whole frame and a sheet cell. The read-back checks that no script sets the Sprite's texture or frame.",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "gameplay",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "media/B12.mp4",
+        "capture_plan": {
+          "segments": [
+            {
+              "capture": "play-01",
+              "from": 288,
+              "to": 345,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 294,
+              "to": 330,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · turn, run, slash, run: the rig flips with Look",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 312,
+              "to": 327,
+              "speed": 0.125,
+              "label": "REPLAY ⅛× · ENLARGED 2.5× · the slash while running left: the rig mirrored",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 314,
+              "to": 325,
+              "speed": 0.041666666666666664,
+              "label": "FRAME BY FRAME 1/24× · ENLARGED 2.5× · frames 314–324: sword_run, slash ticks 0 … 16, sword_run cell 12",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 296,
+              "to": 345,
+              "speed": 0.5,
+              "label": "REPLAY ½× · ENLARGED 2.5× · turn, run, slash, run",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            }
+          ],
+          "chips": [
+            "SCRIPTED INPUT · a film-only driver on a copy presses Enter, move, jump and slash",
+            "CAPTURED BY CLAUDE AT SHUAI-Z'S REQUEST"
+          ],
+          "action_frames": 683,
+          "held_final_frames": 141,
+          "total_frames": 824,
+          "captures": [
+            "play-01"
+          ]
+        },
+        "observation": "The same capture: he turns left on frame 298 (Look flips), runs from frame 301 (sword_run), slashes while running on frames 315–323 and runs on in sword_run from cell 12 on frame 324, stopping on frame 338; then labelled replays, enlarged 2.5×: ¼×, ⅛× of the slash while running, frame by frame from 314 to 324 (each game frame held 0.8 s), and ½×."
+      },
+      "qc": {
+        "full_bleed": true,
+        "full_bleed_reason": "Engine capture renders edge to edge at 3840x2160; the film's chips sit inside the title-safe inset. Only the edge-bleed check is waived.",
+        "contrast_regions": [
+          {
+            "label": "provenance chip",
+            "box": [
+              0.5581,
+              0.8671,
+              0.9458,
+              0.8954
+            ]
+          }
+        ],
+        "contrast_reason": "Engine capture: the whole-frame ink average measures the game's art, not text. The film's own essential text is its chips; the provenance chip is on every frame and is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B12.wav",
+      "actual_duration_s": 27.466667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B12.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 27.5
+    },
+    {
+      "beat_id": "B13",
+      "act": "question 3 — the two clocks",
+      "narration_text": "The third question: the two clocks. An Animation Player advances on the tick its callback mode names: the process tick, once per drawn frame, or the physics tick. Gameplay here reads on the physics tick: the hitbox is decided from the swing clock inside Rudy's physics process. So the player is set to physics, zero, here in the scene, not the default, idle. Both clocks are now the same tick. Its root node is Look, the parent, so every track path starts there. Autoplay is empty, so nothing plays a clip on its own, and speed scale is one.",
+      "components": [
+        "state-machine"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "Two Clocks, Made One",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://content/rudy/rudy.tscn",
+            "source": "Source: assignment-7/game/content/rudy/rudy.tscn, lines 69–76 (verbatim). Godot editor reconstruction.",
+            "code": "[node name=\"AnimationPlayer\" type=\"AnimationPlayer\" parent=\"Look\"]\nroot_node = NodePath(\"..\")\nlibraries = {\n&\"\": ExtResource(\"5_anims\")\n}\nautoplay = \"\"\nspeed_scale = 1.0\ncallback_mode_process = 0",
+            "startLine": 69,
+            "codeFontSize": 30,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Gameplay",
+                "value": "rudy.gd:248, each tick"
+              },
+              {
+                "label": "Default",
+                "value": "idle (1): per drawn frame"
+              },
+              {
+                "label": "Measured",
+                "value": "0 s apart, every tick"
+              }
+            ],
+            "output": [
+              "game/content/rudy/rudy.tscn · Look/AnimationPlayer"
+            ],
+            "durationSeconds": 30.3667,
+            "cues": [
+              {
+                "at": 4.47,
+                "line": 76,
+                "label": "callback_mode_process = 0: physics"
+              },
+              {
+                "at": 21.97,
+                "line": 70,
+                "label": "root_node ..: track paths start at Look"
+              },
+              {
+                "at": 25.56,
+                "line": 74,
+                "label": "autoplay \"\": nothing starts by itself"
+              },
+              {
+                "at": 28.81,
+                "line": 75,
+                "label": "speed_scale 1.0"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B13.mp4",
+            "at": "2026-11-17T23:14:04.666705+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "callback mode",
+            "line": 76,
+            "label": "callback_mode_process = 0: physics"
+          },
+          {
+            "phrase": "root node is Look",
+            "line": 70,
+            "label": "root_node ..: track paths start at Look"
+          },
+          {
+            "phrase": "Autoplay is empty",
+            "line": 74,
+            "label": "autoplay \"\": nothing starts by itself"
+          },
+          {
+            "phrase": "speed scale is one",
+            "line": 75,
+            "label": "speed_scale 1.0"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "content/rudy/rudy.tscn",
+        "start_line": 69,
+        "end_line": 76
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B13.wav",
+      "actual_duration_s": 30.366667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B13.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 30.4
+    },
+    {
+      "beat_id": "B14",
+      "act": "result — one clock, in the strip",
+      "narration_text": "What one clock looks like, in the strip: a fixture, with the collision shapes drawn. Frame thirty, tick one: the wind-up, the hitbox dead. Frame thirty-one, tick three: the blade on its way, the hitbox live. Frame thirty-five, tick eleven, the first frame of recovery: blade forward, hitbox dead. The picture and the hitbox change on the same ticks. The state test checked it on every swing tick: the clip position equals the ticks since the press over sixty, and the largest disagreement is zero. On the idle callback, at thirty frames a second, the clip would have trailed by up to a drawn frame.",
+      "components": [
+        "state-machine",
+        "slash-rig"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/clock-strip.png",
+        "still_plan": {
+          "image": "stills/clock-strip.png"
+        },
+        "observation": "Fixture captures r1 (first-tick offset), frames 29–35 and 38 of captures/slash/r1/, enlarged 2× nearest, drawn with --debug-collisions so the hitbox shows; each frame's swing tick, Grip and hitbox state read from logs/slash_preview_r1.log; and the state test's per-swing line from logs/test_rudy_states_60fps.log."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B14.wav",
+      "actual_duration_s": 33.466667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B14.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 33.5
+    },
+    {
+      "beat_id": "B15",
+      "act": "question 4 — feel designed in frames",
+      "narration_text": "The fourth question: what it means to design feel in frames. The phase table is the design, in ticks at sixty a second. Startup, ticks zero and one, the hitbox dead. Active, two to ten, live. Recovery, eleven to sixteen, dead. On seventeen the swing ends. These are the game's existing timings, kept on purpose, though the motion reference's wind-up is fifteen times longer. The keys are derived from the table: zero, two, five, eleven and seventeen, over sixty. To change the feel, you change the table, and the keys follow.",
+      "components": [
+        "slash-rig"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "card",
+        "remotion": {
+          "pattern": "GodotDesignFigure",
+          "props": {
+            "title": "The Phase Table, and the Keys Built From It",
+            "status": "CHANGE-BRIEF.md §2.2 · the phase table, in ticks at 60 · beside the keys of rudy_animations.tres",
+            "image": "reels/claude-liam-walker-rudy-animation/phase-keys.png",
+            "imageLabel": "",
+            "excerpt": "",
+            "source": "Source: CHANGE-BRIEF.md §2.2 (296c6bdf) and Revision 6; game/animations/rudy_animations.tres lines 416–419. Drafted by Claude, reviewed by shuai-z.",
+            "cards": [
+              {
+                "label": "Startup",
+                "text": "ticks 0–1 · hitbox dead"
+              },
+              {
+                "label": "Active",
+                "text": "ticks 2–10 · live"
+              },
+              {
+                "label": "Recovery",
+                "text": "ticks 11–16 · dead"
+              },
+              {
+                "label": "End",
+                "text": "tick 17 · the swing ends"
+              }
+            ],
+            "durationSeconds": 30.1,
+            "cues": [
+              {
+                "at": 6.76,
+                "card": 0
+              },
+              {
+                "at": 9.35,
+                "card": 1
+              },
+              {
+                "at": 10.82,
+                "card": 2
+              },
+              {
+                "at": 13.75,
+                "card": 3
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B15.mp4",
+            "at": "2026-11-17T23:15:31.599053+00:00"
+          }
+        },
+        "cue_cards": [
+          [
+            "Startup",
+            0
+          ],
+          [
+            "Active",
+            1
+          ],
+          [
+            "Recovery",
+            2
+          ],
+          [
+            "swing ends",
+            3
+          ]
+        ]
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B15.wav",
+      "actual_duration_s": 30.1,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B15.mp4",
+        "filled_by": "remotion:GodotDesignFigure",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 30.1
+    },
+    {
+      "beat_id": "B16",
+      "act": "the read-back pins the ticks",
+      "narration_text": "The read-back writes the same table in ticks. Grip: tick zero, minus seventy; two, minus sixty; five, zero; eleven, forty-five; seventeen, fifteen; each with its transition. Lean, its position and the arc follow at the same boundary ticks. The test divides by sixty and compares each key time to within a microsecond, never with equals, because the file stores them as thirty-two-bit floats. And line one thirty-two is where tuning changed one number: the key at tick five eases out, point five, instead of in.",
+      "components": [
+        "animation-tests",
+        "slash-rig"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "The Read-Back Writes the Table in Ticks",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://tests/test_rudy_clips.gd",
+            "source": "Source: assignment-7/game/tests/test_rudy_clips.gd, lines 131–139 (verbatim). Godot editor reconstruction.",
+            "code": "\t[^\"SlashRig/Lean/Grip:rotation_degrees\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, -70.0, 2.0], [2, -60.0, 2.0], [5, 0.0, 0.5], [11, 45.0, 0.5], [17, 15.0, 1.0]]],\n\t[^\"SlashRig/Lean:rotation_degrees\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, -2.0, 1.0], [2, -2.0, 1.0], [5, 3.0, 1.0], [11, 3.0, 0.5], [17, 0.0, 1.0]]],\n\t[^\"SlashRig/Lean:position\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, Vector2(0, 0), 1.0], [2, Vector2(0, 0), 1.0], [5, Vector2(6, 0), 1.0], [11, Vector2(6, 0), 0.5],\n\t\t\t[17, Vector2(0, 0), 1.0]]],\n\t[^\"SlashRig/Lean/Arc:modulate:a\", Animation.UPDATE_CONTINUOUS,\n\t\t[[0, 0.0, 1.0], [2, 0.0, 1.0], [4, 1.0, 1.0], [11, 0.0, 1.0], [17, 0.0, 1.0]]],",
+            "startLine": 131,
+            "codeFontSize": 23,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Tolerance",
+                "value": "1 µs, never =="
+              },
+              {
+                "label": "Checks",
+                "value": "51 · 30 NEGATIVE"
+              },
+              {
+                "label": "Written by",
+                "value": "sessions 4–8, 12, 18b"
+              }
+            ],
+            "output": [
+              "game/tests/test_rudy_clips.gd · RIG_TRACKS"
+            ],
+            "durationSeconds": 30.2333,
+            "cues": [
+              {
+                "at": 2.68,
+                "line": 131,
+                "label": "Grip:rotation_degrees, continuous"
+              },
+              {
+                "at": 7.46,
+                "line": 132,
+                "label": "[tick, degrees, transition] × 5"
+              },
+              {
+                "at": 10.14,
+                "line": 134,
+                "label": "Lean: −2, −2, 3, 3, 0 degrees"
+              },
+              {
+                "at": 11.48,
+                "line": 139,
+                "label": "Arc alpha: on by tick 4, off by 11"
+              },
+              {
+                "at": 14.52,
+                "line": 132,
+                "label": "ticks; the check divides each by 60"
+              },
+              {
+                "at": 23.09,
+                "line": 132,
+                "label": "[5, 0.0, 0.5]: tuning r1's one change"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B16.mp4",
+            "at": "2026-11-18T00:22:22.977094+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "Grip: tick zero",
+            "line": 131,
+            "label": "Grip:rotation_degrees, continuous"
+          },
+          {
+            "phrase": "seventeen, fifteen",
+            "line": 132,
+            "label": "[tick, degrees, transition] × 5"
+          },
+          {
+            "phrase": "Lean, its position",
+            "line": 134,
+            "label": "Lean: −2, −2, 3, 3, 0 degrees"
+          },
+          {
+            "phrase": "the arc",
+            "line": 139,
+            "label": "Arc alpha: on by tick 4, off by 11"
+          },
+          {
+            "phrase": "divides by sixty",
+            "line": 132,
+            "label": "ticks; the check divides each by 60"
+          },
+          {
+            "phrase": "line one thirty-two",
+            "line": 132,
+            "label": "[5, 0.0, 0.5]: tuning r1's one change"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "tests/test_rudy_clips.gd",
+        "start_line": 131,
+        "end_line": 139
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B16.wav",
+      "actual_duration_s": 30.233333,
+      "render_duration_s": 30.233333333333334,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B16.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      }
+    },
+    {
+      "beat_id": "B17",
+      "act": "result — the strip at each phase boundary",
+      "narration_text": "And the strip at each phase boundary. Movie Maker at thirty frames a second draws two ticks a frame, so two captures, a tick apart, cover every boundary. Startup into active: tick one, the blade back and the hitbox dead; tick two, the first active key, the hitbox live. Active into recovery: tick ten, the last live tick; tick eleven, the blade at forty-five and the hitbox dead. And the end: tick sixteen, the last slash frame; tick seventeen, the sword idle frame again. Each logged value matches the brief's table.",
+      "components": [
+        "slash-rig"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/boundary-strip.png",
+        "still_plan": {
+          "image": "stills/boundary-strip.png"
+        },
+        "observation": "Fixture captures r1 at both tick offsets (captures/slash/r1/ and r1-second-tick/), enlarged 2× nearest, ordered by swing tick: 1 and 2 (startup into active), 10 and 11 (active into recovery), 16 and 17 (the end); each frame's tick, Grip and hitbox read from logs/slash_preview_r1*.log beside CHANGE-BRIEF.md Revision 6's table."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B17.wav",
+      "actual_duration_s": 30.2,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B17.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 30.2
+    },
+    {
+      "beat_id": "B18",
+      "act": "tuning r1 — a reading, a change, a verdict",
+      "narration_text": "Then tuning. shuai-z watched the previews first, before Claude read a frame, and said: the three phases are distinct, and the sword does not catch as it sweeps. Claude's reading disagreed. From frame thirty-two to thirty-three the blade turns only five degrees, a near stop, because both keys around tick five eased in. That is a claim, and the record keeps both. One change, proposed by Claude and approved by shuai-z: the key at tick five eases out. Claude predicted Grip twenty-five on frame thirty-three and forty on thirty-four, and strip r one logged exactly those. shuai-z watched it in the game at a quarter speed, and kept it. That round was driven by Claude's reading, not by something shuai-z saw in play, so the observation-driven revision the assignment asks for is still owed.",
+      "components": [
+        "slash-rig"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/tuning-r1.png",
+        "still_plan": {
+          "image": "stills/tuning-r1.png"
+        },
+        "observation": "Fixture captures r0 and r1, frames 31–35 (first-tick offset), enlarged 2× nearest, with Grip per frame from the logs; shuai-z's first verdict and r1 verdict quoted in Chinese with Claude's translation, and Claude's reading, prediction and comparison, from TUNING.md."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B18.wav",
+      "actual_duration_s": 41.433333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B18.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 41.43333333333333
+    },
+    {
+      "beat_id": "B19",
+      "act": "the state machine",
+      "narration_text": "The state machine is a priority list, run every physics tick. The mode decides first, in the lines just above these: celebrate, respawn, defeat, hurt. Then the swing: while the swing clock runs, slash. Then the air: rise, or fall, if he was moving sideways when the fall began. Then the floor: run if he is moving, idle if not. While he has the sword, the sword form of each. It returns a name, and the player plays it.",
+      "components": [
+        "state-machine"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "The State Machine Is a Priority List",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://content/rudy/rudy.gd",
+            "source": "Source: assignment-7/game/content/rudy/rudy.gd, lines 307–320 (verbatim). Godot editor reconstruction.",
+            "code": "\t\treturn &\"slash\"\n\tvar sword := gear == Gear.SWORD\n\tif not is_on_floor():\n\t\tvar falling := velocity.y >= 0.0\n\t\tif falling and not _was_falling:\n\t\t\t_falls_sideways = absf(velocity.x) > 1.0\n\t\t_was_falling = falling\n\t\tif falling and _falls_sideways:\n\t\t\treturn &\"sword_fall\" if sword else &\"fall\"\n\t\treturn &\"sword_rise\" if sword else &\"rise\"\n\t_was_falling = false\n\tif absf(velocity.x) > 1.0:\n\t\treturn &\"sword_run\" if sword else &\"run\"\n\treturn &\"sword_idle\" if sword else &\"idle\"",
+            "startLine": 307,
+            "codeFontSize": 23,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Lines 296–306, above",
+                "value": "match mode, then is_slashing()"
+              },
+              {
+                "label": "Returns",
+                "value": "13 clip names"
+              },
+              {
+                "label": "Wired by",
+                "value": "claude -p sessions 5, 8"
+              }
+            ],
+            "output": [
+              "game/content/rudy/rudy.gd · _pick_clip()"
+            ],
+            "durationSeconds": 21.0333,
+            "cues": [
+              {
+                "at": 8.18,
+                "line": 307,
+                "label": "under is_slashing(): slash"
+              },
+              {
+                "at": 11.8,
+                "line": 314,
+                "label": "fall only if sideways when the fall began"
+              },
+              {
+                "at": 14.4,
+                "line": 318,
+                "label": "|velocity.x| > 1 → run"
+              },
+              {
+                "at": 15.43,
+                "line": 320,
+                "label": "otherwise idle"
+              },
+              {
+                "at": 17.44,
+                "line": 308,
+                "label": "gear == SWORD → the sword_ clips"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B19.mp4",
+            "at": "2026-11-18T00:23:25.477954+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "while the swing clock runs",
+            "line": 307,
+            "label": "under is_slashing(): slash"
+          },
+          {
+            "phrase": "moving sideways",
+            "line": 314,
+            "label": "fall only if sideways when the fall began"
+          },
+          {
+            "phrase": "run if he is moving",
+            "line": 318,
+            "label": "|velocity.x| > 1 → run"
+          },
+          {
+            "phrase": "idle if not",
+            "line": 320,
+            "label": "otherwise idle"
+          },
+          {
+            "phrase": "sword form",
+            "line": 308,
+            "label": "gear == SWORD → the sword_ clips"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "content/rudy/rudy.gd",
+        "start_line": 307,
+        "end_line": 320
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B19.wav",
+      "actual_duration_s": 21.033333,
+      "render_duration_s": 21.033333333333335,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B19.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      }
+    },
+    {
+      "beat_id": "B20",
+      "act": "result — the states in play, and a committed swing",
+      "components": [
+        "state-machine",
+        "slash-rig"
+      ],
+      "narration_text": "In play: rise and fall over the spikes and the first goblin, and the run between. Then two swings with the sword. In the first, the slash key is pressed again on swing ticks one, five and thirteen, one in each phase. All three are ignored: one swing, one slash sound. In the second, a jump on swing tick five. He leaves the ground, and the slash plays on to its end in the air, then the sword rise. No input cancels a committed swing.",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "gameplay",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "media/B20.mp4",
+        "capture_plan": {
+          "segments": [
+            {
+              "capture": "play-01",
+              "from": 78,
+              "to": 156,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 82,
+              "to": 152,
+              "speed": 0.5,
+              "label": "REPLAY ½× · rise and fall over the spikes and the first goblin, the run between"
+            },
+            {
+              "capture": "play-01",
+              "from": 214,
+              "to": 236,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 219,
+              "to": 232,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · J again on swing ticks 1, 5, 13: ignored",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 220,
+              "to": 231,
+              "speed": 0.125,
+              "label": "REPLAY ⅛× · ENLARGED 2.5× · J read on swing ticks 1, 5 and 13: still one swing",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 246,
+              "to": 282,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 252,
+              "to": 280,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2× · a jump on swing tick 5: the slash plays on in the air",
+              "crop": [
+                960,
+                640,
+                1920,
+                1080
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 253,
+              "to": 265,
+              "speed": 0.125,
+              "label": "REPLAY ⅛× · ENLARGED 2× · the swing ends in the air, then sword_rise on frame 263",
+              "crop": [
+                960,
+                640,
+                1920,
+                1080
+              ]
+            }
+          ],
+          "chips": [
+            "SCRIPTED INPUT · a film-only driver on a copy presses Enter, move, jump and slash",
+            "CAPTURED BY CLAUDE AT SHUAI-Z'S REQUEST"
+          ],
+          "action_frames": 624,
+          "held_final_frames": 50,
+          "total_frames": 674,
+          "captures": [
+            "play-01"
+          ]
+        },
+        "observation": "The same capture: rise (frame 87) and fall (99) over the first spikes and the first goblin, the run between; a slash from frame 221 with the slash key pressed again on swing ticks 1, 5 and 13 (each read, each ignored: one swing, sword_idle on frame 230); a slash from frame 254 with a jump read on swing tick 5 (airborne on frame 257, sword_rise on 263 after the swing ends, landing on 277); with labelled replays: the air at ½×, each swing at ¼× and ⅛×, enlarged."
+      },
+      "qc": {
+        "full_bleed": true,
+        "full_bleed_reason": "Engine capture renders edge to edge at 3840x2160; the film's chips sit inside the title-safe inset. Only the edge-bleed check is waived.",
+        "contrast_regions": [
+          {
+            "label": "provenance chip",
+            "box": [
+              0.5664,
+              0.8671,
+              0.9458,
+              0.8954
+            ]
+          }
+        ],
+        "contrast_reason": "Engine capture: the whole-frame ink average measures the game's art, not text. The film's own essential text is its chips; the provenance chip is on every frame and is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B20.wav",
+      "actual_duration_s": 22.466667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B20.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 22.5
+    },
+    {
+      "beat_id": "B21",
+      "act": "what ends a swing early",
+      "narration_text": "What can end a committed swing early? Only the world: a hit, a fall out of the level, a respawn, the teleport circle. Here is the hit. Just above, with the sword, it knocks the sword away instead of a heart. He turns toward the hit. The swing clock goes below zero, so on that same tick the selector returns the hurt clip: the rig hides, the Sprite shows, and the hitbox is dead. Then the knockback.",
+      "components": [
+        "state-machine"
+      ],
+      "shot": {
+        "type": "REMOTION",
+        "lane": "code",
+        "remotion": {
+          "pattern": "GodotDevWorkbench",
+          "props": {
+            "mode": "code",
+            "title": "What Ends a Committed Swing",
+            "project": "Walker Rudy · game/ @ 775c14c",
+            "path": "res://content/rudy/rudy.gd",
+            "source": "Source: assignment-7/game/content/rudy/rudy.gd, lines 145–158 (verbatim). Godot editor reconstruction.",
+            "code": "\tSfx.play(&\"hurt\")\n\tfacing = -int(away) # he turns toward the hit\n\t_turn_time_left = 0.0\n\t_slash_clock = -1.0\n\t_invulnerable_left = invulnerable_time\n\thit.emit()\n\tif not lost_gear and hearts <= 0:\n\t\tmode = Mode.DEFEATED\n\t\tvelocity.x = 0.0\n\t\tdefeated.emit()\n\telse:\n\t\tmode = Mode.HURT\n\t\t_hurt_time_left = hurt_time\n\t\tvelocity = Vector2(away * knockback.x, -knockback.y)",
+            "startLine": 145,
+            "codeFontSize": 23,
+            "inspectorLabel": "Source notes — not Inspector values",
+            "notes": [
+              {
+                "label": "Lines 139–144, above",
+                "value": "the sword goes, not a heart"
+              },
+              {
+                "label": "Also ends it",
+                "value": "a fall, a respawn, the circle"
+              },
+              {
+                "label": "Tested by",
+                "value": "edge test E3"
+              }
+            ],
+            "output": [
+              "game/content/rudy/rudy.gd · take_hit()"
+            ],
+            "durationSeconds": 19.8333,
+            "cues": [
+              {
+                "at": 10.21,
+                "line": 146,
+                "label": "facing = −away"
+              },
+              {
+                "at": 11.47,
+                "line": 148,
+                "label": "_slash_clock = −1.0: the swing ends"
+              },
+              {
+                "at": 15.1,
+                "line": 156,
+                "label": "mode = HURT, for hurt_time 0.35 s"
+              },
+              {
+                "at": 18.82,
+                "line": 158,
+                "label": "velocity: away and up"
+              }
+            ]
+          },
+          "rendered": {
+            "out": "media/B21.mp4",
+            "at": "2026-11-18T00:24:24.510844+00:00"
+          }
+        },
+        "cue_phrases": [
+          {
+            "phrase": "turns toward the hit",
+            "line": 146,
+            "label": "facing = −away"
+          },
+          {
+            "phrase": "swing clock goes below zero",
+            "line": 148,
+            "label": "_slash_clock = −1.0: the swing ends"
+          },
+          {
+            "phrase": "hurt clip",
+            "line": 156,
+            "label": "mode = HURT, for hurt_time 0.35 s"
+          },
+          {
+            "phrase": "knockback",
+            "line": 158,
+            "label": "velocity: away and up"
+          }
+        ]
+      },
+      "excerpt": {
+        "project": "game",
+        "path": "content/rudy/rudy.gd",
+        "start_line": 145,
+        "end_line": 158
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B21.wav",
+      "actual_duration_s": 19.833333,
+      "render_duration_s": 19.833333333333332,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B21.mp4",
+        "filled_by": "remotion:GodotDevWorkbench",
+        "at": "2026-11-17T19:37:59"
+      }
+    },
+    {
+      "beat_id": "B22",
+      "act": "result — a hit in startup, active and recovery",
+      "components": [
+        "state-machine",
+        "slash-rig"
+      ],
+      "narration_text": "Three takes, each a fresh boot of the game, scripted to time the slash against goblin B walking into his back. Take one: the hit on swing tick one, in startup. One drawn frame of the wind-up, then hurt, and the sword flies. Take two: tick five, mid-sweep, the hitbox live but on his other side. Hurt, on that tick. Take three: tick thirteen, in recovery. Hurt. In every phase the swing ends on the tick of the hit.",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "gameplay",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "media/B22.mp4",
+        "capture_plan": {
+          "segments": [
+            {
+              "capture": "play-01",
+              "from": 706,
+              "to": 734,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-01",
+              "from": 712,
+              "to": 728,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · take 1 · a hit on swing tick 1: STARTUP",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-01",
+              "from": 716,
+              "to": 721,
+              "speed": 0.0625,
+              "label": "FRAME BY FRAME 1/16× · ENLARGED 2.5× · take 1 · frames 716–720: idle, the rig at tick 0, hurt",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-02",
+              "from": 358,
+              "to": 384,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-02",
+              "from": 364,
+              "to": 380,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · take 2 · a hit on swing tick 5: ACTIVE",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-02",
+              "from": 367,
+              "to": 372,
+              "speed": 0.0625,
+              "label": "FRAME BY FRAME 1/16× · ENLARGED 2.5× · take 2 · frames 367–371: idle, ticks 1 and 3, hurt",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-03",
+              "from": 356,
+              "to": 384,
+              "speed": 1.0,
+              "label": ""
+            },
+            {
+              "capture": "play-03",
+              "from": 361,
+              "to": 380,
+              "speed": 0.25,
+              "label": "REPLAY ¼× · ENLARGED 2.5× · take 3 · a hit on swing tick 13: RECOVERY",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            },
+            {
+              "capture": "play-03",
+              "from": 364,
+              "to": 372,
+              "speed": 0.0625,
+              "label": "FRAME BY FRAME 1/16× · ENLARGED 2.5× · take 3 · frames 364–371: idle, ticks 1 … 11, hurt",
+              "crop": [
+                1152,
+                1080,
+                1536,
+                864
+              ]
+            }
+          ],
+          "chips": [
+            "SCRIPTED INPUT · a film-only driver on a copy presses Enter, move, jump and slash",
+            "CAPTURED BY CLAUDE AT SHUAI-Z'S REQUEST"
+          ],
+          "action_frames": 574,
+          "held_final_frames": 64,
+          "total_frames": 638,
+          "captures": [
+            "play-01",
+            "play-02",
+            "play-03"
+          ]
+        },
+        "observation": "Three Movie Maker takes of the real Main, each a fresh boot with scripted input that times the slash against goblin B walking into Rudy's back: play-01 (slash read on the second tick of frame 718, hit on swing tick 1, hurt on frame 719), play-02 (hit on swing tick 5, hurt on frame 371), play-03 (hit on swing tick 13, hurt on frame 371), each at 1.0×, as a labelled quarter-speed replay, and frame by frame around the hit (each game frame held 0.53 s), enlarged 2.5×."
+      },
+      "qc": {
+        "full_bleed": true,
+        "full_bleed_reason": "Engine capture renders edge to edge at 3840x2160; the film's chips sit inside the title-safe inset. Only the edge-bleed check is waived.",
+        "contrast_regions": [
+          {
+            "label": "provenance chip",
+            "box": [
+              0.5604,
+              0.8671,
+              0.9458,
+              0.8954
+            ]
+          }
+        ],
+        "contrast_reason": "Engine capture: the whole-frame ink average measures the game's art, not text. The film's own essential text is its chips; the provenance chip is on every frame and is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B22.wav",
+      "actual_duration_s": 21.266667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B22.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 21.3
+    },
+    {
+      "beat_id": "B23",
+      "act": "what the read-backs proved",
+      "narration_text": "What the read-backs proved. One test reads both clips back against the player in Rudy's scene: fifty-one checks. Every track resolves to a real node and property. Key times match the phase table to a microsecond. The step is one frame period. Loop modes: linear for the run, none for the slash. Every frame track is discrete, and every frame key is inside the sheet. Thirty damaged copies each fail their own check. The state test, ninety-nine checks, drives the real game with key events and reaches fifty-four of the table's fifty-eight transitions; the other four cannot happen on Level one. The edge test presses before, on and after every phase boundary: a hundred and eight checks at sixty, sixty-six at thirty. And the pins pass again, with the three changes the brief predicted.",
+      "components": [
+        "animation-tests"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/tests.png",
+        "still_plan": {
+          "image": "stills/tests.png"
+        },
+        "observation": "Recorded headless output through scripts/run-test.sh at pinned frame rates: the read-back's assertion lines and summary (51 PASS), the state test (99), the edge test (108 at 60, 66 at 30), the pin (20) and the earlier tests, read from logs/."
+      },
+      "qc": {
+        "full_bleed": false
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B23.wav",
+      "actual_duration_s": 41.933333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B23.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 41.93333333333333
+    },
+    {
+      "beat_id": "B24",
+      "act": "the four mutations",
+      "narration_text": "The four mutations, each in its own git worktree. One, a broken subname: exit one, six failures. Two, the run's loop mode set to none: exit one. Three, a frame keyed to cell sixteen, one past the sheet: exit one. Four, the import cache deleted and rebuilt: the read-back still passes, fifty-one, as predicted. The rig is keyed as resource text, not imported, so nothing the clips need lives in the cache.",
+      "components": [
+        "animation-tests"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/mutations.png",
+        "still_plan": {
+          "image": "stills/mutations.png"
+        },
+        "observation": "Recorded output of the four mutations, each run in a fresh git worktree at f1680bfb (logs/mutation_M1–M4.txt): M1–M3 exit 1 with their FAIL lines; M4 exits 0 with 51 PASS after the cache was deleted and rebuilt; the control C0 passes."
+      },
+      "qc": {
+        "full_bleed": false
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B24.wav",
+      "actual_duration_s": 21.833333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B24.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 21.833333333333332
+    },
+    {
+      "beat_id": "B25",
+      "act": "what no headless run can show",
+      "narration_text": "And what no headless run can show. Headless, Godot advances the clips and reads their structure, but it draws nothing: the probe asked for an image and got null. Whether the slash reads, whether the run wraps without a visible seam, whether the action feels committed: those rest on eyes. shuai-z's checks: the seam, no problem; play, no problem; registration and background, normal. Those words do not say how many wraps, which interrupts, or which stretches of the level.",
+      "components": [
+        "animation-tests"
+      ],
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "own",
+        "treatment": "none",
+        "evidence_media": "stills/headless-limits.png",
+        "still_plan": {
+          "image": "stills/headless-limits.png"
+        },
+        "observation": "The headless-facts probe's lines (logs/probe_headless_facts_60fps.log: clips advance; get_image() returns null), beside a fixture capture frame of the same slash; shuai-z's four human checks and editor run quoted from TEST-REPORT.md."
+      },
+      "qc": {
+        "full_bleed": false,
+        "contrast_regions": [
+          {
+            "label": "card title",
+            "box": [
+              0.052,
+              0.05,
+              0.62,
+              0.098
+            ]
+          }
+        ],
+        "contrast_reason": "Engine captures fill much of this card; the whole-frame ink average measures them, not text. The title is measured locally."
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-B25.wav",
+      "actual_duration_s": 23.5,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B25.mp4",
+        "filled_by": "media",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 23.5
+    },
+    {
+      "beat_id": "BVD1",
+      "act": "verdict — checked, overruled, caught",
+      "components": [
+        "animation-tests"
+      ],
+      "lead_silence_s": 0.4,
+      "narration_text": "Verdict. Checked by machine: the read-back, the state and edge tests and the re-pinned pins pass, every earlier test keeps its count, and three mutations fail as they should; the fourth passes, as predicted. Checked by eye: shuai-z's first verdict, the kept round, four human checks and the editor run. Overruled: none of Claude's strip readings. On r zero the two disagreed, and Claude's reading drove the change. Caught by shuai-z: the brief's claim that every prompt reads the CLAUDE file, and Claude reading a rule from another file, measured frame counts, as this assignment's own. Caught by the tests and the sessions: a play-then-seek that ended the slash a tick early, a rig prompt that contradicted itself, previews one frame late, and two wrong citations in the brief.",
+      "shot": {
+        "type": "REMOTION",
+        "lane": "card",
+        "remotion": {
+          "pattern": "ClaudeVerdictArtifact",
+          "props": {
+            "artifactTitle": "A Run and a Slash for Walker Rudy.",
+            "artifactHeading": "Checked, overruled, caught",
+            "artifactLines": [
+              "Machine: read-back 51/51; states 99; edges 108 at 60 fps and 66 at 30; pin 20, with T1, T2, T6 re-pinned as predicted; every earlier test at its count. M1–M3 exit 1; M4 passes, as predicted.",
+              "Eyes: shuai-z's first verdict before Claude read a frame; r1 kept after play at 0.25×; the seam, play, registration and background checks; the editor run.",
+              "Overruled: none. Disagreed: on r0 Claude read a near-stop at tick 5 (5° from frame 32 to 33); shuai-z saw no catch. Claude's reading drove r1.",
+              "Caught by shuai-z: Revision 1's claim that every prompt reads CLAUDE.md; Claude taking a base file's measured-frame-count rule as the assignment's. Caught by tests and sessions: play-then-seek ending the slash a tick early (pin T3, I7); a self-contradicting rig prompt; previews a frame late; two wrong brief citations."
+            ],
+            "durationSeconds": 40.2
+          },
+          "rendered": {
+            "out": "media/BVD1.mp4",
+            "at": "2026-11-17T23:20:51.932161+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-BVD1.wav",
+      "actual_duration_s": 40.2,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/BVD1.mp4",
+        "filled_by": "remotion:ClaudeVerdictArtifact",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 40.2
+    },
+    {
+      "beat_id": "BVD2",
+      "act": "verdict — uncertain, and the next step",
+      "components": [],
+      "narration_text": "Still uncertain, or not done. No revision was driven by shuai-z's own observation in play; that is owed. The captures were run by Claude at shuai-z's request, though the assignment says the student runs them. The kept round was judged at a quarter speed only. Claude reads the hitbox as opening while the blade is still above his head. The kink at the fist and the repaired band on the robe have not been judged by eye. One machine, and no other player. The next step: play at normal speed, name one thing that reads wrong, change the phase table, predict, and capture two strips.",
+      "shot": {
+        "type": "REMOTION",
+        "lane": "card",
+        "remotion": {
+          "pattern": "ClaudeVerdictArtifact",
+          "props": {
+            "artifactTitle": "A Run and a Slash for Walker Rudy.",
+            "artifactHeading": "Uncertain, and the next step",
+            "artifactLines": [
+              "Not done: no tuning revision was driven by shuai-z's own observation in play (the assignment asks for one). The captures were run by Claude at shuai-z's request, not by the student.",
+              "Judged only partly: r1 at 0.25× only, never at normal speed; the human checks do not say how many wraps, which interrupts, or which stretches of the level.",
+              "Unjudged by eye: the hitbox live on ticks 2–4 while the blade is overhead (Claude's claim); the kink at the fist; the repaired band on the robe; the pop on the last slash frame.",
+              "One machine (Apple M3, macOS 15.1), and no other player. The film's gameplay frames are 4K but scaled by Movie Maker, not pixel-native.",
+              "Next: play at normal speed, name one thing that reads wrong, change the phase table, predict the strip, capture two strips, give a verdict in play."
+            ],
+            "durationSeconds": 32.0
+          },
+          "rendered": {
+            "out": "media/BVD2.mp4",
+            "at": "2026-11-17T23:48:00.055728+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-BVD2.wav",
+      "actual_duration_s": 32.0,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/BVD2.mp4",
+        "filled_by": "remotion:ClaudeVerdictArtifact",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 32.0
+    },
+    {
+      "beat_id": "BVD3",
+      "act": "verdict — who made what, sources, revision",
+      "components": [],
+      "narration_text": "Who made what. shuai-z chose both clips and their routes, kept the slash's timing, chose open footage and checked Claude's counts, approved every prompt, revision and commit, and gave every verdict and human check. Claude Code drafted the brief, its phase table, cycle spec and predictions, wrote and ran every agent session, the probes, the mutations and the captures, drafted the records, and made this film. The sheet and the rig are cut by code from shuai-z's own Assignment 2 frames, made with Gemini's image generation under Google's terms. The motion reference: a sword exercise by Kuroczynski, C C B Y S A four point oh, and running videos by Arellano, McDermott, Kram and Grabowski, C C B Y four point oh. The source shown is seven seven five c one four c.",
+      "shot": {
+        "type": "REMOTION",
+        "lane": "card",
+        "remotion": {
+          "pattern": "ClaudeVerdictArtifact",
+          "props": {
+            "artifactTitle": "A Run and a Slash for Walker Rudy.",
+            "artifactHeading": "Who made what · sources · revision",
+            "artifactLines": [
+              "shuai-z: chose both clips and routes and kept the slash's timing; chose open footage and checked Claude's frame counts; approved every prompt, brief revision, change and commit; every verdict and human check.",
+              "Claude Code (Opus 5.5): drafted CHANGE-BRIEF (phase table, cycle spec, predictions), TUNING, TEST-REPORT, FRICTIONAL; prepared and ran the claude -p sessions that keyed the clips and wrote the tests; probes, mutations, captures, strip readings; this film. Narration: Liam, Kokoro am_onyx.",
+              "Sheet and rig: packed and cut by code from shuai-z's own Assignment 2 frames (Gemini app image generation; Google ToS and Generative AI Additional Terms); no found sheet. Motion reference, measured, not shown: “IMG 8252” by Kuroczynski, CC BY-SA 4.0; PLOS ONE S1/S3 videos, Arellano, McDermott, Kram, Grabowski (2015), CC BY 4.0.",
+              "Source shown: walker-rudy assignment-7/game at 775c14c (game unchanged since 09ce1cb, except two ATTRIBUTION.md files added in c2da5ba)."
+            ],
+            "durationSeconds": 41.7333
+          },
+          "rendered": {
+            "out": "media/BVD3.mp4",
+            "at": "2026-11-17T23:24:26.287648+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-BVD3.wav",
+      "actual_duration_s": 41.733333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/BVD3.mp4",
+        "filled_by": "remotion:ClaudeVerdictArtifact",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 41.733333333333334
+    },
+    {
+      "beat_id": "BHTF",
+      "act": "your turn",
+      "components": [],
+      "narration_text": "Your turn. Here is the prompt; read it with me. Read my change brief and the slash clip. Before you change anything, let me predict by hand Grip's angle on strip frame thirty-three, and the tick the blade passes horizontal, if the middle active key moves from tick five to tick four in the phase table. Then change the table, build the key from it, update the read-back's expected tick, run it through the wrapper, and print the preview's Grip values beside my prediction. I run the capture myself. Write your prediction down first. Liam, in for Bear.",
+      "shot": {
+        "type": "REMOTION",
+        "lane": "bookend",
+        "remotion": {
+          "pattern": "ClaudeComposerAsk",
+          "props": {
+            "greeting": "Your turn.",
+            "topic": "WALKER-RUDY · ANIMATION IN GODOT 4.7",
+            "segment": "A Run and a Slash for Walker Rudy.",
+            "command": "Read my CHANGE-BRIEF.md and the slash clip in game/animations/rudy_animations.tres. Before you change anything, let me predict by hand Grip's angle on strip frame 33 and the tick the blade passes horizontal (about +30.9°) if the phase table's middle active key moves from tick 5 to tick 4. Then change the phase table, build the key from it, update the read-back's expected tick in game/tests/test_rudy_clips.gd, run scripts/run-test.sh test_rudy_clips.tscn 60, and print the slash preview's Grip values beside my prediction. I run the capture myself.",
+            "runningText": "paste this into your own Claude session…",
+            "folderLabel": "@NikBearBrown",
+            "modelLabel": "Opus 5.5",
+            "effortLabel": "High",
+            "durationSeconds": 29.4667
+          },
+          "rendered": {
+            "out": "media/BHTF.mp4",
+            "at": "2026-11-17T23:25:52.704827+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-BHTF.wav",
+      "actual_duration_s": 29.466667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/BHTF.mp4",
+        "filled_by": "remotion:ClaudeComposerAsk",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 29.5
+    },
+    {
+      "beat_id": "BOUT",
+      "act": "outro",
+      "components": [],
+      "kind": "outro_voice",
+      "role_note": "OUTRO-LOCK: exact title, @NikBearBrown, slug-seeded mascot, no subline; spoken, never scored; 1.0 s tail.",
+      "narration_text": "A Run and a Slash for Walker Rudy. At Nik Bear Brown.",
+      "tail_s": 1.0,
+      "shot": {
+        "type": "REMOTION",
+        "lane": "bookend",
+        "remotion": {
+          "pattern": "ClaudeTitleOutro",
+          "props": {
+            "title": "A Run and a Slash for Walker Rudy.",
+            "slug": "claude-liam-walker-rudy-animation",
+            "durationSeconds": 4.8
+          },
+          "rendered": {
+            "out": "media/BOUT.mp4",
+            "at": "2026-11-17T23:26:10.945558+00:00"
+          }
+        }
+      },
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "audio_file": "mix/beat-BOUT.wav",
+      "actual_duration_s": 4.8,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/BOUT.mp4",
+        "filled_by": "remotion:ClaudeTitleOutro",
+        "at": "2026-11-17T19:37:59"
+      },
+      "render_duration_s": 4.8
+    }
+  ]
+}
