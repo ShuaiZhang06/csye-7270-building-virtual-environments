@@ -14,7 +14,7 @@ walker-rudy is my 2D side-scroller from Assignment 2: Rudy crosses Level 1, past
 | Starting point | Tag `a6`. `game/` is `../assignment-6/game/` as committed at `a6`, copied with `git archive` (`476621f6`, 168 files). The game itself started in Assignment 2 from an empty repository, with no starter code or art. No change of game since Assignment 2 |
 | Godot | 4.7.2.stable.official.ed1daf0bf, GL Compatibility renderer |
 | Machine | macOS 15.1, Apple M3. Not tested on any other system |
-| Final film | Not made yet |
+| Final film | "A Run and a Slash for Walker Rudy." — `claude-liam-walker-rudy-animation.mp4`, 13:49, 3840×2160, SHA-256 `3fe1870b064573fd4e8c1f2767bfe0248d886a1efdc34b296df257348397ce8e`, on [Google Drive](https://drive.google.com/file/d/1LcCJFjidM-ZnhSihGl6oV_YvRUzpEeAC/view?usp=drive_link). It shows the game source at `775c14c3`. How it was made: [`youtube/claude-liam-walker-rudy-animation/`](youtube/claude-liam-walker-rudy-animation/README.md) |
 
 ## Run it
 
@@ -119,7 +119,7 @@ godot --path game res://previews/slash_preview.tscn --write-movie "$PWD/captures
 - **Four transitions** in section 3's table cannot be reached on Level 1 (`CHANGE-BRIEF.md`, Revision 6).
 - **Headless runs show structure, not feel.** They show the clips' structure and the state machine's choices, not whether the motion reads. That rests on my human checks.
 - **What the text asks for that is not done:**
-  - the captures were run by Claude, not by me;
+  - the captures were run by Claude, not by me: strips r0 and r1, and the film's three takes;
   - no tuning revision was driven by my own observation in play.
 
 ## Files
@@ -130,4 +130,5 @@ godot --path game res://previews/slash_preview.tscn --write-movie "$PWD/captures
 - [TEST-REPORT.md](TEST-REPORT.md): every check of "Use It".
 - [FRICTIONAL.md](FRICTIONAL.md): the dated log of what was tried, what happened, and who did what.
 - [SOURCES.md](SOURCES.md): credits, tools, and the human and AI contributions.
+- [`youtube/claude-liam-walker-rudy-animation/`](youtube/claude-liam-walker-rudy-animation/README.md): the film's beat sheet, script, prompts, captures' records and checks. The MP4 is not in git.
 - `sessions/`: every prompt and every session's answer. `sessions/transcripts/` holds each `claude -p` stream, redacted: in full when it is under 1 MB, and as a labelled excerpt when it is over (`tools/redact_transcripts.py`).

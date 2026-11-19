@@ -39,7 +39,7 @@ Openly licensed videos, whose frame counts are compared with the phase table and
 | Gemini app image generation ("Nano Banana"; chat model Gemini 3.8 Flash) | Gemini app, in Assignment 2 | Google Terms of Service and Generative AI Additional Terms; see [../assignment-2/SOURCES.md](../assignment-2/SOURCES.md) | Rudy's frames, from which the sheet and the rig's parts are made. Nothing new was generated in this assignment |
 | Claude Opus 5.5 (`claude-opus-5-5`) | Claude Code 2.1.319, in the desktop app, and its `claude -p` sessions | Anthropic's terms for Claude Code on my account | The code, tests, clips, prompts, documents and strip readings listed under "What AI contributed" |
 
-The film's narration and its tools will be credited with the film.
+The film, its narration (Liam, a local Kokoro voice) and its tools are credited in [youtube/claude-liam-walker-rudy-animation/SOURCES.md](youtube/claude-liam-walker-rudy-animation/SOURCES.md).
 
 ## Tools
 
@@ -66,7 +66,8 @@ Claude Code, either in our conversation or in a `claude -p` session it prepared 
 - **The state machine.** Sessions 5 and 8 wired `rudy.gd`'s selector to the `AnimationPlayer`, through `RudyLook`.
 - **`CLAUDE.md`.** Session 11 drafted it unedited, and Claude reviewed it in the conversation.
 - **The strip readings.** Session 18 read r0 and proposed the r1 change. Its resume (18c) compared r1 with the prediction. They are claims, kept apart from my verdicts in `TUNING.md`.
-- **The captures.** Claude ran the r0 and r1 captures at my request. The text says I run every capture.
+- **The captures.** Claude ran the r0 and r1 captures and the film's three Movie Maker takes at my request. The text says I run every capture.
+- **The film.** In a separate Claude Code session, Claude built the film with the course's godot-gamedev skill and its walker modifier, and drafted every file in `youtube/claude-liam-walker-rudy-animation/`.
 - **The documents.** Claude drafted `TUNING.md` and `TEST-REPORT.md` around my words, and this file, `FRICTIONAL.md`, `README.md` and the credits files. It wrote `tools/redact_transcripts.py`, which makes the committed copies of the transcripts.
 - **Checking each session.** After each one, Claude checked the writes against a hash snapshot and reran its tests. It also fixed small errors found in review: line references, a header's derived frames, and the header labels after Revision 6.
 
@@ -84,14 +85,15 @@ Claude Code, either in our conversation or in a `claude -p` session it prepared 
   - the run, before the re-pin ("我看过了 没问题");
   - my first verdict on the previews, before Claude read any frame;
   - r1 in the running game at `--time-scale 0.25`, and I kept it;
-  - the four human checks and the editor run (`TEST-REPORT.md`).
+  - the four human checks and the editor run (`TEST-REPORT.md`);
+  - the film's final export, which I watched and uploaded ("看过了，没问题，传到Google drive了").
 - **I approved:**
   - every brief revision before it was committed;
   - every session's prompt before it ran;
   - the order of the work from Revision 5 on, which Claude proposed ("好，按这个顺序");
   - the r1 change ("批准，续跑去改");
   - every commit, on my word.
-- **I changed:** no file by hand. I decided that Claude run the captures instead of me, against the text, and that Claude correct the run preview's header and the preview labels.
+- **I changed:** no file by hand. I decided that Claude run the captures instead of me, against the text (for the film: "你来跑"), and that Claude correct the run preview's header and the preview labels.
 - **I rejected:** none recorded.
 - **Where Claude and I disagreed:** on r0, Claude read a near-stop in the sweep where I had seen none (`TUNING.md`, r0).
 

@@ -348,6 +348,29 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Expected / learned:** none recorded.
 - **Human / AI:** the human checks and the editor run are mine. Claude ran the tests and drafted the report around my words.
 
+## 2026-11-16 to 2026-11-18 — The film
+
+*Written on 2026-11-18, from the film session's report and records and from the commit. Commit `da60b926`; the film's folder is `youtube/claude-liam-walker-rudy-animation/`.*
+
+- **Attempt (Claude, in a separate session I started from this one's proposal):**
+  - It built the required Brutalist explainer with the course's godot-gamedev skill and its walker modifier: 31 beats and 10 evidence cards, Liam's narration from a local Kokoro voice, and Remotion scenes for the code and the cards.
+  - The film shows the game source at `775c14c3`. The commit that adds the folder changes no game file.
+- **The captures.** The film needed three new takes of the real game: the run, the pickup and the slashes, and a goblin's hit in each phase of the swing.
+  - It asked first, since the text has me run every capture. I said "你来跑" (Claude's translation: "you run them"), and later "现在开始" ("start now").
+  - It ran them on an isolated copy of `game/`, with a film-only driver that presses the keys, so nothing in the repository changed.
+- **What went wrong, from its records:**
+  - The first take was void. On macOS a covered window stops drawing, and Movie Maker repeated 357 of 748 frames. It recorded again with the window always on top, and with a check that no frame repeats.
+  - On this Mac the window is clamped to the screen, so Movie Maker scaled the gameplay frames to 4K: they are not pixel-native. The film and `CAPTURE.md` say so.
+  - After the first master, it fixed an underfilled verdict card and five code panels that cut off the lines being narrated (`_qc/FILM-REVIEW.md`).
+- **Checks (Claude):**
+  - every frame and tick line of each take equals its headless dry run;
+  - `tools/check.sh` PASS, Gate T PASS, Gate V with no BLOCKER and no MAJOR;
+  - loudness −24.5 LUFS, true peak −3.0 dBTP.
+- **The film's own verdict cards** say what is still not done: no tuning revision was driven by my own observation in play, and Claude ran the captures.
+- **My check:** I watched the final export and uploaded it: "看过了，没问题，传到Google drive了" (Claude's translation: "I've watched it; no problem; uploaded to Google Drive"). The master stays out of git: `claude-liam-walker-rudy-animation.mp4`, 13:49, SHA-256 `3fe1870b064573fd4e8c1f2767bfe0248d886a1efdc34b296df257348397ce8e`.
+- **Expected / learned:** none recorded.
+- **Human / AI:** Claude built the film and drafted every file in its folder, and ran the three takes at my request. I chose who ran the captures, watched the film, uploaded it and approved the commit ("提交影片文件夹", "commit the film folder").
+
 ## Two notes the text asks for
 
 - **Interrupted sessions: none.** No `claude -p` run stopped at `--max-turns` or ended interrupted: all 23 result events read `success`, `is_error` false and `terminal_reason` `completed`. The resumed runs (2b, 6b, 17b, 18b, 18c) went back to finished sessions to correct them or to take the next approved step. Our own conversation moved to a new Claude Code session twice, each time pointing at the earlier one, and was summarized once when its context filled. Neither is a `claude -p` run.
@@ -359,6 +382,6 @@ What I tried, what I expected, what happened, how I checked it, what I did about
 - **Was r1 needed?** I never saw the catch: not in the game after step 4b, and not in the r0 previews. I kept r1 after watching at 0.25 speed only, never at normal speed. Claude's caveats from strip r1, and its note that the hitbox is live on ticks 2–4 while the blade is still overhead, have not been checked by my eyes.
 - **The kink and the band.** Step 3 left the kink at the fist and the band's traces for my eyes on the strip. None of my verdicts names them.
 - **The transcripts, decided on 2026-11-16.** The text asks for each `claude -p` transcript under about 1 MB, or a labelled excerpt. The raw streams hold local paths and session IDs, so `.gitignore` keeps them local. Claude put three options to me, and I chose its recommended one: "A：脱敏全文+摘录" (Claude's translation: "A: redacted full text, plus excerpts"). `tools/redact_transcripts.py` writes `sessions/transcripts/`: the 11 streams under 1 MB in full, and the 12 over it as excerpts that say on their first line what they leave out. In both, local paths and session IDs are replaced and the machine's set-up is dropped. Claude scanned every output for local paths, my email address and session IDs, and found none.
-- **Ship It is not done.** The film is not made. `SOURCES.md`, the README's update and the two `ATTRIBUTION.md` files were committed in `c2da5baa`.
+- **Ship It.** The film is made, watched and uploaded (`da60b926`). What is left is the tag `a7`, the push, the fresh-clone check and the submission.
 
 Claude Code drafted this file on 2026-11-16 from the commits, the conversation and the files they cite, for me to check.
