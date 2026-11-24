@@ -1,0 +1,22 @@
+# Build outputs of the Brutalist pipeline, regenerated on every run (as in Assignment 7's reel).
+# The repository's root .gitignore already leaves out every *.mp4 (the takes, the clips, the renders).
+media/
+manim/
+mp3/
+mix/
+exports/
+images/
+pantry/
+mp4/
+_qc/frames/
+_qc/pre/
+_qc/preflight/
+_superseded/
+build-state.json
+clips/
+qc-sheet.png
+ToDo.md
+todo.json
+*.log
+!capture/logs/*.log
+# Kept on purpose: the gate reports (_qc/REPORT.md and contact_sheet.png, TYPECHECK.md, layout_audit.*) and STATUS.md.

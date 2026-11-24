@@ -1,0 +1,5 @@
+B01 C1: take run frames 0-303 at 1x (start kept) -> 304 frames, 10.13 s (audio 10.11 s)
+B02 C2: take run frames 262-540 at 1x (end kept) -> 279 frames, 9.30 s (audio 9.3 s)
+B07 C3: take mech frames 188-515 at 1x (end kept) -> 328 frames, 10.93 s (audio 10.92 s)
+B11 C4: take run frames 27-540 at 2x (end kept) -> 257 frames, 8.57 s (audio 8.55 s)
+B28 C5: take pause frames 59-357 at 1x (end kept) -> 299 frames, 9.97 s (audio 9.96 s)

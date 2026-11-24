@@ -1,0 +1,27 @@
+--- project.godot
++++ game/project.godot
+@@ -19,13 +19,14 @@
+ 
+ Sfx="*res://systems/audio/sfx.gd"
+ Music="*res://systems/audio/music.gd"
++FilmDriver="*res://film_driver.gd"
+ 
+ [display]
+ 
+ window/size/viewport_width=1920
+ window/size/viewport_height=1080
+-window/size/window_width_override=1280
+-window/size/window_height_override=720
++window/size/window_width_override=3840
++window/size/window_height_override=2160
+ window/stretch/mode="canvas_items"
+ 
+ [input]
+@@ -95,3 +96,7 @@
+ renderer/rendering_method="gl_compatibility"
+ renderer/rendering_method.mobile="gl_compatibility"
+ environment/defaults/default_clear_color=Color(0.8117647, 0.8784314, 0.9019608, 1)
++
++[editor]
++
++movie_writer/mjpeg_quality=1.0

@@ -1,0 +1,2068 @@
+{
+  "metadata": {
+    "slug": "walker-rudy-final-pitch",
+    "title": "Walker Rudy: The Long Way Home. A Final Project Pitch",
+    "topic": "WALKER-RUDY · FINAL PROJECT PITCH",
+    "skill": "show-tell",
+    "style_preset": "show-tell",
+    "channel": "walker-rudy",
+    "channel_title": "Shuai Zhang",
+    "persona": "Shuai Zhang, in a synthetic voice (Kokoro am_onyx); not Liam, and not in for anyone",
+    "in_for_bear": false,
+    "voice": "am_onyx",
+    "voice_kokoro": "am_onyx",
+    "engine": "kokoro",
+    "pronounce": {
+      "Shuai": "ʃwˈaɪ",
+      "Zhang": "dʒˈɑːŋ"
+    },
+    "pronounce_note": "voice only: my name in an English approximation of the Mandarin (shwai, jahng); Kokoro's G2P read it 'shyoo-eye zhang'. The toolkit's am_onyx respellings (pronunciation/liam.json) also apply, so the narration avoids the words they misread here: 'will live' at a sentence end, and 'records' as a verb.",
+    "clock": "narration",
+    "palette": "claude",
+    "register": "plain",
+    "fps": 30,
+    "aspect_ratio": "16:9",
+    "width": 3840,
+    "height": 2160,
+    "caption_policy": "none",
+    "bookend_exempt": [
+      "cold-open",
+      "bvdt",
+      "bhtf"
+    ],
+    "bookend_exempt_reason": "Assignment 8 sets the film's order (the game in brief, the GDD, the seven questions, the appendix) and says AI narration speaks as the student, without the instructor's name, persona or credit line. So the opening is the hesitant writer in my voice, there is no verdict card and no Your Turn, and the outro carries my name.",
+    "length_rule": "Assignment 8: 'no fixed length. Keep each beat to one picture and a sentence or two.' make_sheet.py refuses a beat over two sentences (the outro is exempt).",
+    "sheet_revision": "2 (2026-11-23): shortened from 37 beats to 34, each at most two sentences",
+    "audience": "my instructor and TAs, judging whether the final project's scope fits one person",
+    "source_doc": "GDD.md v2 (2026-11-23); PROJECT-BRIEF.md draft 3 (2026-11-23); Assignment 8 text (Canvas, pasted 2026-11-20)",
+    "gdd": {
+      "path": "GDD.md",
+      "version": "v2 (draft)",
+      "date": "2026-11-23"
+    },
+    "game": {
+      "name": "walker-rudy",
+      "folder": "fall-2026/shuai-z/assignment-7/game",
+      "revision": "76206412267f07569b1488c9a9f4db03efa352a2",
+      "short_revision": "7620641",
+      "tag": "a7",
+      "engine": "4.7.2.stable.official.ed1daf0bf"
+    },
+    "honesty": {
+      "live": "Level 1 · tag a7 · scripted input",
+      "constructed": "constructed: drawn by code, not game art",
+      "generated": "generated (Gemini app, Assignment 2)",
+      "rule": "past tense only for what exists and is shown; everything else is 'will' or 'designed'"
+    },
+    "audio_policy": "narration only; the game's own audio is muted in every clip, so none of the ElevenLabs sound effects is in the film",
+    "drafted_by": "Claude Code (Claude Opus 5.5), 2026-11-23, from my brief and GDD; I review every line",
+    "tags": [
+      "Walker Rudy",
+      "Godot",
+      "game design document",
+      "final project pitch",
+      "CSYE 7270"
+    ],
+    "build": {
+      "at": "2026-11-24T00:48:51",
+      "cut": "master",
+      "filled": 34,
+      "of": 34,
+      "slates": [],
+      "skin_warnings": [
+        "BIDEA: palette=claude but the cold open is 'BrutalistHesitantWriter' — COLD OPEN LAW wants ClaudeComposerAsk",
+        "BOUT: palette=claude but the outro is 'un-annotated' — OUTRO LAW wants ClaudeTitleOutro"
+      ]
+    }
+  },
+  "beats": [
+    {
+      "beat_id": "BIDEA",
+      "act": "opening",
+      "narration_text": "I'm Shuai Zhang, and this is my final project pitch: Walker Rudy. One level exists, and I am proposing all six, so that you can judge whether that is the right size.",
+      "estimated_duration_s": 12.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "REMOTION",
+        "source": "own",
+        "show": [
+          {
+            "at": 0.0,
+            "event": "types 'My final project: Walker Rudy, one level'"
+          },
+          {
+            "at": 0.6,
+            "event": "'one level' backspaces into 'all six levels' on 'I am proposing all six'"
+          }
+        ],
+        "remotion": {
+          "pattern": "BrutalistHesitantWriter",
+          "props": {
+            "text": "My final project:\nWalker Rudy, one level",
+            "triggerWords": "one level",
+            "replacementWords": "all six levels",
+            "fontSize": 96,
+            "charMs": 48,
+            "hesitateBetween": 4,
+            "hesitateWithin": 1,
+            "mistakeRate": 2,
+            "jitter": 8,
+            "seed": "walker-rudy-final-pitch",
+            "banner": ""
+          }
+        }
+      },
+      "lane": "bookend",
+      "proof_gate": "SHOW",
+      "lead_silence_s": 0.8,
+      "motion_claim": "The writer types the one level that exists and corrects it to the six that are proposed.",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "Hesitant-writer opening: the correction is the motion."
+      },
+      "audio_file": "mp3/beat-BIDEA.mp3",
+      "actual_duration_s": 9.77,
+      "render_duration_s": 9.8,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/BIDEA.mp4",
+        "filled_by": "media",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B00",
+      "act": "title card: the GDD's metadata",
+      "narration_text": "This film follows my design document, version two, dated November the twenty-third, read by a synthetic voice from a script Claude Code drafted with me.",
+      "estimated_duration_s": 10.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B00_Title"
+        },
+        "figure": {
+          "title": "Walker Rudy: The Long Way Home",
+          "status": "GDD v2 (draft) · 2026-11-23 · Shuai Zhang · CSYE 7270 · narration: synthetic voice (Kokoro), speaking for me",
+          "image": "stills/title.png",
+          "image_from": "the first frame of take C1: the game's own title screen at tag a7",
+          "labels": [
+            {
+              "label": "Genre",
+              "text": "2D action platformer"
+            },
+            {
+              "label": "Engine",
+              "text": "Godot 4.7.2"
+            },
+            {
+              "label": "Target",
+              "text": "Web"
+            }
+          ],
+          "source": "Source: GDD.md §0 (v2, 2026-11-23); still from take C1 at tag a7."
+        },
+        "visual_intent": "Walker Rudy: The Long Way Home: stills/title.png, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "typography_regions": [
+          {
+            "label": "title",
+            "box": [
+              0.1,
+              0.105,
+              0.9,
+              0.1825
+            ]
+          },
+          {
+            "label": "GDD version, date, name, voice",
+            "box": [
+              0.662,
+              0.29,
+              0.894,
+              0.72
+            ]
+          },
+          {
+            "label": "the still's caption",
+            "box": [
+              0.057,
+              0.769,
+              0.57,
+              0.844
+            ]
+          }
+        ],
+        "typography_reason": "mixed source imagery: the framed figure is a GDD image whose own small labels (palette codes, frame names, the game's on-screen text) are image content, not this film's type; the scene's own type is inventoried in the declared regions"
+      },
+      "audio_file": "mp3/beat-B00.mp3",
+      "actual_duration_s": 9.17,
+      "render_duration_s": 9.2,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B00.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "BDEFS",
+      "act": "terms",
+      "narration_text": "Built means you will see it running at tag A7; designed means it is only in my document. A greybox is a level of plain shapes, playable before its art.",
+      "estimated_duration_s": 12.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "BDEFS_Terms"
+        },
+        "terms": [
+          {
+            "term": "built",
+            "meaning": "shown running: the game, tag a7"
+          },
+          {
+            "term": "designed",
+            "meaning": "planned: the design document only"
+          },
+          {
+            "term": "greybox",
+            "meaning": "plain shapes, playable before its art"
+          }
+        ],
+        "visual_intent": "Terms in this film: three rows, each term with its one-line meaning, landing as it is said",
+        "show": [
+          {
+            "at": 0.1,
+            "event": "'built'"
+          },
+          {
+            "at": 0.45,
+            "event": "'designed'"
+          },
+          {
+            "at": 0.75,
+            "event": "'greybox'"
+          }
+        ],
+        "role_note": "drawn in scenes.py instead of the toolkit's ClaudeDefinitions: that card's meaning text measures 40 px at 4K, under GATE T's 41 px floor, and it has no size prop"
+      },
+      "lane": "manim",
+      "proof_gate": "CARD",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "terms card: three rows that land one at a time"
+      },
+      "audio_file": "mp3/beat-BDEFS.mp3",
+      "actual_duration_s": 9.51,
+      "render_duration_s": 9.533333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/BDEFS.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B01",
+      "act": "the game in brief: what it is",
+      "narration_text": "Walker Rudy is a side-scrolling platformer: as Rudy, a young mage, you run, jump, stomp and fight with a sword. This is level one at tag A7, played by a script.",
+      "estimated_duration_s": 12.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "capture",
+        "treatment": "none",
+        "speed_note": null,
+        "evidence_media": "clips/C1.mp4",
+        "slot": "media/B01.mp4 (tools/label_clips.py: the clip with its label burned in)",
+        "capture_plan": {
+          "clip": "C1",
+          "take": "run",
+          "take_file": "capture/take-run.mp4",
+          "frames": [
+            0,
+            290
+          ],
+          "anchor": "start",
+          "seconds_in_take": 9.67,
+          "speed": 1,
+          "game": "fall-2026/shuai-z/assignment-7/game",
+          "revision": "76206412267f07569b1488c9a9f4db03efa352a2",
+          "method": "Godot Movie Maker at 30 fps on an isolated copy (git archive a7), input pressed by capture/film_driver.gd, adapted from Assignment 7's (it presses the game's input actions only; it never moves, places or sets anything)",
+          "route": "the title; Enter (frame 45); the first spikes jumped; goblin A stomped (142); the sword picked up (175); goblin B slashed (216); the waystone lit (256)",
+          "game_audio": "not used: the clip is video only"
+        },
+        "label_on_screen": "Level 1 · tag a7 · scripted input",
+        "observation": "Real play of Level 1: the title fades, Rudy runs, jumps the spikes, stomps a goblin, picks up the sword and slashes the next goblin."
+      },
+      "lane": "evidence",
+      "proof_gate": "SHOW",
+      "qc": {
+        "full_bleed": true,
+        "sparse_by_design": true,
+        "sparse_reason": "real captured play fills the frame edge to edge, and the game's own fades (a fall, the last heart, the end card) leave frames nearly empty; that is the game, not a layout",
+        "contrast_regions": [
+          {
+            "label": "the label chip (level, tag, scripted input)",
+            "box": [
+              0.0323,
+              0.8903,
+              0.3458,
+              0.9486
+            ]
+          }
+        ],
+        "contrast_reason": "the frame is the game's own painted art in mixed colours; the text that must be read is the label chip, ink on cream, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B01.mp3",
+      "actual_duration_s": 10.11,
+      "render_duration_s": 10.133333333333333,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B01.mp4",
+        "filled_by": "media",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B02",
+      "act": "the game in brief: the goal",
+      "narration_text": "Each level ends at a teleport circle, and beating the archmage Aldric Voss in level six wins the game. Losing your last heart only restarts the level.",
+      "estimated_duration_s": 10.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "capture",
+        "treatment": "none",
+        "speed_note": null,
+        "evidence_media": "clips/C2.mp4",
+        "slot": "media/B02.mp4 (tools/label_clips.py: the clip with its label burned in)",
+        "capture_plan": {
+          "clip": "C2",
+          "take": "run",
+          "take_file": "capture/take-run.mp4",
+          "frames": [
+            300,
+            541
+          ],
+          "anchor": "end",
+          "seconds_in_take": 8.03,
+          "speed": 1,
+          "game": "fall-2026/shuai-z/assignment-7/game",
+          "revision": "76206412267f07569b1488c9a9f4db03efa352a2",
+          "method": "Godot Movie Maker at 30 fps on an isolated copy (git archive a7), input pressed by capture/film_driver.gd, adapted from Assignment 7's (it presses the game's input actions only; it never moves, places or sets anything)",
+          "route": "from just after the waystone lights (cut fitted to the narration: from frame 262): the first cliff; the second spikes; goblin C slashed (360); the second cliff; the teleport circle (425); the celebration; the end card (495)",
+          "game_audio": "not used: the clip is video only"
+        },
+        "label_on_screen": "Level 1 · tag a7 · scripted input",
+        "observation": "Real play: Rudy clears the last stretch, reaches the teleport circle, and the end card appears."
+      },
+      "lane": "evidence",
+      "proof_gate": "SHOW",
+      "qc": {
+        "full_bleed": true,
+        "sparse_by_design": true,
+        "sparse_reason": "real captured play fills the frame edge to edge, and the game's own fades (a fall, the last heart, the end card) leave frames nearly empty; that is the game, not a layout",
+        "contrast_regions": [
+          {
+            "label": "the label chip (level, tag, scripted input)",
+            "box": [
+              0.0323,
+              0.8903,
+              0.3458,
+              0.9486
+            ]
+          }
+        ],
+        "contrast_reason": "the frame is the game's own painted art in mixed colours; the text that must be read is the label chip, ink on cream, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B02.mp3",
+      "actual_duration_s": 9.3,
+      "render_duration_s": 9.3,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B02.mp4",
+        "filled_by": "media",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B03",
+      "act": "question 1: what exists when it is done",
+      "narration_text": "Done, the final will be all six levels, from a title menu to an end screen, exported to the web with a test report anyone can rerun.",
+      "estimated_duration_s": 10.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Six level tiles in a row: the first kraft (built), five pale (designed); a browser window draws around them; a test page lands and its two boxes are ticked.",
+        "motion_claim": "Six level tiles in a row: the first kraft (built), five pale (designed); a browser window draws around them; a test page lands and its two boxes are ticked.",
+        "show": [
+          {
+            "at": 0.15,
+            "event": "six tiles, one solid"
+          },
+          {
+            "at": 0.5,
+            "event": "into a browser window"
+          },
+          {
+            "at": 0.8,
+            "event": "test report with a check"
+          }
+        ],
+        "labels": [
+          "level 1",
+          "web",
+          "test report"
+        ],
+        "manim": {
+          "class": "B03_SixTiles"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B03.mp3",
+      "actual_duration_s": 8.21,
+      "render_duration_s": 8.233333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B03.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B04",
+      "act": "GDD 1: design pillars",
+      "narration_text": "Four pillars: your gear is your plan, read every threat, it stings and then you try again, and a journey into another world.",
+      "estimated_duration_s": 9.2,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Four pillars rise one by one under a lintel, each on its spoken name.",
+        "motion_claim": "Four pillars rise one by one under a lintel, each on its spoken name.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "gear"
+          },
+          {
+            "at": 0.4,
+            "event": "tells"
+          },
+          {
+            "at": 0.6,
+            "event": "retry"
+          },
+          {
+            "at": 0.8,
+            "event": "journey"
+          }
+        ],
+        "labels": [
+          "gear",
+          "tells",
+          "retry",
+          "journey"
+        ],
+        "manim": {
+          "class": "B04_FourPillars"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B04.mp3",
+      "actual_duration_s": 6.85,
+      "render_duration_s": 6.866666666666666,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B04.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B05",
+      "act": "GDD 2: core gameplay loop",
+      "narration_text": "Second to second, you choose to jump, stomp or fight; over a level, you choose your gear and your detours; and the next region pulls you on.",
+      "estimated_duration_s": 10.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Three rings side by side, growing in size: a dot circles the small one; the middle one gets a gear stand and a side path; on the large one a dot travels up to the next region's tile.",
+        "motion_claim": "Three rings side by side, growing in size: a dot circles the small one; the middle one gets a gear stand and a side path; on the large one a dot travels up to the next region's tile.",
+        "show": [
+          {
+            "at": 0.15,
+            "event": "small ring spins"
+          },
+          {
+            "at": 0.5,
+            "event": "middle ring: stand, detour"
+          },
+          {
+            "at": 0.85,
+            "event": "large ring reaches the next tile"
+          }
+        ],
+        "labels": [
+          "seconds",
+          "a level",
+          "next region"
+        ],
+        "manim": {
+          "class": "B05_ThreeLoops"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B05.mp3",
+      "actual_duration_s": 7.74,
+      "render_duration_s": 7.766666666666667,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B05.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B06",
+      "act": "GDD 3: player experience goals",
+      "narration_text": "The player should feel warned in time before every attack, and stung but ready to retry after a mistake. I will check both in playtests, with the sound on and off.",
+      "estimated_duration_s": 12.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "A tell lamp lights before a shot leaves; then a heart drops and a retry arrow loops back; a playtest page with two boxes ticks.",
+        "motion_claim": "A tell lamp lights before a shot leaves; then a heart drops and a retry arrow loops back; a playtest page with two boxes ticks.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "lamp, then shot"
+          },
+          {
+            "at": 0.5,
+            "event": "heart drops, retry loop"
+          },
+          {
+            "at": 0.8,
+            "event": "playtest page ticks"
+          }
+        ],
+        "labels": [
+          "warned",
+          "try again",
+          "playtest"
+        ],
+        "manim": {
+          "class": "B06_Feelings"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B06.mp3",
+      "actual_duration_s": 9.28,
+      "render_duration_s": 9.3,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B06.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B07",
+      "act": "GDD 4: core mechanics, with losing and restarting",
+      "narration_text": "A slash can't restart until it ends, a hit knocks the sword away before it costs a heart, and a fall returns Rudy to the last waystone. Block, staff and climbing are designed, not built.",
+      "estimated_duration_s": 14.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "capture",
+        "treatment": "none",
+        "speed_note": null,
+        "evidence_media": "clips/C3.mp4",
+        "slot": "media/B07.mp4 (tools/label_clips.py: the clip with its label burned in)",
+        "capture_plan": {
+          "clip": "C3",
+          "take": "mech",
+          "take_file": "capture/take-mech.mp4",
+          "frames": [
+            205,
+            516
+          ],
+          "anchor": "end",
+          "seconds_in_take": 10.37,
+          "speed": 1,
+          "game": "fall-2026/shuai-z/assignment-7/game",
+          "revision": "76206412267f07569b1488c9a9f4db03efa352a2",
+          "method": "Godot Movie Maker at 30 fps on an isolated copy (git archive a7), input pressed by capture/film_driver.gd, adapted from Assignment 7's (it presses the game's input actions only; it never moves, places or sets anything)",
+          "route": "goblin B slashed (216); the waystone lit (256); the first cliff and the second spikes; goblin C's touch knocks the sword away (363); its next touch costs a heart (399); a run off the second cliff, which costs a heart (451); Rudy gets up at the waystone (469) and is in control again (489)",
+          "game_audio": "not used: the clip is video only"
+        },
+        "label_on_screen": "Level 1 · tag a7 · scripted input",
+        "observation": "Real play: a slash; the waystone lights; a hit sends the sword flying; the next costs a heart; a fall, and Rudy gets up at the waystone."
+      },
+      "lane": "evidence",
+      "proof_gate": "SHOW",
+      "qc": {
+        "full_bleed": true,
+        "sparse_by_design": true,
+        "sparse_reason": "real captured play fills the frame edge to edge, and the game's own fades (a fall, the last heart, the end card) leave frames nearly empty; that is the game, not a layout",
+        "contrast_regions": [
+          {
+            "label": "the label chip (level, tag, scripted input)",
+            "box": [
+              0.0323,
+              0.8903,
+              0.3458,
+              0.9486
+            ]
+          }
+        ],
+        "contrast_reason": "the frame is the game's own painted art in mixed colours; the text that must be read is the label chip, ink on cream, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B07.mp3",
+      "actual_duration_s": 10.92,
+      "render_duration_s": 10.933333333333334,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B07.mp4",
+        "filled_by": "media",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B08",
+      "act": "GDD 5: systems",
+      "narration_text": "Gear protects your hearts, waystones keep your place, and every enemy shows a tell before it attacks. One enemy will run on my game AI technique from Assignment nine.",
+      "estimated_duration_s": 11.6,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Three parts on one floor: a shield in front of three hearts turns a hit aside; a waystone's light comes on; a lamp lights before an arrow leaves. Then a dashed crate marked A9 lands beside the lamp.",
+        "motion_claim": "Three parts on one floor: a shield in front of three hearts turns a hit aside; a waystone's light comes on; a lamp lights before an arrow leaves. Then a dashed crate marked A9 lands beside the lamp.",
+        "show": [
+          {
+            "at": 0.15,
+            "event": "the shield turns a hit"
+          },
+          {
+            "at": 0.3,
+            "event": "the waystone lights"
+          },
+          {
+            "at": 0.45,
+            "event": "the lamp, then the arrow"
+          },
+          {
+            "at": 0.75,
+            "event": "the A9 crate lands"
+          }
+        ],
+        "labels": [
+          "gear",
+          "waystone",
+          "tell",
+          "A9"
+        ],
+        "manim": {
+          "class": "B08_Systems"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B08.mp3",
+      "actual_duration_s": 9.62,
+      "render_duration_s": 9.633333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B08.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B09",
+      "act": "GDD 6: progression",
+      "narration_text": "Each level adds an idea or two: the block in level three, the staff and ropes in level four, and Rudy's hearts rising from three to seven.",
+      "estimated_duration_s": 10.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Six steps rise left to right; a shield lands on step 3, a staff and a rope on step 4; a heart counter climbs from 3 to 7.",
+        "motion_claim": "Six steps rise left to right; a shield lands on step 3, a staff and a rope on step 4; a heart counter climbs from 3 to 7.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "steps rise"
+          },
+          {
+            "at": 0.5,
+            "event": "shield on 3, staff and rope on 4"
+          },
+          {
+            "at": 0.85,
+            "event": "hearts 3 → 7"
+          }
+        ],
+        "labels": [
+          "block",
+          "staff",
+          "hearts"
+        ],
+        "manim": {
+          "class": "B09_Staircase"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B09.mp3",
+      "actual_duration_s": 8.19,
+      "render_duration_s": 8.2,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B09.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B10",
+      "act": "GDD 7: world and environment",
+      "narration_text": "Rudy's village sits in a farming kingdom, across the sea from a grey continent of ash, forest and desert, and his road home crosses six regions.",
+      "estimated_duration_s": 10.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B10_World"
+        },
+        "figure": {
+          "title": "The world, and the road home",
+          "status": "Designed · constructed: drawn by code, not game art",
+          "image": "figures/world-map.png",
+          "image_from": "GDD.md figure 4",
+          "labels": [
+            {
+              "label": "West",
+              "text": "the Ashen Reach"
+            },
+            {
+              "label": "East",
+              "text": "Aldmere, Ambervale"
+            },
+            {
+              "label": "Route",
+              "text": "levels 1 to 6"
+            }
+          ],
+          "source": "Source: GDD.md §7, figure 4 (code-drawn, Assignment 4)."
+        },
+        "visual_intent": "The world, and the road home: figures/world-map.png, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "contrast_regions": [
+          {
+            "label": "the status line",
+            "box": [
+              0.1,
+              0.8238,
+              0.9,
+              0.9012
+            ]
+          }
+        ],
+        "contrast_reason": "the figure is a full-colour image from GDD.md; the text that must be read is the scene's own ink type on the cream stage, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B10.mp3",
+      "actual_duration_s": 8.64,
+      "render_duration_s": 8.666666666666666,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B10.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B11",
+      "act": "GDD 7: Level 1, built",
+      "narration_text": "Level one, Harvest Fields, is built: three goblins, two sets of spikes, two cliffs, the sword and a waystone, about thirteen seconds at full speed.",
+      "estimated_duration_s": 10.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "capture",
+        "treatment": "none",
+        "speed_note": "2x speed: every 2nd frame of the take, at 30 fps",
+        "evidence_media": "clips/C4.mp4",
+        "slot": "media/B11.mp4 (tools/label_clips.py: the clip with its label burned in)",
+        "capture_plan": {
+          "clip": "C4",
+          "take": "run",
+          "take_file": "capture/take-run.mp4",
+          "frames": [
+            45,
+            541
+          ],
+          "anchor": "end",
+          "seconds_in_take": 16.53,
+          "speed": 2,
+          "game": "fall-2026/shuai-z/assignment-7/game",
+          "revision": "76206412267f07569b1488c9a9f4db03efa352a2",
+          "method": "Godot Movie Maker at 30 fps on an isolated copy (git archive a7), input pressed by capture/film_driver.gd, adapted from Assignment 7's (it presses the game's input actions only; it never moves, places or sets anything)",
+          "route": "the whole level, from the title's last second and Enter (frame 45) to the teleport circle (425) and the end card (495): 12.65 s (759 physics ticks) from Enter to the circle",
+          "game_audio": "not used: the clip is video only"
+        },
+        "label_on_screen": "Level 1 · tag a7 · scripted input · 2× speed",
+        "observation": "Real play: all of Level 1, from the title to the end card, at twice its speed."
+      },
+      "lane": "evidence",
+      "proof_gate": "SHOW",
+      "qc": {
+        "full_bleed": true,
+        "sparse_by_design": true,
+        "sparse_reason": "real captured play fills the frame edge to edge, and the game's own fades (a fall, the last heart, the end card) leave frames nearly empty; that is the game, not a layout",
+        "contrast_regions": [
+          {
+            "label": "the label chip (level, tag, scripted input)",
+            "box": [
+              0.0323,
+              0.8903,
+              0.4484,
+              0.9486
+            ]
+          }
+        ],
+        "contrast_reason": "the frame is the game's own painted art in mixed colours; the text that must be read is the label chip, ink on cream, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B11.mp3",
+      "actual_duration_s": 8.55,
+      "render_duration_s": 8.566666666666666,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B11.mp4",
+        "filled_by": "media",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B12",
+      "act": "GDD 7: Levels 2 to 5, designed",
+      "narration_text": "Levels two to five are designed, and each adds new enemies and hazards: a beetle and falling ledges; mushrooms, scorpions and quicksand; archers, ropes and the staff; shield guards and an avalanche.",
+      "estimated_duration_s": 12.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B12_Levels"
+        },
+        "figure": {
+          "title": "The six levels",
+          "status": "Level 1: in-game screenshot · Levels 2–6: designed · constructed: drawn by code, not game art",
+          "image": "figures/levels.jpg",
+          "image_from": "GDD.md figure 5",
+          "labels": [
+            {
+              "label": "Level 2",
+              "text": "beetle · falling ledges"
+            },
+            {
+              "label": "Level 3",
+              "text": "mushrooms · scorpions · quicksand"
+            },
+            {
+              "label": "Level 4",
+              "text": "archers · ropes · staff"
+            },
+            {
+              "label": "Level 5",
+              "text": "guards · avalanche"
+            }
+          ],
+          "source": "Source: GDD.md §7, figure 5. Level 1 is a screenshot; Levels 2–6 are drawn by code (Assignment 4)."
+        },
+        "visual_intent": "The six levels: figures/levels.jpg, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "contrast_regions": [
+          {
+            "label": "the status line",
+            "box": [
+              0.04,
+              0.83,
+              0.96,
+              0.9075
+            ]
+          }
+        ],
+        "contrast_reason": "the figure is a full-colour image from GDD.md; the text that must be read is the scene's own ink type on the cream stage, so that is what is measured",
+        "typography_regions": [
+          {
+            "label": "the status line",
+            "box": [
+              0.04,
+              0.83,
+              0.96,
+              0.9075
+            ]
+          }
+        ],
+        "typography_reason": "mixed source imagery: the framed figure is a GDD image whose own small labels (palette codes, frame names, the game's on-screen text) are image content, not this film's type; the scene's own type is inventoried in the declared regions"
+      },
+      "audio_file": "mp3/beat-B12.mp3",
+      "actual_duration_s": 11.22,
+      "render_duration_s": 11.233333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B12.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B13",
+      "act": "GDD 7: Level 6, designed",
+      "narration_text": "Level six is home, where the archmage Aldric Voss fights in three phases, and every attack glows before it lands.",
+      "estimated_duration_s": 8.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B13_Boss"
+        },
+        "figure": {
+          "title": "Level 6: Ambervale, after",
+          "status": "Designed · constructed: drawn by code, not game art",
+          "image": "figures/boss-phases.jpg",
+          "image_from": "GDD.md figure 2",
+          "labels": [
+            {
+              "label": "Phase 1",
+              "text": "amber volleys"
+            },
+            {
+              "label": "Phase 2",
+              "text": "shards, spike lines"
+            },
+            {
+              "label": "Phase 3",
+              "text": "the floor crumbles"
+            }
+          ],
+          "source": "Source: GDD.md §5 S-05 and §7. Diagrams drawn by code (Assignment 4)."
+        },
+        "visual_intent": "Level 6: Ambervale, after: figures/boss-phases.jpg, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "contrast_regions": [
+          {
+            "label": "the status line",
+            "box": [
+              0.1,
+              0.68,
+              0.9,
+              0.7575
+            ]
+          }
+        ],
+        "contrast_reason": "the figure is a full-colour image from GDD.md; the text that must be read is the scene's own ink type on the cream stage, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B13.mp3",
+      "actual_duration_s": 7.3,
+      "render_duration_s": 7.3,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B13.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B14",
+      "act": "GDD 8: narrative",
+      "narration_text": "The design tells the story on fourteen painted cards between levels; those are out, so the levels alone tell the story.",
+      "estimated_duration_s": 8.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Five story cards in a row, labelled 14 story cards, slide into a crate marked out; then a level strip appears and a castle, a ridge with a light and a crater rise on it in turn.",
+        "motion_claim": "Five story cards in a row, labelled 14 story cards, slide into a crate marked out; then a level strip appears and a castle, a ridge with a light and a crater rise on it in turn.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "cards fan"
+          },
+          {
+            "at": 0.45,
+            "event": "set aside"
+          },
+          {
+            "at": 0.75,
+            "event": "castle, ridge, crater light"
+          }
+        ],
+        "labels": [
+          "story cards",
+          "out"
+        ],
+        "manim": {
+          "class": "B14_Cards"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B14.mp3",
+      "actual_duration_s": 7.15,
+      "render_duration_s": 7.166666666666667,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B14.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B15",
+      "act": "GDD 9: characters",
+      "narration_text": "Rudy is ten, a gifted mage only fair with a sword, here in his generated frames. Against him stands Voss, and four lost villagers wait along the way.",
+      "estimated_duration_s": 11.2,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B15_Rudy"
+        },
+        "figure": {
+          "title": "Characters",
+          "status": "Built frames · generated (Gemini app, Assignment 2)",
+          "image": "figures/rudy.jpg",
+          "image_from": "GDD.md figure 6",
+          "labels": [
+            {
+              "label": "Rudy",
+              "text": "the player, ten"
+            },
+            {
+              "label": "Voss",
+              "text": "the boss"
+            },
+            {
+              "label": "Villagers",
+              "text": "four, levels 2–5"
+            }
+          ],
+          "source": "Source: GDD.md §9, figure 6. Images generated in the Gemini app (Assignment 2)."
+        },
+        "visual_intent": "Characters: figures/rudy.jpg, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "typography_regions": [
+          {
+            "label": "the name and status column",
+            "box": [
+              0.57,
+              0.15,
+              0.95,
+              0.72
+            ]
+          }
+        ],
+        "typography_reason": "mixed source imagery: the framed figure is a GDD image whose own small labels (palette codes, frame names, the game's on-screen text) are image content, not this film's type; the scene's own type is inventoried in the declared regions"
+      },
+      "audio_file": "mp3/beat-B15.mp3",
+      "actual_duration_s": 9.07,
+      "render_duration_s": 9.1,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B15.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B16",
+      "act": "GDD 10: art direction",
+      "narration_text": "Flat, outlined characters on soft painted backgrounds, so anything that can hurt you reads at once. Two planned colours sit close to Rudy's outline, so they stay away from where he plays.",
+      "estimated_duration_s": 12.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B16_Palette"
+        },
+        "figure": {
+          "title": "Art direction",
+          "status": "Built · generated (Gemini app, Assignment 2)",
+          "image": "figures/cast.jpg",
+          "image_from": "GDD.md figure 7",
+          "labels": [
+            {
+              "label": "Characters",
+              "text": "flat, 4 px outline"
+            },
+            {
+              "label": "Backgrounds",
+              "text": "painted, muted"
+            },
+            {
+              "label": "Weakest",
+              "text": "1.87 and 2.00"
+            }
+          ],
+          "source": "Source: GDD.md §10. Images generated in the Gemini app (Assignment 2); contrast numbers from v1's check."
+        },
+        "visual_intent": "Art direction: figures/cast.jpg, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "typography_regions": [
+          {
+            "label": "the status line",
+            "box": [
+              0.2,
+              0.4675,
+              0.8,
+              0.545
+            ]
+          },
+          {
+            "label": "swatch labels, note and source",
+            "box": [
+              0.04,
+              0.6875,
+              0.96,
+              0.935
+            ]
+          }
+        ],
+        "typography_reason": "mixed source imagery: the framed figure is a GDD image whose own small labels (palette codes, frame names, the game's on-screen text) are image content, not this film's type; the scene's own type is inventoried in the declared regions"
+      },
+      "audio_file": "mp3/beat-B16.mp3",
+      "actual_duration_s": 10.6,
+      "render_duration_s": 10.6,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B16.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B17",
+      "act": "GDD 11: sound and music",
+      "narration_text": "A folk theme from Suno and six sound effects from Adobe Firefly and ElevenLabs, each with a visual twin, so the game reads with the sound off.",
+      "estimated_duration_s": 10.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "A speaker and an eye side by side; each sound wave that leaves the speaker lights a matching shape by the eye; a muted speaker, and the shapes still light.",
+        "motion_claim": "A speaker and an eye side by side; each sound wave that leaves the speaker lights a matching shape by the eye; a muted speaker, and the shapes still light.",
+        "show": [
+          {
+            "at": 0.3,
+            "event": "wave lights a twin"
+          },
+          {
+            "at": 0.75,
+            "event": "muted, twins still light"
+          }
+        ],
+        "labels": [
+          "sound",
+          "visual twin"
+        ],
+        "manim": {
+          "class": "B17_Twins"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B17.mp3",
+      "actual_duration_s": 8.7,
+      "render_duration_s": 8.7,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B17.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B18",
+      "act": "GDD 12: feature list (question 5: in)",
+      "narration_text": "The musts are the smallest complete final: levels one to three, block, menus, saving, web build and test report. Should: levels four to six, staff, climbing, boss; could: villagers and finished art.",
+      "estimated_duration_s": 12.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Three shelves labelled must, should, could; boxes drop onto each as they are named.",
+        "motion_claim": "Three shelves labelled must, should, could; boxes drop onto each as they are named.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "must shelf fills"
+          },
+          {
+            "at": 0.65,
+            "event": "should shelf fills"
+          },
+          {
+            "at": 0.9,
+            "event": "could shelf fills"
+          }
+        ],
+        "labels": [
+          "must",
+          "should",
+          "could"
+        ],
+        "manim": {
+          "class": "B18_Shelves"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B18.mp3",
+      "actual_duration_s": 11.22,
+      "render_duration_s": 11.233333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B18.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B19",
+      "act": "GDD 13: out of scope (question 5: out)",
+      "narration_text": "What it will deliberately not do: the painted story cards, the three-D world map, and new music for each region.",
+      "estimated_duration_s": 8.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Three boxes slide off a shelf into a crate marked 'out': a card stack, a small globe, a music page.",
+        "motion_claim": "Three boxes slide off a shelf into a crate marked 'out': a card stack, a small globe, a music page.",
+        "show": [
+          {
+            "at": 0.3,
+            "event": "cards out"
+          },
+          {
+            "at": 0.55,
+            "event": "map out"
+          },
+          {
+            "at": 0.8,
+            "event": "music out"
+          }
+        ],
+        "labels": [
+          "out"
+        ],
+        "manim": {
+          "class": "B19_Out"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B19.mp3",
+      "actual_duration_s": 6.66,
+      "render_duration_s": 6.666666666666667,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B19.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B20",
+      "act": "GDD 14: technical requirements",
+      "narration_text": "Godot four point seven point two, the Compatibility renderer, a web export at sixty frames a second, and every level a greybox before its art.",
+      "estimated_duration_s": 10.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "A grey level of plain blocks; a browser frame around it; a paint layer slides over the blocks from left to right.",
+        "motion_claim": "A grey level of plain blocks; a browser frame around it; a paint layer slides over the blocks from left to right.",
+        "show": [
+          {
+            "at": 0.25,
+            "event": "browser frame"
+          },
+          {
+            "at": 0.55,
+            "event": "60 fps dial"
+          },
+          {
+            "at": 0.8,
+            "event": "art layer slides over the greybox"
+          }
+        ],
+        "labels": [
+          "web",
+          "60 fps",
+          "greybox"
+        ],
+        "manim": {
+          "class": "B20_Greybox"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B20.mp3",
+      "actual_duration_s": 8.92,
+      "render_duration_s": 8.933333333333334,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B20.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B21",
+      "act": "GDD 15: risks (question 6)",
+      "narration_text": "What could sink it is art: fifteen backgrounds, plus sprites for five enemies and the boss. So every level will play as a greybox first, and I will test the web export early, on level one.",
+      "estimated_duration_s": 14.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Fifteen background sheets pile up on one side of a scale and tip it; five grey level tiles slide under the other side and level it; a browser icon checks level one.",
+        "motion_claim": "Fifteen background sheets pile up on one side of a scale and tip it; five grey level tiles slide under the other side and level it; a browser icon checks level one.",
+        "show": [
+          {
+            "at": 0.25,
+            "event": "sheets pile, scale tips"
+          },
+          {
+            "at": 0.6,
+            "event": "greyboxes level it"
+          },
+          {
+            "at": 0.85,
+            "event": "level 1 in a browser"
+          }
+        ],
+        "labels": [
+          "art",
+          "greybox"
+        ],
+        "manim": {
+          "class": "B21_ArtRisk"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B21.mp3",
+      "actual_duration_s": 10.62,
+      "render_duration_s": 10.633333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B21.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B22",
+      "act": "GDD 16: open questions",
+      "narration_text": "Still open: whether seven hearts make the boss too easy, how the staff's barrier differs from the shield, and where the web build will be hosted. The design says how I'll find out.",
+      "estimated_duration_s": 13.2,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Three pages with question marks; under each, a small tool appears (a playtest, a test, a browser).",
+        "motion_claim": "Three pages with question marks; under each, a small tool appears (a playtest, a test, a browser).",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "three questions"
+          },
+          {
+            "at": 0.7,
+            "event": "a way to find out under each"
+          }
+        ],
+        "labels": [
+          "boss",
+          "barrier",
+          "hosting"
+        ],
+        "manim": {
+          "class": "B22_Questions"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B22.mp3",
+      "actual_duration_s": 9.71,
+      "render_duration_s": 9.733333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B22.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B23",
+      "act": "question 2: why anyone would care",
+      "narration_text": "In Super Mario Brothers and New Super Mario Brothers, which I've played, a hit takes your power-up first. Walker Rudy keeps that, adds a committed sword swing, and has no lives to lose, so a mistake never ends the game.",
+      "estimated_duration_s": 16.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Two plain columns (no game art): a shared row 'hit takes the power-up first'; on Rudy's side a sword arc and a lives counter crossed out.",
+        "motion_claim": "Two plain columns (no game art): a shared row 'hit takes the power-up first'; on Rudy's side a sword arc and a lives counter crossed out.",
+        "show": [
+          {
+            "at": 0.3,
+            "event": "shared rule row"
+          },
+          {
+            "at": 0.65,
+            "event": "sword arc"
+          },
+          {
+            "at": 0.85,
+            "event": "lives crossed out"
+          }
+        ],
+        "labels": [
+          "power-up first",
+          "sword",
+          "no lives"
+        ],
+        "manim": {
+          "class": "B23_Compare"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B23.mp3",
+      "actual_duration_s": 12.5,
+      "render_duration_s": 12.5,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B23.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B24",
+      "act": "question 3: who opens it",
+      "narration_text": "It is for you, my instructor and the teaching assistants; the target role is gameplay programmer. Within a minute, you will follow the read-me's link to the web build and be playing.",
+      "estimated_duration_s": 12.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "A README page; the target role appears; a link line draws to a browser window where Rudy's own run frame crosses the ground while a clock hand sweeps one minute.",
+        "motion_claim": "A README page; the target role appears; a link line draws to a browser window where Rudy's own run frame crosses the ground while a clock hand sweeps one minute.",
+        "show": [
+          {
+            "at": 0.3,
+            "event": "README"
+          },
+          {
+            "at": 0.6,
+            "event": "link to browser"
+          },
+          {
+            "at": 0.85,
+            "event": "one minute, playing"
+          }
+        ],
+        "labels": [
+          "README",
+          "web build",
+          "1 min"
+        ],
+        "manim": {
+          "class": "B24_FirstMinute"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B24.mp3",
+      "actual_duration_s": 9.51,
+      "render_duration_s": 9.533333333333333,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B24.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B25",
+      "act": "question 4: what it proves",
+      "narration_text": "It proves a shader I wrote, particle effects and animation states, each at its tag with tests anyone can rerun. Claude Code sessions I scoped and reviewed wrote most of the code, as the sources file shows.",
+      "estimated_duration_s": 14.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Three crates tagged a5, a6, a7 land on a shelf, each with a test page and a check; a sources page lands last.",
+        "motion_claim": "Three crates tagged a5, a6, a7 land on a shelf, each with a test page and a check; a sources page lands last.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "a5"
+          },
+          {
+            "at": 0.4,
+            "event": "a6"
+          },
+          {
+            "at": 0.6,
+            "event": "a7"
+          },
+          {
+            "at": 0.85,
+            "event": "sources page"
+          }
+        ],
+        "labels": [
+          "a5",
+          "a6",
+          "a7"
+        ],
+        "manim": {
+          "class": "B25_Tags"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B25.mp3",
+      "actual_duration_s": 12.1,
+      "render_duration_s": 12.1,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B25.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B26",
+      "act": "question 5: what comes first",
+      "narration_text": "First comes level two as a greybox, straight after level one's end card. You will know it ran because a headless test walks Rudy into it and checks the ledge timings.",
+      "estimated_duration_s": 12.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Level 1's end card slides left; a grey level slides in; a ledge cracks and falls on a timer; a test page ticks.",
+        "motion_claim": "Level 1's end card slides left; a grey level slides in; a ledge cracks and falls on a timer; a test page ticks.",
+        "show": [
+          {
+            "at": 0.2,
+            "event": "end card → greybox"
+          },
+          {
+            "at": 0.55,
+            "event": "ledge cracks, falls"
+          },
+          {
+            "at": 0.85,
+            "event": "test ticks"
+          }
+        ],
+        "labels": [
+          "level 2",
+          "greybox",
+          "test"
+        ],
+        "manim": {
+          "class": "B26_FirstPiece"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived.",
+        "typography_regions": [
+          {
+            "label": "end of level 1",
+            "box": [
+              0.13,
+              0.5675,
+              0.36,
+              0.645
+            ]
+          },
+          {
+            "label": "level 2 greybox",
+            "box": [
+              0.54,
+              0.7488,
+              0.84,
+              0.8262
+            ]
+          },
+          {
+            "label": "headless test",
+            "box": [
+              0.57,
+              0.1675,
+              0.81,
+              0.245
+            ]
+          }
+        ],
+        "typography_reason": "mixed source imagery: the framed still is the game's end card at tag a7, whose own text is image content; the scene's own labels are the declared regions"
+      },
+      "audio_file": "mp3/beat-B26.mp3",
+      "actual_duration_s": 9.32,
+      "render_duration_s": 9.333333333333334,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B26.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B27",
+      "act": "question 7: why this project",
+      "narration_text": "Mostly to learn: I had none of these skills before this semester. New in the final: greybox levels, enemies that decide for themselves, a boss, menus, saving and a web export.",
+      "estimated_duration_s": 12.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "The a5–a7 crates on their shelf; six empty dashed crates appear on a new shelf above, one per new skill.",
+        "motion_claim": "The a5–a7 crates on their shelf; six empty dashed crates appear on a new shelf above, one per new skill.",
+        "show": [
+          {
+            "at": 0.25,
+            "event": "learned shelf"
+          },
+          {
+            "at": 0.6,
+            "event": "new shelf, six dashed crates"
+          }
+        ],
+        "labels": [
+          "learned",
+          "new"
+        ],
+        "manim": {
+          "class": "B27_Learn"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B27.mp3",
+      "actual_duration_s": 10.35,
+      "render_duration_s": 10.366666666666667,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B27.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B28",
+      "act": "appendix: what exists, started, not started",
+      "narration_text": "What exists today is level one at tag A7, all the play in this film. Rudy's block frame is generated but not in play, and levels two to six are not started.",
+      "estimated_duration_s": 12.8,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "VIDEO",
+        "lane": "evidence",
+        "source": "capture",
+        "treatment": "none",
+        "speed_note": null,
+        "evidence_media": "clips/C5.mp4",
+        "slot": "media/B28.mp4 (tools/label_clips.py: the clip with its label burned in)",
+        "capture_plan": {
+          "clip": "C5",
+          "take": "pause",
+          "take_file": "capture/take-pause.mp4",
+          "frames": [
+            60,
+            358
+          ],
+          "anchor": "end",
+          "seconds_in_take": 9.93,
+          "speed": 1,
+          "game": "fall-2026/shuai-z/assignment-7/game",
+          "revision": "76206412267f07569b1488c9a9f4db03efa352a2",
+          "method": "Godot Movie Maker at 30 fps on an isolated copy (git archive a7), input pressed by capture/film_driver.gd, adapted from Assignment 7's (it presses the game's input actions only; it never moves, places or sets anything)",
+          "route": "a short run; Esc: 'Paused' (frame 86); Esc: resume (122); the first spikes; goblin A's touches cost a heart each (192, 228); the third takes the last heart (276); the level starts over at the start with full hearts (311), in control again (331)",
+          "game_audio": "not used: the clip is video only"
+        },
+        "label_on_screen": "Level 1 · tag a7 · scripted input",
+        "observation": "Real play: the pause, then the last heart lost and Level 1 starting over."
+      },
+      "lane": "evidence",
+      "proof_gate": "SHOW",
+      "qc": {
+        "full_bleed": true,
+        "sparse_by_design": true,
+        "sparse_reason": "real captured play fills the frame edge to edge, and the game's own fades (a fall, the last heart, the end card) leave frames nearly empty; that is the game, not a layout",
+        "contrast_regions": [
+          {
+            "label": "the label chip (level, tag, scripted input)",
+            "box": [
+              0.0323,
+              0.8903,
+              0.3458,
+              0.9486
+            ]
+          }
+        ],
+        "contrast_reason": "the frame is the game's own painted art in mixed colours; the text that must be read is the label chip, ink on cream, so that is what is measured"
+      },
+      "audio_file": "mp3/beat-B28.mp3",
+      "actual_duration_s": 9.96,
+      "render_duration_s": 9.966666666666667,
+      "build": {
+        "status": "VIDEO",
+        "src": "media/B28.mp4",
+        "filled_by": "media",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B29",
+      "act": "appendix: can one person build it",
+      "narration_text": "Can one person build all this by the final? I'm not sure; if it won't fit, late art becomes greybox, then villagers go, then levels six, five and four, and one to three are the floor.",
+      "estimated_duration_s": 14.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "visual_intent": "Six tiles with art tops, villager dots on 2–5, under the label cut order: the art on tiles 4–6 turns grey, the dots lift off, tiles 6, 5, 4 slide away, and a floor line is drawn under tiles 1–3.",
+        "motion_claim": "Six tiles with art tops, villager dots on 2–5, under the label cut order: the art on tiles 4–6 turns grey, the dots lift off, tiles 6, 5, 4 slide away, and a floor line is drawn under tiles 1–3.",
+        "show": [
+          {
+            "at": 0.3,
+            "event": "art → greybox"
+          },
+          {
+            "at": 0.6,
+            "event": "villagers off"
+          },
+          {
+            "at": 0.85,
+            "event": "6, 5, 4 cut; 1–3 stay"
+          }
+        ],
+        "labels": [
+          "floor",
+          "cut order"
+        ],
+        "manim": {
+          "class": "B29_Floor"
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "show-tell: one drawn picture on a cream stage per beat, with the voice carrying the explanation; only underfill and clustered are waived."
+      },
+      "audio_file": "mp3/beat-B29.mp3",
+      "actual_duration_s": 10.39,
+      "render_duration_s": 10.4,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B29.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "B30",
+      "act": "appendix: where every asset comes from",
+      "narration_text": "Images come from Gemini, sound from Firefly and ElevenLabs, music from Suno, all generated. The shader and effects are mine, nothing is bought, and every licence is in the sources file.",
+      "estimated_duration_s": 12.4,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "B30_Assets"
+        },
+        "figure": {
+          "title": "Where every asset comes from",
+          "status": "Appendix · PROJECT-BRIEF.md asset table",
+          "image": "figures/level-1.jpg",
+          "image_from": "GDD.md figure 1 (in-game screenshots of generated art), beside the table's rows",
+          "labels": [
+            {
+              "label": "Images",
+              "text": "Gemini · generated"
+            },
+            {
+              "label": "Sound",
+              "text": "Firefly, ElevenLabs · generated"
+            },
+            {
+              "label": "Music",
+              "text": "Suno · generated"
+            },
+            {
+              "label": "Shader, effects",
+              "text": "mine"
+            }
+          ],
+          "source": "Source: PROJECT-BRIEF.md appendix; Assignment 2 SOURCES.md for each licence."
+        },
+        "visual_intent": "Where every asset comes from: figures/level-1.jpg, framed, with its status on screen"
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "qc": {
+        "contrast_regions": [
+          {
+            "label": "the asset column",
+            "box": [
+              0.66,
+              0.16,
+              0.95,
+              0.62
+            ]
+          }
+        ],
+        "contrast_reason": "the figure is a full-colour image from GDD.md; the text that must be read is the scene's own ink type on the cream stage, so that is what is measured",
+        "typography_regions": [
+          {
+            "label": "the status line",
+            "box": [
+              0.09,
+              0.6113,
+              0.59,
+              0.6887
+            ]
+          },
+          {
+            "label": "the source line",
+            "box": [
+              0.12,
+              0.8363,
+              0.71,
+              0.9137
+            ]
+          },
+          {
+            "label": "the asset column",
+            "box": [
+              0.641,
+              0.156,
+              0.95,
+              0.825
+            ]
+          }
+        ],
+        "typography_reason": "mixed source imagery: the framed figure is a GDD image whose own small labels (palette codes, frame names, the game's on-screen text) are image content, not this film's type; the scene's own type is inventoried in the declared regions"
+      },
+      "audio_file": "mp3/beat-B30.mp3",
+      "actual_duration_s": 11.35,
+      "render_duration_s": 11.366666666666667,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/B30.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    },
+    {
+      "beat_id": "BOUT",
+      "act": "outro",
+      "narration_text": "Walker Rudy: The Long Way Home. A Final Project Pitch. By Shuai Zhang.",
+      "estimated_duration_s": 5.0,
+      "voice": "am_onyx",
+      "engine": "kokoro",
+      "shot": {
+        "type": "GRAPHIC",
+        "source": "own",
+        "manim": {
+          "class": "BOUT_Title"
+        },
+        "show": [
+          {
+            "at": 0.0,
+            "event": "the title"
+          },
+          {
+            "at": 0.6,
+            "event": "By Shuai Zhang"
+          }
+        ],
+        "outro": {
+          "title": "Walker Rudy: The Long Way Home. A Final Project Pitch",
+          "handle": "Shuai Zhang",
+          "subline": ""
+        }
+      },
+      "lane": "manim",
+      "proof_gate": "SHOW",
+      "kind": "outro_voice",
+      "tail_silence_s": 1.0,
+      "qc": {
+        "sparse_by_design": true,
+        "sparse_reason": "the outro is a title card: the title, then my name"
+      },
+      "role_note": "Assignment 8: no instructor name, persona or credit line. The toolkit's ClaudeTitleOutro prints @NikBearBrown and cannot be changed, so the outro is drawn in scenes.py (BOUT_Title) with the title and my name, and read 'by Shuai Zhang'. bookend_check.py, which expects ClaudeTitleOutro, therefore fails this beat by design (FRICTIONAL.md).",
+      "audio_file": "mp3/beat-BOUT.mp3",
+      "actual_duration_s": 5.84,
+      "render_duration_s": 5.866666666666666,
+      "build": {
+        "status": "MANIM",
+        "src": "manim/BOUT.mp4",
+        "filled_by": "manim",
+        "at": "2026-11-24T00:48:51"
+      }
+    }
+  ]
+}

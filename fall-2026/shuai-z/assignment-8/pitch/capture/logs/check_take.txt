@@ -1,0 +1,17 @@
+play.avi: 541 packets, 541 frame lines, 35 repeats (all where nothing changed: True), draw lines ['draw 0 true']
+  repeated frames: 506-540
+  frame lines: dry run 541, window 541, differing 0
+  event lines: dry run 24, window 24, differing 0
+  step lines: dry run 20, window 20, differing 0
+  PASS
+play.avi: 516 packets, 516 frame lines, 0 repeats (all where nothing changed: True), draw lines ['draw 0 true']
+  frame lines: dry run 516, window 516, differing 0
+  event lines: dry run 39, window 39, differing 0
+  step lines: dry run 20, window 20, differing 0
+  PASS
+play.avi: 358 packets, 358 frame lines, 35 repeats (all where nothing changed: True), draw lines ['draw 0 true']
+  repeated frames: 87-121
+  frame lines: dry run 358, window 358, differing 0
+  event lines: dry run 28, window 28, differing 0
+  step lines: dry run 10, window 10, differing 0
+  PASS

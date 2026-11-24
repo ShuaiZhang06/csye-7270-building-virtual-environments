@@ -1,0 +1,415 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.3 - Compatibility - Using Device: Apple - Apple M3
+
+Movie Maker mode enabled, recording movie in 3840×2160 @ 30 FPS...
+2026-11-23 20:51:28.410 Godot[71736:44755284] +[IMKClient subclass]: chose IMKClient_Modern
+take pause, title hold 90 ticks, stomp reach 375.0 px, movie true
+draw 0 true
+frame 0 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1501.7 gB 3001.7 gC 5601.7
+frame 1 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1505.0 gB 3005.0 gC 5605.0
+frame 2 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1508.3 gB 3008.3 gC 5608.3
+frame 3 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1511.7 gB 3011.7 gC 5611.7
+2026-11-23 20:51:28.786 Godot[71736:44755284] +[IMKInputSession subclass]: chose IMKInputSession_Modern
+frame 4 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1515.0 gB 3015.0 gC 5615.0
+frame 5 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1518.3 gB 3018.3 gC 5618.3
+frame 6 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1521.7 gB 3021.7 gC 5621.7
+frame 7 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1525.0 gB 3025.0 gC 5625.0
+frame 8 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1528.3 gB 3028.3 gC 5628.3
+frame 9 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1531.7 gB 3031.7 gC 5631.7
+frame 10 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1535.0 gB 3035.0 gC 5635.0
+frame 11 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1538.3 gB 3038.3 gC 5638.3
+frame 12 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1541.7 gB 3041.7 gC 5641.7
+frame 13 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1545.0 gB 3045.0 gC 5645.0
+frame 14 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1548.3 gB 3048.3 gC 5648.3
+frame 15 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1551.7 gB 3051.7 gC 5651.7
+frame 16 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1555.0 gB 3055.0 gC 5655.0
+frame 17 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1558.3 gB 3058.3 gC 5658.3
+frame 18 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1561.7 gB 3061.7 gC 5661.7
+frame 19 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1565.0 gB 3065.0 gC 5665.0
+frame 20 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1568.3 gB 3068.3 gC 5668.3
+frame 21 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1571.7 gB 3071.7 gC 5671.7
+frame 22 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1575.0 gB 3075.0 gC 5675.0
+frame 23 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1578.3 gB 3078.3 gC 5678.3
+frame 24 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1581.7 gB 3081.7 gC 5681.7
+frame 25 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1585.0 gB 3085.0 gC 5685.0
+frame 26 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1588.3 gB 3088.3 gC 5688.3
+frame 27 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1591.7 gB 3091.7 gC 5691.7
+frame 28 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1595.0 gB 3095.0 gC 5695.0
+frame 29 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1598.3 gB 3098.3 gC 5698.3
+frame 30 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1601.7 gB 3101.7 gC 5701.7
+frame 31 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1605.0 gB 3105.0 gC 5705.0
+frame 32 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1608.3 gB 3108.3 gC 5708.3
+frame 33 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1611.7 gB 3111.7 gC 5711.7
+frame 34 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1615.0 gB 3115.0 gC 5715.0
+frame 35 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1618.3 gB 3118.3 gC 5718.3
+frame 36 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1621.7 gB 3121.7 gC 5721.7
+frame 37 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1625.0 gB 3125.0 gC 5725.0
+frame 38 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1628.3 gB 3128.3 gC 5728.3
+frame 39 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1631.7 gB 3131.7 gC 5731.7
+frame 40 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1635.0 gB 3135.0 gC 5735.0
+frame 41 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1638.3 gB 3138.3 gC 5738.3
+frame 42 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1641.7 gB 3141.7 gC 5741.7
+frame 43 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1645.0 gB 3145.0 gC 5745.0
+frame 44 x 300.0 y 840.0 mode 0 gear 0 hearts 3 facing 1 state TITLE cp start paused false title true end false way false gA 1648.3 gB 3148.3 gC 5748.3
+step: Enter on the title
+frame 45 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1651.7 gB 3151.7 gC 5751.7
+event tick 90: mode -> 1 (x 300.0)
+event tick 90: state -> PLAYING (x 300.0)
+frame 46 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1655.0 gB 3155.0 gC 5755.0
+frame 47 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1658.3 gB 3158.3 gC 5758.3
+frame 48 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1661.7 gB 3161.7 gC 5761.7
+frame 49 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1665.0 gB 3165.0 gC 5765.0
+frame 50 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1668.3 gB 3168.3 gC 5768.3
+frame 51 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1671.7 gB 3171.7 gC 5771.6
+frame 52 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1675.0 gB 3175.0 gC 5775.0
+frame 53 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1678.3 gB 3178.3 gC 5778.3
+frame 54 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1681.7 gB 3181.7 gC 5781.6
+frame 55 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title true end false way false gA 1685.0 gB 3185.0 gC 5785.0
+frame 56 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1688.3 gB 3188.3 gC 5788.3
+frame 57 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1691.7 gB 3191.7 gC 5791.6
+frame 58 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1695.0 gB 3195.0 gC 5795.0
+step: a short run
+frame 59 x 304.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1698.3 gB 3198.3 gC 5798.3
+frame 60 x 315.6 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1701.7 gB 3201.7 gC 5801.6
+frame 61 x 332.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1705.0 gB 3205.0 gC 5805.0
+frame 62 x 351.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1708.3 gB 3208.3 gC 5808.3
+frame 63 x 370.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1711.7 gB 3211.7 gC 5811.6
+frame 64 x 388.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1715.0 gB 3215.0 gC 5815.0
+frame 65 x 407.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1718.3 gB 3218.3 gC 5818.3
+frame 66 x 426.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1721.7 gB 3221.7 gC 5821.6
+frame 67 x 444.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1725.0 gB 3225.0 gC 5825.0
+frame 68 x 463.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1728.3 gB 3228.3 gC 5828.3
+frame 69 x 482.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1731.7 gB 3231.7 gC 5831.6
+frame 70 x 500.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1735.0 gB 3235.0 gC 5835.0
+frame 71 x 519.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1738.3 gB 3238.3 gC 5838.3
+frame 72 x 538.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1741.7 gB 3241.7 gC 5841.6
+frame 73 x 556.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1745.0 gB 3245.0 gC 5845.0
+frame 74 x 575.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1748.3 gB 3248.3 gC 5848.3
+frame 75 x 594.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1751.7 gB 3251.7 gC 5851.6
+frame 76 x 612.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1755.0 gB 3255.0 gC 5855.0
+frame 77 x 631.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1758.3 gB 3258.3 gC 5858.3
+frame 78 x 648.4 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1761.7 gB 3261.7 gC 5861.6
+frame 79 x 659.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1765.0 gB 3265.0 gC 5865.0
+frame 80 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1768.3 gB 3268.3 gC 5868.3
+frame 81 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1771.7 gB 3271.7 gC 5871.6
+frame 82 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1775.0 gB 3275.0 gC 5875.0
+frame 83 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1778.3 gB 3278.3 gC 5878.3
+frame 84 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1781.7 gB 3281.7 gC 5881.6
+frame 85 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1785.0 gB 3285.0 gC 5885.0
+step: Esc: pause
+frame 86 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+event tick 172: paused -> true (x 664.0)
+frame 87 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 88 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 89 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 90 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 91 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 92 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 93 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 94 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 95 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 96 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 97 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 98 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 99 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 100 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 101 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 102 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 103 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 104 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 105 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 106 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 107 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 108 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 109 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 110 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 111 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 112 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 113 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 114 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 115 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 116 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 117 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 118 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 119 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 120 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+frame 121 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused true title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+step: Esc: resume
+frame 122 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1788.3 gB 3288.3 gC 5888.3
+event tick 244: paused -> false (x 664.0)
+frame 123 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1791.7 gB 3291.7 gC 5891.6
+frame 124 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1795.0 gB 3295.0 gC 5895.0
+frame 125 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1798.3 gB 3298.3 gC 5898.3
+frame 126 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1801.7 gB 3301.7 gC 5901.6
+frame 127 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1805.0 gB 3305.0 gC 5905.0
+frame 128 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1808.3 gB 3308.3 gC 5908.3
+frame 129 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1811.7 gB 3311.7 gC 5911.6
+frame 130 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1815.0 gB 3315.0 gC 5915.0
+frame 131 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1818.3 gB 3318.3 gC 5918.3
+frame 132 x 664.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1821.7 gB 3321.7 gC 5921.6
+frame 133 x 665.6 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1825.0 gB 3325.0 gC 5925.0
+frame 134 x 673.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1828.3 gB 3328.3 gC 5928.3
+frame 135 x 687.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1831.7 gB 3331.7 gC 5931.6
+frame 136 x 706.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1835.0 gB 3335.0 gC 5935.0
+frame 137 x 724.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1838.3 gB 3338.3 gC 5938.3
+frame 138 x 743.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1841.7 gB 3341.7 gC 5941.6
+frame 139 x 762.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1845.0 gB 3345.0 gC 5945.0
+frame 140 x 780.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1848.3 gB 3348.4 gC 5948.3
+frame 141 x 799.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1851.7 gB 3351.7 gC 5951.6
+frame 142 x 818.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1855.0 gB 3355.0 gC 5955.0
+frame 143 x 836.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1858.3 gB 3358.4 gC 5958.3
+frame 144 x 855.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1861.7 gB 3361.7 gC 5961.6
+frame 145 x 874.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1865.0 gB 3365.0 gC 5965.0
+frame 146 x 892.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1868.3 gB 3368.4 gC 5968.3
+step: jump the spikes at 1065, from x 902.0
+frame 147 x 911.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1871.7 gB 3371.7 gC 5971.6
+event tick 294: floor -> false (x 920.7)
+frame 148 x 930.0 y 791.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1875.0 gB 3375.0 gC 5975.0
+frame 149 x 948.7 y 746.6 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1878.3 gB 3378.4 gC 5978.3
+frame 150 x 967.3 y 706.6 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1881.7 gB 3381.7 gC 5981.6
+frame 151 x 986.0 y 671.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1885.0 gB 3385.0 gC 5985.0
+frame 152 x 1004.7 y 639.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1888.3 gB 3388.4 gC 5988.3
+frame 153 x 1023.3 y 613.3 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1891.7 gB 3391.7 gC 5991.6
+frame 154 x 1042.0 y 591.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1895.0 gB 3395.0 gC 5995.0
+frame 155 x 1060.7 y 573.3 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1898.3 gB 3398.4 gC 5998.3
+frame 156 x 1079.3 y 559.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1901.7 gB 3401.7 gC 6001.6
+frame 157 x 1098.0 y 551.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1898.3 gB 3405.0 gC 5998.3
+frame 158 x 1116.7 y 546.6 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1895.0 gB 3408.4 gC 5995.0
+frame 159 x 1135.3 y 546.6 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1891.7 gB 3411.7 gC 5991.6
+frame 160 x 1154.0 y 553.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1888.3 gB 3415.0 gC 5988.3
+frame 161 x 1172.7 y 566.6 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1885.0 gB 3418.4 gC 5985.0
+frame 162 x 1191.3 y 587.3 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1881.7 gB 3421.7 gC 5981.6
+frame 163 x 1210.0 y 615.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1878.3 gB 3425.0 gC 5978.3
+frame 164 x 1228.7 y 649.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1875.0 gB 3428.4 gC 5975.0
+frame 165 x 1247.3 y 691.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1871.7 gB 3431.7 gC 5971.6
+frame 166 x 1266.0 y 741.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1868.3 gB 3435.0 gC 5968.3
+frame 167 x 1284.7 y 797.3 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1865.0 gB 3438.4 gC 5965.0
+event tick 335: floor -> true (x 1303.3)
+frame 168 x 1303.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1861.7 gB 3441.7 gC 5961.6
+step: run into goblin A, touch 1
+frame 169 x 1322.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1858.3 gB 3445.0 gC 5958.3
+frame 170 x 1340.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1855.0 gB 3448.4 gC 5955.0
+frame 171 x 1359.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1851.7 gB 3451.7 gC 5951.6
+frame 172 x 1378.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1848.3 gB 3455.0 gC 5948.3
+frame 173 x 1396.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1845.0 gB 3458.4 gC 5945.0
+frame 174 x 1415.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1841.7 gB 3461.7 gC 5941.6
+frame 175 x 1434.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1838.3 gB 3465.0 gC 5938.3
+frame 176 x 1452.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1835.0 gB 3468.4 gC 5935.0
+frame 177 x 1471.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1831.7 gB 3471.7 gC 5931.6
+frame 178 x 1490.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1828.3 gB 3475.0 gC 5928.3
+frame 179 x 1508.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1825.0 gB 3478.4 gC 5925.0
+frame 180 x 1527.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1821.7 gB 3481.7 gC 5921.6
+frame 181 x 1546.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1818.3 gB 3485.0 gC 5918.3
+frame 182 x 1564.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1815.0 gB 3488.4 gC 5915.0
+frame 183 x 1583.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1811.7 gB 3491.7 gC 5911.6
+frame 184 x 1602.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1808.3 gB 3495.0 gC 5908.3
+frame 185 x 1620.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1805.0 gB 3498.4 gC 5905.0
+frame 186 x 1639.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1801.7 gB 3498.4 gC 5901.6
+frame 187 x 1658.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1798.3 gB 3495.0 gC 5898.3
+frame 188 x 1676.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1795.0 gB 3491.7 gC 5895.0
+frame 189 x 1695.3 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1791.7 gB 3488.4 gC 5891.6
+frame 190 x 1714.0 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1788.3 gB 3485.0 gC 5888.3
+frame 191 x 1732.7 y 839.9 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1785.0 gB 3481.7 gC 5885.0
+event tick 383: HIT, hearts 2, gear 0, x 1742.0
+event tick 383: mode -> 2 (x 1737.7)
+event tick 383: hearts -> 2 (x 1737.7)
+event tick 383: floor -> false (x 1737.7)
+frame 192 x 1737.7 y 833.3 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1781.7 gB 3478.4 gC 5881.6
+frame 193 x 1729.2 y 823.3 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1778.3 gB 3475.0 gC 5878.3
+frame 194 x 1720.6 y 817.7 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1775.0 gB 3471.7 gC 5875.0
+frame 195 x 1712.1 y 816.6 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1771.7 gB 3468.4 gC 5871.6
+frame 196 x 1703.5 y 820.6 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1768.3 gB 3465.0 gC 5868.3
+frame 197 x 1694.9 y 831.7 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1765.0 gB 3461.7 gC 5865.0
+event tick 395: floor -> true (x 1686.4)
+frame 198 x 1686.4 y 839.9 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1761.7 gB 3458.4 gC 5861.6
+frame 199 x 1682.5 y 839.9 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1758.3 gB 3455.0 gC 5858.3
+frame 200 x 1682.5 y 839.9 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1755.0 gB 3451.7 gC 5855.0
+frame 201 x 1682.5 y 839.9 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1751.7 gB 3448.4 gC 5851.6
+frame 202 x 1682.5 y 839.9 mode 2 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1748.3 gB 3445.0 gC 5848.3
+event tick 404: mode -> 1 (x 1682.5)
+frame 203 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1745.0 gB 3441.7 gC 5845.0
+frame 204 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1741.7 gB 3438.4 gC 5841.6
+frame 205 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1738.3 gB 3435.0 gC 5838.3
+frame 206 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1735.0 gB 3431.7 gC 5835.0
+frame 207 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1731.7 gB 3428.4 gC 5831.6
+frame 208 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1728.3 gB 3425.0 gC 5828.3
+frame 209 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1725.0 gB 3421.7 gC 5825.0
+frame 210 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1721.7 gB 3418.4 gC 5821.6
+frame 211 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1718.3 gB 3415.0 gC 5818.3
+frame 212 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1715.0 gB 3411.7 gC 5815.0
+frame 213 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1711.7 gB 3408.4 gC 5811.6
+frame 214 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1708.3 gB 3405.0 gC 5808.3
+frame 215 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1705.0 gB 3401.7 gC 5805.0
+frame 216 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1701.7 gB 3398.4 gC 5801.6
+frame 217 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1698.3 gB 3395.0 gC 5798.3
+frame 218 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1695.0 gB 3391.7 gC 5795.0
+frame 219 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1691.7 gB 3388.4 gC 5791.6
+frame 220 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1688.3 gB 3385.0 gC 5788.3
+frame 221 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1685.0 gB 3381.7 gC 5785.0
+frame 222 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1681.7 gB 3378.4 gC 5781.6
+frame 223 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1678.3 gB 3375.0 gC 5778.3
+frame 224 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1675.0 gB 3371.7 gC 5775.0
+frame 225 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1671.7 gB 3368.4 gC 5771.6
+frame 226 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1668.3 gB 3365.0 gC 5768.3
+frame 227 x 1682.5 y 839.9 mode 1 gear 0 hearts 2 facing 1 state PLAYING cp start paused false title false end false way false gA 1665.0 gB 3361.7 gC 5765.0
+step: run into goblin A, touch 2
+event tick 455: HIT, hearts 1, gear 0, x 1682.5
+event tick 455: mode -> 2 (x 1686.8)
+event tick 455: hearts -> 1 (x 1686.8)
+event tick 455: floor -> false (x 1686.8)
+frame 228 x 1686.8 y 833.3 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1661.7 gB 3358.4 gC 5761.7
+frame 229 x 1695.3 y 823.3 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1658.3 gB 3355.0 gC 5758.3
+frame 230 x 1703.9 y 817.7 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1655.0 gB 3351.7 gC 5755.0
+frame 231 x 1712.4 y 816.6 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1651.7 gB 3348.4 gC 5751.7
+frame 232 x 1721.0 y 820.6 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1648.3 gB 3345.0 gC 5748.3
+frame 233 x 1729.5 y 831.7 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1645.0 gB 3341.7 gC 5745.0
+event tick 467: floor -> true (x 1738.1)
+frame 234 x 1738.1 y 839.9 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1641.7 gB 3338.3 gC 5741.7
+frame 235 x 1742.0 y 839.9 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1638.3 gB 3335.0 gC 5738.3
+frame 236 x 1742.0 y 839.9 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1635.0 gB 3331.7 gC 5735.0
+frame 237 x 1742.0 y 839.9 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1631.7 gB 3328.3 gC 5731.7
+frame 238 x 1742.0 y 839.9 mode 2 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1628.3 gB 3325.0 gC 5728.3
+event tick 476: mode -> 1 (x 1742.0)
+frame 239 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1625.0 gB 3321.7 gC 5725.0
+frame 240 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1621.7 gB 3318.3 gC 5721.7
+frame 241 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1618.3 gB 3315.0 gC 5718.3
+frame 242 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1615.0 gB 3311.7 gC 5715.0
+frame 243 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1611.7 gB 3308.3 gC 5711.7
+frame 244 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1608.3 gB 3305.0 gC 5708.3
+frame 245 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1605.0 gB 3301.7 gC 5705.0
+frame 246 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1601.7 gB 3298.3 gC 5701.7
+frame 247 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1598.3 gB 3295.0 gC 5698.3
+frame 248 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1595.0 gB 3291.7 gC 5695.0
+frame 249 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1591.7 gB 3288.3 gC 5691.7
+frame 250 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1588.3 gB 3285.0 gC 5688.3
+frame 251 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1585.0 gB 3281.7 gC 5685.0
+frame 252 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1581.7 gB 3278.3 gC 5681.7
+frame 253 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1578.3 gB 3275.0 gC 5678.3
+frame 254 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1575.0 gB 3271.7 gC 5675.0
+frame 255 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1571.7 gB 3268.3 gC 5671.7
+frame 256 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1568.3 gB 3265.0 gC 5668.3
+frame 257 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1565.0 gB 3261.7 gC 5665.0
+frame 258 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1561.7 gB 3258.3 gC 5661.7
+frame 259 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1558.3 gB 3255.0 gC 5658.3
+frame 260 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1555.0 gB 3251.7 gC 5655.0
+frame 261 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1551.7 gB 3248.3 gC 5651.7
+frame 262 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1548.3 gB 3245.0 gC 5648.3
+frame 263 x 1742.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1545.0 gB 3241.7 gC 5645.0
+step: run into goblin A, touch 3
+frame 264 x 1740.4 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1541.7 gB 3238.3 gC 5641.7
+frame 265 x 1732.6 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1538.3 gB 3235.0 gC 5638.3
+frame 266 x 1718.6 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1535.0 gB 3231.7 gC 5635.0
+frame 267 x 1700.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1531.7 gB 3228.3 gC 5631.7
+frame 268 x 1681.3 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1528.3 gB 3225.0 gC 5628.3
+frame 269 x 1662.6 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1525.0 gB 3221.7 gC 5625.0
+frame 270 x 1644.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1521.7 gB 3218.3 gC 5621.7
+frame 271 x 1625.3 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1518.3 gB 3215.0 gC 5618.3
+frame 272 x 1606.6 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1515.0 gB 3211.7 gC 5615.0
+frame 273 x 1588.0 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1511.7 gB 3208.3 gC 5611.7
+frame 274 x 1569.3 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1508.3 gB 3205.0 gC 5608.3
+frame 275 x 1550.6 y 839.9 mode 1 gear 0 hearts 1 facing -1 state PLAYING cp start paused false title false end false way false gA 1505.0 gB 3201.7 gC 5605.0
+event tick 551: HIT, hearts 0, gear 0, x 1541.3
+event tick 551: DEFEATED (last heart)
+event tick 551: mode -> 3 (x 1541.3)
+event tick 551: hearts -> 0 (x 1541.3)
+event tick 551: state -> DYING (x 1541.3)
+frame 276 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1501.7 gB 3198.3 gC 5601.7
+step: the last heart; wait for the level to start over
+frame 277 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1501.7 gB 3195.0 gC 5601.7
+frame 278 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1505.0 gB 3191.7 gC 5605.0
+frame 279 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1508.3 gB 3188.3 gC 5608.3
+frame 280 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1511.7 gB 3185.0 gC 5611.7
+frame 281 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1515.0 gB 3181.7 gC 5615.0
+frame 282 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1518.3 gB 3178.3 gC 5618.3
+frame 283 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1521.7 gB 3175.0 gC 5621.7
+frame 284 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1525.0 gB 3171.7 gC 5625.0
+frame 285 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1528.3 gB 3168.3 gC 5628.3
+frame 286 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1531.7 gB 3165.0 gC 5631.7
+frame 287 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1535.0 gB 3161.7 gC 5635.0
+frame 288 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1538.3 gB 3158.3 gC 5638.3
+frame 289 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1541.7 gB 3155.0 gC 5641.7
+frame 290 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1545.0 gB 3151.7 gC 5645.0
+frame 291 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1548.3 gB 3148.3 gC 5648.3
+frame 292 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1551.7 gB 3145.0 gC 5651.7
+frame 293 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1555.0 gB 3141.7 gC 5655.0
+frame 294 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1558.3 gB 3138.3 gC 5658.3
+frame 295 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1561.7 gB 3135.0 gC 5661.7
+frame 296 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1565.0 gB 3131.7 gC 5665.0
+frame 297 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1568.3 gB 3128.3 gC 5668.3
+frame 298 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1571.7 gB 3125.0 gC 5671.7
+frame 299 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1575.0 gB 3121.7 gC 5675.0
+frame 300 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1578.3 gB 3118.3 gC 5678.3
+frame 301 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1581.7 gB 3115.0 gC 5681.7
+frame 302 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1585.0 gB 3111.7 gC 5685.0
+frame 303 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1588.3 gB 3108.3 gC 5688.3
+frame 304 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1591.7 gB 3105.0 gC 5691.7
+frame 305 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1595.0 gB 3101.7 gC 5695.0
+frame 306 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1598.3 gB 3098.3 gC 5698.3
+frame 307 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1601.7 gB 3095.0 gC 5701.7
+frame 308 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1605.0 gB 3091.7 gC 5705.0
+frame 309 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1608.3 gB 3088.3 gC 5708.3
+frame 310 x 1541.3 y 839.9 mode 3 gear 0 hearts 0 facing -1 state DYING cp start paused false title false end false way false gA 1611.7 gB 3085.0 gC 5711.7
+event tick 620: mode -> 5 (x 300.0)
+event tick 620: hearts -> 3 (x 300.0)
+frame 311 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1503.3 gB 3003.3 gC 5603.3
+frame 312 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1506.7 gB 3006.7 gC 5606.7
+frame 313 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1510.0 gB 3010.0 gC 5610.0
+frame 314 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1513.3 gB 3013.3 gC 5613.3
+frame 315 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1516.7 gB 3016.7 gC 5616.7
+frame 316 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1520.0 gB 3020.0 gC 5620.0
+frame 317 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1523.3 gB 3023.3 gC 5623.3
+frame 318 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1526.7 gB 3026.7 gC 5626.7
+frame 319 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1530.0 gB 3030.0 gC 5630.0
+frame 320 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1533.3 gB 3033.3 gC 5633.3
+frame 321 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1536.7 gB 3036.7 gC 5636.7
+frame 322 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1540.0 gB 3040.0 gC 5640.0
+frame 323 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1543.3 gB 3043.3 gC 5643.3
+frame 324 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1546.7 gB 3046.7 gC 5646.7
+frame 325 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1550.0 gB 3050.0 gC 5650.0
+frame 326 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1553.3 gB 3053.3 gC 5653.3
+frame 327 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1556.7 gB 3056.7 gC 5656.7
+frame 328 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1560.0 gB 3060.0 gC 5660.0
+frame 329 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1563.3 gB 3063.3 gC 5663.3
+frame 330 x 300.0 y 840.0 mode 5 gear 0 hearts 3 facing 1 state DYING cp start paused false title false end false way false gA 1566.7 gB 3066.7 gC 5666.7
+event tick 661: respawned at x 300.0, hearts 3
+event tick 661: mode -> 1 (x 300.0)
+event tick 661: state -> PLAYING (x 300.0)
+frame 331 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1570.0 gB 3070.0 gC 5670.0
+frame 332 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1573.3 gB 3073.3 gC 5673.3
+frame 333 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1576.7 gB 3076.7 gC 5676.7
+frame 334 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1580.0 gB 3080.0 gC 5680.0
+frame 335 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1583.3 gB 3083.3 gC 5683.3
+frame 336 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1586.7 gB 3086.7 gC 5686.7
+frame 337 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1590.0 gB 3090.0 gC 5690.0
+frame 338 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1593.3 gB 3093.3 gC 5693.3
+frame 339 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1596.7 gB 3096.7 gC 5696.7
+frame 340 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1600.0 gB 3100.0 gC 5700.0
+frame 341 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1603.3 gB 3103.3 gC 5703.3
+frame 342 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1606.7 gB 3106.7 gC 5706.7
+frame 343 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1610.0 gB 3110.0 gC 5710.0
+frame 344 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1613.3 gB 3113.3 gC 5713.3
+frame 345 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1616.7 gB 3116.7 gC 5716.7
+frame 346 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1620.0 gB 3120.0 gC 5720.0
+frame 347 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1623.3 gB 3123.3 gC 5723.3
+frame 348 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1626.7 gB 3126.7 gC 5726.7
+frame 349 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1630.0 gB 3130.0 gC 5730.0
+frame 350 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1633.3 gB 3133.3 gC 5733.3
+frame 351 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1636.7 gB 3136.7 gC 5736.7
+frame 352 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1640.0 gB 3140.0 gC 5740.0
+frame 353 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1643.3 gB 3143.3 gC 5743.3
+frame 354 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1646.7 gB 3146.7 gC 5746.7
+frame 355 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1650.0 gB 3150.0 gC 5750.0
+frame 356 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1653.3 gB 3153.3 gC 5753.3
+step: quit
+frame 357 x 300.0 y 840.0 mode 1 gear 0 hearts 3 facing 1 state PLAYING cp start paused false title false end false way false gA 1655.0 gB 3155.0 gC 5755.0
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+--------------------------------------------------------------------------------
+Done recording movie at path: $CAP/take-pause/play.avi
+358 frames at 30 FPS (movie length: 00:00:11:28), recorded in 00:00:21 (52% of real-time speed).
+CPU render time: 0.26 seconds (average: 0.72 ms/frame)
+GPU render time: 0.00 seconds (average: 0.00 ms/frame)
+Encoding time: 15.46 seconds (average: 43.17 ms/frame)
+--------------------------------------------------------------------------------
